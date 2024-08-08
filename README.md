@@ -950,11 +950,11 @@ This allows to **store**, **monitor** and **access** logging data.
 
 Comes with some AWS Integrations.
 Security is provided with IAM roles or Service roles
-Can generate metrics based on logs **metric filter**
+Can generate metrics based on logs **metric filter** 
 
 #### 1.3.8.1. Architecture of CloudWatch Logs
 
-It is a regional service `us-east-1`
+It is a regional service for example for : `us-east-1`
 
 Need logging sources such as external APIs or databases. This sends
 information as **log events**. These are stored in **log streams**. This is a
@@ -965,11 +965,15 @@ type of logging. This also stores configuration settings such as
 retention settings and permissions.
 
 Once the settings are defined on a log group, they apply to all log streams
-in that log group. Metric filters are also applied on the log groups.
+in that log group. Metric filters are also applied on the log groups. `(metrics filters are something where it will look for a pattern
+in the log and increment a specific metric accordingly, which can then on go and invoke an alarm as well)`
 
 ### 1.3.9. CloudTrail Essentials
 
-Concerned with who did what.
+Cloud trail is a regional service.
+
+Concerned with who did what. It is to take into account who did what, did someone created an s3 bucket did some dropped an EC2 instance
+just like it says who did what 
 
 Logs API calls or activities as **CloudTrail Event**
 
@@ -981,7 +985,12 @@ Two types of events. Default only logs Management Events
 
 - Management Events:
 Provide information about management operations performed on resources
-in the AWS account. Create an EC2 instance or terminating one.
+in the AWS account. Create an EC2 instance or terminating one. this is enabled by default.
+
+as it is a regional service a trail created in a region will catch all the events within that specific region itself, but there are services that
+are global and in that case these trails have to be enabled to catch the global service event to monitor global services events.
+
+we can set trail to catch events from a region or all region
 
 - Data Events:
 Objects being uploaded to S3 or a Lambda function being invoked. This is not
@@ -1011,7 +1020,8 @@ AWS services are largely split into regional services or global services.
 When the services log, they log in the region they are created or
 to `us-east-1` if they are a global service.
 
-A trail can store events in an S3 bucket as a compressed JSON file. It can
+by default cloud trail expires in 90 days but
+A trail can store events in an S3 bucket as a compressed JSON file indefinetely. It can
 also use CloudWatch Logs to output the data.
 
 CloudTrail products can create an organizational trail. This allows a single
@@ -1056,6 +1066,8 @@ Different from an **identity policy**
   - no way of giving an identity in another account access to a bucket.
 
 Each bucket can only have one policy, but it can have multiple statements.
+
+When we make the principal of the S3 bucket resource policy as "*" and the action is "s3:GetObject" it allows anonymous access to everyone
 
 #### 1.4.1.2. ACLs (Legacy)
 
@@ -1131,11 +1143,11 @@ Without Versioning:
 - If you modify an object, the original of that object is replaced.
 - The attribute, **ID of object**, is set to **null**.
 
-Versioning
+Versioning      
 
 - This is off by default.
 - Once it is turned on, it cannot be turned off.
-- Versioning can be suspended and enabled again.
+- Versioning can be suspended (paused)   and enabled again.
 - This allows for multiple versions of objects within a bucket.
 - Objects which would modify objects **generate a new version** instead.
 
@@ -1163,7 +1175,7 @@ it generates. These are concatenated and passed with any API calls.
 
 Single PUT Upload
 
-- Objects uploaded to S3 are sent as a single stream by default.
+- Objects uploaded to S3 are sent as a single stream like a single blob of file by default.
 - If the stream fails, the upload fails and requires a restart of the transfer.
 - Single PUT upload up to 5GB
 
@@ -1268,9 +1280,9 @@ parties know how the data will be hidden.
 - Think of them as a container for the actual physical master keys.
 - These are all backed by **physical** key material.
 - You can generate or import the key material.
-- CMKs can be used for up to **4KB of data**.
+- CMKs can be used to encrypt or decrypt data  up to **4KB of data**.
 
-It is logical and contains
+It is logical and key contains
 
 - Key ID: unique identifier for the key
 - Creation Date
@@ -1304,11 +1316,35 @@ Architecture
 3. Discard the plaintext data version of the DEK.
 4. The encrypted DEK is stored next to the ciphertext generated earlier.
 
+##### Key Rotation
+Key rotation in AWS Key Management Service (KMS) is a practice used to periodically change the cryptographic keys used to encrypt and decrypt data. This is a critical part of maintaining the security and integrity of your encrypted data. Here's a detailed overview:
+
+What is Key Rotation?
+- Definition: Key rotation involves periodically replacing old encryption keys with new ones. In AWS KMS, this means generating a new key version and updating the encryption and decryption processes to use the new key while retaining the ability to decrypt data encrypted with older keys.
+
+- Purpose: Key rotation helps mitigate the risk of key compromise and ensures that encryption practices remain secure over time. Regularly rotating keys limits the impact of any potential security vulnerabilities or breaches.
+
+##### How Key Rotation Works in AWS KMS
+- Automatic Key Rotation:
+
+  - AWS KMS supports automatic key rotation for customer-managed keys (CMKs). When enabled, AWS KMS automatically rotates the key material of a CMK every year.
+  - Process: When the key is rotated, AWS KMS generates new cryptographic material for the CMK. The old key material is still retained, allowing you to decrypt data encrypted with the previous key versions.
+
+- Manual Key Rotation:
+
+  - For keys that you manage manually, you need to handle the rotation process yourself. This involves creating new keys, updating your applications to use the new keys, and securely managing or archiving the old keys.
+  - Process: You typically create a new CMK and update your encryption and decryption processes to use the new key. You also need to update your key policies and any relevant IAM roles or policies that reference the old key.
+
+- Steps to Enable Automatic Key Rotation
+ - Access KMS Console: Open the AWS Management Console and navigate to the KMS section.
+ - Select the CMK: Choose the customer-managed key (CMK) for which you want to enable automatic rotation.
+ - Enable Rotation: In the key details page, find the option for key rotation and enable it. AWS KMS will then handle the key rotation automatically on an annual basis.
+ - 
 #### 1.4.6.3. KMS Key Concepts
 
 - Customer Master Keys (CMK) are isolated to a region.
   - Never leave the region or KMS.
-  - Cannot extract a CMK.
+  - You Cannot extract a CMK.
 - AWS managed CMKs
   - Created automatically by AWS when using a service such
   as S3 which uses KMS for encryption.
@@ -1334,10 +1370,11 @@ potentially at a different CMK.
 
 #### 1.4.6.4. Key Policy (resource policy)
 
+- It is like a bucket resource policy 
 - Every CMK has one.
 - Customer managed CMKs can adjust the policy.
 - Unlike other policies, KMS has to be explicitly told that keys trust the AWS
-account that they're in.
+account that they're in even its own account.
 - The trust isn't automatic so be careful when adjusting key policies.
 - You always need a key policy in place so the key trusts the account and so
 that the account can manage it by applying IAM permission policies to IAM users
