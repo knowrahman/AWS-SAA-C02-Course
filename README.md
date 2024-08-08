@@ -1538,6 +1538,8 @@ need it quickly.
 Designed for data that isn't accessed often, long term storage, backups,
 disaster recovery files. The requirement for data to be safe is most important.
 
+don't use it for temporary data, frequently accessed
+
 #### 1.4.9.3. One Zone-IA
 
 - Designed for data that is accessed less frequently but needed quickly.
@@ -1550,6 +1552,8 @@ Great choice for secondary copies of primary data or backup copies.
 
 If data is easily creatable from a primary data set, this would be a great
 place to store the output from another data set.
+
+for eample for replica copies, don't use it for only copy of the data only replica, dont use it for frequently accessed data either
 
 #### 1.4.9.4. S3 Glacier
 
