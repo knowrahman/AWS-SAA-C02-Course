@@ -2348,9 +2348,14 @@ size increases.
 
 #### 1.6.5.1. General Purpose SSD (gp2)
 
-Uses a performance bucket architecture based on the IOPS it can deliver.
-The GP2 starts with 5,400,000 IOPS allocated. It is all available instantly.
+Volume can be small as 1Gb and large as 16TB, 
 
+It is createad with IO credit allocation(think of it as bucket), lets say 1 credit is 16Kb data and if you are transferring 160Kb of data then 
+It will be 10 blocks and 10 IO Credit of data
+
+Uses a performance bucket architecture based on the IOPS it can deliver.
+
+The GP2 starts with 5,400,000 IO credit allocated. It is all available instantly.
 You can consume the capacity quickly or slowly over the life of the volume.
 The capacity is filled back based upon the volume size.
 Min of 100 IOPS added back to the bucket per second.
@@ -2360,6 +2365,11 @@ This is the **baseline performance**
 
 Default for boot volumes and should be the default for data volumes.
 Can only be attached to one EC2 instance at a time.
+
+_**GP3 - 3000IOPS & 125MiB/s to 16000 IOPS & 1,000 MiB/s -- Size -- 1 GB to 16 TB**_
+
+Usage - Low latency storage, VM , for Boot options and low storage DB
+
 
 #### 1.6.5.2. Provisioned IOPS SSD (io1)
 
@@ -2413,13 +2423,15 @@ if the whole AZ fails.
 ### 1.6.6. EC2 Instance Store
 
 - Local **block storage** attached to an instance.
-- Physically connected to one EC2 host.
+- Physically connected to **one EC2 host**.
   - They are isolated to that one specific host.
-  - Instances on that host can access them.
-- Highest storage performance in AWS.
+  - Only Instances on that host can access them.
+- Highest storage performance in AWS much higher than EBS as they are physically attached.
 - Included in instance price, use it or lose it.
-- Can be attached ONLY at launch. Cannot be attached later.
-
+- **Can be attached ONLY at launch. Cannot be attached later.**. CANNOT ADD LATER
+- Can be attached to more than one instance from the same host.
+- These are ephermal storage (meaning if instance is moved between host) it will lose the data
+- 
 Each instance has a collection of volumes that are
 locked to that specific host. If the instance moves, the data doesn't.
 
@@ -2475,9 +2487,9 @@ When to use Instance Store
 - Can be used to migrate data between hosts.
 
 Snapshots are incremental volume copies to S3.
-The first is a **full copy** of `data` on the volume. This can take some time.
+The first is a **full copy** of `data` on the volume. This can take some time. (meaning if the EBS is 40 GB and you used 10GB of data snapshot will be done for 10GB only)
 EBS won't be impacted, but will take time in the background.
-Future snaps are incremental, consume less space and are quicker to perform.
+Future snaps are incremental(only saves the new change), consume less space and are quicker to perform.
 
 If you delete an incremental snapshot, it moves data to ensure subsequent
 snapshots will work properly.
@@ -2529,7 +2541,7 @@ This can be the EBS default (CMK) which is referred to as `aws/ebs` or it
 could be a customer managed CMK which you manage yourself.
 
 That key is used by EBS when an encrypted volume is created. The CMK
-generates an encrypted **data encryption key (DEK)** which is stored with the volume with
+generates an encrypted **data encryption key (DEK)** which is stored with the volume
 on the physical disk. This key can only be decrypted using KMS when a role with
 the proper permissions to decrypt that DEK.
 
@@ -2555,7 +2567,7 @@ data encryption key.
 
 ##### 1.6.8.3.1. EBS Encryption Exam Power Up
 
-- AWS accounts can be set to encrypt EBS volumes by default.
+- AWS accounts can be set to encrypt EBS volumes by default with a default CMK key.
   - It will use the default CMK unless a different one is chosen.
   - Each volume uses 1 unique DEK (data encryption key)
   - Snapshots and future volume use the same DEK
@@ -2574,7 +2586,7 @@ at the operating system level.
 ### 1.6.9. EC2 Network Interfaces, Instance IPs and DNS
 
 An EC2 instance starts with at least one ENI - elastic network interface.
-An instance may have ENIs in separate subnets, but everything must be
+optionally you can attach more ENIs, An instance may have ENIs in separate subnets, but everything must be
 within one AZ.
 
 When you launch an instance with Security Groups, they are on the
@@ -2584,35 +2596,37 @@ network interface and not the instance.
 
 Has these properties
 
-- MAC address
+- MAC address - this is the hardware address of the interface, it is visible inside OS
 - Primary IPv4 private address
   - From the range of the subnet the ENI is within.
   - Will be static and not change for the lifetime of the instance
-    - `10.16.0.10`
+    - `10.16.0.10`  
   - Given a DNS name that is associated with the address.
     - `ip-10-16-0-10.ec2.internal`
     - Only resolvable inside the VPC and always points at private IP address
+  - 1 elastic IP adresses per private IPV4 address
 - 0 or more secondary private IP addresses
-- 0 or 1 public IPv4 address
+- Gets 0 or 1 public IPv4 address (3.89.7.136)
   - The instance must manually be set to receive an IPv4 address or spun into a
-subnet which automatically allocates an IPv4.
-This is a dynamic IP that is not fixed.
-If you stop an instance the address is removed.
-When you start up again, it is given a brand new IPv4 address.
-Restarting the instance will not change the IP address.
-Changing between EC2 hosts will change the address.
-This will be allocated a public DNS name. The Public DNS name will resolve to
-the primary private IPv4 address of the instance.
-Outside of the VPC, the DNS will resolve to the public IP address.
-This allows one single DNS name for an instance, and allows traffic to resolve
-to an internal address inside the VPC and the public will resolve to a public
-IP address.
+    subnet which automatically allocates an IPv4.
+    This is a dynamic IP that is not fixed.
+    If you stop an instance the address is removed.
+    When you start up again, it is given a brand new IPv4 address.
+    Restarting the instance will not change the IP address.
+    Changing between EC2 hosts will change the address.
+    This will be allocated a public DNS name. The Public DNS name will resolve to
+    the primary private IPv4 address of the instance if inside the VPC.
+    Outside of the VPC, the DNS will resolve to the public IP address.
+    This allows one single DNS name for an instance, and allows traffic to resolve
+    to an internal address inside the VPC and the public will resolve to a public
+    IP address.
 - 1 elastic IP per private IPv4 address
   - Can have 1 public elastic interface per private IP address on this interface.
-This is allocated to your AWS account.
-Can associate with a private IP on the primary interface or secondary interface.
-If you are using a public IPv4 and assign an elastic IP, the original IPv4
-address will be lost. There is no way to recover the original address.
+    - This is allocated to your AWS account.
+    - Can associate with a private IP on the primary ENI interface or secondary ENI interface.
+    - **If you are using a public IPv4 and assign an elastic IP to the instance, the original public IPv4
+    address will be lost. There is no way to recover the original address.**
+    - If you remove the elastic IP it will get a **new** public IPv4 but **not** the original one.
 - 0 or more IPv6 address on the interface
   - These are by default public addresses.
 - Security groups
@@ -2625,23 +2639,50 @@ address will be lost. There is no way to recover the original address.
   - If traffic is on the interface, it will be discarded if it is not
   from going to or coming from one of the IP addresses
 
-Secondary interfaces function in all the same ways as primary interfaces except
+Secondary Network interfaces function in all the same ways as primary interfaces except
 you can detach interfaces and move them to other EC2 instances.
 
-#### 1.6.9.2. ENI Exam PowerUp
+## Elastic IP (EIP) in AWS
 
+An Elastic IP (EIP) in AWS is a static, public IPv4 address designed for dynamic cloud computing. 
+It allows you to have a fixed IP address that can be easily associated with your AWS resources, such as EC2 instances, and can be reassigned as needed.
+
+### Key Features and Uses
+
+- **Static IP Address**: Unlike regular public IP addresses that can change when you stop and start an instance, 
+an Elastic IP address remains the same until you choose to release it. This is useful for scenarios where you need a consistent IP address for applications or services.
+
+- **Dynamic Association**: You can quickly remap an Elastic IP address to another instance if, for example, 
+your current instance fails or needs to be replaced. This makes it easier to handle failovers and maintenance.
+
+- **Cost**: AWS provides one Elastic IP per account for free, but additional EIPs come with a small cost. 
+Additionally, if an EIP is not associated with an instance or if you have more than one EIP associated with a running instance, you might incur extra charges.
+
+- **Use Cases**: Common use cases for Elastic IPs include:
+  - Providing a fixed IP address for applications hosted on EC2 instances
+  - Ensuring consistent IP addresses for DNS records
+  - Facilitating failover strategies by quickly redirecting traffic to a new instance
+
+### Summary
+
+Overall, Elastic IPs are a useful tool for maintaining stable network connections and handling dynamic resource management in AWS environments.
+
+
+#### 1.6.9.2. ENI Exam PowerUp
+- Usually the MAC addresses aer static and are used in licensing but in AWS as you can move the Network interfaces
+- Secondary ENI + MAC = Licensing
 - Legacy software is licensed using a mac address.
   - If you provision a secondary ENI to a specific license, you can move
 around the license to different EC2 instances.
 - Multi homed (subnets) management and data.
-- Different security groups are attached to different interfaces.
-- The OS doesn't see the IPv4 public address.
+  - Different security groups are attached to different interfaces.
+- The OS doesn't see the IPv4 public address. (this is performed by NAT)
 - You always configure the private IPv4 private address on the interface.
 - Never configure an OS with a public IPv4 address.
 - IPv4 Public IPs are Dynamic, starting and stopping will kill it.
 
 Public DNS for a given instance will resolve to the primary private IP
-address in a VPC. If you have instance to instance communication within
+address in a VPC. ** If you have instance to instance communication** within
 the VPC, it will never leave the VPC. It does not need to touch the internet
 gateway.
 
@@ -2654,10 +2695,12 @@ Images of EC2 instances that can launch more EC2 instance.
 - Marketplace (can include commercial software)
   - Will charge you for the instance cost and an extra cost for the AMI
 - AMIs are regional with a unique ID.
+- So there will be different AMI for linux distribution than the other region AMI
 - Controls permissions
   - Default only your account can use it.
   - Can be set to be public.
   - Can have specific AWS accounts on the AMI.
+- Can create instance from AMI and
 - Can create an AMI from an existing EC2 instance to capture the current config.
 
 #### 1.6.10.1. AMI Lifecycle
@@ -2667,20 +2710,22 @@ Images of EC2 instances that can launch more EC2 instance.
    - BOOT /dev/xvda
    - DATA /dev/xvdf
 
-2. Configure: customize the instance from applications or volume sizes.
+2. Configure: customize the instance from applications or volume sizes. maybe attach EBS install softwares needed mount EBS
+so basically customise it to your needs
 
 3. Create Image or AMI
-
     - AMI contains:
       - Permissions: who can use it, is it public or private
+      - When an Image is created of an AMI who has been attached with EBS the EBS snapshots are taken and the first snapshot is full snapshot and then it will be incremental
       - EBS snapshots are created from attached EBS volumes
-        - Snapshots are referenced inside the AMI using block device mapping.
+        - Snapshots are referenced inside the AMI using block device mapping(it will map the block the data and the boot block with the snapshots) 
+          example Boot/dev/xda/ with its own snapshot and DATA/dev/xvdf to its snapshot.
         - Table of data that links the snapshot IDs that you've just
         created when making that AMI and it has for each one of those
         snapshots, a device ID that the original volumes had on the EC2
         instance.
 
-4. Launch: When launching an instance, the snapshots are used to create new EBS
+4. Launch (**second-launch**) : When launching an instance, the snapshots are used to create new EBS
 volumes in the AZ of the EC2 instance and contain the same block device mapping.
 
 #### 1.6.10.2. AMI Exam PowerUps
