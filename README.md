@@ -406,6 +406,8 @@ Container for monitoring data.
 Naming can be anything so long as it's not `AWS/service` such as `AWS/EC2`.
 This is used for all metric data of that service
 
+**Data point ** : the thing the cloud watch is recording. A unit of measure
+
 #### 1.2.9.2. Metric
 
 Time ordered set of data points such as:
@@ -423,6 +425,9 @@ Anytime CPU Utilization is reported, the **datapoint** will report:
 
 **Dimensions** could be used to get metrics for a specific instance or type of instance, among others. They separate data points for different **things** or
 **perspectives** within the same metric.
+
+**Resolution** period at which the metric is recorded
+
 
 #### 1.2.9.3. Alarms
 
@@ -2793,6 +2798,9 @@ make changes, then make new AMI
 
 #### 1.6.11.2. Spot Instances
 
+lets say a user is using on demand EC2 instance on a Host but it has a capacity for another 4, AWS sells this spot at a discounted rate
+as spot instances
+
 Up to 90% off on-demand, but depends on the spare capacity.
 You can set a maximum hourly rate in a certain AZ in a certain region.
 If the max price you set is above the spot price, you pay only that spot
@@ -2822,7 +2830,7 @@ Cheapest option with no tolerance for disruption.
 
 ### 1.6.12. Instance Status Checks and Autorecovery
 
-Every instance has two high level status checks
+Every instance has two high level per instance status checks 
 
 - System Status Checks
   - Failure of this check could indicate SW or HW problems of the EC2
@@ -2838,6 +2846,26 @@ Autorecovery can kick in and help,
 - Terminate this instance
   - useful in a cluster
 - Reboot this instance
+
+### Termination protection
+
+Attribute to remember
+**disableApiTermination**
+
+# Disabling EC2 Termination Protection
+
+Termination protection in AWS EC2 helps prevent accidental termination of instances. If you need to disable this feature, follow the steps below.
+
+## Using AWS CLI
+
+### Disable Termination Protection
+
+To disable termination protection on an EC2 instance, use the following command. Replace `INSTANCE_ID` with your instance's ID.
+
+```bash
+aws ec2 modify-instance-attribute --instance-id INSTANCE_ID --no-disable-api-termination
+aws ec2 describe-instance-attribute --instance-id INSTANCE_ID --attribute disableApiTermination
+```
 
 ### 1.6.13. Horizontal and Vertical Scaling
 
@@ -2881,7 +2909,8 @@ servers get equal parts of the load.
 
 ### 1.6.14. Instance Metadata
 
-> A service EC2 provides to instances. It is data about the instance that can be used to configure or manage a running instance. It is a way an instance or anything running inside an instance can access information about the environment it wouldn't be able to access otherwise.
+> A service EC2 provides to instances. It is data about the instance that can be used to configure or manage a running instance.
+> It is a way an instance or anything running inside an instance can access information about the environment it wouldn't be able to access otherwise.
 
 - Accessible inside all instances using the same access method.
 
