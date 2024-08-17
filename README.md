@@ -2931,12 +2931,22 @@ instance can see the meta-data. This can be restricted by local firewall
 
 Virtualization Problems
 
-Using an EC2 virtual machine with Nitro Hypervisor, 4 GB ram, and 40 GB disk,
-the OS can consume 60-70% of the disk and much of the available memory.
+
+If you run an EC2 virtual machine with Nitro Hypervisor, 4 GB ram, and 40 GB disk,
+the OS can consume 60-70% of the disk and much of the available memory. leaving relatively little for the application running
+
+Lets say if your VM is using the same OS type as the Host OST then having installed a VM with the same OS is duplication and waste of resource
+
+so the questiuon is it worth it to install a new VM just for isolation
+
+the answer is no 
+
 Containers leverage the similarities of multiple guest OS by removing duplicate
 resources. This allows applications to run in their own isolated environments.
 
 #### 1.7.1.1. Image Anatomy
+
+Like VM are running copy of their EBS volumes similarly Containers are running copy of their Docker Image
 
 A Docker image is composed of multiple independent layers. Docker images are stacks of these layers and not a single, monolithic disk image. Docker images are created initially using a _docker file_.
 Each line in a docker file is processed one by one and each line creates a new filesystem layer inside the docker image it creates.
@@ -2947,7 +2957,7 @@ Images contain read only layers, images are layer onto images.
 
 ##### 1.7.1.1.1. What are images used for
 
-1. A docker image is actually how we create a docker container. In fact a ocker container is just a running copy of a docker image with one crucial difference: a docker container has an additional *read/write* file system layer. File system layers --  the layers that make up the docker image -- by default are _read_ only; they never change after they are created. And so, the special read/write layer is added which allows containers to run. If you have lots of containers with very similar base structures, they will share the parts that overlap. The other layers are reused between containers.
+1. A docker image is actually how we create a docker container. In fact a docker container is just a running copy of a docker image with one crucial difference: a docker container has an additional *read/write* file system layer. File system layers --  the layers that make up the docker image -- by default are _read_ only; they never change after they are created. And so, the special read/write layer is added which allows containers to run. If you have lots of containers with very similar base structures, they will share the parts that overlap. The other layers are reused between containers. one image can be used to create many containers and only thing that differs these containers are their file system the read/write layer.
 
 2. The reuse architecture that is offered by the way containers do their disk images scales really well. Disk space when you have lots of containers is minimized because of this layered architecture. The base layer -- the OS -- they are generally made available by the OS vendors through something called a _container registry_ and a popular one is _docker hub_.
 
@@ -2962,40 +2972,57 @@ in the container registry.
 #### 1.7.1.3. Container Key Concepts
 
 - Docker files are used to build Docker images
+- And Docker images are used to run the Docker Containers
 - Containers are portable and always run as expected.
   - Anywhere there is a compatible host, it will run exactly as you intended.
 - Containers are lightweight, use the host OS for the heavy lifting.
   - File system layers are shared when possible.
 - Containers only run the application and environment it needs to run.
 - Ports need to be **exposed** to allow outside access from the host and beyond.
-- Application stacks can be multi container
+- Application stacks can be multi container meaning a DB container, the application container itself the backend container and so on...
 
 ### 1.7.2. Elastic Container Service (ECS) Concepts
 
 - Accepts containers and instructions you provide. It orchestrates where and how to run the containers. It is a managed container-based compute service.
 
-ECS runs into two modes: 1. Using EC2; 2. Using Fargate.
+ECS runs into two modes:
+1. Using EC2: which uses EC2 as the container host;
+2. Using Fargate: this is the serverless way of doing it.
 
 - ECS allows you to create a cluster.
   - Clusters are where containers run from.
 - Container images will be located on a registry.
-  - AWS provides a registry called **Elastic Container Registry** (ECR).
+  - AWS provides a registry called **Elastic Container Registry** (ECR). like docker hub
   - Dockerhub can be used as well.
 - **Container definition** tell ECS where your container is. It tells ECS which port your container uses (e.g. port 80, which is http). Container definition gives ECS just enough info about a single container.
   - A pointer to which image to use and the ports that will be exposed.
-- **Task definitions** store the resources used by the task.
+- **Task definitions** (a self contained application) store the resources used by the task.
+- The ECS Task Definition is a blueprint for your application. It describes how Docker containers should run in the ECS cluster.
+- It can store multiple container a webapp and the database container
   - It also stores the **task role**, an IAM role that allows the task access to other AWS resources.
+  - Task role is the way to give containers the permission to access AWS resources
+  - A task can include one or more container
 
 > Task roles are the best practice way for giving containers within ECS permissions to access AWS products and services.
 
-- Task does not scale on its own and it is not highly available.
+
 
 See the [AWS documentation on container definition](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ContainerDefinition.html) and [task definition](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_TaskDefinition.html) for more information.
+- Task does not scale on its own and it is not highly available.
+- ECS **Service** is configured via Service Definition and represents
+- how many copies of a task you want to run for scaling and High Availability.
 
-ECS **Service** is configured via Service Definition and represents
-how many copies of a task you want to run for scaling and HA.
+ECS Concepts
+
+- Container defination: So it defines which Image to use and what port to expose  (Image and port)
+- Task Defination: It contains the Security(Task role) what they can access from AWS, one or more Container(s) Resources or Container defination(s)
+- Task role: The Iam role that is assumed by the task to access the AWS resources
+- Service- How many copies of Task you want running to achieve HA and HS and put a LoadBalancer on top to handle the incoming load
+
 
 ### 1.7.3. ECS Cluster Types
+Modes: Basically what you manage and what you would like AWS to manage
+
 
 ECS Cluster manages:
 
@@ -3005,12 +3032,19 @@ ECS Cluster manages:
 
 #### 1.7.3.1. EC2 mode
 
+
 ECS cluster is created within a VPC. It benefits from the multiple AZs that
-are within that VPC.
-You specify an initial size which will drive an **auto scaling group**.
+are within that VPC. which are availabe within VPC
+
+With EC2 mode the EC2 instances are used to run container, when you create the cluster
+You specify an initial size which controls the number of EC2 containers which are handled by an **auto scaling group**.
+adding more containers or removing when needed
 
 ECS using EC2 mode is not a serverless solution, you need to worry about
 capacity and availability for your cluster.
+
+ECS uses container registry and thats where the containers are stored, AWS has their own called ECR or you can use Docker,
+While Task and container defination uses images in container registry to deploy the application in the ECS cluster in the EC2 of the ASG group
 
 The container instances are not delivered as a managed service, they
 are managed as normal EC2 instances.
@@ -3019,6 +3053,11 @@ You can use spot pricing or prepaid EC2 servers.
 #### 1.7.3.2. Fargate mode
 
 Removes more of the management overhead from ECS, no need to manage EC2.
+it is like a serverless mode
+
+it still uses the registry, container and task defination what differs is how it host the container
+
+You get a shared pool of resources which are isolated from other customers
 
 **Fargate shared infrastructure** allows all customers
 to access from the same pool of resources.
@@ -3037,14 +3076,36 @@ If you already are using containers, use **ECS**.
 
 **EC2 mode** is good for a large workload if you are price conscious.
 This allows for spot pricing and prepayment.
+pay for EC2 even when not using the container
 
 **Fargate** is great if you:
 
 - Have a large workload but are overhead conscious.
 - Have small or burst style workloads.
 - Use batch or periodic workloads.
+- pay what you consume
 
 ---
+
+**ECR**
+
+- Managed Container image registry service
+- like Docker hub.. but for AWS
+- Each AWS account has a public and private registry
+- Each registry can have many repositories
+- Each repository can contain many images
+- Images can have several tags
+- Public = public Read only ... Read/Write require permissions
+- Private = permissions required for any R/O or R/W operation
+
+**Benefits**
+- Integrated with IAM - Permssions
+- Image scanning, basic and enhanced(inspector)
+- ECR near realtime metrics for any pushed pull metrics
+- API actions = cloudTrail
+- Events => EventBridge
+- Replication..Cross-Region And Cross-Account
+
 
 ## 1.8. Advanced-EC2
 
