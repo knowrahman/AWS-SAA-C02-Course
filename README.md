@@ -3126,6 +3126,7 @@ in the same way that meta-data is. It is accessed using the meta-data IP.
 <http://169.254.169.254/latest/user-data>
 
 Anything you pass in is executed by the instance OS **only once on launch!** It is for launch time configuration only.
+It won't execute when you restart the instance, only once at launch
 
 EC2 doesn't validate the user data. You can tell EC2 to pass in trash data
 and the data will be injected. The OS needs to understand the user data.
@@ -3144,9 +3145,10 @@ This is treated like any other script the OS runs. At the end of running
 the script, the instance will be in:
 
 - Running state and ready for service.
-- Bad config but still likely running.
+- lets say user data errors out for some reason, Bad config but still likely running.
   - The instance will probably still pass its checks.
   - It will not be configured as you expected.
+  - Because user-data is just passed in an opaque way to OS
 
 #### 1.8.1.2. User Data Key Points
 
@@ -3157,9 +3159,15 @@ reason it is important not to pass passwords or long term credentials.
 **User data is limited to 16 KB in size**. Anything larger than this will
 need to pass a script to download the larger set of data.
 
+**User data needs to be in bas-64 encoding**, the UI form on AWS already does that
+implicitly but when automating you have to make sure to only feed it the data that is base-64 encoded
+
 User data can be modified if you stop the instance, change the user
 data, then restart the instance. This won't be executed since the instance
 has already started.
+
+Bad Practise:
+- dont use password or credentials in user-data
 
 #### 1.8.1.3. Boot-Time-To-Service-Time
 
@@ -3174,6 +3182,49 @@ AMI baking will front load the time needed by configuring as much as possible.
 - Use bootstrap for the final configuration.
 
 This way you reduce the post-launch time and thus the boot-time-to-service.
+
+#### 1. Check EC2 Instance System Logs for user-data execution
+
+#### For Linux Instances
+
+1. **Connect to the EC2 Instance:**
+   - Use SSH to connect to the EC2 instance.
+
+2. **Locate User Data Script Logs:**
+   - User data script logs are typically found in the following files:
+     - `/var/log/cloud-init-output.log`
+     - `/var/log/cloud-init.log`
+   - View the logs using commands like `cat` or `tail`:
+     ```bash
+     sudo cat /var/log/cloud-init-output.log
+     ```
+     ```bash
+     sudo tail -f /var/log/cloud-init-output.log
+     ```
+
+#### For Windows Instances
+
+1. **Connect to the EC2 Instance:**
+   - Use RDP to connect to the EC2 instance.
+
+2. **View User Data Script Logs:**
+   - Logs are often written to the Windows Event Viewer:
+     - Open Event Viewer (`eventvwr.msc`).
+     - Navigate to `Windows Logs` -> `Application` or `System`.
+   - Additionally, check the following file for logs:
+     - `C:\ProgramData\Amazon\EC2-Windows\Launch\Log\UserdataExecution.log`
+
+## 2. Check CloudTrail Logs (Optional)
+
+1. **Open the CloudTrail Console:**
+   - Go to the [CloudTrail console](https://console.aws.amazon.com/cloudtrail/).
+
+2. **Search for EC2 Events:**
+   - Use the event history to search for `RunInstances` or `StartInstances` events related to instance creation and user data execution.
+
+3. **View Event Details:**
+   - Click on specific events to view detailed information, which may include user data script contents.
+
 
 ### 1.8.2. AWS::CloudFormation::Init
 
@@ -3216,6 +3267,9 @@ This waits for a signal from the resource itself before moving to a create
 complete state.
 
 ### 1.8.3. EC2 Instance Roles
+Roles are preferred of doing anything instead of storing the credentials anywhere
+
+it is an IAM role that instance assumes.
 
 IAM roles are the best practice ways for services to be granted permissions.
 EC2 instance roles are roles that an instance can assume and anything
@@ -3223,6 +3277,9 @@ running in that instance has the permissions that role grants.
 
 Starts with an IAM role with a permissions policy.
 EC2 instance role allows the EC2 service to assume that role.
+
+when you create an IAM role for EC2 it automatically creates an instance profile with the same name
+and you attach this new instance profile to the EC2 instance
 
 The **instance profile** is the item that allows the permissions to get
 inside the instance. When you create an instance role in the console,
@@ -3242,10 +3299,20 @@ Key facts
   - Resources need to check the meta-data periodically
 - Should always use roles compared to storing long term credentials
 - CLI tools use role credentials automatically
+- After configuration of the role the command line tools and even sdks like .net will automatically look for the configuration using the meta-data/iam/security-credentials 
+  and use them on the priority basis unless you specify a new profile to be used
+   -- Priorities List
+    - Command line options
+    - Environment varibles
+    - CLI credentials file
+    - CLI configuration file
+    - Container Credentials
+    - Instance profile credentials
+ 
 
 ### 1.8.4. AWS System Manager Parameter Store
 
-Passing secrets into an EC2 instance is bad practice because anyone
+Passing secrets into an EC2 instance is bad practice even with user-data because anyone
 who has access to the meta-data has access to the secrets.
 
 Parameter store allows for storage of **configuration** and **secrets**
@@ -3254,13 +3321,16 @@ Parameter store allows for storage of **configuration** and **secrets**
 - StringList
 - SecureString
 
+
+many aws service are natively integrated with parameter store like Cfn and so on
+
 Parameter Store:
 
 - Can store license codes, database strings, and full configs and passwords.
-- Allows for hierarchies and versioning.
+- Allows for storing hierarchies and versioning of a value.
 - Can store plaintext and ciphertext.
-  - This integrates with **kms** to encrypt passwords.
-- Allows for public parameters such as the latest AMI parameter to be stored
+  - This integrates with **kms** to encrypt passwords. ex: $DB-user, $DB-PASWORD
+- Public parameters: Allows for public parameters such as the latest AMI parameter to be stored
 and referenced during EC2 creation
 - Is a public service so any services needs access to the public sphere or
 to be an AWS public service.
