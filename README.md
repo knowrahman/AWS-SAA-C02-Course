@@ -883,6 +883,118 @@ Example:
 ```
 
 
+
+### **Key Elements of a Policy Statement**
+
+1.  **Effect**:
+
+    -   The **Effect** can be either `Allow` or `Deny`.
+        -   **Allow**: Grants the specified permissions.
+        -   **Deny**: Explicitly denies the permissions, overriding any other `Allow` statements.
+2.  **Action**:
+
+    -   Defines what actions are allowed or denied.
+    -   Actions are AWS service operations like `s3:ListBucket`, `ec2:StartInstances`, `lambda:InvokeFunction`, etc.
+    -   Can be a single action or an array of actions.
+    -   Wildcards `*` can be used to allow/deny all actions for a particular service.
+    - Actions should alway match the resource
+3.  **Resource**:
+
+    -   Specifies the AWS resources to which the policy applies.
+    -   A **Resource ARN (Amazon Resource Name)** is used to identify the specific AWS resource.
+    -   Wildcards `*` can be used to match multiple resources.
+    - Resource cannot be in the form of array, every statement has only one resource it is referring to.
+    -   Example ARN for S3 bucket: `arn:aws:s3:::example-bucket/*`
+4.  **Condition**:
+
+    -   Specifies conditions that must be met for the policy to be effective.
+    -   Conditions are key-value pairs and support operators like `StringEquals`, `StringLike`, etc.
+    -   Example: `aws:RequestTag/Environment` must be `Production`.
+5.  **Principal**:
+
+    -   Defines who the policy is for. It can specify users, roles, or AWS services.
+    - It can be an array of identities
+    -   This is only required in **resource-based policies** (such as for S3 or Lambda) and on Trust policy of a Role.
+    -   In **identity-based policies**, the principal is implicit because the policy is attached to an identity.
+
+* * * * *
+
+### **Possible Values for Each Element**
+
+#### **1\. Effect**
+
+-   `Allow`: Grants permissions.
+-   `Deny`: Explicitly denies permissions.
+
+#### **2\. Action**
+
+-   AWS service actions (e.g., `s3:ListBucket`, `ec2:StartInstances`).
+-   Wildcard (`*`) to apply to all actions of a service (e.g., `s3:*` to allow all S3 actions).
+
+**Example Actions:**
+
+-   `s3:ListBucket`
+-   `ec2:DescribeInstances`
+-   `lambda:InvokeFunction`
+
+#### **3\. Resource**
+
+-   **ARN Format**: `arn:aws:<service>:<region>:<account-id>:<resource-type>/<resource-id>`
+
+    For example:
+
+    -   S3 Bucket ARN: `arn:aws:s3:::example-bucket`
+    -   EC2 Instance ARN: `arn:aws:ec2:us-west-2:123456789012:instance/i-1234567890abcdef0`
+    -   Lambda Function ARN: `arn:aws:lambda:us-east-1:123456789012:function:my-function`
+-   **Wildcards**: You can use wildcards (`*`) to apply to multiple resources.
+
+    -   S3 Bucket with all objects: `arn:aws:s3:::example-bucket/*`
+    -   EC2 instances: `arn:aws:ec2:us-west-2:123456789012:instance/*`
+
+#### **4\. Condition**
+
+-   Conditions define when a policy should apply. Common operators are:
+    -   `StringEquals`: Matches exact string values.
+    -   `StringLike`: Matches string values using wildcard characters (`*`).
+    -   `NumericEquals`: Matches numeric values.
+    -   `DateEquals`: Matches date values.**Example Condition**:
+
+    ```
+    "Condition": {
+      "StringEquals": {
+        "aws:RequestTag/Environment": "Production"
+      }
+    }
+
+    ```
+
+#### **5\. Principal**
+
+-   **AWS IAM User or Role ARN**:
+    -   For example: `arn:aws:iam::123456789012:user/ExampleUser`
+    -   For a role: `arn:aws:iam::123456789012:role/ExampleRole`
+-   **Service Principals** (AWS services that can assume the role):
+    -   EC2: `ec2.amazonaws.com`
+    -   Lambda: `lambda.amazonaws.com`
+-   **Federated Identity** (for identity providers like Google, Facebook, or Active Directory):
+    -   Example: `cognito-identity.amazonaws.com`
+
+**Example Principal Formats**:
+
+-   IAM User:\
+    `arn:aws:iam::123456789012:user/ExampleUser`
+
+-   IAM Role:\
+    `arn:aws:iam::123456789012:role/ExampleRole`
+
+-   AWS Service (e.g., EC2):\
+    `ec2.amazonaws.com`
+
+-   Federated User (via AWS Cognito Identity Pool):\
+    `cognito-identity.amazonaws.com`
+
+* * * * *
+
 #### 1.3.1.2. Priority Level
 
 - Explicit Deny: Denies access to a particular resource cannot be overruled.
@@ -898,6 +1010,64 @@ Example:
 | 1️⃣ | Explicit Deny | **Always wins** (Overrides all other policies) |
 | 2️⃣ | Explicit Allow | Granted only if no deny exists |
 | 3️⃣ | Default (Implicit Deny) | Applies if no policy allows the action |
+
+
+### **What is a Permission Boundary in AWS IAM?**
+
+A **permission boundary** is an advanced IAM feature that **restricts the maximum permissions an IAM user or role can have**. It acts as an upper limit, preventing a user or role from exceeding certain permissions, even if other policies grant them.
+
+* * * * *
+
+### **How It Works**
+
+-   **Without a Permission Boundary**: A user or role gets all permissions assigned through identity-based policies.
+-   **With a Permission Boundary**: Even if a policy grants access, the user/role **cannot exceed** what the boundary allows.
+
+**🔹 Example:**\
+A user has an identity-based policy allowing full access to **S3 and EC2**, but a **permission boundary** only allows access to **S3**.\
+✅ **User can access S3**\
+❌ **User cannot access EC2** (even though their identity policy allows it)
+
+* * * * *
+
+### **Key Facts About Permission Boundaries**
+
+1.  **They apply only to IAM users and roles, not groups.**
+2.  **They don't grant permissions; they only restrict them.**
+3.  **They work alongside identity-based policies.** Both must allow an action for it to be permitted.
+4.  **Useful for controlling privilege escalation** when delegating admin tasks.
+
+* * * * *
+
+### **Example JSON of a Permission Boundary**
+
+This boundary **allows only S3 actions**, even if another policy tries to grant more permissions:
+
+
+
+```
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": "s3:*",
+            "Resource": "*"
+        }
+    ]
+}
+```
+
+If a policy tries to grant EC2 access, the boundary **blocks** it.
+
+* * * * *
+
+### **When to Use Permission Boundaries**
+
+✅ **For delegated administration** -- Restrict IAM users who manage other users.\
+✅ **For limiting third-party access** -- Ensure vendors don't get excessive permissions.\
+✅ **For creating least privilege access** -- Prevent users from escalating their permissions.
+
 #### 1.3.1.3. Inline Policies and Managed Policies
 
 - Inline Policy: grants access and assigned on each accounts individually.
@@ -1088,37 +1258,217 @@ It does so by referencing the identity using an ARN (Amazon Reference Name).
 A policy on a resource can reference IAM users and IAM roles by the ARN.
 A bucket can give access to one or more users or one or more roles.
 
-**GROUPS ARE NOT A TRUE IDENTITY**
+**IMPORTANT❗** 
+
+- **GROUPS ARE NOT A TRUE IDENTITY**
 **THEY CAN'T BE REFERENCED AS A PRINCIPAL IN A POLICY**
 
-An S3 Resource cannot grant access to a group, it is not an identity.
+- An S3 Resource cannot grant access to a group, it is not an identity.
 Groups are used to allow permissions to be assigned to IAM users.
 
 ### 1.3.4. IAM Roles
 
-A single thing that uses an identity is an IAM User.
+### **What Are IAM Roles?**
 
-IAM Roles are also identities that are used by large groups of individuals.
-If have more than 5000 principals, it could be a candidate for an IAM Role.
+An **IAM role** in AWS is an identity with a **set of permissions** that determine what actions are allowed or denied. IAM roles are primarily used to provide **temporary security credentials** to AWS services, users, or applications without requiring permanent credentials such as access keys.
 
-IAM Roles are **assumed** you become that role.
+Unlike IAM users, roles **do not have long-term credentials**. Instead, they are assumed by a **principal** (e.g., an IAM user, an AWS service, or an application) to perform actions on AWS resources. This temporary access helps increase security and avoids embedding sensitive credentials in code.
 
-This can be used short term by other identities.
+* * * * *
 
-IAM Users can have inline or managed policies which control which permissions
-the identity gets within AWS
+### **How IAM Roles Work**
 
-Policies which grant, allow or deny, permissions based on their associations.
+IAM roles work based on **assumed roles** and **temporary security credentials**. Here's how the process flows:
 
-IAM Roles have two types of roles can be attached.
+1.  **Creating the Role**: You define a role with specific **permissions** (like S3 access) and set a **trust policy** that defines **who** (which AWS entity or user) can assume the role.
 
-- Trust Policy: Specifies which identities are allowed to assume the role.
-- Permissions Policy: Specifies what the role is allowed to do.
+2.  **Assuming the Role**: When a user, service, or application assumes the role, AWS **Security Token Service (STS)** generates temporary credentials that last for a specific duration (usually 15 minutes to 12 hours).
 
-If an identity is allowed on the **Trust Policy**, it is given a set
-of **Temporary Security Credentials**. Similar to access keys except they
-are time limited to expire. The identity will need to renew them by
-reassuming the role.
+3.  **Using the Role**: Once assumed, the principal (IAM user, service, or app) can access the AWS resources as defined by the role's permissions, and once the credentials expire, they must re-assume the role to get new temporary credentials.
+
+* * * * *
+
+### **Key Elements of IAM Roles**
+
+1.  **Trust Policy**:\
+    The **trust policy** defines **who** can assume the role (the principal). This is necessary because IAM roles are **assumed by trusted entities**. For example, an EC2 instance or a Lambda function might need a role to access S3 buckets.
+
+    **Example Trust Policy (Allowing EC2 to Assume Role)**:
+
+    
+```
+    {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Effect": "Allow",
+                "Principal": {
+                    "Service": "ec2.amazonaws.com"
+                },
+                "Action": "sts:AssumeRole"
+            }
+        ]
+    }
+```
+
+2.  **Permissions Policy**:\
+    Once the role is assumed, the **permissions policy** attached to the role defines the actions that are allowed or denied. This could include actions like accessing S3, DynamoDB, or EC2 instances. These permissions are **temporary** and expire after a specified duration.
+
+    **Example Permissions Policy (Allowing EC2 to Access S3)**:
+
+   ```
+   {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Effect": "Allow",
+                "Action": "s3:GetObject",
+                "Resource": "arn:aws:s3:::example-bucket/*"
+            }
+        ]
+    }
+  ```
+
+### **Defining an IAM Role for EC2 and Lambda to Access S3 and Lambda Function**
+
+In this scenario, we need to create an IAM role that allows both **EC2** and **Lambda** to access:
+
+1.  An **S3 bucket**.
+2.  A **Lambda function** (to invoke a Lambda function).
+
+The role must be able to be **assumed by both EC2 and Lambda** and have permissions for both **S3 access** and **Lambda invocation**.
+
+* * * * *
+
+### **Step 1: Create the Trust Policy**
+
+The trust policy defines who can assume the role. In this case, the role must allow **both EC2 and Lambda** to assume it.
+
+**Trust Policy (Allow EC2 and Lambda to Assume the Role):**
+
+```
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": [
+          "ec2.amazonaws.com",
+          "lambda.amazonaws.com"
+        ]
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+```
+
+### **Step 2: Attach the Permissions Policy**
+
+The permissions policy grants the actual permissions for both EC2 and Lambda to access the S3 bucket and invoke a Lambda function. We'll define permissions for both actions:
+
+-   **S3 Access**: Allowing both EC2 and Lambda to read from (and optionally write to) an S3 bucket.
+-   **Lambda Invocation**: Allowing Lambda to invoke other Lambda functions.
+
+**Permissions Policy (S3 Access and Lambda Invocation):**
+
+```
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject",    // Allow read access to S3 bucket
+        "s3:PutObject"     // Allow write access to S3 bucket (optional, depending on use case)
+      ],
+      "Resource": "arn:aws:s3:::example-bucket/*"  // Specify the S3 bucket ARN
+    },
+    {
+      "Effect": "Allow",
+      "Action": "lambda:InvokeFunction",  // Allow invoking Lambda functions
+      "Resource": "arn:aws:lambda:region:account-id:function:your-lambda-function-name"  // Lambda function ARN
+    }
+  ]
+}
+```
+### **Step 3: Attach the Trust and Permissions Policies to the Role**
+
+Once the trust policy and permissions policy are defined, attach them to the IAM role. This role can now be assigned to both EC2 instances and Lambda functions.
+
+* * * * *
+
+### **Step 4: Attach the Role to EC2 and Lambda**
+
+1.  **For EC2**:\
+    When launching the EC2 instance, you can specify this role under the **IAM Role** section. This grants the EC2 instance the necessary permissions to access the S3 bucket and invoke Lambda functions.
+
+2.  **For Lambda**:\
+    When creating or updating a Lambda function, specify the same IAM role in the **Execution Role** section to grant it access to the S3 bucket and the ability to invoke another Lambda function.
+
+
+* * * * *
+
+### **When to Use IAM Roles**
+
+1.  **For AWS Services**:
+
+    -   **EC2** instances need to interact with S3, DynamoDB, or other services.
+    -   **Lambda** functions need permissions to invoke other services like SQS, SNS, or write to a DynamoDB table.
+2.  **Cross-Account Access**:
+
+    -   You can define a role that users or services from other AWS accounts can assume to access your resources.
+3.  **Federated Access**:
+
+    -   When users authenticate through **federated login** (e.g., Google, SSO, Active Directory), they can assume an IAM role to access AWS resources without creating an IAM user.
+4.  **Temporary Credentials for Applications**:
+
+    -   Applications running on EC2, Lambda, or ECS can assume IAM roles to obtain temporary credentials, ensuring that sensitive access keys are not hardcoded in the application.
+
+* * * * *
+
+### **Advantages of Using IAM Roles**
+
+1.  **No Need for Long-Term Credentials**:\
+    IAM roles allow **temporary access** to AWS resources, reducing the risk of long-term credentials being exposed or compromised.
+
+2.  **Security Best Practice**:\
+    Temporary credentials from IAM roles automatically expire, reducing the chances of unauthorized access.
+
+3.  **Easier Management**:\
+    Instead of managing long-term IAM user credentials, roles allow for easier **delegation of permissions** across services, applications, and users.
+
+4.  **Scalability**:\
+    IAM roles are ideal for managing permissions for **automated services** like Lambda, EC2, ECS, and batch jobs without needing manual intervention or key management.
+
+* * * * *
+
+### **Tips to Remember IAM Roles**:
+
+-   **Roles = Temporary Access**: Unlike users, IAM roles don't have permanent credentials, and you use temporary security credentials.
+-   **Principal**: The entity that **assumes** the role. It can be an AWS service (EC2, Lambda), another account, or a federated user.
+-   **STS**: AWS Security Token Service is used to issue **temporary credentials**.
+-   **Trust & Permissions Policies**: You need both to define **who can assume** the role and **what they can do** once they assume it.
+-   **Good for services, applications, cross-account access**.
+
+* * * * *
+
+### **Sample MCQ Question for AWS Developer Associate Exam**
+
+**Question**:\
+Your application is running on an Amazon EC2 instance, and it needs to access an S3 bucket. What is the best way to grant the EC2 instance the required permissions securely?
+
+**A)** Store the IAM user's access key and secret key in the application's environment variables.\
+**B)** Embed the IAM user's access key and secret key in the application code.\
+**C)** Attach an IAM role with appropriate S3 permissions to the EC2 instance.\
+**D)** Create an IAM user for the EC2 instance and manually manage access keys.
+
+**Answer**:\
+**C)** Attach an IAM role with appropriate S3 permissions to the EC2 instance.
+
+**Explanation**:\
+IAM roles are the most secure way to grant permissions to AWS services like EC2 because they provide temporary credentials that are automatically rotated and do not require embedding access keys in your application.
 
 Every time the **Temporary Security Credentials** are used, the access
 is checked against the **Permissions Policy**. If you change the policy, the
