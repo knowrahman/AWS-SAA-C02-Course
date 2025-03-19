@@ -832,6 +832,33 @@ When an identity attempts to access AWS resources, that identity needs
 to prove who it is to AWS, a process known as **Authentication**.
 Once authenticated, that identity is known as an **authenticated identity**
 
+## **Types of IAM Policies**
+
+AWS IAM uses different types of policies to define permissions:
+
+1. **Identity-Based Policies**
+   - Attached to users, groups, or roles.
+   - Control access to AWS resources.
+   - Examples: Managed policies, inline policies.
+
+2. **Resource-Based Policies**
+   - Attached to AWS resources (like S3 buckets, SNS topics).
+   - Define who can access the resource and what actions they can perform.
+
+3. **Permissions Boundaries**
+   - A managed policy that acts as a permission boundary for an IAM user or role.
+   - Restricts the maximum permissions an entity can have.
+
+4. **Service Control Policies (SCPs)**
+   - Applied at the AWS Organization level to enforce restrictions on accounts within an AWS Organization.
+   - Cannot grant permissions but can restrict them.
+
+5. **Session Policies**
+   - Temporary policies associated with session-based access (e.g., AWS STS AssumeRole).
+   - Limits permissions during a temporary session.
+
+---
+
 #### 1.3.1.1. Statement Components
 
 - Statement ID (SID): Optional field that should help describe
@@ -845,16 +872,83 @@ Once authenticated, that identity is known as an **authenticated identity**
   - list of multiple independent actions
 - Resource: similar to action except for format `arn:aws:s3:::catgifs`
 
+Example:
+```json
+{
+  "Effect": "Deny",
+  "Action": "s3:DeleteObject",
+  "Resource": "arn:aws:s3:::my-bucket/*"
+}
+
+```
+
+
 #### 1.3.1.2. Priority Level
 
 - Explicit Deny: Denies access to a particular resource cannot be overruled.
 - Explicit Allow: Allows access so long there is not an explicit deny.
 - Default Deny (Implicit): IAM identities start off with no resource access.
 
+
+**Summary of IAM Policy Evaluation**
+------------------------------------
+
+| Order | Policy Type | Effect |
+| --- | --- | --- |
+| 1️⃣ | Explicit Deny | **Always wins** (Overrides all other policies) |
+| 2️⃣ | Explicit Allow | Granted only if no deny exists |
+| 3️⃣ | Default (Implicit Deny) | Applies if no policy allows the action |
 #### 1.3.1.3. Inline Policies and Managed Policies
 
 - Inline Policy: grants access and assigned on each accounts individually.
 - Managed Policy (best practice): one policy is applied to all users at once.
+
+# Inline vs. Managed Policies in AWS IAM
+
+AWS Identity and Access Management (IAM) allows you to control access to your AWS resources using policies. These policies come in two main forms: **inline policies** and **managed policies**.
+
+## Managed Policies
+
+- **Definition:**  
+  Managed policies are standalone policies that you can create and manage independently from the IAM identities (users, groups, or roles) to which they are attached.
+
+- **Types:**  
+  - **AWS Managed Policies:** Predefined by AWS and maintained by AWS to help you quickly set up permissions based on common use cases.  
+  - **Customer Managed Policies:** Created and managed by you, providing the flexibility to define custom permissions tailored to your organization's needs.
+
+- **Advantages:**  
+  - **Reusability:** Can be attached to multiple IAM entities.  
+  - **Ease of Management:** A single change in a managed policy automatically propagates to all attached entities.  
+  - **Consistency:** Ensures uniform permissions across different users, groups, or roles.
+
+## Inline Policies
+
+- **Definition:**  
+  Inline policies are policies that are embedded directly into a specific IAM user, group, or role. They are tightly coupled with that particular entity.
+
+- **Characteristics:**  
+  - **Specificity:** Designed for one-off or unique permission sets that you want to apply only to a single IAM entity.  
+  - **Non-reusability:** Cannot be reused or attached to other identities. If the identity is deleted, the inline policy is also removed.
+
+- **Use Cases:**  
+  - When you need a policy that is uniquely tailored to a specific user, group, or role.  
+  - When you want to ensure that the policy is directly associated with the identity and is not inadvertently applied elsewhere.
+
+## Key Differences
+
+- **Reusability:**  
+  - *Managed Policies* can be attached to multiple IAM entities.  
+  - *Inline Policies* are bound to a single IAM entity.
+
+- **Management:**  
+  - *Managed Policies* offer centralized management, making updates easier and more consistent across entities.  
+  - *Inline Policies* require individual management for each IAM entity.
+
+- **Use Cases:**  
+  - Use *Managed Policies* when you need to apply the same set of permissions to multiple users, groups, or roles.  
+  - Use *Inline Policies* for specialized, entity-specific permissions that should not be reused.
+
+---
 
 ### 1.3.2. IAM Users
 
@@ -865,6 +959,53 @@ Identity used for anything requiring **long-term** AWS access
 - Service Accounts
 
 If you can name a thing to use the AWS account, this is an IAM user.
+
+### Principal 
+In AWS IAM (Identity and Access Management), a **principal** is an entity that can make a request to perform an action on AWS resources. A principal must authenticate itself before it can be authorized to perform actions.
+
+### **Types of Principals**
+
+1.  **IAM Users** -- Individuals who have AWS access with credentials (username/password or access keys).
+2.  **IAM Roles** -- Temporary identities assumed by services, applications, or users.
+3.  **Federated Users** -- Identities authenticated via an external identity provider (IdP) like Google, Okta, or Active Directory.
+4.  **AWS Services** -- AWS services (e.g., Lambda, EC2) assuming roles to interact with other AWS resources.
+
+### **Example of a Principal in a Policy**
+
+In an AWS IAM policy, a principal is specified in the `Principal` element:
+
+```
+{
+  "Version": "2012-10-17",
+  "Statement": {
+    "Effect": "Allow",
+    "Principal": {
+      "AWS": "arn:aws:iam::123456789012:user/ExampleUser"
+    },
+    "Action": "s3:ListBucket",
+    "Resource": "arn:aws:s3:::example-bucket"
+  }
+}
+
+```
+the **Principal** element is **optional** in IAM **identity-based policies**, but it is **required** in **resource-based policies**.
+
+### **When is the `Principal` Element Required?**
+
+-   **Resource-based policies (S3, SNS, SQS, etc.)** → **Required**
+
+    -   Since these policies define **who** can access the resource, you must specify a principal.
+    -   Example: Allowing a specific IAM user to access an S3 bucket.
+-   **AssumeRole policies (Trust Policies)** → **Required**
+
+    -   When an IAM Role is assumed, you must specify the entity that can assume it.
+
+### **When is the `Principal` Element Not Needed?**
+
+-   **Identity-based policies (IAM Users, Groups, and Roles)** → **Not Required**
+    -   These policies apply directly to the IAM identity, so specifying `Principal` is unnecessary.
+    -   Example: A policy that allows an IAM user to list all S3 buckets.
+
 
 When a **principal** wants to **request** to perform an action,
 it will **authenticate** against an identity within IAM. An IAM user is an
@@ -889,7 +1030,9 @@ ARN generally follows the same format:
 
 ```bash
 arn:partition:service:region:account-id:resource-id
+
 arn:partition:service:region:account-id:resource-type/resource-id
+
 arn:partition:service:region:account-id:resource-type:resource-id
 ```
 
@@ -932,6 +1075,13 @@ AWS merges all of the policies from all groups the user is in together.
 created and managed on your own.
 - No Nesting: You cannot have groups within groups.
 - 300 Group Limit per account. This can be fixed with a support ticket.
+
+### **Limits on IAM Groups and Users per Group**
+
+-   **Max IAM Groups per AWS Account:** **300**
+-   **Max IAM Users per Group:** **300**
+-   **IAM Users per AWS Account:** **5,000**
+-   **IAM Groups a User Can Belong To:** **10**
 
 **Resource Policy** A bucket can have a policy associated with that bucket.
 It does so by referencing the identity using an ARN (Amazon Reference Name).
