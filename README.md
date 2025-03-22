@@ -3077,76 +3077,144 @@ An example using 4 AWS accounts.
   - 1 region in AUS
 - Total of 40 ranges, 10 ranges for each account.
 
+![alt text](image-1.png)
+
 #### 1.5.2.1. How to size VPC
 
 A subnet is located in one availability zone.
 Try to split each subnet into tiers (web, application, db, spare).
 Since each Region has at least 3 AZ's, it is a good practice to start
 splitting the network into 4 different AZs.
-This allows for at least one subnet in each AZ, and one spare.
+
+since we need 4 tiers meaning 4 subnets for each AZ meaining 4 subnets x 4 AZs = 16 subnets
+
+and since we had selected a Netmask of /16 and want a 16 subnets divided in it so 2^4 is 16 so we need to borrow 4 bits making /16 -> /20 which will be each subnet size
+
 Taking a /16 subnet and splitting it 16 ways will make each a /20.
 
-### 1.5.3. Custom VPC
+![alt text](<17-VPC-Advanced/Screenshot 2025-03-22 at 5.03.07 pm.png>)
+
+
+![alt text](<17-VPC-Advanced/Screenshot 2025-03-22 at 5.07.21 pm.png>)
+
+
+![alt text](<17-VPC-Advanced/Screenshot 2025-03-22 at 5.13.27 pm.png>)
+
+
+so lets say you have a VPC network of VPC 10.16.0.0/16 in the region us-east-1
+
+for 4AZs you have /20 subnets for each tier meaning 16 subnets
+
+but for the 3 AZ in the above picture we are not using the last 4 subnets
+
+### **FOR Developer Associate exam You Don't Need to Focus On:**
+
+-   You **don't need to dive deeply into advanced VPC design** principles, such as multi-AZ resilience or CIDR block design (e.g., splitting subnets in a /16 range).
+-   You **don't need to master advanced topics** like **VPC Traffic Mirroring**, **Transit Gateways**, or **Direct Connect**, as these are typically more relevant to **networking architects** and not specifically required for a developer exam.
+
+### 1.5.3. Advantages of Custom VPC
 
 - Regional Isolated and Resilient Service.
   - Operates from all AZs in that region
 - Allows isolated networks inside AWS.
-- Nothing IN or OUT of a VPC without explicit configuration.
+- Nothing IN or OUT of a VPC without explicit configuration meaning network boundary.
   - Isolated blast radius. Any problems are limited to that VPC or anything
   connected to it.
-- Flexible configuration
+- Custom VPC are opposite to default VPC allowing Flexible configuration
 - Hybrid networking to allow connection to other cloud or on-prem networking.
 - Default or Dedicated Tenancy. This refers to how the hardware is configured.
   - Default allows on a per resource decision later on.
   - Dedicated locks any resourced created in that VPC to be on dedicated
   hardware which comes at a cost premium.
 
+In the context of **VPC** (Virtual Private Cloud) and the **AWS Developer Associate (DVA-CO2)** exam, the terms **Default Tenancy** and **Dedicated Tenancy** refer to how **EC2 instances** are placed on hardware, and this choice impacts the **type of hardware** (shared or dedicated) that AWS uses for your resources.
+
+### **Default Tenancy**:
+
+-   **Default Tenancy** means that the instances you launch in your VPC will run on **shared hardware**. AWS uses its pool of **shared physical servers** to run EC2 instances, and multiple customers' EC2 instances may share the same physical hardware.
+
+    -   **Key Point**: The physical server is **shared** with other customers, but each EC2 instance remains logically isolated.
+    -   **Cost**: Default Tenancy is **less expensive**, as you're utilizing shared infrastructure.
+-   **When to Use Default Tenancy**:
+
+    -   You should choose **Default Tenancy** for most use cases, especially when you don't have specific requirements for dedicated hardware. For instance, if you are running web applications, batch jobs, or development environments, **Default Tenancy** is sufficient and more cost-effective.
+
+### **Dedicated Tenancy**:
+
+-   **Dedicated Tenancy** means that the EC2 instances you launch in your VPC will run on **dedicated hardware**. Each EC2 instance will be placed on **physically isolated** servers that are not shared with any other customer.
+
+    -   **Key Point**: This **locks** all EC2 instances in that VPC to be run on dedicated physical hardware.
+    -   **Cost**: **Dedicated Tenancy** comes at a **cost premium** because AWS uses physically dedicated hardware to run your EC2 instances. The pricing is higher to compensate for this dedicated physical infrastructure.
+
+
 #### 1.5.3.1. Custom VPC Facts
 
-IPv4 private and public IPs
-
+- VPC can use IPv4 private and public IPs
+- the private CIDR block is the main method of IP communication for a VPC
+- by default everything uses private IP
+- public IPs are used only when you want to communicate with the public internet or AWS public zone or you want to allow communication to them from public internet
+- VPC is allocated 1 mandatory private IPv4 CIDR block
 - Allocated 1 mandatory private IPv4 CIDR blocks
-  - Min /28 prefix (16 IP)
-  - Max /16 prefix (65,536 IP)
+  <span style='color:red'>!Important</span>
+  - it has a restriction that it can be a
+     - Min /28 prefix (16 IP)
+     - Max /16 prefix (65,536 IP)
+     - CIDR Block range of VPC in AWS is always between /28 to /16 
+     - and address is usually 10.0.0.0
 - Can add secondary IPv4 Blocks after creation.
   - Max of 5, can be increased with a support ticket
-  - When thinking of VPC, it has a pool of private IPv4 addresses and can
+
+!IMPORTANT
+- When thinking of VPC, think of it has a pool of private IPv4 addresses and optionally it can
   use public addresses when needed.
 
-Single assigned IPv6 /56 CIDR block
+
+VPC can be optionally configured to use IPV6 by assigning Single assigned IPv6 /56 CIDR block
 
 - Still being matured, not everything works the same as IPv4.
 - With increasing use of IPv6, this should be added as a default
 - Range is either allocated by AWS as in you have no choice on which range
 to use, or you can select to use your own IPv6 addresses which you own.
-- IPv6 does not have private addresses, they are all routed as public by
-default.
+- you cannot pick a block
+- IPv6 does not have a concept private addresses, they are all routed as public by default.
 
 #### 1.5.3.2. DNS provided by R53
 
-Available on the base IP address of the VPC + 2.
+
+AWS VPC also has fully featured DNS provided by R53
+- Available on the base IP address of the VPC + 2.
 If the VPC is `10.0.0.0` then the DNS IP will be `10.0.0.2`
 
-Two options that manage how DNS works in a VPC:
-
-- Edit DNS hostnames
+Two options that manage how DNS works in a VPC: <span style='color:red'>!Important</span>
+- Edit DNS hostnames (enableDNSHostName setting)
+  - if enabled you can assign DNS hostname to public IPs of instances in VPC
   - If true, instances with public IPs in a VPC are given public DNS hostnames.
   - If false, this is not available.
 
-- Edit DNS resolution
+- Edit DNS resolution (enableDNSSupport) : this indicates whether or not DNS is enable in VPC
   - If true, instances in the VPC can use the DNS IP address.
   - If false, this is not available.
 
-### 1.5.4. VPC Subnets
 
-- AZ Resilient subnetwork of a VPC.
+At this state lets say you have create a VPC with 10.16.0.0/16 CIDR assigned it AWS provided IPv6 and enabled the enableDNSHostname and enableDNSResolution Setting meaning you have
+
+
+![alt text](<17-VPC-Advanced/Screenshot 2025-03-22 at 5.42.44 pm.png>)
+
+
+
+### 1.5.4. VPC Subnets Facts
+
+- Subnets are where services run from VPC
+- AZ Resilient subnetwork of a VPC. it is contained in an AZ
   - If the AZ fails, the subnet and services also fail.
   - High availability needs multiple components into different AZs.
-- 1 subnet can only have 1 AZ.
+- 1 subnet can only have 1 AZ and 1 subnet can never be in more than AZs
 - 1 AZ can have zero or many subnets.
-- IPv4 CIDR is a subset of the VPC CIDR block.
+- A subnet by default IPv4 networking and is allocated a IPv4
+- IPv4 CIDR is a subset of the VPC CIDR block. it has to be in the range of VPC
   - Cannot overlap with any other subnets in that VPC
-- Subnet can optionally be allocated IPv6 CIDR block.
+- Subnet can optionally be allocated IPv6 CIDR block. as long as VPC is also enabled for IPv6. it is by default assigned a /64 IPv6 subnet which is a subset of /65 VPC and
   - (256 /64 subnets can fit in the /56 VPC)
 - Subnets can communicate with other subnets in the VPC by default.
 
@@ -3157,13 +3225,16 @@ Whatever size of the subnet, the IP addresses are five less than you expect.
 
 If using `10.16.16.0/20` (`10.16.16.0` - `10.16.31.255`)
 
-- Network address: `10.16.16.0`
-- Network + 1: `10.16.16.1` - VPC Router
+Unusable address
+- Network address: `10.16.16.0` starting address
+- Network + 1: `10.16.16.1` - used by VPC Router  
 - Network + 2: `10.16.16.2` - Reserved for DNS
 - Network + 3: `10.16.16.3` - Reserved for future AWS use
 - Broadcast Address: `10.16.31.255` (Last IP in subnet)
 
 #### 1.5.4.2. DHCP Options Set
+
+VPC has a configuration object assigned to it to a VPC
 
 This is how computing devices receive IP addresses automatically. There is
 one options set applied to a VPC at one time and this configuration flows
@@ -3175,37 +3246,114 @@ through to subnets.
   - Change the VPC allocation to the new one
   - Delete the old one
 
-#### 1.5.4.3. IP allocation Options
+#### 1.5.4.3. IP allocation Options at subnet level
 
-- Auto Assign public IPv4 address
+- You can choose whether resources deployed in the subnet be Auto Assign public IPv4 address, you have to enable it manually it is disabled by default for custom VPC
   - This will create a public IP address in addition to their private subnet.
-  - This is needed to make a subnet public.
+  - This is needed to make the instance in subnet public.
 - Auto Assign IPv6 address
   - For this to work, the subnet and VPC need an allocation of addresses.
 
+this is what you have now subnets with a setting enabled to assign public IPv6 address by default for any instance created in them only IPv6
+
+![alt text](<17-VPC-Advanced/Screenshot 2025-03-22 at 5.57.07 pm.png>)
+
+
+Q. Even if auto assigned public IPv6 to instances in subnet it cannot talk to internet unless connected to an internet gateway right
+
+###### ChatGPT said:
+
+Yes, that's correct! Even if instances in a subnet are **auto-assigned public IPv6 addresses**, they **cannot access the internet** unless the subnet is connected to an **Internet Gateway (IGW)**.
+
+### **Explanation:**
+
+When you launch an EC2 instance within a **VPC** and configure it to be assigned a **public IPv6 address**, the instance gets an **IPv6 address** that is publicly routable. However, having a public IPv6 address alone does not allow the instance to communicate with the internet. The key requirement for any internet-bound traffic is having an **Internet Gateway** (IGW) attached to your VPC.
+
+Also when you assign a public IP to an instance the OS on the instance does not know the public IP it only knows the private IP, the VPC will have a record of matching the private IP with the public IP
+
+* * * 
+
+Q. Can an instance in one subnet of an AZ of a VPC can communicate with an instance of a other subnet of a diiferent AZ of the same VPC by default?
+
+###### ChatGPT said:
+
+Yes, by default, **instances in different subnets** within the same **VPC** (even if they are in different **Availability Zones (AZs)**) can **communicate** with each other.
+
+### **Explanation:**
+
+In **Amazon VPC**, **subnets** within the same **VPC** are able to communicate with each other by default, regardless of whether the subnets are in the **same AZ** or **different AZs**.
+
+### **Why is this possible?**
+
+-   **Default VPC Behavior**: When you create a **VPC** in AWS, it comes with a **default route table** that allows **internal communication** between all subnets within that VPC. This means that **instances in different subnets within the same VPC** can reach each other without needing additional routing configurations.
+
+-   **Local Routing**: AWS automatically includes a **local route** in the route tables for all subnets within a VPC. The **local route** ensures that traffic destined for another subnet within the same VPC is routed correctly, regardless of whether the destination is in the same AZ or a different AZ.
+
+-   **Private Communication**: Instances in different subnets of the same VPC communicate privately using **private IP addresses**. The communication does not require any internet access, NAT gateways, or public IPs, as long as the security groups and NACLs allow traffic between the instances.
+
+### **Example:**
+
+Let's say you have the following setup in your VPC:
+
+-   **Subnet 1** (AZ-1): `10.0.1.0/24`
+
+    -   Instance 1: `10.0.1.10`
+-   **Subnet 2** (AZ-2): `10.0.2.0/24`
+
+    -   Instance 2: `10.0.2.10`
+-   **Route Tables**: By default, both subnets have routes allowing **local traffic** within the VPC.
+
+Since **local routing** is enabled and there are no restrictive security group or NACL rules preventing communication, **Instance 1** in **Subnet 1** can **communicate with Instance 2** in **Subnet 2** over the **private IP addresses** (e.g., `10.0.1.10` to `10.0.2.10`).
+
+### **Security Groups and NACLs**
+
+While **default routing** allows communication, it's important to ensure that:
+
+-   **Security Groups** allow the desired traffic between the instances.
+
+    -   For example, if **Instance 1** needs to communicate with **Instance 2**, you would need to ensure that the **Security Group** of **Instance 1** allows outbound traffic to the **Security Group** of **Instance 2**, and vice versa.
+-   **Network Access Control Lists (NACLs)** don't block traffic between subnets. By default, NACLs allow all inbound and outbound traffic. If custom NACLs are used, they need to be configured to allow the necessary traffic.
+
+### **Key Takeaways**:
+
+-   **Yes**, instances in different subnets (even across different AZs) within the same VPC can **communicate** by default.
+-   The default **route tables** allow **local routing** within the VPC, meaning traffic can flow freely between subnets.
+-   Communication depends on **security group settings** and **NACL configurations**, so ensure they allow traffic as needed.
+
+### **Exam Power-Up**:
+
+-   **VPC Communication**: **Instances within a VPC**, even if they are in **different subnets** or **different Availability Zones**, can **communicate by default**.
+-   **Security Groups** and **NACLs**: Ensure that **Security Groups** and **NACLs** allow the necessary traffic for your instances to communicate.
+-   **Routing**: The **default route table** includes a **local route**, so no custom routing is needed to communicate within the same VPC.
+
+* * * 
+
 ### 1.5.5. VPC Routing and Internet Gateway
 
-VPC Router is a highly available device available in every VPC which moves
-traffic from somewhere to somewhere else.
-Router has a network interface in every subnet in the VPC.
-Routes traffic between subnets.
+- It is a network + 1 address
+- VPC Router is a highly available device available in every VPC which moves traffic from somewhere to somewhere else.
+- Router has a network interface in every subnet in the VPC. (network + 1 address)
+- By default without any other configuration a VPC router simply routes traffic between subnets.
 
-Route tables defines what the VPC router will do with traffic
-when data leaves that subnet.
-A VPC is created with a main route table. If you don't associate a custom
+- it is controllable with route table
+- Route tables defines what the VPC router will do with traffic when data leaves that subnet.
+- A VPC is created with a main route table. If you don't associate a custom
 route table with a subnet, it uses the main route table of the VPC.
 
-If you do associate a custom route table you create with a subnet, then the
+- If you do associate a custom route table you create with a subnet, then the
 main route table is disassociated. A subnet can only have one route table
-associated at a time, but a route table can be associated by many subnets.
+associated at a time, 
+- but a route table can be associated by many subnets.
 
 #### 1.5.5.1. Route Tables
 
 When traffic leaves the subnet that this route table is associated with, the
 VPC router reviews the IP packets looking for the destination address.
-The traffic will try to match the route against the route table. If there
-are more than one routes found as a match, the prefix is used as a priority.
+The traffic will try to match the route against the route table.
+If one route is matched that is selected but if it is matched to a route that is a network address or a more than one routes found as a match, the prefix(/16 or /32) is used as a priority.
 The higher the prefix, the more specific the route, thus higher priority.
+
+- after route match the target will say local or simething else
 If the target says local, that means the destination is in the VPC itself.
 Local route can never be updated, they're always present and the local route
 always takes priority. This is the exception to the prefix rule.
@@ -3216,48 +3364,249 @@ A managed service that allows gateway traffic between the VPC and the internet
 or AWS Public Zones (S3, SQS, SNS, etc.)
 
 - Regional resilient gateway attached to a VPC.
-- One IGW will cover all AZ's in a region the VPC is using.
+- no IGW for each AZ, One IGW will cover all AZ's in a region the VPC is using.
 - A VPC can have either:
   - No IGW and be entirely private.
   - One IGW
 - IGW can be created and attached to no VPC.
-- Runs from within the AWS public zone.
+- but can only be attached to one VPC at a time
+- the IGW runs from the border of the VPC of the AWS public zone which allows instances or services in VPC assigned with the Public IP addresses to communicate the AWS public zone or the internet or to be communicated from the internet
+
+* * * *
+
+> To allow instances in your VPC to communicate with the internet, you need to attach an **Internet Gateway (IGW)** to the **VPC** and configure the **route tables** to ensure that the traffic is correctly routed. Here's how you can **create and assign an Internet Gateway (IGW)** and **configure the route table** for the VPC subnet.
+
+### **Steps to Create and Assign an Internet Gateway (IGW) and Configure Route Table:**
+
+* * * * *
+
+### **1\. Create an Internet Gateway (IGW)**
+
+1.  **Open the VPC Console**:
+
+    -   Go to the **VPC Dashboard** in the AWS Management Console.
+2.  **Create an Internet Gateway**:
+
+    -   In the **VPC Dashboard**, on the left side, click on **Internet Gateways** under **Virtual Private Cloud**.
+    -   Click on the **Create internet gateway** button.
+3.  **Name the Internet Gateway** (optional):
+
+    -   Give the **Internet Gateway** a name for easy identification.
+    -   For example: **MyInternetGateway**.
+4.  **Create the IGW**:
+
+    -   Click **Create** to create the Internet Gateway.
+
+* * * * *
+
+### **2\. Attach the Internet Gateway to the VPC**
+
+Once the **Internet Gateway** is created, you need to **attach it** to your **VPC**.
+
+1.  **Select the IGW**:
+
+    -   In the **Internet Gateways** section of the VPC dashboard, select the **Internet Gateway** that you just created.
+2.  **Attach to VPC**:
+
+    -   Click on the **Actions** button at the top and select **Attach to VPC**.
+    -   In the dialog box, select the **VPC** you want to attach the IGW to (typically the default VPC or your custom VPC).
+    -   Click **Attach**.
+
+* * * * *
+
+### **3\. Update Route Table to Enable Internet Access**
+
+After attaching the **Internet Gateway** to the VPC, you need to configure the **route table** for the subnets that require **internet access**.
+
+1.  **Open the Route Tables**:
+
+    -   Go to the **Route Tables** section in the VPC dashboard.
+2.  **Select the Route Table for the Subnet**:
+
+    -   Choose the route table associated with the subnet where you want to provide **internet access** (typically the **public subnet**). By default, this might be the **main route table** for the VPC.
+3.  **Edit Routes**:
+
+    -   Click on the **Routes** tab and then click on the **Edit routes** button.
+4.  **Add a Route for Internet Traffic**:
+
+    -   Click **Add route**.
+    -   In the **Destination** field, enter `0.0.0.0/0` for IPv4 traffic or `::/0` for IPv6 traffic to indicate the default route for all internet-bound traffic.
+    -   In the **Target** field, select **Internet Gateway** (IGW) from the dropdown list.
+    -   Choose the **Internet Gateway** you created (for example, **MyInternetGateway**).
+5.  **Save the Route**:
+
+    -   Click **Save routes** to apply the changes.
+
+    Now, any traffic destined for the **internet** from this subnet will be routed through the **Internet Gateway**.
+
+* * * * *
+
+### **4\. Ensure Security Group and NACL Configuration**
+
+For instances in the **subnet** to access the internet, ensure the following:
+
+-   **Security Groups**:
+
+    -   Your instance's **Security Group** should allow **outbound traffic** to the internet. By default, security groups allow all outbound traffic.
+    -   If you have custom security groups, ensure that they allow outbound traffic on ports like **HTTP (80)** and **HTTPS (443)**.
+-   **Network Access Control Lists (NACLs)**:
+
+    -   Ensure that the **NACLs** associated with the subnet do not block outbound internet traffic. The default NACL allows all inbound and outbound traffic, but if you have custom NACLs, make sure to permit **inbound and outbound traffic** on the required ports.
+
+* * * * *
+
+### **5\. Assign Public IP (for EC2 Instances)**
+
+-   If you want your **EC2 instances** in the **public subnet** to have direct internet access, you need to ensure that they are assigned **public IP addresses**.
+-   When launching **EC2 instances**, choose the **Auto-assign Public IP** option to ensure that they receive a **public IPv4 address** (for IPv4 traffic) or **public IPv6 address** (for IPv6 traffic).
+
+* * * * *
+
+### **Summary of Steps**:
+
+1.  **Create an Internet Gateway (IGW)** in the **VPC Console**.
+2.  **Attach the IGW** to the **VPC**.
+3.  **Update the route table** associated with the **public subnet** to route traffic to the IGW.
+    -   For IPv4: Add `0.0.0.0/0` route pointing to the **Internet Gateway**.
+    -   For IPv6: Add `::/0` route pointing to the **Internet Gateway**.
+4.  Ensure **Security Groups** and **NACLs** allow the necessary internet-bound traffic.
+5.  Assign **public IPs** to the EC2 instances that need internet access.
+
+* * * * *
+
+### **Example Route Table (for Public Subnet)**
+
+| Destination | Target |
+| --- | --- |
+| `10.0.0.0/16` | **Local** |
+| `0.0.0.0/0` | **Internet Gateway** |
+| `::/0` | **Internet Gateway** |
+
+* * * * *
+
+### **Exam Power-Up**:
+
+-   **Internet Gateway**: To allow internet access for instances in a VPC, you need to **attach an Internet Gateway** (IGW) to the VPC.
+-   **Route Tables**: Ensure that the **route table** of your **public subnet** includes a route for `0.0.0.0/0` (IPv4) or `::/0` (IPv6) pointing to the **Internet Gateway**.
+-   **Security**: Check **Security Groups** and **NACLs** to allow internet-bound traffic and ensure proper configuration for outbound connections.
+
+
 
 #### 1.5.5.3. Using IGW
 
-In this example, an EC2 instance has:
+Let's break down this example to understand how **Network Address Translation (NAT)** works when an EC2 instance with both **private and public IP addresses** communicates with the internet via an **Internet Gateway (IGW)**.
 
-- Private IP address of 10.16.16.20
-- Public address of 43.250.192.20
+---
 
-The public address is not public and connected to the EC2 instance itself.
-Instead, the IGW creates a record that links the instance's private IP
-to the public IP. This is why when an EC2 instance is created it only
-sees the private IP address. This is IMPORTANT. For IPv4 it is not configured
-in the OS with the public address.
+### **Scenario Overview:**
+- You have an EC2 instance with the following configuration:
+  - **Private IP**: `10.16.16.20`
+  - **Public IP**: `43.250.192.20`
+- The **public IP address** (`43.250.192.20`) is not directly connected to the EC2 instance. Instead, the **Internet Gateway (IGW)** manages the communication and **NATs** the traffic between the **private IP address** and the **public IP address**.
+  
+### **Step-by-Step Breakdown**:
 
-When the linux instance wants to communicate with the linux update service,
-it makes a packet of data.
-The packet has a source address of the EC2 instance and a destination address
-of the linux update server. At this point the packet is not configured with
-any public addressing and could not reach the linux update server.
+---
 
-The packet arrives at the internet gateway.
+### **1. EC2 Instance's Private IP Address**
 
-The IGW sees this is from the EC2 instance and analyzes the source IP address.
-It changes the packet source IP address from the linux EC2 server and puts
-on the public IP address that is routed from that instance. The IGW then
-pushes that packet on the public internet.
+- The EC2 instance has a **private IP address** of `10.16.16.20`, which is used for **communication within the VPC**.
+- When the EC2 instance sends traffic to the internet (e.g., to fetch a Linux update), it uses its **private IP address** (`10.16.16.20`) as the **source address** in the packet.
+- **Important**: The **private IP address** (`10.16.16.20`) is **not routable** on the **public internet** because private IP ranges (like `10.0.0.0/8`, `192.168.0.0/16`) are not visible to the internet. This is where the **Internet Gateway (IGW)** comes into play.
 
-On the return, the inverse happens. As far as it is concerned, it does not know
-about the private address and instead uses the instance's public IP address.
+---
 
-If the instance uses an IPv6 address, that public address is good to go. The IGW
-does not translate the packet and only pushes it to a gateway.
+### **2. EC2 Sends a Request to the Linux Update Server**
+
+- The EC2 instance wants to communicate with a **Linux update server** on the internet. It creates a **packet** with the following details:
+  - **Source IP**: `10.16.16.20` (the private IP of the EC2 instance)
+  - **Destination IP**: The **IP address** of the Linux update server (e.g., `ubuntu.com`).
+
+- At this point, the packet's source IP address is still the EC2 instance’s **private IP** (`10.16.16.20`), which cannot be routed on the internet.
+
+- the destination address is checked on the route table when it doesnot match any local it is routed to the default address 0.0.0.0 which is connected to the IGW
+---
+
+### **3. Internet Gateway (IGW) Modifies the Packet**
+
+- The **packet** from the EC2 instance is sent to the **Internet Gateway (IGW)**, which is attached to the VPC.
+  
+- The **IGW** checks the **private IP address** (`10.16.16.20`) in the packet. Since the **private IP** cannot be routed on the internet, the **IGW** performs **Network Address Translation (NAT)**.
+  - The **IGW** **replaces** the **private IP address** (`10.16.16.20`) in the packet header with the **public IP address** (`43.250.192.20`) of the EC2 instance.
+  - The modified packet now has:
+    - **Source IP**: `43.250.192.20` (the public IP address of the EC2 instance)
+    - **Destination IP**: `ubuntu.com` (the IP address of the Linux update server)
+
+- The **IGW** forwards the modified packet to the internet, where it is **routed** to the Linux update server.
+
+---
+
+### **4. Linux Update Server Responds**
+
+- The **Linux update server** (e.g., `ubuntu.com`) receives the request from the EC2 instance and sends back the **response** (e.g., the updated Linux package).
+  - The **destination IP** of the server’s response is `43.250.192.20`, which is the **public IP** of the EC2 instance.
+
+- Since the response is sent to the **public IP address** (`43.250.192.20`), it can be routed back through the **internet**.
+
+---
+
+### **5. IGW Receives the Response and Modifies the Packet**
+
+- The response packet arrives at the **Internet Gateway (IGW)**.
+  - The **IGW** recognizes that the destination IP address is the **public IP address** of the EC2 instance (`43.250.192.20`), and it knows that the EC2 instance uses this **public IP** for outbound traffic.
+  
+- The **IGW** **modifies the packet** again:
+  - It replaces the **destination IP** (`43.250.192.20`) with the **private IP address** (`10.16.16.20`) of the EC2 instance.
+  - Now, the packet is ready to be sent to the EC2 instance, using its **private IP** (`10.16.16.20`).
+
+---
+
+### **6. EC2 Instance Receives the Response**
+
+- The response packet is forwarded to the EC2 instance with the destination IP address of its **private IP** (`10.16.16.20`).
+- The EC2 instance processes the response (e.g., the Linux update is applied).
+
+---
+
+### **What Happens with IPv6?**
+
+If the EC2 instance uses an **IPv6 address**, the process is slightly different:
+- The **Internet Gateway (IGW)** does not perform **NAT** for **IPv6** addresses because **IPv6 addresses are globally routable**.
+  - **IPv6 packets** can directly communicate with the **internet** without needing to be modified by the IGW.
+  - The EC2 instance can communicate directly with the internet using its **public IPv6 address**.
+
+---
+
+### **Key Points in This Example**:
+
+- **NAT by IGW**: The **Internet Gateway (IGW)** **replaces** the **private IP address** of the EC2 instance (`10.16.16.20`) with its **public IP address** (`43.250.192.20`) when the instance sends traffic to the internet.
+- **Private IP Visibility**: The **private IP address** (`10.16.16.20`) is **not visible** on the public internet. Only the **public IP address** (`43.250.192.20`) is seen by external servers.
+- **Internet Gateway (IGW)**: The **IGW** facilitates this translation (NAT) and ensures that **inbound and outbound** traffic for the EC2 instance is properly routed.
+- **IPv6**: For **IPv6**, the **IGW does not modify the packet**. The EC2 instance can use its **public IPv6 address** directly for internet communication.
+
+---
+
+### **Summary of the Process:**
+
+1. The EC2 instance creates a packet using its **private IP address** (`10.16.16.20`).
+2. The packet is sent to the **Internet Gateway (IGW)**.
+3. The **IGW** replaces the **private IP** with the **public IP** (`43.250.192.20`) and forwards it to the internet.
+4. The internet server responds to the **public IP** (`43.250.192.20`).
+5. The **IGW** receives the response and **replaces the public IP** with the **private IP** (`10.16.16.20`).
+6. The EC2 instance receives the response and processes the update.
+
+---
+
+### **Exam Power-Up**:
+- **NAT by IGW**: The **Internet Gateway (IGW)** performs **NAT** by replacing the **private IP** of the EC2 instance with the **public IP** when it communicates with the internet.
+- **IPv6**: With **IPv6**, the **IGW** does not need to perform NAT, as **IPv6 addresses** are globally routable.
+- **Security**: The **private IP** of an EC2 instance is **never exposed** to the public internet, and only the **public IP** is visible to external servers.
+
+Let me know if you need any more details or examples!
 
 #### 1.5.5.4. Bastion Host / Jumpbox
 
-It is an instance in a public subnet inside a VPC.
+Essetially It is an instance in a public subnet inside a VPC.
 These are used to allow incoming management connections.
 Once connected, you can then go on to access internal only VPC resources.
 Used as a management point or as an entry point for a private only VPC.
@@ -3266,6 +3615,15 @@ This is an inbound management point. Can be configured to only allow
 specific IP addresses or to authenticate with SSH. It can also integrate
 with your on premise identification service.
 
+It is like only entry point to your private VPC only way to communicate the VPC
+
+***
+
+So this is what we have now, three web subnets enabled to have a public IPv4 assigned to any instances launched in them and have a IGW attached to the VPC and then a route table associated to the three web subnets replacing the default main route table, the new route table has default ipv4 and ipv6 routes pointing to IGW
+
+![alt text](<17-VPC-Advanced/Screenshot 2025-03-22 at 6.56.27 pm.png>)
+
+***
 ### 1.5.6. Network Access Control List (NACL)
 
 Network Access Control Lists (NACLs) are a type of security filter
