@@ -3629,15 +3629,17 @@ So this is what we have now, three web subnets enabled to have a public IPv4 ass
 Network Access Control Lists (NACLs) are a type of security filter
 (like firewalls) which can filter traffic as it enters or leaves a subnet.
 
+NACLs are stateless firewall(no memory of request and response, request is usually from an ephermal port to the dedicated port and response is from a dedicated port to ephermal port and since we are unaware of what that ephermal port could be we have to allow outbond to All from the server perspective)
+
 All VPCs have a default NACL, this is associated with all subnets of that VPC
-by default.
+by default, every subnet has a NACL
 NACLs are used when traffic enters or leaves a subnet.
 Since they are attached to a subnet and not a resource, they only filter
-data as it crosses in or out.
-If two EC2 instances in a VPC communicate, the NACL does nothing because
+data as it crosses in or out. Connections within the subnet are not effected
+If two EC2 instances in a Subnet communicate, the NACL does nothing because
 it is not involved.
 
-NACLs have an inbound and outbound sets of rules.
+NACLs have an inbound (effect incoming data) and outbound(effect outgoing) sets of rules.
 
 When a specific rule set has been called, the one with the lowest
 rule number first.
@@ -3654,14 +3656,13 @@ Each rule has the following fields related to traffic
 - Inbound rule: Source - who traffic is from
 - Outbound rule: Destination - who traffic is destined to
 
-Examples:
+> Examples port numbers
+> - ssh: tcp port 22
+> - http: tcp port 80
+> - https: tcp port 443
+> - ping traffic: icmp
 
-- ssh: tcp port 22
-- http: tcp port 80
-- https: tcp port 443
-- ping traffic: icmp
-
-If all of those fields match, then the first rule will either allow or deny.
+the rules are checked in order. If more than one rule match, then the first rule will be prioritized  either allow or deny.
 
 The rule at the bottom with `*` is the **implicit deny**
 This cannot be edited and is defaulted on each rule list.
@@ -3674,18 +3675,23 @@ If no other rules match the traffic being evaluated, it will be denied.
 - All IP communication has two parts
   - Initiation
   - Response
-- Bob is initiating a connection to the server to ask for a webpage
-- Server will respond with an **Ephemeral** port
+- Bob is initiating a connection to the server to ask for a webpage to a dedicated from ephermal port
+- Server will respond to an **Ephemeral** port
 - Bob talks to the webserver connecting to a port on that server (tcp/443)
   - This is a well known port number
-- Bob's PC tells the server it can talk to back to Bob on a specific port
-  - Wide range from port 1024, 65535
-  - That response is outbound traffic
+- Bob's PC tells the server it can talk to back to Bob on a specific **Ephemeral** port
+  - Wide range from port 1024, 65535 which Bob's laptop will choose at random
+  - That response is outbound traffic for the server
 - When using NACLs, you must add an outbound port for the response traffic
 as well as the inbound port. This is the ephemeral port.
 - If the webserver is not managing the apps server, it may communicate
 back on a different port.
 - This back and forth communication can be hard to configure for.
+
+- Inbound from the webserver:
+  
+HTTPS | TCP | 443 | 0.0.0.0/0 | Allow
+
 
 #### 1.5.6.2. NACL Exam PowerUp
 
