@@ -4120,21 +4120,143 @@ Once the peering connection is established and the route tables and security gro
 Set of different processes that can address IP packets by changing
 their source or destination addresses.
 
-**IP masquerading**, hides CIDR block behind one IP. This allows many IPv4
+**IP masquerading**, hides CIDR block behind one IP. Only one public IP for many private IPs. 
+
+This allows many IPv4
 addresses to use one public IP for **outgoing** internet access.
 Incoming connections don't work. Outgoing connections can get a response
 returned.
 
+### **NAT Gateway in AWS**
+
+A **NAT Gateway (Network Address Translation Gateway)** is a managed **AWS service** that allows **instances in private subnets** within a **VPC** to access the **internet** or **AWS public services** (such as **S3** or **EC2** metadata) while **keeping their private IP addresses hidden** from the public internet.
+
+#### **How NAT Gateway Works**:
+
+-   **Outbound Traffic**: NAT Gateway allows **private instances** in a **private subnet** to initiate **outbound traffic** to the **internet** (such as accessing S3 buckets or downloading updates) by **translating** their **private IP addresses** to a **public IP address**.
+-   **Inbound Traffic**: However, **NAT Gateway only supports one-way communication**, meaning **private instances** can access the internet, but the internet **cannot initiate connections** to private instances. This is because the NAT Gateway only **modifies the source IP** for outgoing traffic, so responses are routed back through the NAT Gateway and sent to the private instance.
+
+### **Key Characteristics of NAT Gateway**:
+
+1.  **Private Instances Can Access the Internet**:
+
+    -   Instances in private subnets use the **NAT Gateway** to access public resources such as **S3**, **EC2**, or **software updates**.
+    -   The **NAT Gateway** provides a **public IP address** for the outgoing requests, but the **private IP address** of the instance remains hidden.
+2.  **One-Way Communication**:
+
+    -   NAT Gateway allows **outbound communication** from **private instances** to the internet, but **it does not allow inbound communication** from the internet to the private instance.
+3.  **Highly Available**:
+
+    -   A **NAT Gateway** is a **managed AWS service** that is **highly available** within an Availability Zone (AZ). However, to make it **AZ-resilient**, you would typically deploy a **NAT Gateway in each AZ** where private subnets exist.
+4.  **Cost**:
+
+    -   NAT Gateways incur charges based on the **amount of data processed** and the **duration the NAT Gateway is running**.
+
+* * * * *
+
+### **Difference Between NAT Gateway, IGW, Static NAT, and IP Masquerading**
+
+Here's a comparison of **NAT Gateway** with other networking technologies:
+
+| **Feature** | **NAT Gateway** | **Internet Gateway (IGW)** | **Static NAT** | **IP Masquerading** |
+| --- | --- | --- | --- | --- |
+| **Purpose** | Allows private instances to access the internet | Allows public and private instances to access the internet | Maps a single public IP to a single private IP | Hides the private IP addresses of instances by replacing them with a public IP |
+| **One-way Communication** | **Yes** -- Outbound traffic only | **Yes** -- Both inbound and outbound traffic | **No** -- Bi-directional traffic (1:1 mapping) | **Yes** -- Outbound traffic only (commonly used in firewalls) |
+| **Network Address Translation** | **Dynamic (uses a pool of IPs)** | **None (used for direct access)** | **Static (1:1 mapping)** | **Dynamic (replaces private IP with a public IP)** |
+| **Used For** | Private instances needing internet access | Public instances needing internet access | Mapping a single public IP to a private IP | Hiding private IP addresses for outbound traffic |
+| **Traffic Direction** | Outbound only from private instances | Both inbound and outbound | Bi-directional (static mapping) | Outbound traffic only |
+| **Scale** | Scales automatically but may incur higher costs for high traffic | Doesn't scale in the same way, tied to the VPC | Manual configuration and typically limited by NAT size | Typically used in firewalls or low-traffic situations |
+| **Availability** | Highly available within an Availability Zone | Must be manually configured and associated with a VPC | Not a managed service in AWS; requires custom setup | Often configured in custom firewalls or EC2 instances |
+
+* * * * *
+
+### **Use Case: Private Instances in a Private Subnet Needing Internet Access**
+
+Let's assume you have an AWS setup where:
+
+-   **Private Subnet**: Contains EC2 instances (e.g., application servers) that **need access to the internet** to **download software updates**, **fetch patches**, or **access public services** like **AWS S3**.
+-   **Public Subnet**: Contains a **NAT Gateway** that provides internet access to instances in the private subnet.
+-   **Internet Gateway (IGW)**: The **NAT Gateway** in the public subnet uses the **Internet Gateway** to send traffic to the internet.
+
+#### **Step-by-Step Process for Internet Access via NAT Gateway**:
+
+1.  **Private Subnet**:
+
+    -   EC2 instances in the **private subnet** (e.g., `10.0.2.0/24`) are not directly connected to the internet.
+    -   These instances **need access to the internet** to download software updates from an external repository (e.g., Linux updates or application dependencies).
+2.  **Public Subnet**:
+
+    -   In the **public subnet** (e.g., `10.0.1.0/24`), you have a **NAT Gateway** with a **public IP address**. The NAT Gateway is used to route outbound traffic from the **private subnet** to the internet.
+    -   The **Internet Gateway (IGW)** is attached to the VPC, allowing the **NAT Gateway** to send traffic to the **AWS public zone** (e.g., **S3** buckets or internet sites).
+3.  **NAT Gateway Setup**:
+
+    -   The **NAT Gateway** allows **instances in the private subnet** to access the internet **via the public IP of the NAT Gateway**.
+    -   The **private instances** initiate requests to the **NAT Gateway**, which then **translates the private IP addresses** to the **public IP address** of the NAT Gateway for internet-bound traffic.
+4.  **Route Table Configuration**:
+
+    -   **Private Subnet Route Table**:
+        -   All traffic destined for the internet (`0.0.0.0/0`) is routed through the **NAT Gateway** in the **public subnet**.
+    -   **Public Subnet Route Table**:
+        -   The **NAT Gateway** routes traffic to the **Internet Gateway (IGW)** to access the internet.
+5.  **Communication**:
+
+    -   The private EC2 instance sends a request (e.g., to download software) to the **NAT Gateway**.
+    -   The **NAT Gateway** replaces the private IP address with its public IP and sends the request to the **Internet Gateway**.
+    -   The **Internet Gateway** forwards the request to the **AWS public zone** (e.g., **S3** or external service).
+    -   The requested data or software updates are returned to the **NAT Gateway**.
+    -   The **NAT Gateway** sends the response back to the private EC2 instance, with the private IP address of the EC2 instance used for routing the return traffic.
+
+#### **Architecture Diagram**:
+
+```
+|----------------------|              |----------------------|              |------------------|
+| Private Subnet       |              | Public Subnet        |              | AWS Public Zone |
+| (EC2 Instances)      | <--------->  | (NAT Gateway)        | <------->     | (S3, Internet)  |
+| (Private IPs)        |              | (Public IP)          |              |------------------|
+|----------------------|              |----------------------|
+    ↑  (Outbound)               ↑ (NAT Traffic)               ↑ (Internet Access)
+    (Software Update)           (Internet Gateway)
+
+```
+
+![alt text](<17-VPC-Advanced/Screenshot 2025-03-23 at 4.05.09 pm.png>)
+
+
+* * * * *
+
+### **Key Points:**
+
+-   **One-Way Communication**: With a **NAT Gateway**, **private instances** in private subnets can **access the internet** for tasks like **software updates** or **downloading files**. However, **the internet cannot initiate connections** to the private instances.
+-   **NAT Gateway vs IGW**: While an **Internet Gateway (IGW)** provides **two-way communication** (allowing instances in public subnets to both send and receive traffic from the internet), a **NAT Gateway** is used only for **one-way communication** from **private subnets to the internet**.
+-   **Use Case**: Private instances requiring internet access for **software updates** can use a **NAT Gateway** in a public subnet, which in turn uses the **Internet Gateway (IGW)** to connect to the public AWS zone (e.g., **S3**).
+
+* * * * *
+
+### **Exam Power-Up**:
+
+-   **NAT Gateway**: A **NAT Gateway** allows private instances to access the internet, but it **does not allow** the internet to initiate connections to private instances. It is used primarily for **one-way communication**.
+-   **Internet Gateway (IGW)**: A **NAT Gateway** uses an **Internet Gateway (IGW)** to route traffic to public AWS services (like **S3**).
+-   **Private Subnet Internet Access**: When private instances need internet access (for updates or services), you use a **NAT Gateway** located in a **public subnet** with access to the **Internet Gateway**.
+
+
+
+## **Facts**
+
+- It is initialised in a public Subnet since it would need a Public IP
 - Must run from a public subnet to allow for public IP address.
   - Internet Gateway subnets configure to allocate public IPv4 addresses
   and default routes for those subnets pointing at the IGW.
 - Uses Elastic IPs (Static IPv4 Public)
   - Don't change
   - Allocated to your account
-- AZ resilient service , but HA in that AZ.
+  
+- <span style='color:red'>!Important:</span> AZ resilient service , but HA in that AZ.
   - If that AZ fails, there is no recovery.
 - For a fully region resilient service, you must deploy one NATGW in each AZ
-with a Route Table in each AZ with NATGW as target.
+with a Route Table for private subnets in each AZ with NATGW as target.
+- IG is fully resiliant.
+- It can get costly with more AZ
+- They are managed by AWS, you can add more than one NAT in a single public subnet and can have private subnets route table to route to them seperately to increase the bandwidth
 - NAT instance is limited by capabilities of the instance it is running on and that instance is also general purpose, so won't offer the same level of custom design performance as NAT Gateway.
 - NAT instance is single instance running in single AZ it'll fail if EC2 hardware fails, network fails, storage fails or AZ itself fails.
 - NAT Gateway has benefit over NAT instance, inside one AZ it is highly available.
@@ -4149,6 +4271,19 @@ bandwidth.
 
 NATGW cannot do port forwarding or be a bastion server. In that case it might
 be necessary to run a NAT EC2 instance instead.
+
+Fully resiliant NAT Gateway
+
+![alt text](<17-VPC-Advanced/Screenshot 2025-03-23 at 4.39.22 pm.png>)
+
+
+using EC2 as NAT instance is not recommandabe but possible if you want a cheap option
+
+![alt text](<17-VPC-Advanced/Screenshot 2025-03-23 at 4.31.36 pm.png>)
+
+IPv6 does not make sense with NAT since they are publically routable by default, if you still want to use it you can route the default to NAT and then to IG but not required
+
+![alt text](<17-VPC-Advanced/Screenshot 2025-03-23 at 4.38.22 pm.png>)
 
 ---
 
