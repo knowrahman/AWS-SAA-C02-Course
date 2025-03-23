@@ -4305,6 +4305,17 @@ Servers are configured in three sections without virtualization.
   - If an app tries to interact with the hardware without a system call, it
   will cause a system error and can crash the server or at minimum the app.
 
+
+### Steps for NAT Gateway setup
+
+- Have a public Subnet (connected to IG and have public IPs allocation enabled)
+- Create a new NAT Gateway in a public Subnet being assigned an Elastic IP
+- Having an instance in a private subnet with no public IPv4 and no access to the internet
+- Create a route table to have the default route pointing to the NAT gateway in public subnet
+- Associate the new route table to the private subnet where the instance is running
+- Instance should now have an internet access.
+
+
 #### 1.6.1.1. Emulated Virtualization - Software Virtualization
 
 Host OS operated on the HW and included a hypervisor (HV).
