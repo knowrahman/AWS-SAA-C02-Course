@@ -4285,6 +4285,17 @@ IPv6 does not make sense with NAT since they are publically routable by default,
 
 ![alt text](<17-VPC-Advanced/Screenshot 2025-03-23 at 4.38.22 pm.png>)
 
+
+### Steps for NAT Gateway setup
+
+- Have a public Subnet (connected to IG and have public IPs allocation enabled)
+- Create a new NAT Gateway in a public Subnet being assigned an Elastic IP
+- Having an instance in a private subnet with no public IPv4 and no access to the internet
+- Create a route table to have the default route pointing to the NAT gateway in public subnet
+- Associate the new route table to the private subnet where the instance is running
+- Instance should now have an internet access.
+
+
 ---
 
 ## 1.6. Elastic-Cloud-Compute-EC2
@@ -4304,16 +4315,6 @@ Servers are configured in three sections without virtualization.
   - Can make a **system call** to the Kernel to interact with the hardware.
   - If an app tries to interact with the hardware without a system call, it
   will cause a system error and can crash the server or at minimum the app.
-
-
-### Steps for NAT Gateway setup
-
-- Have a public Subnet (connected to IG and have public IPs allocation enabled)
-- Create a new NAT Gateway in a public Subnet being assigned an Elastic IP
-- Having an instance in a private subnet with no public IPv4 and no access to the internet
-- Create a route table to have the default route pointing to the NAT gateway in public subnet
-- Associate the new route table to the private subnet where the instance is running
-- Instance should now have an internet access.
 
 
 #### 1.6.1.1. Emulated Virtualization - Software Virtualization
@@ -4359,16 +4360,44 @@ handles it all. In EC2 this feature is called **enhanced networking**.
 
 ### 1.6.2. EC2 Architecture and Resilience
 
-EC2 instances are virtual machines run on EC2 hosts.
+EC2 instances are virtual machines run on physical hosts on AWS datacenters.
 
-Tenancy:
+### **Types of EC2 Instances**
 
-- **Shared** - Instances are run on shared hardware, but isolated from other customers.
-- **Dedicated** - Instances are run on hardware that's dedicates to a single customer.
-  Dedicated instances may share hardware with other instances from the same AWS account
-  that are not Dedicated instances.
-- **Dedicated host** - Instances are run on a physical server fully dedicated for your use.
-  Pay for entire host, don't pay for instances.
+1.  **On-Demand Instances**:
+
+    -   **Pay-per-use**: You pay for EC2 instances by the second or hour, depending on the instance type.
+
+    -   This is flexible but generally more expensive than Reserved Instances.
+
+    -   Useful for **short-term** or **unpredictable workloads**.
+
+2.  **Reserved Instances**:
+
+    -   Reserved Instances offer a **discounted hourly rate** in exchange for a **commitment** to use EC2 for a **1- or 3-year term**.
+
+    -   You can choose between **Standard Reserved Instances** (with a long commitment) and **Convertible Reserved Instances** (which allow flexibility to change instance types).
+
+3.  **Spot Instances**:
+
+    -   **Unused EC2 capacity** is available at a **discounted price** compared to On-Demand pricing.
+
+    -   Spot Instances can be **terminated by AWS** if the demand for resources increases.
+
+    -   Useful for **fault-tolerant applications** and **big data processing**.
+
+4.  **Dedicated Hosts**:
+
+    -   EC2 instances run on **dedicated physical servers** rather than shared infrastructure.
+
+    -   **Licensing**: You can bring your own **licenses** for software (such as Windows or SQL Server) and optimize costs.
+
+5.  **Dedicated Instances**:
+
+    -   Similar to **Dedicated Hosts**, but the instance is not **tied to a physical host**.
+
+    -   Instances are physically isolated but still run in a shared **rack**.
+
 
 - AZ resilient service. They run within only one AZ system.
   - You can't access them cross zone.
@@ -4385,13 +4414,292 @@ within the same AZ.
   - Storage networking
   - Data networking
 
-EC2 Networking (ENI)
+### EC2 Networking (ENI)
 
 When instances are provisioned within a specific subnet within a VPC
 A primary elastic network interface is provisioned in a subnet which
 maps to the physical hardware on the EC2 host. Subnets are also within
 one specific AZ. Instances can have multiple network interfaces, even within
 different subnets so long as they're within the same AZ.
+
+### **Elastic Network Interface (ENI) in AWS**
+
+An **Elastic Network Interface (ENI)** is a **virtual network interface** that can be attached to an **EC2 instance** in **Amazon Web Services (AWS)**. It provides a way to connect your EC2 instances to your **VPC** (Virtual Private Cloud), and it supports a wide variety of networking configurations, enabling complex architectures such as multi-network interfaces or highly available systems.
+
+### **Key Concepts of ENI**
+
+-   **Virtual Network Interface**: An ENI acts as a virtual network adapter, much like a physical network card that you would attach to an on-premise server.
+-   **Can Be Attached to EC2 Instances**: ENIs are attached to **EC2 instances** within a **VPC**, enabling the instance to communicate over the network.
+-   **Supports Multiple IPs**: An ENI can have multiple IP addresses (both **IPv4** and **IPv6**) and support **multiple private IP addresses**, making it a flexible and powerful networking tool.
+-   **Highly Configurable**: You can attach or detach ENIs from instances, assign Elastic IPs (EIP), configure security groups, and even create them separately from EC2 instances.
+
+### **Types of ENIs**
+
+1.  **Primary ENI** (Primary Network Interface):
+
+    -   Every EC2 instance comes with a **primary ENI**, which is automatically created when the instance is launched.
+    -   The primary ENI is always **attached to the instance** and typically has a **private IP address**.
+    -   It is the **default network interface** used by the EC2 instance for network communication.
+2.  **Secondary ENI** (Additional Network Interface):
+
+    -   You can attach additional **secondary ENIs** to your EC2 instances for advanced networking configurations, such as **multiple network interfaces** or separating traffic based on its purpose (e.g., management, data, etc.).
+    -   Secondary ENIs allow you to have multiple **private IP addresses** and **multiple security groups**.
+
+* * * * *
+
+### **Key Features of ENIs**
+
+1.  **Multiple Private IPs**:
+
+    -   You can assign **multiple private IP addresses** to a single ENI. This can be useful for multi-homing (assigning multiple addresses to the same instance), hosting multiple websites, or managing network segmentation.
+2.  **Elastic IP (EIP)**:
+
+    -   **Elastic IPs** can be assigned to an ENI (secondary network interface) to provide a **static, public IP** address for communication with the internet.
+    -   You can associate or disassociate an EIP with an ENI at any time.
+3.  **Security Groups**:
+
+    -   Each **ENI** can be associated with one or more **security groups**, which define the traffic allowed to and from the interface.
+    -   You can use different security groups for the primary ENI and secondary ENIs to isolate traffic for different purposes (e.g., management traffic vs. data traffic).
+4.  **Network Isolation**:
+
+    -   You can configure **multiple ENIs** within a **VPC** to create **network isolation**. For instance, you could have one ENI for private communication (internal network) and another for public-facing traffic (internet or external network).
+5.  **Static Routing**:
+
+    -   ENIs can be used in **static routing** configurations. You can route traffic between different ENIs, create **subnet-to-subnet communication**, or even create **highly available systems** with failover capabilities by attaching ENIs to different instances.
+6.  **Attachment and Detachment**:
+
+    -   ENIs can be **attached** to and **detached** from EC2 instances at runtime. This provides flexibility in reconfiguring network setups or moving network interfaces between instances in the event of failure.
+7.  **IPv6 Support**:
+
+    -   ENIs support **IPv6 addresses** as well. This allows you to assign **IPv6 addresses** to EC2 instances in a VPC and communicate over **IPv6** with both private and public resources.
+
+* * * * *
+
+
+### **Use Cases of ENIs**
+
+1.  **Multi-Homed Instances**:
+
+    -   You can assign **multiple ENIs** to an instance to segregate network traffic between different types of communication, such as separating management traffic from application traffic or isolating **private subnets** from **public subnets**.
+2.  **High Availability**:
+
+    -   By attaching **secondary ENIs** to your EC2 instance and assigning **Elastic IPs** (EIP) to them, you can implement **high availability** architectures where **failover** occurs if one ENI or instance becomes unavailable.
+3.  **Multiple Security Groups**:
+
+    -   When an instance has **multiple ENIs**, each ENI can be assigned **different security groups**. This allows you to configure **granular access control** for specific traffic types (e.g., internal management traffic can have one set of security group rules, and public-facing web traffic can have another).
+4.  **Virtual Private Gateways**:
+
+    -   You can create **VPN connections** between on-premises environments and AWS. The **secondary ENI** can be used for the **VPN traffic**, keeping it separate from the rest of the instance's data traffic.
+5.  **Elastic Load Balancer (ELB)**:
+
+    -   If you use an **Application Load Balancer (ALB)** or **Network Load Balancer (NLB)**, instances can have multiple **secondary ENIs** and be part of a load balancing configuration with **separate security groups** to isolate the management and public-facing traffic.
+6.  **Network Security**:
+
+    -   Using **ENIs** with separate security groups, you can ensure that **internal communication** between EC2 instances in a private subnet is restricted and isolated from public-facing traffic.
+
+* * * * *
+
+### **EC2 ENI Exam Power-Up**:
+
+-   **ENI (Elastic Network Interface)**: A virtual network interface attached to EC2 instances for managing network traffic.
+-   **Primary ENI**: The default network interface for an EC2 instance, with the instance's **primary private IP**.
+-   **Secondary ENI**: Additional network interfaces attached to instances for specialized traffic and multi-homing (more than one network).
+-   **Elastic IPs** can be assigned to secondary ENIs for **public internet access**.
+-   **Security Groups** can be assigned to individual **ENIs**, allowing flexible control over network access for different traffic types.
+
+
+***
+
+### **Ways to Connect to an EC2 Instance**
+
+You can connect to an **Amazon EC2 instance** in several ways depending on the operating system, configuration, and whether the instance has a **GUI**. Let's break down the different methods for connecting to an EC2 instance and go through **SSH setup** (for Linux/Unix-based systems) and **RDP (Remote Desktop Protocol)** (for Windows-based systems).
+
+### **1. SSH (Secure Shell) - For Linux/Unix-based EC2 Instances**
+
+**SSH** is a **secure method** for accessing Linux/Unix-based EC2 instances. It is the most commonly used method for managing EC2 instances running **Linux-based operating systems** (e.g., Ubuntu, Amazon Linux, CentOS).
+
+#### **Prerequisites for SSH Setup**:
+1. **Key Pair**: 
+   - When you launch an EC2 instance, you must associate an **SSH key pair** with the instance. The key pair consists of a **public key** (stored by AWS) and a **private key** (stored securely by you).
+   - You will need the **private key** file (`.pem`) to connect to the instance via SSH.
+   
+2. **Public IP or Elastic IP**: 
+   - The instance must have a **public IP address** (either automatically assigned or an **Elastic IP**) if you intend to connect from outside AWS. 
+   - If the instance is in a **private subnet**, you cannot directly SSH into it unless there is a **bastion host** (jump box) or a **VPN** that connects you to the VPC.
+
+3. **Security Group**:
+   - Ensure the EC2 instance’s **Security Group** allows **inbound SSH traffic on port 22** from your IP address (or IP range). If you're unsure, you can allow all IPs (`0.0.0.0/0`) temporarily, but it's **highly recommended** to restrict access to only trusted IP addresses.
+
+4. **Private Key File (.pem)**:
+   - You need the **private key file** (the `.pem` file) that was generated when the key pair was created. This private key allows you to authenticate securely to the EC2 instance.
+
+#### **SSH Steps**:
+1. **Ensure your private key file has the correct permissions**:
+   ```bash
+   chmod 400 /path/to/your-key.pem
+   ```
+   This ensures that your private key file is not publicly viewable by others.
+
+2. **Connect to the instance** using the **SSH command**:
+   - The basic SSH command format is:
+     ```bash
+     ssh -i /path/to/your-key.pem ec2-user@<Public_IP_of_Your_Instance>
+     ```
+     - Replace `/path/to/your-key.pem` with the path to your **private key file**.
+     - Replace `<Public_IP_of_Your_Instance>` with the **public IP address** of your EC2 instance.
+     - For **Ubuntu** instances, the default user is `ubuntu` instead of `ec2-user`:
+       ```bash
+       ssh -i /path/to/your-key.pem ubuntu@<Public_IP_of_Your_Instance>
+       ```
+
+3. **Accept the prompt** to connect and add the instance to your known hosts (first-time connection).
+
+4. You should now be logged into your EC2 instance and have a **command-line interface** to interact with it.
+
+#### **Common SSH Issues**:
+- **Permission Denied (publickey)**: This typically occurs if your **private key** is not associated with the EC2 instance, or the instance is not correctly configured to allow SSH.
+  - Double-check that you're using the correct **key pair** and ensure the **Security Group** allows SSH traffic.
+- **Timeouts**: This may indicate a network issue, such as the EC2 instance not having a **public IP address** or the **Security Group** blocking your connection.
+
+---
+
+### **2. RDP (Remote Desktop Protocol) - For Windows EC2 Instances**
+
+**RDP** is the primary method for connecting to **Windows-based EC2 instances**. With RDP, you get full access to the **Windows GUI** (Graphical User Interface) of the EC2 instance.
+
+#### **Prerequisites for RDP Setup**:
+
+1. **Key Pair**:
+   - When launching a Windows EC2 instance, you still need to use an **SSH key pair** to retrieve the **Administrator password** for the instance.
+
+2. **Public IP or Elastic IP**:
+   - Similar to SSH, the Windows instance needs to have a **public IP** (or **Elastic IP**) assigned, and the **Security Group** should allow **RDP** access on **port 3389** from your IP.
+
+3. **Security Group**:
+   - The **Security Group** of the EC2 instance should allow **inbound traffic on port 3389** (RDP). Ensure that the rule allows traffic from your IP or range of IPs.
+   
+4. **Administrator Password**:
+   - To log in via RDP, you'll need the **Windows Administrator password**, which can be retrieved using the **private key file** when launching the instance.
+
+#### **RDP Setup Steps**:
+
+1. **Obtain the Windows Administrator Password**:
+   - After your instance is launched, use the **AWS Console** to retrieve the Administrator password:
+     - Go to the **EC2 Dashboard** > **Instances** > select your Windows instance.
+     - Click **Actions** > **Get Windows Password**.
+     - Upload your **private key file (.pem)** and click **Decrypt Password**. This will give you the **Administrator password**.
+
+2. **Connect to the Windows Instance via RDP**:
+   - Open **Remote Desktop Connection** (on your local machine):
+     - For Windows: Open **Remote Desktop Connection** (search for `mstsc`).
+     - For MacOS: Use the **Microsoft Remote Desktop** app from the App Store.
+   
+   - Enter the **Public IP** or **Elastic IP** of your EC2 instance and click **Connect**.
+
+3. **Enter Administrator Credentials**:
+   - When prompted, enter the **Administrator username** (typically `Administrator`) and the **password** you obtained earlier.
+   - Click **OK** and you should be logged into the Windows desktop of your EC2 instance.
+
+#### **Common RDP Issues**:
+- **RDP connection timeout**: This can happen if the **Security Group** does not allow RDP traffic (port 3389), or if the instance does not have a **public IP**.
+- **Incorrect credentials**: Ensure you're using the correct **Administrator password** that was retrieved using your private key file.
+
+---
+
+### **3. EC2 Instance Connect (For Linux Instances)**
+
+**EC2 Instance Connect** is an **AWS-native tool** for connecting to **Linux EC2 instances** without needing SSH keys. It's particularly useful if you don't have the private key or prefer a browser-based method.
+
+#### **Prerequisites**:
+1. **Security Group**: Ensure the instance’s **Security Group** allows inbound SSH (port 22).
+2. **IAM Permissions**: You need the **IAM permissions** to use EC2 Instance Connect.
+
+#### **Steps**:
+1. Open the **EC2 Console** and select your instance.
+2. Click on **Connect** and choose **EC2 Instance Connect**.
+3. Click **Connect**, and AWS will open a terminal in the browser for you to interact with the instance directly.
+
+---
+
+### **4. Systems Manager Session Manager (No SSH/RDP)**
+
+**AWS Systems Manager (SSM) Session Manager** allows you to connect to EC2 instances **without needing SSH** or **RDP** access. This method is secure and eliminates the need for an open **SSH port** or **RDP port**.
+
+#### **Prerequisites**:
+1. **SSM Agent**: The **SSM agent** must be installed and running on your EC2 instance.
+2. **IAM Role**: The EC2 instance must have an **IAM role** with the **SSM permissions** (`AmazonSSMManagedInstanceCore`).
+
+#### **Steps**:
+1. Go to the **EC2 Console**, select the instance, and click **Connect**.
+2. Choose **Session Manager** from the **Connect** options, and click **Connect**.
+3. You will be connected to the instance directly from the console.
+
+---
+
+### **Key Differences Between SSH and RDP**
+
+| **Feature**           | **SSH (Linux)**                                | **RDP (Windows)**                             |
+|-----------------------|-----------------------------------------------|----------------------------------------------|
+| **Protocol**          | SSH (Port 22)                                 | RDP (Port 3389)                              |
+| **Access Method**     | Command-line interface                        | Graphical user interface (GUI)               |
+| **Platform**          | Linux/Unix-based EC2 instances                | Windows-based EC2 instances                  |
+| **Authentication**    | Private key (`.pem` file)                     | Administrator password (retrieved via EC2)   |
+| **GUI Access**        | No (Command-line only)                        | Yes (Graphical interface)                    |
+| **Security**          | Encrypted, requires private key               | Encrypted, requires RDP client credentials   |
+
+---
+
+### **Exam Power-Up**:
+- **SSH** is the standard method for accessing **Linux EC2 instances**, and you need a **private key file** (`.pem`) for authentication. Make sure the **Security Group** allows inbound traffic on **port 22**.
+- **RDP** is used for **Windows EC2 instances** to access the **GUI**. You need the **Administrator password** (retrieved with the key pair) and the **Security Group** must allow inbound traffic on **port 3389**.
+- For **Linux EC2 instances**, you can also use **EC2 Instance Connect** as an alternative to SSH, and **Session Manager** can be used for both Linux and Windows instances if you have the right IAM permissions.
+
+***
+
+### **Scenario: Connecting to an EC2 Instance in a Private Subnet via VPN**
+
+In your scenario, you have an EC2 instance running in a **private subnet** within a **VPC**. You want to connect to that EC2 instance through a **VPN**.
+
+
+To connect to your EC2 instance in the **private subnet** via VPN, you do **not need a NAT Gateway**, **public subnet**, or an **Internet Gateway**. Instead, the following setup is needed:
+
+1.  **VPN Gateway**:
+
+    -   **Site-to-Site VPN** or **Client VPN** (AWS VPN solutions) connects your on-premises network or client device (laptop/PC) to your VPC.
+    -   This provides you with **secure access** to your VPC's private resources, including EC2 instances in **private subnets**.
+2.  **Routing**:
+
+    -   Ensure that the **VPN connection** is properly routed. When you set up the VPN, you need to make sure the **VPN Gateway** routes traffic to your **private subnet** in the VPC.
+    -   You can modify the **route table** in the private subnet to ensure that the VPN connection is correctly routed to the EC2 instances in the private subnet.
+3.  **Security Groups and NACLs**:
+
+    -   Ensure that the **Security Groups** and **Network Access Control Lists (NACLs)** for the EC2 instance in the private subnet allow traffic from the IP range of the VPN (either from the on-premises VPN gateway or your client device's VPN IP address).
+
+#### **For NAT Gateway and Public Subnet (Not Required for VPN Access)**:
+
+-   **NAT Gateway** and **public subnet** are only needed if you want EC2 instances in the **private subnet** to access the **internet** (for updates, patches, etc.). **NAT is not required for VPN access**.
+
+-   **Internet Gateway (IG)** is only required for instances in **public subnets** that need to connect to the internet (e.g., for public-facing web servers or when instances in a public subnet need to download updates). For **VPN traffic**, the IG is not required unless you're using it for general internet access.
+
+### **Typical Architecture for Private Subnet with VPN Access**
+
+-   **Private Subnet**: Contains your EC2 instances. These instances don't have direct access to the internet but can be accessed via the VPN connection.
+-   **VPN Gateway**: AWS-managed or customer-managed VPN that connects your on-premises network or device to the VPC.
+-   **Route Tables**: The route table for the private subnet needs to have routes that direct traffic destined for your on-premises network through the VPN connection.
+-   **Security Groups**: Ensure the EC2 instance security group allows traffic from your VPN's IP range.
+
+* * * * *
+
+### **Exam Power-Up**:
+
+-   **VPN**: **Site-to-Site VPN** and **Client VPN** are AWS solutions for securely connecting your on-premises network or personal device to an AWS VPC.
+-   **Private Subnet**: EC2 instances in **private subnets** can be accessed securely via a **VPN**, without the need for **NAT Gateway** or **Internet Gateway**.
+-   **NAT Gateway**: Only required for **private instances** to access the **internet** (for updates, patches, etc.).
+-   **Public Subnet and IG**: Only needed for **publicly accessible** resources in your VPC.
+
+***
+
+### Instance relocation
 
 An instance runs on a specific host. If you restart the instance
 it will stay on that host until either:
@@ -4407,27 +4715,107 @@ A migration is taking a **copy** of an instance and moving it to a different AZ.
 In general instances of the same type and generation will occupy the same host.
 The only difference will generally be their size.
 
-#### 1.6.2.1. EC2 Strengths
-
-Long running compute needs. Many other AWS services have run time limits.
-
-Server style applications
-
-- things waiting for network response
-- burst or stead-load
-- monolithic application stack
-  - middle ware or specific run time components
-- migrating application workloads or disaster recovery
-  - existing applications running on a server and a backup system to intervene
-
 ### 1.6.3. EC2 Instance Types
 
-- **General Purpose** (T, M) - default steady state workloads with even resources
-- **Compute Optimized** (C) - Media processing, scientific modeling and gaming
-- **Memory Optimized** (R, X) - Processing large in-memory data sets
-- **Accelerated Computing** (P, G, F) - Hardware GPU, FPGAs
-- **Storage Optimized** (H, I, D) - Large amounts of super fast local storage.
-  Massive amounts of IO per second. Elastic search and analytic workloads.
+### **EC2 Instance Types: When to Use Which**
+
+AWS EC2 instances come in various types, each designed for different use cases. Here's a simple breakdown to help you understand when to use each type:
+
+* * * * *
+
+### **1\. General Purpose (T, M)**
+
+**Purpose**: Balanced resources (CPU, memory, storage) for everyday workloads.
+
+-   **When to Use**: Ideal for **web servers**, **small to medium databases**, **development/test environments**, and **low-cost applications**.
+
+-   **Example Use Case**: Hosting a **basic website** or running a **small database**.
+
+-   **Types**:
+
+    -   **T-series (e.g., t3)**: **Burstable** performance for low-cost, steady-state workloads (e.g., small websites, small databases).
+    -   **M-series (e.g., m5)**: **Balanced** CPU and memory for regular applications that don't require heavy computation or large memory.
+
+* * * * *
+
+### **2\. Compute Optimized (C)**
+
+**Purpose**: High CPU performance for compute-intensive tasks.
+
+-   **When to Use**: Great for tasks that need a lot of **processing power** (e.g., **media processing**, **scientific modeling**, **gaming**, **batch processing**).
+
+-   **Example Use Case**: Running **high-performance compute (HPC)** applications like **video encoding** or **scientific simulations**.
+
+-   **Types**:
+
+    -   **C-series (e.g., c5)**: Optimized for **CPU-heavy applications** where you need more processing power than general-purpose instances (e.g., media transcoding, rendering).
+
+* * * * *
+
+### **3\. Memory Optimized (R, X)**
+
+**Purpose**: High memory (RAM) for handling large datasets in memory.
+
+-   **When to Use**: Use for workloads that need large amounts of memory like **in-memory databases**, **data processing**, and **real-time big data analytics**.
+
+-   **Example Use Case**: Running **large-scale data analytics**, **in-memory caches**, or **NoSQL databases** like **Redis**.
+
+-   **Types**:
+
+    -   **R-series (e.g., r5)**: Ideal for **memory-intensive applications** such as **big data analysis** and **in-memory databases**.
+    -   **X-series (e.g., x1e)**: Used for workloads requiring **massive memory** like **high-performance computing** or large **SAP HANA** applications.
+
+* * * * *
+
+### **4\. Accelerated Computing (P, G, F)**
+
+**Purpose**: Instances with **hardware accelerators** like **GPU** and **FPGA** to speed up specific workloads.
+
+-   **When to Use**: Use for workloads that require hardware **acceleration**, such as **machine learning**, **AI**, and **video rendering**.
+
+-   **Example Use Case**: Running **deep learning** algorithms or **high-end gaming** applications that need **GPU support**.
+
+-   **Types**:
+
+    -   **P-series (e.g., p3)**: **GPU instances** designed for **machine learning** and **AI training**.
+    -   **G-series (e.g., g4ad)**: Optimized for **graphic-heavy applications** like **video rendering** or **gaming**.
+    -   **F-series (e.g., f1)**: Instances with **FPGAs** for custom hardware acceleration, useful for specialized workloads like **financial simulations**.
+
+* * * * *
+
+### **5\. Storage Optimized (H, I, D)**
+
+**Purpose**: Instances with **high storage capacity** and fast **local storage** for I/O-heavy tasks.
+
+-   **When to Use**: Perfect for workloads that need **high-speed storage**, such as **data warehousing**, **big data analytics**, and **high-performance databases**.
+
+-   **Example Use Case**: Running **ElasticSearch** for log analytics or **high-performance databases** that require **low-latency disk operations**.
+
+-   **Types**:
+
+    -   **H-series (e.g., h1)**: Instances with **high storage density** and **fast local storage** for workloads like **distributed file systems** or **big data applications**.
+    -   **I-series (e.g., i3)**: Optimized for **extremely fast storage** (ideal for **high-throughput databases**).
+    -   **D-series (e.g., d2)**: Designed for **massive storage** in **data warehousing** or **big data** applications with **local storage**.
+
+* * * * *
+
+### **Quick Memory Aid**:
+
+-   **General Purpose**: Balanced for typical workloads (T for bursty, M for steady).
+-   **Compute Optimized**: High **CPU** power for processing-intensive tasks (e.g., media rendering, scientific modeling).
+-   **Memory Optimized**: More **RAM** for **data-heavy** apps like in-memory databases or big data processing.
+-   **Accelerated Computing**: Uses **GPU/FPGA** for **AI, ML**, and **gaming** workloads.
+-   **Storage Optimized**: High-speed **local storage** for I/O-heavy tasks (e.g., databases, data warehousing).
+
+* * * * *
+
+### **Exam Power-Up**:
+
+-   **T-series**: **Burstable performance** for low-cost and steady-state applications.
+-   **C-series**: **High CPU performance** for compute-heavy workloads (e.g., rendering, simulations).
+-   **R-series and X-series**: **Memory-heavy instances** for large-scale data processing and in-memory databases.
+-   **P, G, F-series**: **GPU/FPGA instances** for AI, deep learning, and gaming workloads.
+-   **I, H, D-series**: **Storage-optimized instances** for high-speed storage and high-performance databases.
 
 #### 1.6.3.1. Naming Scheme
 
@@ -4450,6 +4838,7 @@ full instance type
   - Direct (local) attached storage
   - Super fast
   - Ephemeral storage or temporary storage
+  - allocated to host, will be lost when restarted on when the host is changed
 - **Elastic Block Store (EBS)**
   - Network attached storage
   - Volumes delivered over the network
@@ -4457,21 +4846,99 @@ full instance type
 
 #### 1.6.4.1. Three types of storage
 
-- Block Storage: Volume presented to the OS as a collection of blocks. No
-structure beyond that. These are mountable and bootable. The OS will
-create a file system on top of this, NTFS or EXT3 and then it mounts
-it as a drive or a root volume on Linux. Spinning hard disks or SSD. This
-could also be delivered by a physical volume. Has no built in structure.
-You can mount an EBS volume or boot off an EBS volume.
+### **Types of Storage in AWS**
 
-- File Storage: Presented as a file share with a structure. You access the
-files by traversing the storage. You cannot boot from storage, but you
-can mount it.
+AWS offers three primary types of storage for different use cases: **Block Storage**, **File Storage**, and **Object Storage**. Each of these types has distinct characteristics and is used in different scenarios. Let's break down each type and how they work:
 
-- Object Storage: It is a flat collection of objects. An object can be anything
-with or without attached metadata. To retrieve the object, you need to provide
-the key and then the value will be returned. This is not mountable or
-bootable. It scales very well and can have simultaneous access.
+---
+
+### **1. Block Storage**
+
+**Definition**: 
+- **Block Storage** is the most common type of storage used for **databases**, **virtual machines**, and **boot volumes**. It works by presenting storage as blocks that are managed by the operating system.
+
+**How It Works**:
+- Block storage is presented to the **operating system (OS)** as a collection of **blocks**, which are raw storage areas without any predefined structure. The operating system can format these blocks into file systems (e.g., **NTFS** for Windows or **EXT3/EXT4** for Linux) and mount them as **drives** or **volumes**.
+- You can attach this storage to instances (e.g., EC2 instances) as **EBS volumes**, and you can **boot an EC2 instance** from an **EBS volume** if the volume is configured as the root volume.
+  
+**Examples**:
+- **EBS (Elastic Block Store)** in AWS: EBS volumes provide block-level storage for EC2 instances. You can attach multiple EBS volumes to an instance and use them to store data or use them as boot volumes for the instance.
+- **Spinning Hard Disks or SSDs**: This could be a physical disk (e.g., HDD or SSD) connected directly to a server or a virtual disk in the cloud (EBS in AWS).
+
+**When to Use**:
+- Use block storage for **databases**, **virtual machine storage**, or **boot volumes** in instances that require fast, consistent read/write operations.
+
+---
+
+### **2. File Storage**
+
+**Definition**: 
+- **File Storage** provides a way to store files in a **hierarchical structure**. It’s akin to using a **network file share** where you access files by their **file path**.
+
+**How It Works**:
+- In **file storage**, data is stored in **directories** and **subdirectories** (just like on a traditional file system). You access data by **navigating** the structure, which is typically organized in **folders**.
+- File storage systems often use protocols like **NFS (Network File System)** or **SMB (Server Message Block)** to enable file sharing across different servers or operating systems.
+- You **cannot boot** an operating system directly from file storage, and it is **not mountable** to EC2 instances the same way as block storage.
+
+**Examples**:
+- **Amazon EFS (Elastic File System)**: EFS is a scalable file storage service for EC2 instances. It allows multiple instances to access the same file share concurrently, making it ideal for **shared file storage**.
+- **Windows File Servers**: If you’ve used a file server in your local network, that would be an example of file storage.
+
+**When to Use**:
+- Use file storage for workloads that require **shared file systems** or when you need to store data that can be organized hierarchically with directories (e.g., media files, documents, or logs).
+
+---
+
+### **3. Object Storage**
+
+**Definition**: 
+- **Object Storage** is designed for storing a large number of **objects** (files) and allows you to access these objects using a unique **key**. Each object is stored as a **flat collection** and is typically identified by a **key-value pair**.
+
+**How It Works**:
+- In object storage, data is stored as **objects**. Each object consists of:
+  - **The object itself** (which can be any type of data, such as a document, image, or video).
+  - **Metadata** (additional information about the object like size, type, and creation date).
+  - **A unique key** (used to access the object).
+  
+- Object storage does not organize data into a hierarchical directory structure. Instead, each object is stored in a flat namespace, and to access it, you need to know the **key** (essentially the "name" of the object).
+- You **cannot mount** or **boot** from object storage. It is purely for **data storage** and **retrieval**.
+
+**Examples**:
+- **Amazon S3 (Simple Storage Service)**: S3 is the most widely used object storage service in AWS. It is designed for storing and retrieving any amount of data (e.g., images, videos, backups) over the web. S3 scales well and allows for concurrent access to objects from multiple sources.
+  
+**When to Use**:
+- Use object storage for **large-scale data storage** (e.g., storing backups, media files, logs) or for applications that need to **scale horizontally** and **simultaneously** access a large number of objects. Object storage is ideal for applications like **data lakes**, **content delivery** (media), and **backup storage**.
+
+---
+
+### **Comparison: Block vs File vs Object Storage**
+
+| **Feature**                 | **Block Storage**                        | **File Storage**                         | **Object Storage**                          |
+|-----------------------------|------------------------------------------|------------------------------------------|--------------------------------------------|
+| **Access Method**           | Direct access to blocks (low-level)     | Access files via directories and paths   | Access objects by their key (flat namespace) |
+| **Structure**               | No predefined structure (raw blocks)    | Hierarchical (directories & subdirectories) | Flat (no directory structure, just objects) |
+| **Mountable**               | Yes, can be mounted (e.g., EBS on EC2)   | Yes, as network file share (e.g., EFS)    | No, objects are accessed via API or URL     |
+| **Bootable**                | Yes, can boot from a block volume        | No, cannot boot from file storage        | No, cannot boot from object storage        |
+| **Use Cases**               | Databases, boot volumes, VM storage      | Shared file storage, home directories    | Large-scale data storage, media files, backups |
+| **Scalability**             | Typically limited by the disk size       | Can scale with systems like EFS          | Extremely scalable, designed for large datasets |
+| **Performance**             | Fast I/O operations, low latency         | Moderate performance for file systems    | High throughput for object access, often slower than block storage |
+
+---
+
+### **Summary for Easy Remembering**:
+
+- **Block Storage**: Think of it like a hard drive where you can store raw data. It’s **used for virtual machines**, **databases**, or **boot volumes**. You format it into a file system.
+- **File Storage**: Think of it like a network file share (NFS or SMB), where you organize files into **folders**. It’s **used for shared storage** that multiple systems can access, but **you can’t boot from it**.
+- **Object Storage**: Think of it as a flat collection of objects, where you store files as **objects** and access them using a **unique key**. It’s **great for storing large amounts of data** (like images, videos, backups) and can scale very well.
+
+---
+
+### **Exam Power-Up**:
+- **Block Storage**: **EBS** is block storage, useful for databases and boot volumes, providing low-latency access to raw data.
+- **File Storage**: **EFS** is file storage, useful for shared file systems with directories and multiple access points.
+- **Object Storage**: **S3** is object storage, perfect for scalable, durable, and easily accessible storage for large amounts of data.
+
+Let me know if you need more detailed explanations or examples!
 
 #### 1.6.4.2. Storage Performance
 
