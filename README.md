@@ -3688,13 +3688,14 @@ as well as the inbound port. This is the ephemeral port.
 back on a different port.
 - This back and forth communication can be hard to configure for.
 
-- Inbound from the webserver:
-  
-HTTPS | TCP | 443 | 0.0.0.0/0 | Allow
+![alt text](<17-VPC-Advanced/Screenshot 2025-03-23 at 2.50.41 pm.png>)
 
+![alt text](<17-VPC-Advanced/Screenshot 2025-03-23 at 2.50.41 pm.png>)
 
 #### 1.5.6.2. NACL Exam PowerUp
 
+- when you create a NACL, they are by default when created are not associated with any subnets
+- At the initialisation of a new Custom NACL by default they will have two rules to deny all inbound and outbound traffics
 - NACLs are stateless
   - Initiation and response traffic are separate streams requiring two rules.
 - NACLs are attached to subnets and only filter data as it crosses the
@@ -3714,21 +3715,163 @@ before another rule with a higher rule number.
 
 ### 1.5.7. Security Groups
 
-- SGs are boundaries which can filter traffic.
-- Attached to a resource and not a subnet.
-- SGs have two sets of rules like NACLs.
-- SGs are stateful.
-  - Only one inbound rule is needed.
-  - They see traffic and response as the same thing.
-- Understand AWS logical resources so they're not limit to IP traffic only.
-  - Can have a source and destination referencing the instance and not the IP.
-- Default SG is created in a VPC to allow all traffic.
-  - Does so by referencing itself. Anything this SG is attached to is matched
-  by this rule.
-- SGs have a hidden implicit **Deny**.
-  - Anything that is not allowed in the rule set for the SG is implicitly denied.
-- SG cannot explicit deny anything.
-  - NACLs are used in conjunction with SGs to do explicit denys.
+### **Security Groups in AWS**
+
+A **Security Group** (SG) is a **virtual firewall** that controls inbound and outbound traffic to **Amazon EC2 instances** and other AWS resources. They operate at the **instance level** and allow you to define rules that specify what traffic is allowed to reach your instances and what traffic can leave them. Unlike NACL attached to a subnet they are attached to a resource itself.
+
+Security Groups are a **core part** of AWS's network security model, helping you control access to your resources based on IP addresses, ports, and protocols.
+
+* * * * *
+
+### **Key Characteristics of Security Groups:**
+
+1.  **Stateful**:
+
+    -   This means that if you allow an inbound request (e.g., an HTTP request on port 80), the **response** traffic is automatically allowed back, even if you haven't explicitly created an outbound rule.
+
+    -   This behavior simplifies configuration since you don't need to create separate outbound rules for responses.
+
+2.  **Instance-Level Security**:
+
+    -   Security groups are attached to individual instances. They apply to all interfaces (such as **Elastic Network Interfaces (ENIs)**) attached to that instance.
+
+    -   For example, if you have a **Web Server EC2 instance**, you can assign a security group to that instance that allows **HTTP** traffic (port 80) and **SSH** traffic (port 22).
+
+3.  **Default Deny All Inbound Traffic**:
+
+    - **Implicit deny**
+
+    -   By default, all inbound traffic to an EC2 instance is **denied**. You must explicitly allow inbound traffic by adding rules in the security group.
+
+    -   Outbound traffic is allowed by default, but can also be restricted by modifying outbound rules.
+
+4.  **Allow Rules Only**:
+
+    -   Security groups are **allow lists**. You can only **allow** traffic through. You cannot **deny** specific traffic explicitly (unlike **NACLs**, which support both EXPLICIT **allow** and **deny** rules).
+
+5.  **Multiple Security Groups**:
+
+    -   An EC2 instance can have **multiple security groups** assigned to it. The instance's traffic must satisfy the rules in **all** attached security groups. If any security group allows a particular type of traffic, that traffic is allowed.
+  
+6. They allow referencing IP/CIDR, logical resources, other SG and itself
+
+7. <span style='color:red'>!Important</span> : SGs are not attached to subnets not to the instance itself but to the Elastic Network Interface of the instance, even if the UI shows that way 
+
+![alt text](<17-VPC-Advanced/Screenshot 2025-03-23 at 3.20.15 pm.png>)
+
+If Bob were to be a bad actor we couldn't explicitly deny him just using SG we would need NACL for that
+
+
+
+* * * * *
+
+### **Security Group Rules**
+
+#### **Inbound Rules**:
+
+Inbound rules define the traffic that is allowed **into** your EC2 instance. For example, if you are hosting a web application on an EC2 instance, you would allow inbound traffic on **port 80** (HTTP) and **port 443** (HTTPS).
+
+#### **Outbound Rules**:
+
+Outbound rules define the traffic that is allowed **out of** your EC2 instance. By default, all outbound traffic is allowed, but you can configure it to restrict outgoing traffic.
+
+### **Components of a Security Group Rule**:
+
+-   **Protocol**: The type of traffic (TCP, UDP, ICMP, etc.).
+-   **Port Range**: The specific port or range of ports the rule applies to (e.g., port 80 for HTTP, port 443 for HTTPS).
+-   **Source/Destination**: The IP range or security group that the rule applies to:
+    -   **Source (Inbound)**: Who can send traffic to the EC2 instance (e.g., `0.0.0.0/0` for all IPs, or a specific IP like `203.0.113.20`).
+    -   **Destination (Outbound)**: Where the traffic is allowed to go (e.g., `0.0.0.0/0` to allow traffic to anywhere).
+
+#### **Examples of Security Group Rules**:
+
+1.  **Allow HTTP Traffic (Inbound)**:
+
+    -   **Protocol**: TCP
+    -   **Port Range**: 80
+    -   **Source**: `0.0.0.0/0` (Allows any IP to access your web server)
+2.  **Allow SSH Traffic (Inbound)**:
+
+    -   **Protocol**: TCP
+    -   **Port Range**: 22
+    -   **Source**: `203.0.113.20/32` (Allows only a specific IP to SSH into the EC2 instance)
+3.  **Allow Outbound HTTPS Traffic**:
+
+    -   **Protocol**: TCP
+    -   **Port Range**: 443
+    -   **Destination**: `0.0.0.0/0` (Allows outbound traffic to anywhere on the internet, typically used for secure connections)
+
+* * * * *
+
+### **Security Group Use Cases**
+
+1.  **Web Server**:
+
+    -   You have an EC2 instance running a **web server** (e.g., Apache or Nginx). You would:
+        -   **Allow inbound traffic on port 80** (HTTP) and **443** (HTTPS).
+        -   **Allow outbound traffic** for the server to fetch updates or communicate with other services (such as databases or external APIs).
+2.  **Database Server**:
+
+    -   You have an EC2 instance running a **database** (e.g., MySQL, PostgreSQL). You would:
+        -   **Allow inbound traffic on port 3306** (for MySQL) from your application servers (or other trusted sources).
+        -   **Deny all inbound traffic** from public IP addresses to prevent unauthorized access.
+3.  **SSH Access**:
+
+    -   You want to allow only a specific person or team to SSH into your EC2 instance:
+        -   **Allow inbound traffic on port 22 (SSH)** only from a specific IP address or range (e.g., `203.0.113.20/32`).
+        -   Block any other IP addresses to prevent unauthorized SSH access.
+
+* * * * *
+
+### **Example Security Group Configuration**
+
+Let's configure a **Security Group** for a **web server** running on an EC2 instance:
+
+| Rule # | Type | Protocol | Port Range | Source | Action |
+| --- | --- | --- | --- | --- | --- |
+| 1 | HTTP | TCP | 80 | `0.0.0.0/0` | Allow |
+| 2 | HTTPS | TCP | 443 | `0.0.0.0/0` | Allow |
+| 3 | SSH | TCP | 22 | `203.0.113.20/32` | Allow |
+| 4 | Outbound | All Traffic | All | `0.0.0.0/0` | Allow |
+
+### **Explanation**:
+
+1.  **Inbound Rule 1**: Allows all external users to connect to the web server on **port 80** (HTTP).
+2.  **Inbound Rule 2**: Allows all external users to connect to the web server on **port 443** (HTTPS).
+3.  **Inbound Rule 3**: Allows **only a specific IP address** (`203.0.113.20/32`) to connect to the EC2 instance on **port 22** (SSH). This restricts SSH access to just one authorized IP.
+4.  **Outbound Rule**: Allows the EC2 instance to send traffic to **any destination** (typically to external services or updates).
+
+* * * * *
+
+### **Important Notes:**
+
+-   **Security Groups are Stateful**: This means that if you allow an inbound connection (e.g., SSH), the response traffic from the instance (outbound) is automatically allowed, even if you don't create an explicit outbound rule for it.
+
+-   **Multiple Security Groups**: An instance can be associated with multiple security groups. In this case, the instance will be subject to the combined rules of all the security groups. If any security group allows a type of traffic, the instance will allow that traffic.
+
+-   **Default Behavior**: By default, **all inbound traffic is denied**, and **all outbound traffic is allowed**. When you launch an EC2 instance, a default security group is applied, and you can then modify or create a custom security group for finer-grained control.
+
+* * * * *
+
+### **Security Group Best Practices**:
+
+1.  **Principle of Least Privilege**: Only open the ports that are necessary for the instance to perform its required function. For example, for a web server, only open **HTTP** and **HTTPS** (ports 80 and 443), not **SSH** or **FTP** unless absolutely required.
+
+2.  **Restrict SSH Access**: Only allow SSH (port 22) from known IP addresses or specific internal sources. It's a best practice to allow SSH only from **your office's IP address** or a **VPN**.
+
+3.  **Use Multiple Security Groups**: You can apply multiple security groups to an instance for different purposes. For example, a **web server security group** can allow traffic on **port 80**, and a **database security group** can restrict access to **port 3306** (MySQL) from the web server.
+
+4.  **Audit and Monitor**: Regularly audit security group rules to ensure that you are not exposing unnecessary ports to the internet.
+
+* * * * *
+
+### **Exam Power-Up**:
+
+-   **Security Groups**: They are **stateful**, meaning if you allow **inbound traffic**, the corresponding **outbound response** is automatically allowed.
+-   **Inbound Rules**: By default, **all inbound traffic is denied**. You must explicitly **allow** the necessary traffic (like HTTP or HTTPS) in your security group.
+-   **Outbound Rules**: By default, **all outbound traffic is allowed**, but you can modify this if you want to restrict outgoing traffic.
+-   **Principle of Least Privilege**: Only open the necessary ports for communication with your EC2 instances. Restrict access to sensitive services like SSH and databases.
+
 
 #### 1.5.7.1. SGs vs NACL
 
@@ -3737,6 +3880,240 @@ before another rule with a higher rule number.
 - SGs is the default almost everywhere because they are stateful.
 - NACLs are associated with a subnet and only filter traffic that crosses
 that boundary. If the resource is in the same subnet, it will not do anything.
+
+### **Security Groups (SG) vs. Network Access Control Lists (NACL)**
+
+Both **Security Groups (SGs)** and **Network Access Control Lists (NACLs)** are used in **Amazon VPC** to control **network traffic**. However, they are used for different purposes, apply to different layers (instances vs. subnets), and have distinct characteristics. Let’s break down their differences in detail:
+
+---
+
+### **1. Overview of Security Groups (SG)**
+- **Definition**: Security Groups act as **virtual firewalls** that control inbound and outbound traffic to **EC2 instances** (and other AWS resources that support security groups, such as RDS instances).
+- **Scope**: Applied at the **instance level**.
+- **Statefulness**: **Stateful**—If you allow inbound traffic to an instance, the response traffic is automatically allowed, even if no explicit outbound rule exists.
+- **Default Behavior**: 
+  - By default, all inbound traffic is **denied**.
+  - By default, all outbound traffic is **allowed**.
+- **Rules**: 
+  - Only **allow** rules—You can’t block traffic with a security group; you can only allow certain types of traffic.
+  - Rules are defined based on **IP protocol**, **port range**, and **source/destination IP addresses**.
+  
+### **2. Overview of Network Access Control Lists (NACL)**
+- **Definition**: NACLs are another layer of security at the **subnet level** that control **inbound and outbound traffic** to and from the entire subnet.
+- **Scope**: Applied at the **subnet level**. NACLs filter traffic entering and exiting an entire subnet.
+- **Statelessness**: **Stateless**—This means both inbound and outbound traffic must be explicitly allowed. Responses to allowed inbound traffic will be blocked unless you also allow the outbound return traffic.
+- **Default Behavior**: 
+  - By default, the **default NACL** allows all inbound and outbound traffic.
+  - Custom NACLs can either **allow** or **deny** traffic explicitly.
+- **Rules**: 
+  - **Allow** and **deny** rules—You can **deny** traffic (unlike Security Groups, which can only allow).
+  - Rules are defined based on **IP protocol**, **port range**, and **source/destination IP addresses**.
+
+---
+
+### **Key Differences Between Security Groups and NACLs**
+
+| **Feature**                | **Security Groups (SG)**                                  | **Network Access Control Lists (NACL)**                     |
+|----------------------------|------------------------------------------------------------|------------------------------------------------------------|
+| **Scope**                  | Instance level (e.g., EC2, RDS)                           | Subnet level (affects all instances within the subnet)      |
+| **Stateful/Stateless**     | **Stateful**: Responses to allowed inbound traffic are automatically allowed. | **Stateless**: You must allow both inbound and outbound traffic explicitly. |
+| **Default Behavior**       | - Default: All inbound traffic **denied**<br> - Default: All outbound traffic **allowed** | - Default: All inbound and outbound traffic **allowed** (for default NACL) |
+| **Traffic Type**           | Only **allow** rules—can't deny traffic directly.         | **Allow** and **deny** rules—can block traffic.             |
+| **Rules**                  | - Rules apply to **inbound** and **outbound** traffic for instances.<br> - You can specify rules based on **IP address**, **port**, and **protocol**. | - Rules apply to **inbound** and **outbound** traffic for entire subnet.<br> - Can specify **allow** and **deny** rules based on **IP address**, **port**, and **protocol**. |
+| **Application**            | Primarily used to secure specific **instances** like EC2, RDS, etc. | Primarily used to secure the **entire subnet**.             |
+| **Multiple Assignments**   | An instance can be associated with **multiple security groups**. | A subnet can only have **one NACL** associated at a time.   |
+| **Rule Processing Order**  | Rules are **evaluated in any order**. No particular sequence is necessary. | Rules are **evaluated in order** (lower number rules take precedence). |
+| **IP Range Control**       | Allows rules for specific IP ranges (e.g., `10.0.0.0/24`). | Allows rules for specific IP ranges (e.g., `10.0.0.0/24`). |
+
+---
+
+### **Use Case Scenarios:**
+
+1. **Security Group Use Case:**
+   - **Web Server**: You have an EC2 instance running a web server. You would assign a security group to that instance that:
+     - **Allows inbound traffic on port 80** (HTTP) and **443** (HTTPS) for **web access**.
+     - **Allows outbound traffic** for the web server to send requests to external services, such as a database or other APIs.
+
+2. **NACL Use Case:**
+   - **Subnet Security**: You have multiple instances in a **private subnet** where you want to ensure only certain traffic is allowed in and out of the entire subnet.
+     - **Inbound Rule**: Allow traffic from **trusted sources** (e.g., `0.0.0.0/0` for HTTP or HTTPS, but only specific sources for SSH).
+     - **Outbound Rule**: Allow outbound traffic for updates or communication to specific external services, while blocking any other outbound traffic.
+
+---
+
+### **Example Security Group and NACL Configuration**
+
+#### **Security Group Rules for a Web Server:**
+
+| Rule # | Type       | Protocol | Port Range  | Source            | Action   |
+|--------|------------|----------|-------------|-------------------|----------|
+| 100    | HTTP       | TCP      | 80          | `0.0.0.0/0`       | Allow    |
+| 110    | HTTPS      | TCP      | 443         | `0.0.0.0/0`       | Allow    |
+| 120    | SSH        | TCP      | 22          | `192.168.1.1/32`  | Allow    |
+| 130    | Outbound   | All Traffic | All       | `0.0.0.0/0`       | Allow    |
+
+#### **NACL Rules for a Private Subnet:**
+
+| Rule # | Type      | Protocol | Port Range  | Source            | Action    |
+|--------|-----------|----------|-------------|-------------------|-----------|
+| 100    | Allow     | TCP      | 80          | `0.0.0.0/0`       | Allow     |
+| 110    | Allow     | TCP      | 443         | `0.0.0.0/0`       | Allow     |
+| 120    | Deny      | All      | All         | `0.0.0.0/0`       | Deny      |
+
+- **Security Group Example**:
+  - This security group allows **HTTP** (port 80) and **HTTPS** (port 443) traffic from **anywhere** (`0.0.0.0/0`) and **SSH** access (port 22) only from a specific IP (`192.168.1.1/32`).
+  - The security group also allows **all outbound traffic** for the EC2 instance.
+
+- **NACL Example**:
+  - The NACL allows inbound **HTTP** and **HTTPS** traffic from **anywhere** (`0.0.0.0/0`), but denies all other traffic from and to the subnet.
+
+---
+
+### **Key Differences at a Glance:**
+
+| **Aspect**                 | **Security Groups**                              | **NACLs**                                      |
+|----------------------------|--------------------------------------------------|------------------------------------------------|
+| **Scope**                  | Instance level (applies to individual instances) | Subnet level (applies to all instances in subnet) |
+| **Stateful/Stateless**     | **Stateful**—response traffic is allowed by default | **Stateless**—responses must be explicitly allowed |
+| **Rule Types**             | Only **Allow** rules                             | **Allow** and **Deny** rules                    |
+| **Order of Rule Evaluation** | No specific order (rules are evaluated in any order) | **Rules are processed in order** (lower rule numbers first) |
+| **Multiple Assignment**    | Can be associated with multiple instances       | A subnet can only be associated with one NACL at a time |
+| **Application**            | Used for fine-grained instance-level access control | Used for broad subnet-level traffic control    |
+
+---
+
+### **Which Should You Use?**
+
+- **Security Groups** are typically used to control access to **individual EC2 instances** and are most commonly applied for specifying which traffic should be allowed to reach each instance (for example, allowing HTTP/HTTPS access to a web server).
+  
+- **NACLs** are usually used for **subnet-level** security, providing broader control over traffic entering or leaving a subnet (for example, allowing or blocking all traffic to and from a specific subnet).
+
+In most cases, **Security Groups** are used to control **instance-level access**, while **NACLs** provide an additional layer of protection and filtering at the **subnet level**.
+
+---
+
+### **Exam Power-Up**:
+
+- **Security Groups** are **stateful**, so you don’t need to add rules for response traffic. They only **allow** traffic (no **deny** rules).
+- **NACLs** are **stateless**, so both **inbound** and **outbound** rules need to be configured explicitly. They support both **allow** and **deny** rules.
+- **Security Groups** operate at the **instance level**, while **NACLs** work at the **subnet level**.
+- **NACLs** are ideal for controlling broader traffic patterns at the subnet level, while **Security Groups** are better for managing instance-specific access.
+
+Let me know if you need further clarification or examples!
+
+
+***
+
+### SG Logical referencing
+
+![alt text](<17-VPC-Advanced/Screenshot 2025-03-23 at 3.32.08 pm.png>)
+
+
+#### SG Self referencing
+
+![alt text](<17-VPC-Advanced/Screenshot 2025-03-23 at 3.36.30 pm.png>)
+
+It is used in a case where in you would want instances with the same SGs to communicate with each other
+
+
+****
+
+### **Can EC2 Instances in Different VPCs Communicate with Each Other Using Security Groups?**
+
+By default, instances in different **VPCs** cannot directly communicate with each other, even if they have the same **Security Group (SG)** assigned. However, **Security Groups** allow communication only within the **same VPC** or **via explicit VPC peering** or other mechanisms such as **VPC Transit Gateway** or **PrivateLink**.
+
+### **1\. Same VPC Communication with Security Groups:**
+
+If both instances are in **the same VPC**, then yes, they can communicate with each other if you assign the same **Security Group (SG)** to both instances, or if you configure the **inbound rules** of the security group of one instance to allow traffic from the **SG** of the other instance.
+
+**Example (Same VPC)**:
+
+-   **Instance 1**: In **VPC1**, associated with **SG1**.
+-   **Instance 2**: In **VPC1**, also associated with **SG1**.
+
+Since the instances are in the same VPC and have the same **SG1** assigned, they can communicate with each other without additional setup, as long as the security group rules allow the necessary inbound and outbound traffic between them.
+
+* * * * *
+
+### **2\. Different VPC Communication:**
+
+When instances are in **different VPCs**, they **cannot** communicate using **Security Groups** alone. **Security Groups** in AWS are **local** to a VPC, meaning they apply only to resources within the same VPC.
+
+#### **Why can't instances in different VPCs communicate using Security Groups?**
+
+-   **Security Groups** are designed to control access at the **instance level** and are scoped to the VPC. They do not allow communication between instances in different VPCs unless you explicitly set up a **VPC peering connection** or another method of inter-VPC communication.
+
+### **Options to Enable Communication Between Instances in Different VPCs:**
+
+If you want to enable communication between instances in **VPC1** and **VPC2**, you need to use one of the following methods:
+
+* * * * *
+
+#### **1\. VPC Peering**
+
+**VPC Peering** allows instances in **two different VPCs** to communicate with each other as if they are in the same VPC. To allow traffic between instances in VPC1 and VPC2 using **Security Groups**, you would:
+
+-   **Set up a VPC Peering Connection** between VPC1 and VPC2.
+-   **Update Route Tables** in both VPCs to route traffic to the peering connection.
+-   **Modify Security Groups** in both VPCs to allow traffic from the peered VPC's IP range or security group.
+
+**Steps for VPC Peering**:
+
+1.  **Create a VPC Peering Connection** between VPC1 and VPC2.
+2.  **Update Route Tables** in both VPCs to route traffic destined for the other VPC through the peering connection.
+3.  **Update Security Groups** to allow inbound traffic from the peered VPC's IP range (or security group).
+
+* * * * *
+
+#### **2\. VPC Transit Gateway**
+
+A **VPC Transit Gateway** allows communication between multiple VPCs and acts as a central hub for inter-VPC traffic. This is useful if you have multiple VPCs and need them to communicate with each other.
+
+* * * * *
+
+#### **3\. AWS PrivateLink**
+
+**AWS PrivateLink** enables private communication between VPCs without needing to route traffic over the public internet. This method is used primarily for **service-based communication**, such as connecting to AWS services or custom services that are exposed in your VPC.
+
+* * * * *
+
+### **Example Scenario with VPC Peering:**
+
+Let's say you have two VPCs, **VPC1** and **VPC2**. You want the instances in **VPC1** and **VPC2** to communicate with each other, and they both have the same security group assigned (**SG1**).
+
+**Steps for Setup**:
+
+1.  **Create a VPC Peering Connection**:
+
+    -   Establish a peering connection between **VPC1** and **VPC2**.
+2.  **Update Route Tables**:
+
+    -   Add routes in **VPC1**'s route table to route traffic destined for **VPC2** through the peering connection.
+    -   Similarly, add routes in **VPC2**'s route table to route traffic destined for **VPC1** through the peering connection.
+3.  **Update Security Group Rules**:
+
+    -   Modify **SG1** in **VPC1** to allow inbound traffic from the **IP range** or **Security Group** of **VPC2**.
+    -   Modify **SG1** in **VPC2** to allow inbound traffic from the **IP range** or **Security Group** of **VPC1**.
+
+Once the peering connection is established and the route tables and security groups are updated, the instances in **VPC1** and **VPC2** can communicate with each other.
+
+* * * * *
+
+### **Summary:**
+
+-   **Same VPC**: If the instances are in the **same VPC**, they can communicate with each other using **Security Groups**, as long as the rules allow traffic between the instances, regardless of whether they are assigned the same or different security groups.
+-   **Different VPCs**: **Security Groups** alone cannot enable communication between instances in **different VPCs**. You must use a **VPC Peering Connection**, **VPC Transit Gateway**, or **AWS PrivateLink** to enable communication between VPCs. Once you establish inter-VPC connectivity, you can use **Security Groups** to allow traffic between instances in different VPCs.
+
+* * * * *
+
+### **Exam Power-Up**:
+
+-   **Security Groups** apply to resources within the **same VPC**. If instances are in different VPCs, you cannot use **Security Groups** alone to allow communication.
+-   **VPC Peering**, **Transit Gateway**, and **PrivateLink** are the key methods to enable **inter-VPC communication**.
+-   Always ensure that **Route Tables** and **Security Group rules** are configured correctly when enabling communication between instances in different VPCs.
+
+
+****
 
 ### 1.5.8. Network Address Translation (NAT) Gateway
 
