@@ -4809,6 +4809,90 @@ AWS EC2 instances come in various types, each designed for different use cases. 
 
 * * * * *
 
+### EC2 Instance Type Initials
+
+1.  **T - General Purpose**\
+    **Mnemonic**: "**T**ake it easy"
+
+    -   T stands for "Take it easy," meaning it's for general, everyday workloads where you don't need heavy performance.
+2.  **M - General Purpose**\
+    **Mnemonic**: "**M**ix it up"
+
+    -   M stands for "Mix it up," since the **M-series** is a balanced general-purpose option (good for a mix of workloads).
+3.  **C - Compute Optimized**\
+    **Mnemonic**: "**C**runch the numbers"
+
+    -   C stands for "Crunch the numbers," which means high CPU performance, great for **compute-heavy tasks** like gaming or media processing.
+4.  **R - Memory Optimized**\
+    **Mnemonic**: "**R**eally big brain"
+
+    -   R stands for "Really big brain," referring to **large memory-intensive tasks** like databases or big data processing.
+5.  **X - Memory Optimized**\
+    **Mnemonic**: "**X**tra memory"
+
+    -   X stands for "Extra memory," suitable for tasks that require **extremely large memory** like **SAP HANA** or high-performance computing.
+6.  **P - Accelerated Computing**\
+    **Mnemonic**: "**P**ower up with GPU"
+
+    -   P stands for "Power up with GPU," designed for **machine learning** and **AI** tasks using **GPU acceleration**.
+7.  **G - Accelerated Computing**\
+    **Mnemonic**: "**G**raphics rendering"
+
+    -   G stands for "Graphics rendering," used for **gaming** or **graphic-intensive applications**.
+8.  **F - Accelerated Computing**\
+    **Mnemonic**: "**F**ast FPGA"
+
+    -   F stands for "Fast FPGA," referring to instances with **FPGAs** for specialized, hardware-accelerated tasks like financial simulations.
+9.  **H - Storage Optimized**\
+    **Mnemonic**: "**H**igh storage"
+
+    -   H stands for "High storage," designed for **data-heavy applications** that require **high disk throughput**, like big data processing.
+10. **I - Storage Optimized**\
+    **Mnemonic**: "**I**ntense I/O"
+
+-   I stands for "Intense I/O," used for workloads that require **high IOPS** (e.g., large databases or analytics).
+
+1.  **D - Storage Optimized**\
+    **Mnemonic**: "**D**eep data storage"
+
+-   D stands for "Deep data storage," ideal for **large storage volumes** with **high throughput**, perfect for **data warehousing**.
+
+* * * * *
+
+### **Quick Mnemonic to Remember the Initials**:
+
+-   **T**ake it easy,
+-   **M**ix it up,
+-   **C**runch the numbers,
+-   **R**eally big brain,
+-   **X**tra memory,
+-   **P**ower up with GPU,
+-   **G**raphics rendering,
+-   **F**ast FPGA,
+-   **H**igh storage,
+-   **I**ntense I/O,
+-   **D**eep data storage.
+
+* * * * *
+* * * * *
+
+### **Quick Story for Visualization**:
+
+Imagine you're in a **Tech Mansion**:
+
+-   You start in the **General Room** where everything is balanced (**T**ake it easy, **M**ix it up).
+-   You move into the **Crunching Room** where people are solving complex problems (**C**runch the numbers).
+-   Then, into the **Brain Room** where everyone is thinking and using **big memory** (**R**eally big brain, **X**tra memory).
+-   The **Power Room** has **super-fast GPUs** (**P**ower up with GPU).
+-   The **Graphics Room** is where people design games and visuals (**G**raphics rendering).
+-   The **Fast Room** has **FPGA** chips helping finance simulations (**F**ast FPGA).
+-   Next, you check out the **Storage Room**, where data is stored in huge volumes: **High Storage** (**H**igh storage), **Intense I/O** (**I**ntense I/O), and **Deep Data Storage** (**D**eep data storage).
+
+* * * * *
+
+
+
+
 ### **Exam Power-Up**:
 
 -   **T-series**: **Burstable performance** for low-cost and steady-state applications.
@@ -4946,11 +5030,89 @@ Let me know if you need more detailed explanations or examples!
 - IOPS: How many reads or writes a system can accommodate per second.
 - Throughput: End rate achieved, expressed in MB/s (megabyte per second).
 
-`Block Size * IOPS = Throughput`
+### **IOPS (Input/Output Operations Per Second) and Throughput in Terms of EBS**
 
-This isn't the only part of the chain, but it is a simplification.
-A system might have a throughput cap. The IOPS might decrease as the block
-size increases.
+When working with **EBS (Elastic Block Store)** in AWS, **IOPS** and **Throughput** are two important metrics that define the performance characteristics of an EBS volume. They measure how fast the volume can handle read/write operations and the data transfer speed.
+
+Let's break down what each of these terms means and how they apply to EBS volumes:
+
+* * * * *
+
+### **1\. IOPS (Input/Output Operations Per Second)**
+
+**Definition**:
+
+-   **IOPS** refers to the **number of read and write operations** that an EBS volume can handle per second.
+-   It is a measure of how many **random input/output operations** (read/write operations) can occur in one second.
+
+**How it works**:
+
+-   **Higher IOPS** means the volume can handle more frequent **random read/write operations**. For example, this is crucial for workloads that require frequent access to small chunks of data, such as **databases** (e.g., **MySQL**, **Oracle**) and **transactional applications**.
+-   **IOPS** can be critical for **database performance**, as high IOPS ensures that the database can handle many transactions at once without slowing down.
+
+**Example**:
+
+-   **A 10 GB EBS volume** might have a **base IOPS of 30 IOPS**, but you can configure it to burst to **up to 3000 IOPS** if you need more performance for transactional workloads.
+
+**Types of EBS Volumes with IOPS**:
+
+-   **Provisioned IOPS (io1 and io2)**: These volumes allow you to **provision** a specific number of IOPS (e.g., **1000 IOPS**, **5000 IOPS**) for workloads that need consistent and high-performance storage.
+-   **General Purpose SSD (gp2, gp3)**: These volumes provide **bursting** IOPS based on volume size (e.g., **3 IOPS per GB** of storage). **gp3** allows you to provision up to **16,000 IOPS** independently of the volume size.
+
+**When to Use IOPS**:
+
+-   Use **high IOPS volumes** (like **io1** and **io2**) for **databases** (e.g., **SQL Server**, **Oracle**, **MongoDB**) or **any application that requires low-latency, high-speed access to small pieces of data**.
+
+* * * * *
+
+### **2\. Throughput**
+
+**Definition**:
+
+-   **Throughput** refers to the **amount of data** that can be transferred to and from an EBS volume per second, measured in **MB/s** (megabytes per second).
+-   Unlike IOPS, which is focused on how many operations can occur, **throughput** measures how much **data** can be read or written per second.
+
+**How it works**:
+
+-   **Higher throughput** is important for **sequential I/O operations**, where you are dealing with **large chunks of data** at a time, such as **media files**, **big data analytics**, or **data backups**.
+-   Throughput is typically more important for workloads like **data warehousing** or **large-scale data processing**.
+
+**Example**:
+
+-   A **Volume with 250 MB/s throughput** could transfer 250 megabytes of data every second.
+
+**Types of EBS Volumes with Throughput**:
+
+-   **Throughput Optimized HDD (st1)** and **Cold HDD (sc1)**: These are ideal for **high-throughput, sequential workloads** like **data logging**, **data warehousing**, and **large file processing**.
+-   **Provisioned IOPS SSD (io1/io2)**: While **io1/io2** volumes are designed for high IOPS, they also provide **higher throughput** compared to general-purpose SSDs.
+-   **General Purpose SSD (gp2, gp3)**: These volumes provide **balanced IOPS** and **throughput**, ideal for most use cases, but **gp3** allows for higher **throughput provisioning** (up to **1,000 MB/s**).
+
+**When to Use Throughput**:
+
+-   Use volumes with **high throughput** for **sequential I/O workloads**, such as **video processing**, **log processing**, or **large-scale data transfers** that need high **data transfer rates**.
+
+* * * * *
+
+
+
+### **Summary**:
+
+-   **IOPS**: Measures how many read/write operations your volume can handle per second. Important for **random access** workloads like **databases**.
+-   **Throughput**: Measures how much data can be transferred to/from your volume per second. Important for **sequential access** workloads like **big data analytics** or **media processing**.
+
+* * * * *
+
+### **Exam Power-Up**:
+
+-   **IOPS**: High IOPS is best for **random I/O** operations (databases, transactional systems).
+-   **Throughput**: High throughput is best for **sequential I/O** operations (big data processing, streaming, log processing).
+-   **EBS Types**:
+    -   **io1/io2**: High IOPS and throughput, ideal for high-performance workloads.
+    -   **gp3**: Balanced performance, good for general workloads.
+    -   **st1/sc1**: High throughput, great for sequential workloads.
+
+
+* * * 
 
 ### 1.6.5. Elastic Block Store (EBS)
 
@@ -4972,68 +5134,169 @@ size increases.
     - maximum t-put for logs or media storage
   - Cold HDD (sc1)
 
-#### 1.6.5.1. General Purpose SSD (gp2)
+### **Types of EBS Volumes, Mnemonics, and Billing Explanation**
 
-Volume can be small as 1Gb and large as 16TB, 
+Here's a breakdown of **EBS (Elastic Block Store) volumes**, how to easily remember them, and how they're billed. I'll also explain **burstable IOPS** and **Multi-Attach** EBS.
 
-It is createad with IO credit allocation(think of it as bucket), lets say 1 credit is 16Kb data and if you are transferring 160Kb of data then 
-It will be 10 blocks and 10 IO Credit of data
+* * * * *
 
-Uses a performance bucket architecture based on the IOPS it can deliver.
+### **Types of EBS Volumes**
 
-The GP2 starts with 5,400,000 IO credit allocated. It is all available instantly.
-You can consume the capacity quickly or slowly over the life of the volume.
-The capacity is filled back based upon the volume size.
-Min of 100 IOPS added back to the bucket per second.
+There are **5 primary types** of EBS volumes, and each is optimized for different use cases:
 
-Above that, there are 3 IOPS/GiB of volume size. The max is 16,000 IOPS.
-This is the **baseline performance**
+* * * * *
 
-Default for boot volumes and should be the default for data volumes.
-Can only be attached to one EC2 instance at a time.
+### **1\. General Purpose SSD (gp2 and gp3)**
 
-_**GP3 - 3000IOPS & 125MiB/s to 16000 IOPS & 1,000 MiB/s -- Size -- 1 GB to 16 TB**_
+-   **Purpose**: Provides **balanced performance** for a variety of workloads.
+-   **Use Cases**: **Boot volumes**, **small to medium-sized databases**, and **development/test environments**.
+-   **Performance**:
+    -   **gp3** allows **provisioning IOPS** and **throughput** independently, making it a more flexible and performant option than **gp2**.
 
-Usage - Low latency storage, VM , for Boot options and low storage DB
+**Mnemonic**: "**G**eneral **P**urpose (GP), **G**reat **P**rice"
+
+-   GP stands for **General Purpose**. These volumes are great for **everyday tasks** and are **cost-effective**.
+
+**Billing**:
+
+-   **gp2**: Billed based on **storage** (per GB-month) and **IOPS** (automatically burstable to 3,000 IOPS).
+-   **gp3**: Billed based on **storage**, **IOPS**, and **throughput**. You can **provision** IOPS and throughput independently.
+
+* * * * *
+
+### **2\. Provisioned IOPS SSD (io1 and io2)**
+
+-   **Purpose**: Optimized for **high-performance, low-latency applications** that require **high IOPS** and **consistent performance**.
+-   **Use Cases**: **Databases**, **transactional systems**, **critical workloads** like **NoSQL databases** (e.g., **Cassandra**).
+-   **Performance**:
+    -   **io1**: Can be provisioned up to **64,000 IOPS**.
+    -   **io2**: Offers **higher durability** and up to **256,000 IOPS**.
+
+**Mnemonic**: "**I**ncredible **O**utstanding **1**/2 Performance"
+
+-   io stands for **I/O-intensive applications**. **1/2** is for **io1/io2**, which are **provisioned** for consistent, high IOPS performance.
+
+**Billing**:
+
+-   Billed based on **provisioned storage** (per GB-month), **IOPS** (provisioned), and **throughput**.
+
+* * * * *
+
+### **3\. Throughput Optimized HDD (st1)**
+
+-   **Purpose**: Optimized for **high-throughput, sequential workloads**.
+-   **Use Cases**: **Big data processing**, **data warehousing**, **log processing**.
+-   **Performance**: Up to **500 MB/s throughput** and **40,000 IOPS**.
+
+**Mnemonic**: "**S**equential **T**hroughput (ST)"
+
+-   ST stands for **Sequential Throughput**, designed for tasks that require **fast data transfer**.
+
+**Billing**:
+
+-   Billed based on **storage** (per GB-month) and **throughput** (per MB transferred). No charge for IOPS.
+
+* * * * *
+
+### **4\. Cold HDD (sc1)**
+
+-   **Purpose**: Designed for **low-cost storage** for infrequent access data.
+-   **Use Cases**: **Archival storage**, **backup**, and **log storage**.
+-   **Performance**: Lower throughput than **st1**, providing **250 MB/s throughput** and **12,000 IOPS**.
+
+**Mnemonic**: "**S**tored **C**old (SC)"
+
+-   SC stands for **Stored Cold**, optimized for **infrequent access** or **archival** data.
+
+**Billing**:
+
+-   Billed based on **storage** (per GB-month) and **throughput** (per MB transferred).
+
+* * * * *
+
+### **5\. Magnetic (Standard)** *(Legacy)*
+
+-   **Purpose**: Low-cost storage for workloads that don't require high performance.
+-   **Use Cases**: Older workloads, backup, and archives that don't require fast access.
+-   **Performance**: Moderate throughput and IOPS.
+
+**Mnemonic**: "**M**agical **S**tandard"
+
+-   **M** stands for **Magnetic** storage. It's **magical** for **legacy** workloads.
+
+**Billing**:
+
+-   Billed based on **storage** (per GB-month). This volume is mostly **phased out** in favor of SSD-based options.
+
+* * * * *
+
+### **Burstable IOPS**:
+
+-   **Burstable IOPS** refers to the ability of certain EBS volumes (especially **gp2** and **gp3**) to handle **IOPS bursts** beyond the baseline IOPS for short periods of time.
+    -   **gp2** automatically bursts to **3,000 IOPS** when the instance requires additional performance. It has a **baseline IOPS** of **3 IOPS per GB** of storage, but it can **burst** up to **3,000 IOPS** if needed (i.e., during peak activity).
+    -   **gp3** allows you to **provision IOPS** directly and can burst up to **16,000 IOPS**.
+
+**How Burstable IOPS Works**:
+
+-   **Bursty IOPS** means that, during normal usage, an EBS volume might not need to perform as many I/O operations (hence, the baseline IOPS is low), but when the system requires it (e.g., a spike in user activity), the volume **bursts** to a higher IOPS rate for a short period of time.
+-   **gp2 volumes** accumulate **IOPS credits** when not in heavy use, and these credits are spent during burst activity. Once the credits are exhausted, the volume will revert to its baseline performance.
+
+* * * * *
+
+### **Multi-Attach EBS**
+
+-   **Multi-Attach** allows you to attach a single **EBS volume** to **multiple EC2 instances** in the same **Availability Zone** (AZ).
+-   This feature is **available only for io1 and io2 volumes**, which are high-performance SSD volumes.
+
+**Use Case**:
+
+-   **Multi-Attach** is useful for applications that require shared access to the same data from **multiple EC2 instances** simultaneously. This is commonly used in **clustered applications** such as **Apache Hadoop** or **Oracle RAC**.
+-   It allows **high availability** and **redundancy**, as multiple instances can access the same volume if one instance goes down.
+
+**Limitations**:
+
+-   **Write Conflicts**: Only one EC2 instance can write to the volume at a time. **Read operations** can be done by all instances, but you need to manage **write access** to avoid conflicts.
+
+* * * * *
+
+### **How EBS Volumes Are Billed**
+
+EBS volumes are billed based on several factors, depending on the type:
+
+-   **Provisioned Storage**: You are billed for the amount of storage you provision (in GB per month).
+-   **IOPS** (for io1/io2): You are billed for the **IOPS** you provision for io1 and io2 volumes (in IOPS per month).
+-   **Throughput**: For throughput-based volumes (st1, sc1, and gp3), you are billed for the throughput you provision (in MB per second).
+-   **Snapshot Storage**: If you take snapshots of your EBS volumes, you are billed for the **snapshot storage** used.
+
+* * * * *
+
+### **Quick Mnemonic for EBS Volume Types**:
+
+1.  **gp2, gp3** -- "**G**eneral **P**urpose" -- Balanced performance, good for most workloads.
+2.  **io1, io2** -- "**I**ncredible **O**utstanding IOPS" -- High IOPS for **high-performance apps**.
+3.  **st1** -- "**S**equential **T**hroughput" -- Best for **high throughput** applications like data warehousing.
+4.  **sc1** -- "**S**tored **C**old" -- For **cold storage** and infrequent access.
+5.  **magnetic** -- "**M**agical **S**tandard" -- Legacy, **low-cost storage**.
+
+* * * * *
+
+### **Summary of Key Points**:
+
+-   **Burstable IOPS** is a feature in volumes like **gp2** and **gp3** that allows them to temporarily burst their IOPS beyond the baseline.
+-   **Multi-Attach** allows an **io1** or **io2** volume to be attached to **multiple EC2 instances** for high-availability applications, but only one instance can write to the volume at any given time.
+-   **Billing** is based on **storage** (per GB), **IOPS** (for **io1/io2**), and **throughput** (for **st1, sc1, gp3**).
+
+* * * * *
+
+### **Exam Power-Up**:
+
+-   **EBS Types**: **gp3** (General Purpose), **io1/io2** (High IOPS), **st1/sc1** (High throughput for big data), and **magnetic** (legacy).
+-   **Burstable IOPS**: **gp2** volumes can burst to **3,000 IOPS** based on credit accumulation.
+-   **Multi-Attach**: Available only for **io1/io2 volumes**, allowing them to be attached to **multiple EC2 instances** in the same AZ.
+
+Let me know if you'd like more examples or clarification!
 
 
-#### 1.6.5.2. Provisioned IOPS SSD (io1)
-
-You pay for capacity and the IOPs set on the volume.
-This is good if your volume size is small but need a lot of IOPS.
-
-50:1 IOPS to GiB Ratio
-64,000 is the max IOPS per volume assuming 16 KiB I/O.
-
-Good for latency sensitive workloads such as mongoDB.
-Multi-attach allows them to attach to multiple EC2 instances at once.
-
-#### 1.6.5.3. HDD Volume Types
-
-- great value
-- great for high throughput vs IOPs
-- 500 GiB - 16 TiB
-- Neither can be used for EC2 boot volumes.
-- Good for streaming data on a hard disk.
-  - Media conversion with large amounts of storage.
-- Frequently accessed high throughput intensive workload
-  - log processing
-  - data warehouses
-- The access patterns should be sequential
-  - Massive inefficiency for small reads and writes
-
-Two types
-
-- st1
-  - Starts at 1 TiB of credit per TiB of volume size.
-  - 40 MB/s baseline per TiB
-  - Burst of 250 MB/s per TiB
-  - Max t-put of 500 MB/s
-- sc1
-  - Designed for less frequently accessed data, it fills slower.
-  - 12 MB/s baseline per TiB
-  - Burst of 80 MB/s per TiB
-  - Max t-put of 250 MB/s
 
 #### 1.6.5.4. EBS Exam Power Up
 
@@ -5057,8 +5320,7 @@ if the whole AZ fails.
 - **Can be attached ONLY at launch. Cannot be attached later.**. CANNOT ADD LATER
 - Can be attached to more than one instance from the same host.
 - These are ephermal storage (meaning if instance is moved between host) it will lose the data
-- 
-Each instance has a collection of volumes that are
+- Each instance has a collection of volumes that are
 locked to that specific host. If the instance moves, the data doesn't.
 
 Instances can move between hosts for many reasons:
@@ -5106,6 +5368,23 @@ When to use Instance Store
 - Rigid lifecycle link between storage and the instance.
   - This ensures the data is erased when the instance goes down.
 
+
+
+### **9\. Key Differences at a Glance**
+
+| **Feature** | **EBS (Elastic Block Store)** | **Instance Store** |
+| --- | --- | --- |
+| **Persistence** | Persistent (data remains when instance stops) | Ephemeral (data lost when instance stops/terminates) |
+| **Durability** | Highly durable (99.999% durability) | Low durability (data is lost if instance fails) |
+| **Performance** | Varies by volume type (gp2, io1, etc.) | High-performance, low-latency access |
+| **Use Cases** | Databases, boot volumes, persistent storage | Temporary storage, scratch space, high-speed cache |
+| **Billing** | Based on storage size, IOPS, and throughput | Free with the EC2 instance (if instance store is available) |
+| **Volume Size** | Up to **16 TiB** (depends on volume type) | Limited by instance type size (depends on the instance type) |
+| **Snapshot Support** | Yes, EBS snapshots can be taken and restored | No snapshot support |
+| **Attachability** | Can be attached to multiple instances (with Multi-Attach for io1/io2) | Tied to the instance, cannot be detached |
+
+* * * * *
+
 ### 1.6.8. EBS Snapshots, restore, and fast snapshot restore
 
 - Efficient way to backup EBS volumes to S3.
@@ -5135,6 +5414,7 @@ available immediately.
   than reading from EBS directly.
   - You can force a read of every block all data immediately using DD.
 
+<span style='color:red'>!Important: </span>
 Fast Snapshot Restore (FSR) allows for immediate restoration.
 You can create 50 of these FSRs per region. When you enable it on
 a snapshot, you pick the snapshot specifically and the AZ that you want to be
@@ -5144,54 +5424,167 @@ FSR is not free and can get expensive with lost of different snapshots.
 
 #### 1.6.8.2. Snapshot Consumption and Billing
 
-Billed using a GB/month metric.
-20 GB stored for half a month, represents 10 GB-month.
+### **1\. Billing for EBS Snapshots**
 
-This is used data, not allocated data. If you have a 40 GB volume but only
-use 10 GB, you will only be charged for the allocated data.
-This is not how EBS itself works.
+#### **Storage Cost**:
 
-The data is incrementally stored which means doing a snapshot every 5 minutes
-will not necessarily increase the charge as opposed to doing one every hour.
+-   **Snapshots are billed based on the amount of data stored** in them, which is **measured in GB per month**.
+-   The cost is calculated for the total amount of **data** stored in the snapshot, not just the volume size. If you create multiple snapshots, you are charged based on the total data that has been backed up.
+
+#### **Incremental Snapshots**:
+
+-   Snapshots are **incremental**: After the first snapshot, **only the changes** (deltas) are saved. This means that if you take a snapshot of a volume, the first snapshot will contain the entire volume, and subsequent snapshots will only store the data that has changed.
+-   **Example**:
+    -   First snapshot: Entire 100 GB EBS volume is backed up.
+    -   Second snapshot: Only the **changes** made to the volume (e.g., 10 GB) since the last snapshot will be saved.
+    -   The **cost is based on the total size of the snapshot data**, so the second snapshot will only cost for **10 GB** of changes, not the entire 100 GB again.
+
+#### **Snapshot Storage Pricing**:
+
+-   **Snapshot storage** is billed at a rate of **per GB-month** of storage.
+    -   **Example**: If you have a snapshot that is 50 GB, you will be billed for 50 GB of snapshot storage, regardless of how many snapshots you take.
+-   **Retention**: The cost continues as long as the snapshot is stored, even if the data in the snapshot hasn't changed. If you delete a snapshot, you stop paying for its storage.
+
+* * * * *
+
 
 #### 1.6.8.3. EBS Encryption
 
-Provides at rest encryption for block volumes and snapshots.
+### **EBS Encryption and How It Works**
 
-When you don't have EBS encryption, the volume is not encrypted.
-The physical hardware itself may be performing at rest encryption, but
-that is a separate thing.
+**EBS (Elastic Block Store)** encryption provides **data security** for your data at rest, in transit, and during the snapshot process. It ensures that the **data stored on EBS volumes** is encrypted and protected from unauthorized access.
 
-When you set up an EBS volume initially, EBS uses KMS and a customer master key.
-This can be the EBS default (CMK) which is referred to as `aws/ebs` or it
-could be a customer managed CMK which you manage yourself.
+---
 
-That key is used by EBS when an encrypted volume is created. The CMK
-generates an encrypted **data encryption key (DEK)** which is stored with the volume
-on the physical disk. This key can only be decrypted using KMS when a role with
-the proper permissions to decrypt that DEK.
+### **Key Concepts of EBS Encryption**
 
-When the volume is first used, EBS asks CMS to decrypt the key and stores
-the decrypted key in memory on the EC2 host while it's being used. At all
-other times it's stored on the volume in encrypted form.
+1. **Data at Rest**:
+   - **Encryption** ensures that the data **stored on the EBS volume** is secured and cannot be accessed without proper decryption keys.
 
-When the EC2 instance is using the encrypted volume, it can use the
-decrypted data encryption key to move data on and off the volume. It is used
-for all cryptographic operations when data is being used to and from the
-volume.
+2. **Data in Transit**:
+   - **Encryption in transit** protects data as it moves between the **EC2 instance** and the **EBS volume** over the network.
 
-When data is stored at rest, it is stored as ciphertext.
+3. **Snapshot Encryption**:
+   - When you create a snapshot of an encrypted EBS volume, the snapshot itself is automatically encrypted.
 
-If the EBS volume is ever moved, the key is discarded.
+4. **Automatic Encryption**:
+   - EBS encryption is fully integrated into **AWS services**, and you don’t need to manage encryption manually. AWS handles the key management and encryption/decryption process for you.
 
-If a snapshot is made of an encrypted EBS volume, the same data encryption
-key is used for that snapshot. Anything made from this snapshot is also
-encrypted in the same way.
+---
 
-Every time you create a new EBS volume from scratch, it creates a new
-data encryption key.
+### **How EBS Encryption Works**
 
-##### 1.6.8.3.1. EBS Encryption Exam Power Up
+#### **1. Volume Encryption**
+
+- **EBS volumes** can be encrypted using **AWS Key Management Service (KMS)** keys. 
+- When you create a **new EBS volume**, you have the option to enable **encryption**:
+  - By default, EBS volumes use the **AWS-managed KMS key** (`aws/ebs`).
+  - You can also specify a **customer-managed KMS key** for more control over the encryption process.
+
+#### **2. How Encryption is Implemented**:
+
+- When you enable encryption for an EBS volume, all data written to the volume is **automatically encrypted** before it is stored.
+- Encryption happens at the **block level**, meaning that **all data**, including the operating system, applications, and files, is encrypted.
+  
+**Key Management**:
+- **KMS keys** are used for both **encryption** and **decryption**. You can use **AWS-managed keys** or create your own **customer-managed keys** (CMKs) for **additional control** over key usage and policies.
+
+- **AWS KMS** provides **centralized management** of encryption keys. It allows you to define policies for who can use the keys and when the keys can be used.
+
+#### **3. Data Access and Encryption Process**:
+- **When data is written** to the encrypted EBS volume, the data is automatically encrypted before it’s stored.
+- **When data is read** from the encrypted EBS volume, it is automatically decrypted before it’s provided to the EC2 instance.
+
+---
+
+### **EBS Encryption Features**
+
+1. **Seamless Integration with EC2**:
+   - **EBS encryption** works seamlessly with EC2 instances, meaning you don’t need to make any changes to your EC2 instances to access encrypted volumes.
+   - EC2 instances that are using **encrypted EBS volumes** can access the data without needing additional decryption steps.
+
+2. **Encryption for Snapshots**:
+   - **Snapshots of encrypted EBS volumes** are automatically encrypted as well. When you create a snapshot, the snapshot data is encrypted with the same key used for the original volume.
+   - If you copy an **encrypted snapshot**, the copy will also be encrypted by default.
+  
+3. **Support for Different Volume Types**:
+   - Encryption can be applied to all types of EBS volumes, including:
+     - **General Purpose SSD (gp2/gp3)**
+     - **Provisioned IOPS SSD (io1/io2)**
+     - **Throughput Optimized HDD (st1)**
+     - **Cold HDD (sc1)**
+
+4. **Volume Attachment and Encryption**:
+   - If you attach an **encrypted EBS volume** to an EC2 instance, the volume will remain encrypted.
+   - If you copy an encrypted volume to another region or AZ, the destination volume will automatically be encrypted as well, using either the same or a different encryption key.
+
+5. **Cross-Region Snapshot Copying**:
+   - When copying a snapshot of an encrypted EBS volume to another **region**, the snapshot will remain encrypted.
+   - You can either copy it with the same encryption key or specify a new **KMS key** for the destination region.
+
+---
+
+### **Key Management for EBS Encryption**
+
+- **AWS-managed keys**: By default, EBS encryption uses the **AWS-managed KMS key** (`aws/ebs`), which is created and managed by AWS. You don’t need to worry about managing these keys yourself.
+  
+- **Customer-managed keys (CMKs)**: If you require more control, you can create your own **CMKs** using **AWS KMS**. You can define key policies, control who can use the key, and even define **rotation policies** for key management.
+
+---
+
+### **How to Enable EBS Encryption**
+
+1. **At Volume Creation**:
+   - When creating an EBS volume, you can enable encryption by selecting the **Encryption checkbox**. You can then either use the default AWS-managed key or a **customer-managed KMS key**.
+   
+2. **For Existing Volumes**:
+   - You **cannot enable encryption on an existing volume** directly. However, you can:
+     - Create a snapshot of the unencrypted volume.
+     - Copy the snapshot and enable encryption.
+     - Create a new encrypted EBS volume from the encrypted snapshot.
+
+---
+
+### **EBS Encryption Billing**
+
+1. **Costs for Encryption**:
+   - **EBS encryption** does **not** incur additional charges. You only pay for the storage (in GB per month) of the encrypted volume and the associated snapshots.
+   - The cost for **KMS** is also a consideration: using **AWS-managed keys** is free, but if you use **customer-managed keys (CMKs)**, you may incur charges for KMS operations, such as **key usage** and **requests**.
+
+2. **Snapshot Storage**:
+   - **Encrypted snapshots** are billed the same as non-encrypted snapshots, based on the **snapshot size** (per GB per month), not the encryption status.
+
+---
+
+### **Limitations and Considerations**:
+- **Performance Impact**: There is **no performance overhead** when using EBS encryption. The encryption and decryption are performed by the hardware and software, and the performance is nearly identical to an unencrypted volume.
+  
+- **No Support for Instance Store Volumes**: EBS encryption only works for **EBS volumes**, not for **instance store volumes**, as instance store volumes are ephemeral (temporary) and not persistent.
+
+- **Compatibility with Instance Types**: Encryption works with **all EC2 instance types** without needing additional configuration.
+
+---
+
+### **EBS Encryption Use Case Example**:
+
+- **Scenario**: You are running a **financial application** on an EC2 instance, and you want to ensure that all sensitive data on the attached **EBS volumes** is encrypted for security compliance.
+  - **Solution**: Enable **EBS encryption** at the time of volume creation using **AWS-managed keys** or a **customer-managed KMS key**. This ensures that all data stored on the EBS volume is encrypted at rest and during transit between the EC2 instance and the EBS volume. Additionally, the snapshots you create for backups will also be encrypted.
+
+---
+
+### **Summary**
+
+- **EBS encryption** ensures that data stored on EBS volumes is encrypted **at rest** and **in transit**.
+- You can **enable encryption** when creating new volumes or snapshots and choose between **AWS-managed keys** or **customer-managed keys** for more control.
+- **Encrypted snapshots** are automatically created when you take a snapshot of an encrypted volume, ensuring consistent security for backups.
+- There’s no additional charge for encryption itself, but there may be charges for **KMS key usage** if you use customer-managed keys.
+
+---
+
+### **Exam Power-Up**:
+- **EBS Encryption**: Ensures **data security** at rest and in transit using **KMS** keys.
+- **AWS-managed Keys** are used by default, but you can use **customer-managed keys** for more control.
+- **Snapshots** of encrypted EBS volumes are automatically encrypted and stored securely.
 
 - AWS accounts can be set to encrypt EBS volumes by default with a default CMK key.
   - It will use the default CMK unless a different one is chosen.
@@ -5209,6 +5602,41 @@ data encryption key.
 encrypt or hold the keys, then you need to perform full disk encryption
 at the operating system level.
 
+
+### Can an Encrypted EBS Volume Be Decrypted to Its Original Form?
+No, once an EBS volume is encrypted, it cannot be decrypted directly back to its original, unencrypted state. However, there are ways to move data from an encrypted volume to an unencrypted one using a process that involves creating snapshots and copying volumes, but this is not the same as decrypting the volume itself.
+
+### **Method 1: Copy the Snapshot to an Unencrypted Volume**
+
+1.  **Take a Snapshot**:
+
+    -   Create a **snapshot** of the encrypted volume. The snapshot will be encrypted because it is a backup of the encrypted volume.
+
+2.  **Copy the Snapshot** to an Unencrypted Volume:
+
+    -   **Copy** the encrypted snapshot and during the copy process, **you have the option to disable encryption**.
+
+    -   This will create a **new, unencrypted snapshot** of the data.
+
+3.  **Create an Unencrypted Volume**:
+
+    -   From the newly copied (unencrypted) snapshot, you can **create a new EBS volume** that is unencrypted.
+
+4.  **Attach the New Unencrypted Volume**:
+
+    -   You can now **attach the unencrypted volume** to your EC2 instance and access the data without encryption.
+
+
+### **Method 2: Use AWS Data Migration Tools**
+
+You can also use **AWS DataSync** or other **migration tools** to copy the data from an encrypted EBS volume to an unencrypted EBS volume.
+
+### **Steps**:
+
+-   **Create an unencrypted volume** and **use AWS DataSync** to migrate the data from the encrypted volume to the unencrypted volume.
+
+
+ * * *
 ### 1.6.9. EC2 Network Interfaces, Instance IPs and DNS
 
 An EC2 instance starts with at least one ENI - elastic network interface.
@@ -5313,57 +5741,124 @@ the VPC, it will never leave the VPC. It does not need to touch the internet
 gateway.
 
 ### 1.6.10. Amazon Machine Image (AMI)
+### **Amazon Machine Image (AMI) Overview**
 
-Images of EC2 instances that can launch more EC2 instance.
+An **Amazon Machine Image (AMI)** is a **pre-configured template** that contains all the software configuration needed to launch an EC2 instance. AMIs allow you to launch multiple EC2 instances with the same configuration, making it easy to replicate environments and maintain consistency across instances.
 
-- When you launch an EC2 instance, you are using an Amazon provided AMI.
-- Can be Amazon or community provided
-- Marketplace (can include commercial software)
-  - Will charge you for the instance cost and an extra cost for the AMI
-- AMIs are regional with a unique ID.
-- So there will be different AMI for linux distribution than the other region AMI
-- Controls permissions
-  - Default only your account can use it.
-  - Can be set to be public.
-  - Can have specific AWS accounts on the AMI.
-- Can create instance from AMI and
-- Can create an AMI from an existing EC2 instance to capture the current config.
+* * * * *
 
-#### 1.6.10.1. AMI Lifecycle
+### **Key Features of AMIs:**
 
-1. Launch: EBS volumes are attached to EC2 devices using block IDs.
+1.  **Types of AMIs**:
 
-   - BOOT /dev/xvda
-   - DATA /dev/xvdf
+    -   **Amazon-provided AMIs**: These are provided by AWS and come pre-configured with common operating systems (e.g., Amazon Linux, Ubuntu, Windows).
+    -   **Community AMIs**: These are publicly shared AMIs created by other AWS users or developers.
+    -   **Marketplace AMIs**: These are provided by third-party vendors and may include commercial software (like **licensed software**, databases, etc.). They have **additional costs** for the AMI and the software.
+2.  **Regional Nature of AMIs**:
 
-2. Configure: customize the instance from applications or volume sizes. maybe attach EBS install softwares needed mount EBS
-so basically customise it to your needs
+    -   AMIs are **regional**: Each AMI is specific to a **region** and has a **unique AMI ID** in each region. This means that an AMI available in **US East (N. Virginia)** will have a different ID than the one in **EU (Frankfurt)**.
+    -   **AMI cannot be directly used across regions**. However, AMIs can be **copied** between regions.
+3.  **Permissions and Access Control**:
 
-3. Create Image or AMI
-    - AMI contains:
-      - Permissions: who can use it, is it public or private
-      - When an Image is created of an AMI who has been attached with EBS the EBS snapshots are taken and the first snapshot is full snapshot and then it will be incremental
-      - EBS snapshots are created from attached EBS volumes
-        - Snapshots are referenced inside the AMI using block device mapping(it will map the block the data and the boot block with the snapshots) 
-          example Boot/dev/xda/ with its own snapshot and DATA/dev/xvdf to its snapshot.
-        - Table of data that links the snapshot IDs that you've just
-        created when making that AMI and it has for each one of those
-        snapshots, a device ID that the original volumes had on the EC2
-        instance.
+    -   **Default permissions**: By default, only the **owner (AWS account)** can use the AMI.
+    -   You can **change the permissions** of the AMI:
+        -   Set the AMI as **public**, allowing any AWS user to launch an instance from the AMI.
+        -   Set the AMI as **private**, restricting access to specific **AWS accounts**.
+    -   Permissions control who can use the AMI and launch EC2 instances from it.
+4.  **Creating and Using AMIs**:
 
-4. Launch (**second-launch**) : When launching an instance, the snapshots are used to create new EBS
-volumes in the AZ of the EC2 instance and contain the same block device mapping.
+    -   **Launch an instance**: When you launch an EC2 instance, you are using an AMI. The instance inherits the software configuration and settings of the AMI.
+    -   **Create an AMI from an EC2 instance**: You can create an AMI from an existing EC2 instance, which captures the current configuration of that instance, including the operating system, software, and any custom configurations. This process is called **"baking"** an AMI.
 
-#### 1.6.10.2. AMI Exam PowerUps
+* * * * *
 
-- AMI can only be used in one region
-- AMI Baking: creating an AMI from a configuration instance.
-- An AMI cannot be edited. If you need to update an AMI, launch an instance,
-make changes, then make new AMI
-- Can be copied between regions
-- Remember permissions by default are your account only
-- Billing is for the storage capacity for the EBS snapshots the AMI references.
+### **AMI Lifecycle**:
 
+Here's the **step-by-step lifecycle** of how an AMI is created and used:
+
+#### **1\. Launch (Initial Launch)**:
+
+-   When you launch an EC2 instance, the instance is launched from an AMI.
+-   **EBS volumes** are created and attached to the EC2 instance using **block IDs**:
+    -   For example:
+        -   **BOOT volume**: `/dev/xvda` (the root volume).
+        -   **DATA volume**: `/dev/xvdf` (additional data storage volume).
+-   These volumes contain the necessary operating system files, application files, and data.
+
+#### **2\. Configure (Customizing the Instance)**:
+
+-   After launching the instance, you can customize it to suit your needs:
+    -   **Install applications** (e.g., a web server, database).
+    -   **Attach additional EBS volumes** for data storage.
+    -   **Modify configurations** (e.g., networking, security settings).
+    -   **Update the instance** (software patches, OS updates, etc.).
+-   You may install software, adjust configurations, and make the instance ready for your use case.
+
+#### **3\. Create an AMI**:
+
+-   Once the instance is configured and you are satisfied with its setup, you can create an **AMI** from it.
+-   The AMI contains:
+    -   **Permissions**: Who can use the AMI, whether it is public or private.
+    -   **EBS Snapshots**: When you create an AMI, AWS takes **snapshots** of the attached EBS volumes. The **first snapshot** is a **full snapshot**, and **subsequent snapshots** are **incremental**, containing only the changes since the last snapshot.
+    -   **Block Device Mapping**: The block device mapping stores which device IDs correspond to which snapshots (for example, `/dev/xvda` might point to a snapshot of the root volume, and `/dev/xvdf` might point to a snapshot of a data volume).
+
+#### **4\. Launch (Second Launch)**:
+
+-   When you **launch a new EC2 instance from the AMI**, AWS uses the snapshots referenced in the AMI's block device mapping to create new **EBS volumes** in the same **Availability Zone (AZ)**.
+    -   The volumes are created using the same data and block mapping as the original instance, ensuring that the new instance is identical to the one the AMI was created from.
+    -   The new instance will have the same **software configurations** and **attached EBS volumes** as the original instance.
+
+* * * * *
+
+### **Additional AMI Features**:
+
+1.  **AMI Copies Between Regions**:
+
+    -   You can **copy an AMI** to another region. This is useful if you want to replicate the same environment in different geographical regions or ensure that an AMI is available in multiple regions for disaster recovery or scalability.
+    -   The copied AMI will have a new **AMI ID** in the destination region.
+2.  **AMI Cannot Be Edited**:
+
+    -   Once an AMI is created, it **cannot be edited**. If you need to make changes to the AMI, you would:
+        -   Launch an instance from the AMI.
+        -   Make the necessary changes to the instance.
+        -   Create a **new AMI** from the updated instance.
+3.  **AMI and Billing**:
+
+    -   **Billing for AMIs** is based on the **storage capacity of the EBS snapshots** that the AMI references.
+        -   You are billed for the **EBS snapshot storage** used by the AMI, not for the AMI itself.
+    -   **Copying AMIs** between regions incurs additional costs, as you are charged for the **storage** in the new region and for **data transfer** between regions.
+
+* * * * *
+
+### **AMI Exam Power-Ups**:
+
+-   **AMI Types**: Amazon provides **AMI** templates, community AMIs, and AMIs from the **AWS Marketplace** (which may include commercial software).
+-   **Regional**: AMIs are **regional**; each region has a **unique AMI ID**.
+-   **Permissions**: By default, only your account can use the AMI. You can make it **public** or share it with specific AWS accounts.
+-   **AMI Creation**: AMIs are created from **EC2 instances**, and **EBS snapshots** are created for each attached volume.
+-   **Incremental Snapshots**: EBS snapshots in AMIs are **incremental** after the first full snapshot.
+-   **AMI Copying**: AMIs can be copied between regions, but the copied AMI will have a new **AMI ID**.
+-   **Billing**: You are billed for the **storage** used by the **EBS snapshots** referenced by the AMI.
+
+* * * * *
+
+### **Summary**:
+
+-   An **Amazon Machine Image (AMI)** is a pre-configured image of an EC2 instance that includes an OS, applications, and configurations.
+-   **AMI lifecycle** includes **launching an instance**, **configuring it**, **creating an AMI**, and **launching new instances** from that AMI.
+-   **AMI permissions** control access to the image, and you can **copy AMIs across regions**.
+-   **AMI creation** involves **EBS snapshots**, which are **incremental**, and you're billed for the **EBS snapshot storage**.
+
+* * * * *
+
+### **Exam Power-Up**:
+
+-   **AMI**: Template to launch EC2 instances, includes **OS** and configurations.
+-   **Snapshots**: **Full snapshot** initially, followed by **incremental snapshots**.
+-   **Regional AMI**: Each **AMI is region-specific** and has a **unique ID** in each region.
+-   **Billing**: Billed based on **EBS snapshot storage**.
+
+ * * *
 ### 1.6.11. EC2 Pricing Models
 
 #### 1.6.11.1. On-Demand Instances
@@ -5429,8 +5924,7 @@ Autorecovery can kick in and help,
 
 ### Termination protection
 
-Attribute to remember
-**disableApiTermination**
+><span style='color:red'> !Important: </span> Attribute to remember ```disableApiTermination```
 
 # Disabling EC2 Termination Protection
 
@@ -5478,7 +5972,7 @@ servers get equal parts of the load.
 - This requires either *application support* or *off-host* sessions.
   - If you use off-host sessions, then your session data is stored in another place, an external database.
   - This means that the servers are what's called **stateless**, they are just dump instances of your application.
-  - The application does care which instance you are connected to because your session is externally hosted somewhere else.
+  - The application does not care which instance you are connected to because your session is externally hosted somewhere else.
 
 #### 1.6.13.3. Benefits of Horizontal Scaling
 
@@ -5488,21 +5982,132 @@ servers get equal parts of the load.
 - Allows for better granularity.
 
 ### 1.6.14. Instance Metadata
+### **Instance Metadata in AWS EC2**
 
-> A service EC2 provides to instances. It is data about the instance that can be used to configure or manage a running instance.
-> It is a way an instance or anything running inside an instance can access information about the environment it wouldn't be able to access otherwise.
+**Instance metadata** is a **service** provided by **AWS EC2 instances** that allows the **instance** to access information about its environment. This information can be useful for configuration management, instance management, or retrieving data related to the EC2 instance that it wouldn’t normally have access to.
 
-- Accessible inside all instances using the same access method.
+### **What is Instance Metadata?**
+- **Instance metadata** refers to the data or information related to the **EC2 instance** itself. It contains configuration details about the instance, including networking, instance-specific settings, and user data that were provided when the instance was launched.
+- This data is available **only from within the instance**, which means that only the instance itself can access this metadata by querying a special **metadata endpoint**.
 
-Memorize [instance metadata](http://169.254.169.254/latest/meta-data/) -> `http://169.254.169.254/latest/meta-data/`
+---
 
-Meta-data contains information on the:
+### **How to Access Instance Metadata**
 
-- environment the instance is in.
-- You can find out about the networking or user-data among other things.
-- This is not authenticated or encrypted. Anyone who can gain access to the
-instance can see the meta-data. This can be restricted by local firewall
+- Instance metadata is available at the following URL from within the instance:
+  ```
+  http://169.254.169.254/latest/meta-data/
+  ```
+  - The `169.254.169.254` IP address is a **link-local** address, meaning that it is only accessible from the instance itself (not from outside the instance or the VPC).
+  - By accessing the URL above, you can retrieve instance-specific details such as **instance ID**, **instance type**, **network interfaces**, **user data**, and more.
+  
+- **Access method**: To access metadata, you can use **curl** (from the EC2 instance), like so:
+  ```bash
+  curl http://169.254.169.254/latest/meta-data/
+  ```
 
+---
+
+### **Key Components of Instance Metadata**
+
+1. **Instance Identity Metadata**:
+   - The instance identity metadata provides information such as the **instance ID**, **AMI ID**, **instance type**, and **region**. This allows an EC2 instance to know its identity and details about the environment.
+   
+   **Examples**:
+   - `instance-id`: The unique ID of the EC2 instance (e.g., `i-0123456789abcdef0`).
+   - `ami-id`: The ID of the Amazon Machine Image (AMI) the instance was launched from.
+   - `instance-type`: The EC2 instance type (e.g., `t2.micro`).
+   - `region`: The AWS region in which the instance is running (e.g., `us-east-1`).
+
+2. **Network Metadata**:
+   - This section provides information about the instance’s **networking configuration**, including **private IP addresses**, **public IP addresses** (if assigned), **subnet IDs**, **VPC IDs**, and **security groups**.
+   
+   **Examples**:
+   - `local-ipv4`: The **private IP address** of the instance.
+   - `public-ipv4`: The **public IP address** of the instance (if it has one).
+   - `security-groups`: The names of the **security groups** the instance belongs to.
+
+3. **User Data**:
+   - **User data** is data passed to the instance during its launch. This can include **scripts** or other configuration data that can be used to **configure the instance** automatically.
+   - User data is commonly used for tasks like **automatic application deployment** or **instance configuration** upon startup.
+
+   **Example**:
+   - `user-data`: A base64-encoded string or script that is passed when the instance is launched (e.g., a bash script to install software).
+
+4. **IAM Role Metadata**:
+   - If the EC2 instance is associated with an **IAM role**, metadata is available about the **role**, including the **permissions** granted by the role and the temporary **credentials** the instance can use to access AWS services.
+   
+   **Examples**:
+   - `iam/info`: Contains details about the IAM role attached to the instance.
+   - `iam/security-credentials/<role-name>`: Contains the **temporary security credentials** (access keys, secret keys, and session tokens) used by the EC2 instance to access AWS resources.
+
+5. **Block Device Metadata**:
+   - Metadata about the **block devices** attached to the EC2 instance is also available. This includes information about the root volume, additional volumes, and the device mapping to the EBS volumes.
+   
+   **Example**:
+   - `block-device-mapping`: Information on block devices attached to the instance, such as the device name and volume ID.
+
+---
+
+### **Important Points About Instance Metadata**
+
+1. **No Authentication or Encryption**:
+   - Instance metadata is **not authenticated** or **encrypted**. This means that **any process running within the instance** can access it.
+   - **Security risk**: If an attacker gains access to an EC2 instance, they can potentially access the instance metadata and use the **IAM role credentials** to make unauthorized API requests.
+
+2. **Firewall Restrictions**:
+   - You can restrict access to instance metadata by configuring the **instance's firewall** (e.g., iptables or AWS security groups). By default, the metadata is available at the `169.254.169.254` address, but access to this can be blocked if necessary.
+   - **AWS recommends** using **instance metadata service v2 (IMDSv2)**, which requires the instance to use **session tokens** to access metadata, improving security.
+
+3. **Instance Metadata Service v2 (IMDSv2)**:
+   - **IMDSv2** was introduced to improve security by requiring that metadata requests be made using **session tokens**. This adds an additional layer of protection against certain types of attacks, such as **Server-Side Request Forgery (SSRF)**.
+   - IMDSv2 is **recommended** for all EC2 instances, and you can enforce it when launching or modifying EC2 instances.
+
+   **Example of IMDSv2**:
+   - First, you make a **metadata request** to receive a **token**:
+     ```bash
+     curl -X PUT http://169.254.169.254/latest/api/token -H "X-aws-ec2-metadata-token-ttl-seconds: 21600"
+     ```
+   - Then, use the **token** for further metadata requests:
+     ```bash
+     curl -H "X-aws-ec2-metadata-token: <token>" http://169.254.169.254/latest/meta-data/
+     ```
+
+4. **Metadata Caching**:
+   - Instance metadata is typically **cached** to improve performance, meaning that repeated requests to the same metadata endpoint will return the same response without hitting the instance metadata service again.
+   
+---
+
+### **Common Use Cases for Instance Metadata**
+
+1. **Instance Configuration**:
+   - Applications running inside an EC2 instance can access the **instance metadata** to configure themselves based on instance-specific details like the **instance ID**, **AMI ID**, or **region**.
+
+2. **Dynamic User Data Scripts**:
+   - You can access **user data** through instance metadata to **configure the instance on startup**, such as running a script that installs software or modifies configurations.
+
+3. **Accessing IAM Role Credentials**:
+   - EC2 instances can retrieve **temporary IAM role credentials** from the metadata service. These credentials allow the instance to make AWS API calls on behalf of the IAM role and access other AWS resources, such as **S3 buckets**, **DynamoDB**, or **CloudWatch logs**.
+
+4. **Monitoring and Logging**:
+   - Tools that monitor EC2 instances can query the **instance metadata** to collect instance-specific information such as **instance type**, **availability zone**, or **hostname** for generating instance-level metrics.
+
+---
+
+### **Summary**
+
+- **Instance metadata** is a service provided by EC2 to allow **instances** to access data about themselves (e.g., **instance ID**, **networking**, **user data**, **IAM roles**, etc.).
+- It is **not encrypted** or **authenticated**, meaning anyone with access to the instance can read the metadata. It can be restricted using firewall settings or **IMDSv2**.
+- Metadata is available through a special **link-local** address (`169.254.169.254`), and it’s crucial for **configuring** and **managing** EC2 instances programmatically.
+
+---
+
+### **Exam Power-Up**:
+- **Instance Metadata**: Accessible from inside the instance, contains data about the **instance's environment**.
+- **IMDSv2**: Use **session tokens** for improved security and to prevent unauthorized metadata access.
+- **IAM Role Credentials**: Can be retrieved from instance metadata to access AWS resources securely.
+- **User Data**: Scripts or configuration data provided at launch time to configure instances automatically.
+  
 ---
 
 ## 1.7. Containers-and-ECS
