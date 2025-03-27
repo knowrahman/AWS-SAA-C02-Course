@@ -30,9 +30,9 @@
 Cloud computing provides
 
 1. On-Demand Self-Service: Provision and terminate using a UI/CLI without
-human interaction.
+   human interaction.
 2. Broad Network Access: Access services over any networks on any devices using
-standard protocols and methods.
+   standard protocols and methods.
 3. Resource Pooling: Economies of scale, cheaper service.
 4. Rapid Elasticity: Scale up and down automatically in response to system load.
 5. Measured Service: Usage is measured. Pay only for what you consume.
@@ -47,27 +47,27 @@ standard protocols and methods.
 
 ### 1.1.2. Cloud Service Models
 
-The *Infrastructure Stack* or *Application Stack* contains multiple components
+The _Infrastructure Stack_ or _Application Stack_ contains multiple components
 that make up the total service. There are parts that **you** manage as well
 as portions the **vendor** manages. The portions the vendor manages and you
 are charged for is the **unit of consumption**
 
 1. On-Premises: The individual manages all components from data to facilities.
-Provides the most flexibility, but also most IT intensive.
+   Provides the most flexibility, but also most IT intensive.
 2. Data Center Hosting: Place equipment in a building managed by a vendor.
-You pay for the facilities only.
+   You pay for the facilities only.
 3. Infrastructure as a Service (IaaS): Vendor manages facilities and everything
-else related to servers up to the OS. You pay per second or minute for the OS
-used to the vendor. Lose some flexibility, but big risk reductions.
+   else related to servers up to the OS. You pay per second or minute for the OS
+   used to the vendor. Lose some flexibility, but big risk reductions.
 4. Platform as a Service (PaaS): Good for running an application only. The
-unit of consumption is the runtime environment. You manage the application
-and the data, but the vendor manges all else.
+   unit of consumption is the runtime environment. You manage the application
+   and the data, but the vendor manges all else.
 5. Software as a Service (SaaS): You consume the software as a service. This
-can be Outlook or Netflix. There are almost no risks or additional costs, but
-very little control.
+   can be Outlook or Netflix. There are almost no risks or additional costs, but
+   very little control.
 
-There are additional services such as *Function as a Service*,
-*Container as a Service*, and *DataBase as a Service* which be explained later.
+There are additional services such as _Function as a Service_,
+_Container as a Service_, and _DataBase as a Service_ which be explained later.
 
 ---
 
@@ -82,20 +82,19 @@ There are additional services such as *Function as a Service*,
 
 ### 1.2.1. Public vs Private Services
 
-
 Refers to the networking only, not permissions.
 
 - Public Internet: AWS is a public cloud platform and connected to the public
-internet. It is not on the public internet, but is next to it.
+  internet. It is not on the public internet, but is next to it.
 - AWS Public Zone: Attached to the Public Internet.
-S3 Bucket is hosted in the Public Zone, not all services are.
-Just because you connect to a public service,
-that does not mean you have permissions to access it.
+  S3 Bucket is hosted in the Public Zone, not all services are.
+  Just because you connect to a public service,
+  that does not mean you have permissions to access it.
 - AWS Private Zone: No direct connectivity is allowed between the AWS Private
-Zone and the public cloud unless this is configured for that service.
-This is done by taking a part of the private service and projecting it into the
-AWS public zone which allows public internet to make inbound or outbound
-connections.
+  Zone and the public cloud unless this is configured for that service.
+  This is done by taking a part of the private service and projecting it into the
+  AWS public zone which allows public internet to make inbound or outbound
+  connections.
 
 ### 1.2.2. AWS Global Infrastructure
 
@@ -157,12 +156,12 @@ AZs are connected to each other with high speed redundant networks.
 #### 1.2.3.1. Service Resilience
 
 1. Globally Resilient: IAM or Route 53. No way for them to go down. Data is
-replicated throughout multiple regions.
+   replicated throughout multiple regions.
 2. Region Resilient: Operate as separate services in each region. Generally
-replicate data to multiple AZs in that region.
+   replicate data to multiple AZs in that region.
 3. AZ Resilient: Run from a single AZ. It is possible for hardware to fail in an
-AZ and the service to keep running because of redundant equipment, but should
-not be relied on.
+   AZ and the service to keep running because of redundant equipment, but should
+   not be relied on.
 
 ### 1.2.4. AWS Default VPC
 
@@ -171,9 +170,11 @@ Great question! Let’s break down **VPC (Virtual Private Cloud)** and **AWS Def
 ---
 
 ### **What is a VPC?**
+
 A **Virtual Private Cloud (VPC)** is a virtual network dedicated to your AWS account. It allows you to launch AWS resources (like EC2 instances, RDS databases, etc.) in a logically isolated section of the AWS Cloud. Think of it as your own private data center within AWS.
 
 #### **Key Features of a VPC:**
+
 1. **Isolation:** Resources in one VPC are isolated from resources in other VPCs.
 2. **Custom Networking:** You can define your own IP address range, subnets, route tables, and gateways.
 3. **Security:** Use security groups and network ACLs to control inbound and outbound traffic.
@@ -182,7 +183,9 @@ A **Virtual Private Cloud (VPC)** is a virtual network dedicated to your AWS acc
 ---
 
 ### **Components of a VPC**
+
 Here are the main components that make up a VPC:
+
 1. **Subnets:** A subnet is a range of IP addresses in your VPC. Subnets can be public (accessible from the internet) or private (not accessible from the internet).
 2. **Route Tables:** Define how traffic is routed within your VPC.
 3. **Internet Gateway (IGW):** Allows communication between your VPC and the internet.
@@ -194,9 +197,11 @@ Here are the main components that make up a VPC:
 ---
 
 ### **What is a Default VPC?**
+
 When you create an AWS account, AWS automatically creates a **Default VPC** in each AWS Region. This is a ready-to-use VPC with default configurations, making it easy to launch resources without needing to set up a custom VPC.
 
 #### **Features of a Default VPC:**
+
 1. **Pre-Configured Subnets:** The Default VPC includes a public subnet in each Availability Zone (AZ) in the region.
 2. **Internet Gateway:** Attached by default, allowing instances in the Default VPC to access the internet.
 3. **Public IP Addresses:** Instances launched in the Default VPC are automatically assigned a public IP address.
@@ -206,17 +211,19 @@ When you create an AWS account, AWS automatically creates a **Default VPC** in e
 ---
 
 ### **Default VPC vs. Custom VPC**
-| Feature                  | Default VPC                          | Custom VPC                          |
-|--------------------------|--------------------------------------|--------------------------------------|
-| **Creation**             | Automatically created by AWS         | Manually created by the user         |
-| **Subnets**              | Public subnets in each AZ            | User-defined public/private subnets  |
-| **Internet Access**      | Enabled by default                   | Must configure Internet Gateway      |
-| **Public IPs**           | Automatically assigned               | User-defined                         |
-| **Use Case**             | Quick deployments, testing           | Production workloads, custom setups  |
+
+| Feature             | Default VPC                  | Custom VPC                          |
+| ------------------- | ---------------------------- | ----------------------------------- |
+| **Creation**        | Automatically created by AWS | Manually created by the user        |
+| **Subnets**         | Public subnets in each AZ    | User-defined public/private subnets |
+| **Internet Access** | Enabled by default           | Must configure Internet Gateway     |
+| **Public IPs**      | Automatically assigned       | User-defined                        |
+| **Use Case**        | Quick deployments, testing   | Production workloads, custom setups |
 
 ---
 
 ### **When to Use a Default VPC**
+
 - **Quick Start:** Ideal for beginners or when you need to quickly launch resources.
 - **Testing:** Great for testing and development environments.
 - **Temporary Workloads:** Suitable for short-term or non-critical workloads.
@@ -224,6 +231,7 @@ When you create an AWS account, AWS automatically creates a **Default VPC** in e
 ---
 
 ### **When to Use a Custom VPC**
+
 - **Production Workloads:** For critical applications requiring fine-grained control over networking.
 - **Complex Architectures:** When you need multiple subnets, NAT gateways, or VPC peering.
 - **Security Compliance:** For environments requiring strict security and isolation.
@@ -237,8 +245,8 @@ IP CIDR of a default VPC is always: **172.31.0.0/16**
 
 Configured to have one subnet in each AZ in the region by default.
 
-Subnets are given one section of the IP ranges for the default service. 
-They are configured to provide anything that is deployed inside those subnets with public IPv4 addresses. 
+Subnets are given one section of the IP ranges for the default service.
+They are configured to provide anything that is deployed inside those subnets with public IPv4 addresses.
 
 In general do not use the Default VPC in a region because it is not flexible.
 
@@ -253,6 +261,7 @@ Two /17's will fit into a /16, sixteen /20 subnets can fit into one /16.
 ### **Default VPC Configuration**
 
 #### **1. IP Address Range (CIDR Block)**
+
 - The Default VPC is assigned a **/16 CIDR block**.
 - This means the VPC has **65,536 private IP addresses** available.
 - The default CIDR block for a Default VPC is typically:
@@ -260,12 +269,14 @@ Two /17's will fit into a /16, sixteen /20 subnets can fit into one /16.
   172.31.0.0/16
   ```
   - This range includes IPs from `172.31.0.0` to `172.31.255.255`.
-- So it is the same IP range for each Region and each region’s AZs gets one subnet per AZ with /20  CIDR Block
+- So it is the same IP range for each Region and each region’s AZs gets one subnet per AZ with /20 CIDR Block
 - An AZ can have more than one subnet but just the default VPC has one subnet per AZ
 - A default VPC can be deleted and recreated
+
 ---
 
 #### **2. Subnets**
+
 - The Default VPC includes **one subnet in each Availability Zone (AZ)** in the region.
 - Each subnet is assigned a **/20 CIDR block**.
   - This means each subnet has **4,096 private IP addresses**.
@@ -279,19 +290,21 @@ Two /17's will fit into a /16, sixteen /20 subnets can fit into one /16.
   - These subnets are spread across different AZs in the region.
 
 ---
-#### Example: Default VPC in `us-east-1` (3 AZs)  
-If `us-east-1` has three Availability Zones, the subnets might look like this:  
 
-| AZ         | Subnet CIDR Block  |  
-|------------|------------------|  
-| us-east-1a | 172.31.0.0/20    |  
-| us-east-1b | 172.31.16.0/20   |  
-| us-east-1c | 172.31.32.0/20   |  
+#### Example: Default VPC in `us-east-1` (3 AZs)
 
-Each subnet can host EC2 instances, RDS databases, or other AWS resources, and since it’s a Default VPC, all instances automatically get public IPs and internet access via an Internet Gateway.  
+If `us-east-1` has three Availability Zones, the subnets might look like this:
 
+| AZ         | Subnet CIDR Block |
+| ---------- | ----------------- |
+| us-east-1a | 172.31.0.0/20     |
+| us-east-1b | 172.31.16.0/20    |
+| us-east-1c | 172.31.32.0/20    |
+
+Each subnet can host EC2 instances, RDS databases, or other AWS resources, and since it’s a Default VPC, all instances automatically get public IPs and internet access via an Internet Gateway.
 
 #### **3. Internet Gateway (IGW)**
+
 - A Default VPC automatically comes with an **Internet Gateway (IGW)** attached.
 - The IGW allows resources in the VPC to communicate with the internet.
 - It also enables instances in public subnets to have public IP addresses.
@@ -299,6 +312,7 @@ Each subnet can host EC2 instances, RDS databases, or other AWS resources, and s
 ---
 
 #### **4. Route Table**
+
 - The Default VPC has a **main route table** with the following routes:
   - A route for **local traffic** within the VPC:
     ```
@@ -314,12 +328,14 @@ Each subnet can host EC2 instances, RDS databases, or other AWS resources, and s
 ---
 
 #### **5. Public IP Address Assignment**
+
 - Instances launched in the Default VPC are automatically assigned a **public IP address** (if the subnet is configured to do so).
 - This makes it easy to access instances directly from the internet.
 
 ---
 
 #### **6. Security Group**
+
 - A **default security group** is created in the Default VPC.
 - The default security group allows:
   - **All inbound traffic** from other instances associated with the same security group.
@@ -328,6 +344,7 @@ Each subnet can host EC2 instances, RDS databases, or other AWS resources, and s
 ---
 
 #### **7. Network ACL (NACL)**
+
 - A **default network ACL** is created in the Default VPC.
 - The default NACL allows:
   - **All inbound traffic**.
@@ -336,17 +353,19 @@ Each subnet can host EC2 instances, RDS databases, or other AWS resources, and s
 ---
 
 ### **Default VPC vs. Custom VPC Subnet Ranges**
-| Feature                  | Default VPC                          | Custom VPC                          |
-|--------------------------|--------------------------------------|--------------------------------------|
-| **VPC CIDR Block**       | `172.31.0.0/16`                     | User-defined (e.g., `10.0.0.0/16`)  |
-| **Subnet CIDR Block**    | `/20` (e.g., `172.31.0.0/20`)       | User-defined (e.g., `/24`)          |
-| **Subnet Type**          | Public (by default)                 | User-defined (public or private)    |
-| **Internet Gateway**     | Automatically attached              | Manually attached                   |
-| **Public IP Assignment** | Enabled by default                  | User-defined                        |
+
+| Feature                  | Default VPC                   | Custom VPC                         |
+| ------------------------ | ----------------------------- | ---------------------------------- |
+| **VPC CIDR Block**       | `172.31.0.0/16`               | User-defined (e.g., `10.0.0.0/16`) |
+| **Subnet CIDR Block**    | `/20` (e.g., `172.31.0.0/20`) | User-defined (e.g., `/24`)         |
+| **Subnet Type**          | Public (by default)           | User-defined (public or private)   |
+| **Internet Gateway**     | Automatically attached        | Manually attached                  |
+| **Public IP Assignment** | Enabled by default            | User-defined                       |
 
 ---
 
 ### **How to Check Your Default VPC Configuration**
+
 1. **Go to the VPC Dashboard:**
    - Open the AWS Management Console and navigate to the **VPC Dashboard**.
 2. **View Your Default VPC:**
@@ -361,6 +380,7 @@ Each subnet can host EC2 instances, RDS databases, or other AWS resources, and s
 ---
 
 ### **Why Use the Default VPC?**
+
 - **Quick Start:** Ideal for beginners or temporary workloads.
 - **Simplicity:** No need to configure subnets, route tables, or IGW manually.
 - **Public Access:** Instances are automatically assigned public IPs, making them accessible from the internet.
@@ -368,6 +388,7 @@ Each subnet can host EC2 instances, RDS databases, or other AWS resources, and s
 ---
 
 ### **When to Avoid the Default VPC**
+
 - **Production Workloads:** Use a custom VPC for better control and security.
 - **Complex Architectures:** If you need private subnets, NAT gateways, or VPC peering.
 - **Compliance Requirements:** Custom VPCs allow stricter security configurations.
@@ -375,6 +396,7 @@ Each subnet can host EC2 instances, RDS databases, or other AWS resources, and s
 ---
 
 ### **Example: Launching an EC2 Instance in the Default VPC**
+
 1. Go to the **EC2 Dashboard**.
 2. Click **Launch Instance**.
 3. Choose an AMI and instance type.
@@ -385,6 +407,7 @@ Each subnet can host EC2 instances, RDS databases, or other AWS resources, and s
 ---
 
 ### **Best Practices for Default VPC**
+
 1. **Use for Testing Only:** Avoid using the Default VPC for production workloads.
 2. **Monitor Public Access:** Be cautious about exposing instances to the internet.
 3. **Backup and Delete:** If you don’t need the Default VPC, consider deleting it to avoid accidental usage.
@@ -431,7 +454,7 @@ Charged for all four categories.
 
 #### 1.2.5.3. Stopped State
 
-Charged for EBS storage  only.
+Charged for EBS storage only.
 
 - No CPU resources are being consumed
 - No memory is being used
@@ -460,9 +483,8 @@ Contains:
 - Root Volume: contains the **Boot Volume**
 
 - Block Device Mapping: links the volumes that the AMI has and
-how they're presented to the operating system. Determines which volume is a
-boot volume and which volume is a data volume.
-
+  how they're presented to the operating system. Determines which volume is a
+  boot volume and which volume is a data volume.
 
 #### 1.2.5.6. Connecting to EC2
 
@@ -629,7 +651,6 @@ Anytime CPU Utilization is reported, the **datapoint** will report:
 
 **Resolution** period at which the metric is recorded
 
-
 #### 1.2.9.3. Alarms
 
 Has two states `ok` or `alarm`. A notification could be sent to an SNS topic or an action could be performed based on an alarm state.
@@ -646,7 +667,7 @@ Customer: Responsible for security **IN** the cloud
 #### 1.2.11.1. High Availability (HA)
 
 - Aims to **ensure** an agreed level of operational **performance**, usually
-**uptime**, for a **higher than normal period**
+  **uptime**, for a **higher than normal period**
 - Instead of diagnosing the issue, if you have a process ready to replace it, it can be fixed quickly and probably in an automated way.
 - Spare infrastructure ready to switch customers over to in the event of a disaster to minimize downtime
 - User disruption is not ideal, but is allowed
@@ -658,13 +679,13 @@ Customer: Responsible for security **IN** the cloud
 #### 1.2.11.2. Fault-Tolerance (FT)
 
 - System can **continue operating properly**
-in the event of the **failure of some** (one or more faults within) of its
-**components**
+  in the event of the **failure of some** (one or more faults within) of its
+  **components**
 - Fault tolerance is much more complicated than high availability and more
-expensive. Outages must be minimized and the system needs levels of
-redundancy.
+  expensive. Outages must be minimized and the system needs levels of
+  redundancy.
 - An airplane is an example of system that needs Fault Tolerance. It has
-more engines than it needs so it can operate through failure.
+  more engines than it needs so it can operate through failure.
 
 Example:
 A patient is waiting for a life saving surgery and is under anesthetic.
@@ -675,8 +696,8 @@ interruption is deadly.
 #### 1.2.11.3. Disaster Recovery (DR)
 
 - Set of policies, tools and procedures to **enable the recovery** or
-**continuation** of **vital** technology infrastructure and systems
-**following a natural or human-induced disaster**.
+  **continuation** of **vital** technology infrastructure and systems
+  **following a natural or human-induced disaster**.
 - DR can largely be automated to eliminate the time for recovery and errors.
 
 This involves:
@@ -731,8 +752,8 @@ Process
 
 1. DNS client asks DNS Resolver for IP address of a given DNS name.
 2. Using the Root Hints file, the DNS Resolver communicates with one or
-more of the root servers to access the root zone and begin the process
-of finding the IP address.
+   more of the root servers to access the root zone and begin the process
+   of finding the IP address.
 
 The Root Zone is organized by IANA (Internet Assigned Numbers Authority).
 Their job is to manage the contents of the root zone. IANA is in charge
@@ -778,8 +799,8 @@ Has relationships with all major registries (registrar)
   - Generally four of these for one individual zone
   - This is a hosted zone
   - The zone file will be put on these four managed nameservers
-- Route 53 will communicate with the `.org` registry and add the nameserver records 
-into the zone file for that top level domain.
+- Route 53 will communicate with the `.org` registry and add the nameserver records
+  into the zone file for that top level domain.
   - This is done with a nameserver record (NS).
 
 #### 1.2.13.2. Route53 Details
@@ -793,17 +814,15 @@ Hosted on four managed name servers
 
 - Nameserver (NS): Allows delegation to occur in the DNS.
 - A and AAAA Records: Maps the host to a v4 or v6 host type respectively. Most of the time
-you will make both types of record, A and AAAA.
+  you will make both types of record, A and AAAA.
 - CNAME Record Type: Allows DNS shortcuts to reduce admin overhead.
-CNAMES cannot point directly to an IP address, only another name.
+  CNAMES cannot point directly to an IP address, only another name.
 - MX records: How emails are sent. They have two main parts:
   - Priority: Lower values for the priority field are higher priority.
-  - Value
-    - If it is just a host, it will not have a dot on the right. It is assumed
-to be part of the same zone as the host.
-    - If you include a dot on the right, it is a ***fully qualified domain name***
+  - Value - If it is just a host, it will not have a dot on the right. It is assumed
+    to be part of the same zone as the host. - If you include a dot on the right, it is a **_fully qualified domain name_**
 - TXT Record: Allows you to add arbitrary text to a domain.
-One common usage is to prove domain ownership.
+  One common usage is to prove domain ownership.
 
 #### 1.2.14.1. TTL - Time To Live
 
@@ -837,19 +856,23 @@ Once authenticated, that identity is known as an **authenticated identity**
 AWS IAM uses different types of policies to define permissions:
 
 1. **Identity-Based Policies**
+
    - Attached to users, groups, or roles.
    - Control access to AWS resources.
    - Examples: Managed policies, inline policies.
 
 2. **Resource-Based Policies**
+
    - Attached to AWS resources (like S3 buckets, SNS topics).
    - Define who can access the resource and what actions they can perform.
 
 3. **Permissions Boundaries**
+
    - A managed policy that acts as a permission boundary for an IAM user or role.
    - Restricts the maximum permissions an entity can have.
 
 4. **Service Control Policies (SCPs)**
+
    - Applied at the AWS Organization level to enforce restrictions on accounts within an AWS Organization.
    - Cannot grant permissions but can restrict them.
 
@@ -873,127 +896,131 @@ AWS IAM uses different types of policies to define permissions:
 - Resource: similar to action except for format `arn:aws:s3:::catgifs`
 
 Example:
+
 ```json
 {
   "Effect": "Deny",
   "Action": "s3:DeleteObject",
   "Resource": "arn:aws:s3:::my-bucket/*"
 }
-
 ```
-
-
 
 ### **Key Elements of a Policy Statement**
 
 1.  **Effect**:
 
-    -   The **Effect** can be either `Allow` or `Deny`.
-        -   **Allow**: Grants the specified permissions.
-        -   **Deny**: Explicitly denies the permissions, overriding any other `Allow` statements.
+    - The **Effect** can be either `Allow` or `Deny`.
+      - **Allow**: Grants the specified permissions.
+      - **Deny**: Explicitly denies the permissions, overriding any other `Allow` statements.
+
 2.  **Action**:
 
-    -   Defines what actions are allowed or denied.
-    -   Actions are AWS service operations like `s3:ListBucket`, `ec2:StartInstances`, `lambda:InvokeFunction`, etc.
-    -   Can be a single action or an array of actions.
-    -   Wildcards `*` can be used to allow/deny all actions for a particular service.
+    - Defines what actions are allowed or denied.
+    - Actions are AWS service operations like `s3:ListBucket`, `ec2:StartInstances`, `lambda:InvokeFunction`, etc.
+    - Can be a single action or an array of actions.
+    - Wildcards `*` can be used to allow/deny all actions for a particular service.
     - Actions should alway match the resource
+
 3.  **Resource**:
 
-    -   Specifies the AWS resources to which the policy applies.
-    -   A **Resource ARN (Amazon Resource Name)** is used to identify the specific AWS resource.
-    -   Wildcards `*` can be used to match multiple resources.
+    - Specifies the AWS resources to which the policy applies.
+    - A **Resource ARN (Amazon Resource Name)** is used to identify the specific AWS resource.
+    - Wildcards `*` can be used to match multiple resources.
     - Resource cannot be in the form of array, every statement has only one resource it is referring to.
-    -   Example ARN for S3 bucket: `arn:aws:s3:::example-bucket/*`
+    - Example ARN for S3 bucket: `arn:aws:s3:::example-bucket/*`
+
 4.  **Condition**:
 
-    -   Specifies conditions that must be met for the policy to be effective.
-    -   Conditions are key-value pairs and support operators like `StringEquals`, `StringLike`, etc.
-    -   Example: `aws:RequestTag/Environment` must be `Production`.
+    - Specifies conditions that must be met for the policy to be effective.
+    - Conditions are key-value pairs and support operators like `StringEquals`, `StringLike`, etc.
+    - Example: `aws:RequestTag/Environment` must be `Production`.
+
 5.  **Principal**:
 
-    -   Defines who the policy is for. It can specify users, roles, or AWS services.
+    - Defines who the policy is for. It can specify users, roles, or AWS services.
     - It can be an array of identities
-    -   This is only required in **resource-based policies** (such as for S3 or Lambda) and on Trust policy of a Role.
-    -   In **identity-based policies**, the principal is implicit because the policy is attached to an identity.
+    - This is only required in **resource-based policies** (such as for S3 or Lambda) and on Trust policy of a Role.
+    - In **identity-based policies**, the principal is implicit because the policy is attached to an identity.
 
-* * * * *
+---
 
 ### **Possible Values for Each Element**
 
 #### **1\. Effect**
 
--   `Allow`: Grants permissions.
--   `Deny`: Explicitly denies permissions.
+- `Allow`: Grants permissions.
+- `Deny`: Explicitly denies permissions.
 
 #### **2\. Action**
 
--   AWS service actions (e.g., `s3:ListBucket`, `ec2:StartInstances`).
--   Wildcard (`*`) to apply to all actions of a service (e.g., `s3:*` to allow all S3 actions).
+- AWS service actions (e.g., `s3:ListBucket`, `ec2:StartInstances`).
+- Wildcard (`*`) to apply to all actions of a service (e.g., `s3:*` to allow all S3 actions).
 
 **Example Actions:**
 
--   `s3:ListBucket`
--   `ec2:DescribeInstances`
--   `lambda:InvokeFunction`
+- `s3:ListBucket`
+- `ec2:DescribeInstances`
+- `lambda:InvokeFunction`
 
 #### **3\. Resource**
 
--   **ARN Format**: `arn:aws:<service>:<region>:<account-id>:<resource-type>/<resource-id>`
+- **ARN Format**: `arn:aws:<service>:<region>:<account-id>:<resource-type>/<resource-id>`
 
-    For example:
+  For example:
 
-    -   S3 Bucket ARN: `arn:aws:s3:::example-bucket`
-    -   EC2 Instance ARN: `arn:aws:ec2:us-west-2:123456789012:instance/i-1234567890abcdef0`
-    -   Lambda Function ARN: `arn:aws:lambda:us-east-1:123456789012:function:my-function`
--   **Wildcards**: You can use wildcards (`*`) to apply to multiple resources.
+  - S3 Bucket ARN: `arn:aws:s3:::example-bucket`
+  - EC2 Instance ARN: `arn:aws:ec2:us-west-2:123456789012:instance/i-1234567890abcdef0`
+  - Lambda Function ARN: `arn:aws:lambda:us-east-1:123456789012:function:my-function`
 
-    -   S3 Bucket with all objects: `arn:aws:s3:::example-bucket/*`
-    -   EC2 instances: `arn:aws:ec2:us-west-2:123456789012:instance/*`
+- **Wildcards**: You can use wildcards (`*`) to apply to multiple resources.
+
+  - S3 Bucket with all objects: `arn:aws:s3:::example-bucket/*`
+  - EC2 instances: `arn:aws:ec2:us-west-2:123456789012:instance/*`
 
 #### **4\. Condition**
 
--   Conditions define when a policy should apply. Common operators are:
-    -   `StringEquals`: Matches exact string values.
-    -   `StringLike`: Matches string values using wildcard characters (`*`).
-    -   `NumericEquals`: Matches numeric values.
-    -   `DateEquals`: Matches date values.**Example Condition**:
+- Conditions define when a policy should apply. Common operators are:
 
-    ```
-    "Condition": {
-      "StringEquals": {
-        "aws:RequestTag/Environment": "Production"
-      }
+  - `StringEquals`: Matches exact string values.
+  - `StringLike`: Matches string values using wildcard characters (`*`).
+  - `NumericEquals`: Matches numeric values.
+  - `DateEquals`: Matches date values.**Example Condition**:
+
+  ```
+  "Condition": {
+    "StringEquals": {
+      "aws:RequestTag/Environment": "Production"
     }
+  }
 
-    ```
+  ```
 
 #### **5\. Principal**
 
--   **AWS IAM User or Role ARN**:
-    -   For example: `arn:aws:iam::123456789012:user/ExampleUser`
-    -   For a role: `arn:aws:iam::123456789012:role/ExampleRole`
--   **Service Principals** (AWS services that can assume the role):
-    -   EC2: `ec2.amazonaws.com`
-    -   Lambda: `lambda.amazonaws.com`
--   **Federated Identity** (for identity providers like Google, Facebook, or Active Directory):
-    -   Example: `cognito-identity.amazonaws.com`
+- **AWS IAM User or Role ARN**:
+  - For example: `arn:aws:iam::123456789012:user/ExampleUser`
+  - For a role: `arn:aws:iam::123456789012:role/ExampleRole`
+- **Service Principals** (AWS services that can assume the role):
+  - EC2: `ec2.amazonaws.com`
+  - Lambda: `lambda.amazonaws.com`
+- **Federated Identity** (for identity providers like Google, Facebook, or Active Directory):
+  - Example: `cognito-identity.amazonaws.com`
 
 **Example Principal Formats**:
 
--   IAM User:\
-    `arn:aws:iam::123456789012:user/ExampleUser`
+- IAM User:\
+  `arn:aws:iam::123456789012:user/ExampleUser`
 
--   IAM Role:\
-    `arn:aws:iam::123456789012:role/ExampleRole`
+- IAM Role:\
+  `arn:aws:iam::123456789012:role/ExampleRole`
 
--   AWS Service (e.g., EC2):\
-    `ec2.amazonaws.com`
+- AWS Service (e.g., EC2):\
+  `ec2.amazonaws.com`
 
--   Federated User (via AWS Cognito Identity Pool):\
-    `cognito-identity.amazonaws.com`
+- Federated User (via AWS Cognito Identity Pool):\
+  `cognito-identity.amazonaws.com`
 
-* * * * *
+---
 
 #### 1.3.1.2. Priority Level
 
@@ -1001,34 +1028,31 @@ Example:
 - Explicit Allow: Allows access so long there is not an explicit deny.
 - Default Deny (Implicit): IAM identities start off with no resource access.
 
+## **Summary of IAM Policy Evaluation**
 
-**Summary of IAM Policy Evaluation**
-------------------------------------
-
-| Order | Policy Type | Effect |
-| --- | --- | --- |
-| 1️⃣ | Explicit Deny | **Always wins** (Overrides all other policies) |
-| 2️⃣ | Explicit Allow | Granted only if no deny exists |
-| 3️⃣ | Default (Implicit Deny) | Applies if no policy allows the action |
-
+| Order | Policy Type             | Effect                                         |
+| ----- | ----------------------- | ---------------------------------------------- |
+| 1️⃣    | Explicit Deny           | **Always wins** (Overrides all other policies) |
+| 2️⃣    | Explicit Allow          | Granted only if no deny exists                 |
+| 3️⃣    | Default (Implicit Deny) | Applies if no policy allows the action         |
 
 ### **What is a Permission Boundary in AWS IAM?**
 
 A **permission boundary** is an advanced IAM feature that **restricts the maximum permissions an IAM user or role can have**. It acts as an upper limit, preventing a user or role from exceeding certain permissions, even if other policies grant them.
 
-* * * * *
+---
 
 ### **How It Works**
 
--   **Without a Permission Boundary**: A user or role gets all permissions assigned through identity-based policies.
--   **With a Permission Boundary**: Even if a policy grants access, the user/role **cannot exceed** what the boundary allows.
+- **Without a Permission Boundary**: A user or role gets all permissions assigned through identity-based policies.
+- **With a Permission Boundary**: Even if a policy grants access, the user/role **cannot exceed** what the boundary allows.
 
 **🔹 Example:**\
 A user has an identity-based policy allowing full access to **S3 and EC2**, but a **permission boundary** only allows access to **S3**.\
 ✅ **User can access S3**\
 ❌ **User cannot access EC2** (even though their identity policy allows it)
 
-* * * * *
+---
 
 ### **Key Facts About Permission Boundaries**
 
@@ -1037,13 +1061,11 @@ A user has an identity-based policy allowing full access to **S3 and EC2**, but 
 3.  **They work alongside identity-based policies.** Both must allow an action for it to be permitted.
 4.  **Useful for controlling privilege escalation** when delegating admin tasks.
 
-* * * * *
+---
 
 ### **Example JSON of a Permission Boundary**
 
 This boundary **allows only S3 actions**, even if another policy tries to grant more permissions:
-
-
 
 ```
 {
@@ -1060,7 +1082,7 @@ This boundary **allows only S3 actions**, even if another policy tries to grant 
 
 If a policy tries to grant EC2 access, the boundary **blocks** it.
 
-* * * * *
+---
 
 ### **When to Use Permission Boundaries**
 
@@ -1082,13 +1104,14 @@ AWS Identity and Access Management (IAM) allows you to control access to your AW
 - **Definition:**  
   Managed policies are standalone policies that you can create and manage independently from the IAM identities (users, groups, or roles) to which they are attached.
 
-- **Types:**  
-  - **AWS Managed Policies:** Predefined by AWS and maintained by AWS to help you quickly set up permissions based on common use cases.  
+- **Types:**
+
+  - **AWS Managed Policies:** Predefined by AWS and maintained by AWS to help you quickly set up permissions based on common use cases.
   - **Customer Managed Policies:** Created and managed by you, providing the flexibility to define custom permissions tailored to your organization's needs.
 
-- **Advantages:**  
-  - **Reusability:** Can be attached to multiple IAM entities.  
-  - **Ease of Management:** A single change in a managed policy automatically propagates to all attached entities.  
+- **Advantages:**
+  - **Reusability:** Can be attached to multiple IAM entities.
+  - **Ease of Management:** A single change in a managed policy automatically propagates to all attached entities.
   - **Consistency:** Ensures uniform permissions across different users, groups, or roles.
 
 ## Inline Policies
@@ -1096,27 +1119,30 @@ AWS Identity and Access Management (IAM) allows you to control access to your AW
 - **Definition:**  
   Inline policies are policies that are embedded directly into a specific IAM user, group, or role. They are tightly coupled with that particular entity.
 
-- **Characteristics:**  
-  - **Specificity:** Designed for one-off or unique permission sets that you want to apply only to a single IAM entity.  
+- **Characteristics:**
+
+  - **Specificity:** Designed for one-off or unique permission sets that you want to apply only to a single IAM entity.
   - **Non-reusability:** Cannot be reused or attached to other identities. If the identity is deleted, the inline policy is also removed.
 
-- **Use Cases:**  
-  - When you need a policy that is uniquely tailored to a specific user, group, or role.  
+- **Use Cases:**
+  - When you need a policy that is uniquely tailored to a specific user, group, or role.
   - When you want to ensure that the policy is directly associated with the identity and is not inadvertently applied elsewhere.
 
 ## Key Differences
 
-- **Reusability:**  
-  - *Managed Policies* can be attached to multiple IAM entities.  
-  - *Inline Policies* are bound to a single IAM entity.
+- **Reusability:**
 
-- **Management:**  
-  - *Managed Policies* offer centralized management, making updates easier and more consistent across entities.  
-  - *Inline Policies* require individual management for each IAM entity.
+  - _Managed Policies_ can be attached to multiple IAM entities.
+  - _Inline Policies_ are bound to a single IAM entity.
 
-- **Use Cases:**  
-  - Use *Managed Policies* when you need to apply the same set of permissions to multiple users, groups, or roles.  
-  - Use *Inline Policies* for specialized, entity-specific permissions that should not be reused.
+- **Management:**
+
+  - _Managed Policies_ offer centralized management, making updates easier and more consistent across entities.
+  - _Inline Policies_ require individual management for each IAM entity.
+
+- **Use Cases:**
+  - Use _Managed Policies_ when you need to apply the same set of permissions to multiple users, groups, or roles.
+  - Use _Inline Policies_ for specialized, entity-specific permissions that should not be reused.
 
 ---
 
@@ -1130,7 +1156,8 @@ Identity used for anything requiring **long-term** AWS access
 
 If you can name a thing to use the AWS account, this is an IAM user.
 
-### Principal 
+### Principal
+
 In AWS IAM (Identity and Access Management), a **principal** is an entity that can make a request to perform an action on AWS resources. A principal must authenticate itself before it can be authorized to perform actions.
 
 ### **Types of Principals**
@@ -1158,24 +1185,25 @@ In an AWS IAM policy, a principal is specified in the `Principal` element:
 }
 
 ```
+
 the **Principal** element is **optional** in IAM **identity-based policies**, but it is **required** in **resource-based policies**.
 
 ### **When is the `Principal` Element Required?**
 
--   **Resource-based policies (S3, SNS, SQS, etc.)** → **Required**
+- **Resource-based policies (S3, SNS, SQS, etc.)** → **Required**
 
-    -   Since these policies define **who** can access the resource, you must specify a principal.
-    -   Example: Allowing a specific IAM user to access an S3 bucket.
--   **AssumeRole policies (Trust Policies)** → **Required**
+  - Since these policies define **who** can access the resource, you must specify a principal.
+  - Example: Allowing a specific IAM user to access an S3 bucket.
 
-    -   When an IAM Role is assumed, you must specify the entity that can assume it.
+- **AssumeRole policies (Trust Policies)** → **Required**
+
+  - When an IAM Role is assumed, you must specify the entity that can assume it.
 
 ### **When is the `Principal` Element Not Needed?**
 
--   **Identity-based policies (IAM Users, Groups, and Roles)** → **Not Required**
-    -   These policies apply directly to the IAM identity, so specifying `Principal` is unnecessary.
-    -   Example: A policy that allows an IAM user to list all S3 buckets.
-
+- **Identity-based policies (IAM Users, Groups, and Roles)** → **Not Required**
+  - These policies apply directly to the IAM identity, so specifying `Principal` is unnecessary.
+  - Example: A policy that allows an IAM user to list all S3 buckets.
 
 When a **principal** wants to **request** to perform an action,
 it will **authenticate** against an identity within IAM. An IAM user is an
@@ -1217,7 +1245,7 @@ An example that leads to confusion:
 
 - arn:aws:s3:::catgifs
   - This references an actual bucket
-- arn:aws:s3:::catgifs/*
+- arn:aws:s3:::catgifs/\*
   - This refers to objects in that bucket, but not the bucket itself.
 
 These two ARNs do not overlap
@@ -1242,29 +1270,29 @@ AWS merges all of the policies from all groups the user is in together.
 - The 5000 IAM user limit applies to groups.
 - There is **no all users** IAM group.
   - You can create a group and add all users into that group, but it needs to be
-created and managed on your own.
+    created and managed on your own.
 - No Nesting: You cannot have groups within groups.
 - 300 Group Limit per account. This can be fixed with a support ticket.
 
 ### **Limits on IAM Groups and Users per Group**
 
--   **Max IAM Groups per AWS Account:** **300**
--   **Max IAM Users per Group:** **300**
--   **IAM Users per AWS Account:** **5,000**
--   **IAM Groups a User Can Belong To:** **10**
+- **Max IAM Groups per AWS Account:** **300**
+- **Max IAM Users per Group:** **300**
+- **IAM Users per AWS Account:** **5,000**
+- **IAM Groups a User Can Belong To:** **10**
 
 **Resource Policy** A bucket can have a policy associated with that bucket.
 It does so by referencing the identity using an ARN (Amazon Reference Name).
 A policy on a resource can reference IAM users and IAM roles by the ARN.
 A bucket can give access to one or more users or one or more roles.
 
-**IMPORTANT❗** 
+**IMPORTANT❗**
 
 - **GROUPS ARE NOT A TRUE IDENTITY**
-**THEY CAN'T BE REFERENCED AS A PRINCIPAL IN A POLICY**
+  **THEY CAN'T BE REFERENCED AS A PRINCIPAL IN A POLICY**
 
 - An S3 Resource cannot grant access to a group, it is not an identity.
-Groups are used to allow permissions to be assigned to IAM users.
+  Groups are used to allow permissions to be assigned to IAM users.
 
 ### 1.3.4. IAM Roles
 
@@ -1274,7 +1302,7 @@ An **IAM role** in AWS is an identity with a **set of permissions** that determi
 
 Unlike IAM users, roles **do not have long-term credentials**. Instead, they are assumed by a **principal** (e.g., an IAM user, an AWS service, or an application) to perform actions on AWS resources. This temporary access helps increase security and avoids embedding sensitive credentials in code.
 
-* * * * *
+---
 
 ### **How IAM Roles Work**
 
@@ -1286,7 +1314,7 @@ IAM roles work based on **assumed roles** and **temporary security credentials**
 
 3.  **Using the Role**: Once assumed, the principal (IAM user, service, or app) can access the AWS resources as defined by the role's permissions, and once the credentials expire, they must re-assume the role to get new temporary credentials.
 
-* * * * *
+---
 
 ### **Key Elements of IAM Roles**
 
@@ -1295,7 +1323,6 @@ IAM roles work based on **assumed roles** and **temporary security credentials**
 
     **Example Trust Policy (Allowing EC2 to Assume Role)**:
 
-    
 ```
     {
         "Version": "2012-10-17",
@@ -1316,18 +1343,18 @@ IAM roles work based on **assumed roles** and **temporary security credentials**
 
     **Example Permissions Policy (Allowing EC2 to Access S3)**:
 
-   ```
-   {
-        "Version": "2012-10-17",
-        "Statement": [
-            {
-                "Effect": "Allow",
-                "Action": "s3:GetObject",
-                "Resource": "arn:aws:s3:::example-bucket/*"
-            }
-        ]
-    }
-  ```
+```
+{
+     "Version": "2012-10-17",
+     "Statement": [
+         {
+             "Effect": "Allow",
+             "Action": "s3:GetObject",
+             "Resource": "arn:aws:s3:::example-bucket/*"
+         }
+     ]
+ }
+```
 
 ### **Defining an IAM Role for EC2 and Lambda to Access S3 and Lambda Function**
 
@@ -1338,7 +1365,7 @@ In this scenario, we need to create an IAM role that allows both **EC2** and **L
 
 The role must be able to be **assumed by both EC2 and Lambda** and have permissions for both **S3 access** and **Lambda invocation**.
 
-* * * * *
+---
 
 ### **Step 1: Create the Trust Policy**
 
@@ -1368,8 +1395,8 @@ The trust policy defines who can assume the role. In this case, the role must al
 
 The permissions policy grants the actual permissions for both EC2 and Lambda to access the S3 bucket and invoke a Lambda function. We'll define permissions for both actions:
 
--   **S3 Access**: Allowing both EC2 and Lambda to read from (and optionally write to) an S3 bucket.
--   **Lambda Invocation**: Allowing Lambda to invoke other Lambda functions.
+- **S3 Access**: Allowing both EC2 and Lambda to read from (and optionally write to) an S3 bucket.
+- **Lambda Invocation**: Allowing Lambda to invoke other Lambda functions.
 
 **Permissions Policy (S3 Access and Lambda Invocation):**
 
@@ -1393,11 +1420,12 @@ The permissions policy grants the actual permissions for both EC2 and Lambda to 
   ]
 }
 ```
+
 ### **Step 3: Attach the Trust and Permissions Policies to the Role**
 
 Once the trust policy and permissions policy are defined, attach them to the IAM role. This role can now be assigned to both EC2 instances and Lambda functions.
 
-* * * * *
+---
 
 ### **Step 4: Attach the Role to EC2 and Lambda**
 
@@ -1407,26 +1435,28 @@ Once the trust policy and permissions policy are defined, attach them to the IAM
 2.  **For Lambda**:\
     When creating or updating a Lambda function, specify the same IAM role in the **Execution Role** section to grant it access to the S3 bucket and the ability to invoke another Lambda function.
 
-
-* * * * *
+---
 
 ### **When to Use IAM Roles**
 
 1.  **For AWS Services**:
 
-    -   **EC2** instances need to interact with S3, DynamoDB, or other services.
-    -   **Lambda** functions need permissions to invoke other services like SQS, SNS, or write to a DynamoDB table.
+    - **EC2** instances need to interact with S3, DynamoDB, or other services.
+    - **Lambda** functions need permissions to invoke other services like SQS, SNS, or write to a DynamoDB table.
+
 2.  **Cross-Account Access**:
 
-    -   You can define a role that users or services from other AWS accounts can assume to access your resources.
+    - You can define a role that users or services from other AWS accounts can assume to access your resources.
+
 3.  **Federated Access**:
 
-    -   When users authenticate through **federated login** (e.g., Google, SSO, Active Directory), they can assume an IAM role to access AWS resources without creating an IAM user.
+    - When users authenticate through **federated login** (e.g., Google, SSO, Active Directory), they can assume an IAM role to access AWS resources without creating an IAM user.
+
 4.  **Temporary Credentials for Applications**:
 
-    -   Applications running on EC2, Lambda, or ECS can assume IAM roles to obtain temporary credentials, ensuring that sensitive access keys are not hardcoded in the application.
+    - Applications running on EC2, Lambda, or ECS can assume IAM roles to obtain temporary credentials, ensuring that sensitive access keys are not hardcoded in the application.
 
-* * * * *
+---
 
 ### **Advantages of Using IAM Roles**
 
@@ -1442,17 +1472,17 @@ Once the trust policy and permissions policy are defined, attach them to the IAM
 4.  **Scalability**:\
     IAM roles are ideal for managing permissions for **automated services** like Lambda, EC2, ECS, and batch jobs without needing manual intervention or key management.
 
-* * * * *
+---
 
 ### **Tips to Remember IAM Roles**:
 
--   **Roles = Temporary Access**: Unlike users, IAM roles don't have permanent credentials, and you use temporary security credentials.
--   **Principal**: The entity that **assumes** the role. It can be an AWS service (EC2, Lambda), another account, or a federated user.
--   **STS**: AWS Security Token Service is used to issue **temporary credentials**.
--   **Trust & Permissions Policies**: You need both to define **who can assume** the role and **what they can do** once they assume it.
--   **Good for services, applications, cross-account access**.
+- **Roles = Temporary Access**: Unlike users, IAM roles don't have permanent credentials, and you use temporary security credentials.
+- **Principal**: The entity that **assumes** the role. It can be an AWS service (EC2, Lambda), another account, or a federated user.
+- **STS**: AWS Security Token Service is used to issue **temporary credentials**.
+- **Trust & Permissions Policies**: You need both to define **who can assume** the role and **what they can do** once they assume it.
+- **Good for services, applications, cross-account access**.
 
-* * * * *
+---
 
 ### **Sample MCQ Question for AWS Developer Associate Exam**
 
@@ -1633,12 +1663,9 @@ services offered by AWS. A lot less admin overhead.
   "Version": "2012-10-17",
   "Statement": [
     {
-        "Effect": "Allow",
-        "Action": [
-            "s3:*",
-            "ec2:*"
-        ],
-    "Resource": "*"
+      "Effect": "Allow",
+      "Action": ["s3:*", "ec2:*"],
+      "Resource": "*"
     }
   ]
 }
@@ -1656,14 +1683,13 @@ This allows to **store**, **monitor** and **access** logging data.
 
 Comes with some AWS Integrations.
 Security is provided with IAM roles or Service roles
-Can generate metrics based on logs **metric filter** 
-
+Can generate metrics based on logs **metric filter**
 
 ### **Detailed Explanation of CloudWatch Features, When and How to Use Them**
 
 Amazon CloudWatch provides a variety of monitoring features to track the performance and health of your AWS resources, applications, and services. Below are the main CloudWatch features, their use cases, and how you can implement them, including the integration of CloudWatch Logs for a **.NET Web API** application.
 
-* * * * *
+---
 
 ### **1\. CloudWatch Metrics**
 
@@ -1671,21 +1697,21 @@ Amazon CloudWatch provides a variety of monitoring features to track the perform
 
 **When to use it:**
 
--   To track the performance and health of your AWS resources.
--   To monitor predefined metrics (like CPU utilization, disk I/O, network traffic) for EC2 instances or RDS.
--   To define **custom metrics** for your application, such as request count, error rate, or response time.
+- To track the performance and health of your AWS resources.
+- To monitor predefined metrics (like CPU utilization, disk I/O, network traffic) for EC2 instances or RDS.
+- To define **custom metrics** for your application, such as request count, error rate, or response time.
 
 **How to use it:**
 
--   **Predefined metrics**: AWS services (e.g., EC2, Lambda, S3) automatically send metrics to CloudWatch.
--   **Custom metrics**: You can send custom application metrics (e.g., in your .NET Web API) using the AWS SDK or AWS CLI.
+- **Predefined metrics**: AWS services (e.g., EC2, Lambda, S3) automatically send metrics to CloudWatch.
+- **Custom metrics**: You can send custom application metrics (e.g., in your .NET Web API) using the AWS SDK or AWS CLI.
 
 **Use Case Example for .NET Web API**:
 
--   **Scenario**: You want to track the number of requests per endpoint, response time, and error rate for your .NET Web API.
--   **Steps**:
-    -   Install the **AWS SDK** for .NET.
-    -   Publish custom metrics like the request count or average response time to CloudWatch.
+- **Scenario**: You want to track the number of requests per endpoint, response time, and error rate for your .NET Web API.
+- **Steps**:
+  - Install the **AWS SDK** for .NET.
+  - Publish custom metrics like the request count or average response time to CloudWatch.
 
 ```
 using Amazon.CloudWatch;
@@ -1720,7 +1746,7 @@ cloudWatchClient.PutMetricDataAsync(request);
 
 **Tip to Remember**: You can define custom metrics to monitor application-specific data, and CloudWatch will automatically collect and visualize them.
 
-* * * * *
+---
 
 ### **2\. CloudWatch Logs**
 
@@ -1728,9 +1754,9 @@ cloudWatchClient.PutMetricDataAsync(request);
 
 **When to use it:**
 
--   When you need to **store application logs**, such as error logs, request logs, or access logs.
--   For **debugging**, tracking application behavior, and gaining insights into user activity.
--   When you want to store **operational logs** from AWS services, such as security logs or API calls.
+- When you need to **store application logs**, such as error logs, request logs, or access logs.
+- For **debugging**, tracking application behavior, and gaining insights into user activity.
+- When you want to store **operational logs** from AWS services, such as security logs or API calls.
 
 **How to use it:**
 
@@ -1740,11 +1766,11 @@ cloudWatchClient.PutMetricDataAsync(request);
 
 **Use Case Example for .NET Web API**:
 
--   **Scenario**: You want to log errors or important events in your .NET Web API and send those logs to CloudWatch for monitoring.
--   **Steps**:
-    -   Install the **AWS SDK for .NET** in your Web API project.
-    -   Set up a **CloudWatch Log Group** and **Log Stream** in the AWS Management Console.
-    -   Send log data to CloudWatch using the SDK.
+- **Scenario**: You want to log errors or important events in your .NET Web API and send those logs to CloudWatch for monitoring.
+- **Steps**:
+  - Install the **AWS SDK for .NET** in your Web API project.
+  - Set up a **CloudWatch Log Group** and **Log Stream** in the AWS Management Console.
+  - Send log data to CloudWatch using the SDK.
 
 Example of logging to CloudWatch from a .NET Web API:
 
@@ -1784,7 +1810,7 @@ This code sends log messages to a specific log group and stream in CloudWatch.
 
 **Tip to Remember**: CloudWatch Logs allow you to store logs for debugging and operational insights. You can also set retention policies to keep logs for a specific period.
 
-* * * * *
+---
 
 ### **3\. CloudWatch Alarms**
 
@@ -1792,8 +1818,8 @@ This code sends log messages to a specific log group and stream in CloudWatch.
 
 **When to use it:**
 
--   To receive notifications when critical metrics (e.g., CPU usage, memory usage, error rates) exceed certain thresholds.
--   To **automate actions** based on the state of a metric (e.g., scale resources, restart an instance, trigger a Lambda function).
+- To receive notifications when critical metrics (e.g., CPU usage, memory usage, error rates) exceed certain thresholds.
+- To **automate actions** based on the state of a metric (e.g., scale resources, restart an instance, trigger a Lambda function).
 
 **How to use it:**
 
@@ -1803,10 +1829,10 @@ This code sends log messages to a specific log group and stream in CloudWatch.
 
 **Use Case Example**:
 
--   **Scenario**: You want to be alerted if the CPU utilization of an EC2 instance exceeds 80% for 5 minutes.
--   **Steps**:
-    -   Create a CloudWatch Alarm to monitor the `CPUUtilization` metric for the EC2 instance.
-    -   Set the threshold to trigger an SNS notification.
+- **Scenario**: You want to be alerted if the CPU utilization of an EC2 instance exceeds 80% for 5 minutes.
+- **Steps**:
+  - Create a CloudWatch Alarm to monitor the `CPUUtilization` metric for the EC2 instance.
+  - Set the threshold to trigger an SNS notification.
 
 ```
 using Amazon.CloudWatch;
@@ -1834,7 +1860,7 @@ cloudWatchClient.PutMetricAlarmAsync(alarmRequest);
 
 ```
 
-* * * * *
+---
 
 ### **4\. CloudWatch Dashboards**
 
@@ -1842,22 +1868,22 @@ cloudWatchClient.PutMetricAlarmAsync(alarmRequest);
 
 **When to use it:**
 
--   When you want to create custom **visualizations** of your metrics (e.g., a dashboard for monitoring system health).
--   To display **multiple metrics** from different services or applications on a single dashboard.
+- When you want to create custom **visualizations** of your metrics (e.g., a dashboard for monitoring system health).
+- To display **multiple metrics** from different services or applications on a single dashboard.
 
 **How to use it:**
 
--   Use the AWS Management Console to create a **CloudWatch Dashboard**.
--   Add widgets (graphs, numbers, text) that show metrics like EC2 CPU utilization, S3 request count, or custom application metrics.
+- Use the AWS Management Console to create a **CloudWatch Dashboard**.
+- Add widgets (graphs, numbers, text) that show metrics like EC2 CPU utilization, S3 request count, or custom application metrics.
 
 **Use Case Example**:
 
--   **Scenario**: You want to create a dashboard that shows the status of your application (e.g., EC2 instance health, error rates, response time).
--   **Steps**:
-    -   Use the AWS Console to create a **Dashboard**.
-    -   Add **widgets** to show metrics such as EC2 health, Lambda error count, and response times.
+- **Scenario**: You want to create a dashboard that shows the status of your application (e.g., EC2 instance health, error rates, response time).
+- **Steps**:
+  - Use the AWS Console to create a **Dashboard**.
+  - Add **widgets** to show metrics such as EC2 health, Lambda error count, and response times.
 
-* * * * *
+---
 
 ### **5\. CloudWatch Events (Amazon EventBridge)**
 
@@ -1865,25 +1891,25 @@ cloudWatchClient.PutMetricAlarmAsync(alarmRequest);
 
 **When to use it:**
 
--   When you need to **automate responses** to certain system events (e.g., stop an EC2 instance when it exceeds a threshold).
--   For **event-driven architectures**, where actions (e.g., invoking a Lambda function) are triggered based on events.
+- When you need to **automate responses** to certain system events (e.g., stop an EC2 instance when it exceeds a threshold).
+- For **event-driven architectures**, where actions (e.g., invoking a Lambda function) are triggered based on events.
 
 **How to use it:**
 
--   Define an **Event Rule** for specific events (e.g., an EC2 instance state change or an RDS instance failover).
--   Configure the rule to trigger a response, such as invoking a Lambda function.
+- Define an **Event Rule** for specific events (e.g., an EC2 instance state change or an RDS instance failover).
+- Configure the rule to trigger a response, such as invoking a Lambda function.
 
-* * * * *
+---
 
 ### **Summary: When and How to Use CloudWatch**
 
--   **Metrics**: Use for tracking performance data for AWS resources and custom applications.
--   **Logs**: Use for storing and analyzing application or system logs.
--   **Alarms**: Use for setting up alerts when thresholds are breached (e.g., high CPU usage).
--   **Dashboards**: Use for creating customized views to visualize multiple metrics and logs.
--   **Events (EventBridge)**: Use for automating actions in response to system events.
+- **Metrics**: Use for tracking performance data for AWS resources and custom applications.
+- **Logs**: Use for storing and analyzing application or system logs.
+- **Alarms**: Use for setting up alerts when thresholds are breached (e.g., high CPU usage).
+- **Dashboards**: Use for creating customized views to visualize multiple metrics and logs.
+- **Events (EventBridge)**: Use for automating actions in response to system events.
 
-* * * * *
+---
 
 ### **Use Case Example**: Logging from a .NET Web API to CloudWatch
 
@@ -1894,7 +1920,7 @@ cloudWatchClient.PutMetricAlarmAsync(alarmRequest);
 
 By integrating CloudWatch with your .NET Web API, you can gain better visibility into your application's health and performance, and automate responses when issues occur.
 
-* * * * *
+---
 
 ### **What is a Log Stream in CloudWatch?**
 
@@ -1906,13 +1932,13 @@ A **Log Stream** is a sequence of log events that share the same source and are 
 
 2.  **Log Stream**: A log stream is a sequence of log events from the same source, such as a specific EC2 instance, a Lambda function execution, or a specific application component. Each log stream is part of a log group.
 
-    -   **Log Stream Example**: If you have a web application running on multiple EC2 instances, each instance could send logs to its own log stream within a log group called `MyAppLogs`.
+    - **Log Stream Example**: If you have a web application running on multiple EC2 instances, each instance could send logs to its own log stream within a log group called `MyAppLogs`.
 
 ### **When is a Log Stream Created?**
 
--   A **new log stream** is created each time an application, service, or resource writes log data to CloudWatch.
--   For instance, **each Lambda invocation** will create a new log stream under the corresponding Lambda log group.
--   For **EC2 instances**, if you configure an EC2 instance to send logs to CloudWatch, each instance will have its own log stream.
+- A **new log stream** is created each time an application, service, or resource writes log data to CloudWatch.
+- For instance, **each Lambda invocation** will create a new log stream under the corresponding Lambda log group.
+- For **EC2 instances**, if you configure an EC2 instance to send logs to CloudWatch, each instance will have its own log stream.
 
 ### **Log Stream Structure**
 
@@ -1923,107 +1949,106 @@ A log stream consists of **log events** that are ordered by time. Each log event
 
 For example:
 
--   **Log Group**: `/aws/lambda/MyLambdaFunction`
-    -   **Log Stream**: `2023/03/15/[$LATEST]abcd1234`
-        -   **Log Event**: "Function execution started"
-        -   **Log Event**: "Processed request successfully"
-    -   **Log Stream**: `2023/03/15/[$LATEST]efgh5678`
-        -   **Log Event**: "Function execution started"
-        -   **Log Event**: "Processed request successfully"
+- **Log Group**: `/aws/lambda/MyLambdaFunction`
+  - **Log Stream**: `2023/03/15/[$LATEST]abcd1234`
+    - **Log Event**: "Function execution started"
+    - **Log Event**: "Processed request successfully"
+  - **Log Stream**: `2023/03/15/[$LATEST]efgh5678`
+    - **Log Event**: "Function execution started"
+    - **Log Event**: "Processed request successfully"
 
 ### **Key Differences Between Log Group and Log Stream**
 
-| **Attribute** | **Log Group** | **Log Stream** |
-| --- | --- | --- |
-| **Definition** | A container for organizing log streams, with shared settings (retention, access). | A sequence of log events from the same source. |
-| **Purpose** | Organizes and manages multiple log streams. | Stores log data from a single source (e.g., EC2 instance, Lambda function). |
-| **Structure** | Can contain one or more log streams. | Contains individual log events from the same source. |
-| **Retention Settings** | Retention policy is set at the log group level (e.g., 30 days). | Inherits retention settings from the log group. |
-| **Access Control** | Access is managed at the log group level (via IAM policies). | Inherits access control from the log group. |
-| **Region** | Region-specific (stored in the region where the log group is created). | Region-specific (tied to the region of the log group). |
-| **Naming** | Has a meaningful name (e.g., `/aws/lambda/MyAppLogs`). | Typically has a unique name (e.g., instance ID or Lambda invocation). |
-| **Example** | `/aws/lambda/MyAppLogs` | `i-1234567890abcdef0-logs` (EC2 log stream) |
+| **Attribute**          | **Log Group**                                                                     | **Log Stream**                                                              |
+| ---------------------- | --------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| **Definition**         | A container for organizing log streams, with shared settings (retention, access). | A sequence of log events from the same source.                              |
+| **Purpose**            | Organizes and manages multiple log streams.                                       | Stores log data from a single source (e.g., EC2 instance, Lambda function). |
+| **Structure**          | Can contain one or more log streams.                                              | Contains individual log events from the same source.                        |
+| **Retention Settings** | Retention policy is set at the log group level (e.g., 30 days).                   | Inherits retention settings from the log group.                             |
+| **Access Control**     | Access is managed at the log group level (via IAM policies).                      | Inherits access control from the log group.                                 |
+| **Region**             | Region-specific (stored in the region where the log group is created).            | Region-specific (tied to the region of the log group).                      |
+| **Naming**             | Has a meaningful name (e.g., `/aws/lambda/MyAppLogs`).                            | Typically has a unique name (e.g., instance ID or Lambda invocation).       |
+| **Example**            | `/aws/lambda/MyAppLogs`                                                           | `i-1234567890abcdef0-logs` (EC2 log stream)                                 |
 
-* * * * *
+---
 
 ### **Difference Between CloudWatch Alarms and Amazon EventBridge**
 
-* * * * *
+---
 
 ### **3\. Use Cases**
 
--   **CloudWatch Alarms**:
+- **CloudWatch Alarms**:
 
-    -   **Monitor Metrics**: Alarms are primarily used for monitoring performance metrics.
-    -   **Auto-Scaling**: Trigger actions like **Auto Scaling** when resource utilization exceeds predefined thresholds.
-    -   **Operational Health**: Use alarms for alerting on resource performance (e.g., high CPU usage, low disk space).
-    -   **Cost Management**: Use alarms for **cost monitoring** to alert you if your usage exceeds a certain threshold.
+  - **Monitor Metrics**: Alarms are primarily used for monitoring performance metrics.
+  - **Auto-Scaling**: Trigger actions like **Auto Scaling** when resource utilization exceeds predefined thresholds.
+  - **Operational Health**: Use alarms for alerting on resource performance (e.g., high CPU usage, low disk space).
+  - **Cost Management**: Use alarms for **cost monitoring** to alert you if your usage exceeds a certain threshold.
 
-    **Example Use Case**:\
-    Trigger an alarm when your **EC2 instance**'s CPU utilization exceeds **80%** for more than 5 minutes. Automatically **scale up** your EC2 instances if the threshold is breached.
+  **Example Use Case**:\
+  Trigger an alarm when your **EC2 instance**'s CPU utilization exceeds **80%** for more than 5 minutes. Automatically **scale up** your EC2 instances if the threshold is breached.
 
--   **EventBridge**:
+- **EventBridge**:
 
-    -   **Event-Driven Workflows**: Automate actions across services in response to events. For example, when a **new order** is placed in your system, trigger a series of actions like sending an email, updating inventory, and notifying the fulfillment system.
-    -   **Multi-Region Automation**: Coordinate workflows across multiple regions or accounts.
-    -   **Custom Events**: EventBridge allows you to send custom events from your applications and trigger actions in response to those events.
-    -   **Integration with SaaS Applications**: EventBridge can integrate with external SaaS applications like Zendesk, Shopify, etc., and route events based on changes in those external systems.
+  - **Event-Driven Workflows**: Automate actions across services in response to events. For example, when a **new order** is placed in your system, trigger a series of actions like sending an email, updating inventory, and notifying the fulfillment system.
+  - **Multi-Region Automation**: Coordinate workflows across multiple regions or accounts.
+  - **Custom Events**: EventBridge allows you to send custom events from your applications and trigger actions in response to those events.
+  - **Integration with SaaS Applications**: EventBridge can integrate with external SaaS applications like Zendesk, Shopify, etc., and route events based on changes in those external systems.
 
-    **Example Use Case**:\
-    An **AWS Lambda function** is invoked when an event is generated by **EC2** indicating that an instance has been **terminated**. The Lambda function might trigger an action to notify an administrator or start a backup process.
+  **Example Use Case**:\
+  An **AWS Lambda function** is invoked when an event is generated by **EC2** indicating that an instance has been **terminated**. The Lambda function might trigger an action to notify an administrator or start a backup process.
 
-* * * * *
+---
 
 ### **4\. Event vs Metric-Based**
 
--   **CloudWatch Alarms**:
+- **CloudWatch Alarms**:
 
-    -   Work on **metric data** that is collected at regular intervals (e.g., every 1 minute or 5 minutes).
-    -   You set **thresholds** based on the metrics.
-    -   **Metric**-based actions are triggered only when **data points** exceed or fall below a specific threshold.
--   **EventBridge**:
+  - Work on **metric data** that is collected at regular intervals (e.g., every 1 minute or 5 minutes).
+  - You set **thresholds** based on the metrics.
+  - **Metric**-based actions are triggered only when **data points** exceed or fall below a specific threshold.
 
-    -   Responds to **events** that happen in real-time, such as the creation of an S3 object, state change of an EC2 instance, or a custom event from your application.
-    -   **Event-driven** actions can be triggered almost **immediately** when an event occurs.
+- **EventBridge**:
 
-* * * * *
+  - Responds to **events** that happen in real-time, such as the creation of an S3 object, state change of an EC2 instance, or a custom event from your application.
+  - **Event-driven** actions can be triggered almost **immediately** when an event occurs.
 
+---
 
 ### **5\. Action Triggers**
 
--   **CloudWatch Alarms**:
+- **CloudWatch Alarms**:
 
-    -   Can trigger actions like:
-        -   **Sending a notification** (via SNS).
-        -   **Auto scaling** (for EC2).
-        -   **Stopping, starting, or rebooting EC2 instances**.
-        -   **Triggering Lambda functions** or executing Systems Manager Automation documents.
--   **EventBridge**:
+  - Can trigger actions like:
+    - **Sending a notification** (via SNS).
+    - **Auto scaling** (for EC2).
+    - **Stopping, starting, or rebooting EC2 instances**.
+    - **Triggering Lambda functions** or executing Systems Manager Automation documents.
 
-    -   Can trigger a broader range of **targets** and **actions**, such as:
-        -   **Lambda functions** (for custom processing).
-        -   **SNS/SQS** (to notify or queue messages).
-        -   **Step Functions** (to orchestrate workflows).
-        -   **Kinesis streams** (to send data for real-time processing).
-        -   **DynamoDB Streams** (to update databases).
+- **EventBridge**:
 
-* * * * *
+  - Can trigger a broader range of **targets** and **actions**, such as:
+    - **Lambda functions** (for custom processing).
+    - **SNS/SQS** (to notify or queue messages).
+    - **Step Functions** (to orchestrate workflows).
+    - **Kinesis streams** (to send data for real-time processing).
+    - **DynamoDB Streams** (to update databases).
 
+---
 
 ### **CloudWatch Alarms vs EventBridge -- Key Differences**
 
-| **Feature** | **CloudWatch Alarms** | **EventBridge** |
-| --- | --- | --- |
-| **Primary Function** | Monitors metrics and triggers actions based on thresholds. | Responds to events and triggers actions in an event-driven architecture. |
-| **Event Type** | Metric-based (e.g., CPU utilization, request count). | Event-based (e.g., EC2 instance state change, S3 object upload). |
-| **Use Case** | Performance monitoring, auto-scaling, resource health. | Automation workflows, cross-service orchestration, custom events. |
-| **Response Time** | Can trigger actions based on predefined thresholds (e.g., 5 minutes). | Real-time response to events. |
-| **Scope** | Mostly used for AWS resource metrics (e.g., EC2, RDS). | Can integrate with multiple AWS services and third-party systems (SaaS). |
-| **Action Triggers** | Notification, auto-scaling, EC2 actions, Lambda invocations. | Lambda functions, SNS, SQS, Step Functions, Kinesis, etc. |
-| **Cross-Service Integration** | Limited to AWS services. | Broad integration across AWS services, custom events, and third-party systems. |
+| **Feature**                   | **CloudWatch Alarms**                                                 | **EventBridge**                                                                |
+| ----------------------------- | --------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| **Primary Function**          | Monitors metrics and triggers actions based on thresholds.            | Responds to events and triggers actions in an event-driven architecture.       |
+| **Event Type**                | Metric-based (e.g., CPU utilization, request count).                  | Event-based (e.g., EC2 instance state change, S3 object upload).               |
+| **Use Case**                  | Performance monitoring, auto-scaling, resource health.                | Automation workflows, cross-service orchestration, custom events.              |
+| **Response Time**             | Can trigger actions based on predefined thresholds (e.g., 5 minutes). | Real-time response to events.                                                  |
+| **Scope**                     | Mostly used for AWS resource metrics (e.g., EC2, RDS).                | Can integrate with multiple AWS services and third-party systems (SaaS).       |
+| **Action Triggers**           | Notification, auto-scaling, EC2 actions, Lambda invocations.          | Lambda functions, SNS, SQS, Step Functions, Kinesis, etc.                      |
+| **Cross-Service Integration** | Limited to AWS services.                                              | Broad integration across AWS services, custom events, and third-party systems. |
 
-* * * * *
-
+---
 
 #### 1.3.8.1. Architecture of CloudWatch Logs
 
@@ -2042,6 +2067,7 @@ in that log group. Metric filters are also applied on the log groups. `(metrics 
 in the log and increment a specific metric accordingly, which can then on go and invoke an alarm as well)`
 
 ### **Logs and Metrics storage for Global Services**
+
 ### **Example: CloudFront Logs and Metrics**
 
 Let's say you are using **Amazon CloudFront**, a global content delivery network (CDN) service, and you want to store its logs and metrics in **us-east-1**.
@@ -2055,19 +2081,19 @@ Let's say you are using **Amazon CloudFront**, a global content delivery network
 3.  **Cross-Region Monitoring**:\
     To monitor CloudFront metrics across regions, you can use **CloudWatch Cross-Region Dashboards** to combine data from multiple regions and get a global view.
 
-* * * * *
+---
 
 ### **Tip to Remember:**
 
--   **Logs and metrics for global services** (like CloudFront or Route 53) are still **stored regionally**.
--   You can **aggregate, visualize, and analyze** these logs and metrics across regions using **CloudWatch Dashboards** or **CloudWatch Metric Streams** for global access.
+- **Logs and metrics for global services** (like CloudFront or Route 53) are still **stored regionally**.
+- You can **aggregate, visualize, and analyze** these logs and metrics across regions using **CloudWatch Dashboards** or **CloudWatch Metric Streams** for global access.
 
 ### 1.3.9. CloudTrail Essentials
 
 Cloud trail is a regional service.
 
 Concerned with who did what. It is to take into account who did what, did someone created an s3 bucket did some dropped an EC2 instance
-just like it says who did what 
+just like it says who did what
 
 Logs API calls or activities as **CloudTrail Event**
 
@@ -2076,102 +2102,116 @@ by default and is no additional cost.
 
 To customize the service you need to create a new **trail**.
 Two types of events. Default only logs Management Events
+
 ### **What is AWS CloudTrail?**
 
 **AWS CloudTrail** is a **service that enables governance, compliance, and operational and risk auditing** of your AWS account. It records all **API calls** made within your AWS account, whether the calls are made through the AWS Management Console, AWS CLI, AWS SDKs, or other AWS services. CloudTrail provides you with a **history of API calls** to your AWS resources, making it easy to track user activity and API usage.
 
 CloudTrail is an essential tool for auditing, monitoring, and troubleshooting your AWS environment by capturing every interaction with AWS resources.
 
-* * * * *
+---
 
 ### **Core Features of AWS CloudTrail**
 
 1.  **API Activity Logging**:
 
-    -   CloudTrail records API calls made to AWS services, capturing who made the request, what actions were performed, when, and from where.
-    -   The recorded API calls can include management actions, data plane actions, and other service interactions.
+    - CloudTrail records API calls made to AWS services, capturing who made the request, what actions were performed, when, and from where.
+    - The recorded API calls can include management actions, data plane actions, and other service interactions.
 
     **Example**:
 
-    -   A user or service making an API call to **EC2** to start an instance (`RunInstances` API action).
-    -   A Lambda function calling the **S3** service to list objects (`ListObjects` API action).
+    - A user or service making an API call to **EC2** to start an instance (`RunInstances` API action).
+    - A Lambda function calling the **S3** service to list objects (`ListObjects` API action).
+
 2.  **Event History**:
 
-    -   CloudTrail creates a log of **events** that detail the request and response for each API call. Events include information such as:
-        -   The **API call** made.
-        -   **Who** made the request (IAM user, service, or role).
-        -   The **source IP address** from which the request was made.
-        -   The **status** of the request (e.g., success or failure).
-        -   The **parameters** of the request.
+    - CloudTrail creates a log of **events** that detail the request and response for each API call. Events include information such as:
+      - The **API call** made.
+      - **Who** made the request (IAM user, service, or role).
+      - The **source IP address** from which the request was made.
+      - The **status** of the request (e.g., success or failure).
+      - The **parameters** of the request.
+
 3.  **CloudTrail Event Types**:
     ❗️IMPORTANT
-    -   **Management Events**: These events provide information on management operations (e.g., creating or deleting resources like EC2 instances, S3 buckets).
-    -   **Data Events**: These events capture the data plane operations (e.g., accessing an S3 object, invoking a Lambda function).
-    -   **Insight Events**: CloudTrail Insights detects unusual API activity in your AWS account, helping you identify potentially malicious or anomalous activity.
+    - **Management Events**: These events provide information on management operations (e.g., creating or deleting resources like EC2 instances, S3 buckets).
+    - **Data Events**: These events capture the data plane operations (e.g., accessing an S3 object, invoking a Lambda function).
+    - **Insight Events**: CloudTrail Insights detects unusual API activity in your AWS account, helping you identify potentially malicious or anomalous activity.
 4.  **Log File Integrity**:
 
-    -   CloudTrail supports **log file integrity validation**, ensuring that logs have not been tampered with. This is essential for security and compliance.
+    - CloudTrail supports **log file integrity validation**, ensuring that logs have not been tampered with. This is essential for security and compliance.
+
 5.  **Event Storage**:
 
-    -   CloudTrail logs are **stored** in **Amazon S3** buckets. You can choose where you want the logs to be stored and how long they are retained.
-    -   CloudTrail also supports **log file encryption** for added security, using **AWS KMS** to encrypt log data at rest.
+    - CloudTrail logs are **stored** in **Amazon S3** buckets. You can choose where you want the logs to be stored and how long they are retained.
+    - CloudTrail also supports **log file encryption** for added security, using **AWS KMS** to encrypt log data at rest.
+
 6.  **CloudTrail Insights**:
 
-    -   CloudTrail Insights automatically detects unusual activity based on a pattern of normal API calls. For example, it can detect sudden spikes in resource creation or unusual API call frequency.
-    -   Insights help you identify potential security incidents or misconfigurations early.
+    - CloudTrail Insights automatically detects unusual activity based on a pattern of normal API calls. For example, it can detect sudden spikes in resource creation or unusual API call frequency.
+    - Insights help you identify potential security incidents or misconfigurations early.
+
 7.  **Cross-Region and Cross-Account**:
 
-    -   CloudTrail supports **cross-region logging**, meaning you can aggregate logs from multiple regions into a central location.
-    -   **Cross-account** logging allows you to monitor AWS activity from multiple accounts and aggregate the logs centrally.
+    - CloudTrail supports **cross-region logging**, meaning you can aggregate logs from multiple regions into a central location.
+    - **Cross-account** logging allows you to monitor AWS activity from multiple accounts and aggregate the logs centrally.
 
-* * * * *
+---
 
 ### **How AWS CloudTrail Works**
 
 1.  **Configuration**:
 
-    -   You can enable **CloudTrail** logging for your AWS account directly from the AWS Management Console.
-    -   You can configure **Trail** settings, specify the **log storage destination** (S3 bucket), and choose whether to capture **management events**, **data events**, or both.
+    - You can enable **CloudTrail** logging for your AWS account directly from the AWS Management Console.
+    - You can configure **Trail** settings, specify the **log storage destination** (S3 bucket), and choose whether to capture **management events**, **data events**, or both.
+
 2.  **Recording API Calls**:
 
-    -   Once configured, CloudTrail logs every **API call** made by an IAM user, role, or service within your account.
-    -   Events are recorded and sent to your S3 bucket (or to CloudWatch Logs, if configured).
+    - Once configured, CloudTrail logs every **API call** made by an IAM user, role, or service within your account.
+    - Events are recorded and sent to your S3 bucket (or to CloudWatch Logs, if configured).
+
 3.  **Log Aggregation**:
 
-    -   CloudTrail can aggregate logs from **multiple regions** and **multiple accounts** into a central location. This is particularly useful for managing large organizations with many AWS accounts.
-    -   It supports **multiple trails**, allowing you to track different types of events in different regions or accounts.
+    - CloudTrail can aggregate logs from **multiple regions** and **multiple accounts** into a central location. This is particularly useful for managing large organizations with many AWS accounts.
+    - It supports **multiple trails**, allowing you to track different types of events in different regions or accounts.
+
 4.  **Log Analysis**:
 
-    -   Once the logs are stored in S3, you can analyze them using AWS tools like **Amazon Athena**, **AWS Lambda**, or even **CloudWatch Logs Insights**.
-    -   You can search logs for specific events, troubleshoot errors, and analyze the activity across your AWS environment.
+    - Once the logs are stored in S3, you can analyze them using AWS tools like **Amazon Athena**, **AWS Lambda**, or even **CloudWatch Logs Insights**.
+    - You can search logs for specific events, troubleshoot errors, and analyze the activity across your AWS environment.
+
 5.  **Security and Compliance**:
 
-    -   CloudTrail helps in **compliance audits** by providing detailed logs of all API activity. For instance, organizations can use it to track changes to security-sensitive resources like IAM policies, security groups, or KMS keys.
-    -   You can monitor CloudTrail logs for **unauthorized access attempts**, failed API calls, or unusual behavior.
+    - CloudTrail helps in **compliance audits** by providing detailed logs of all API activity. For instance, organizations can use it to track changes to security-sensitive resources like IAM policies, security groups, or KMS keys.
+    - You can monitor CloudTrail logs for **unauthorized access attempts**, failed API calls, or unusual behavior.
 
-* * * * *
+---
 
 ### **Typical Use Cases of AWS CloudTrail**
 
 1.  **Security and Compliance Auditing**:
 
-    -   CloudTrail allows you to continuously monitor user activities and API calls, which is critical for ensuring compliance with security standards like **HIPAA**, **GDPR**, and **PCI-DSS**.
-    -   It helps in **auditing** changes to resources (e.g., users or roles modifying security groups or deleting databases) and tracking **unauthorized access** attempts.
+    - CloudTrail allows you to continuously monitor user activities and API calls, which is critical for ensuring compliance with security standards like **HIPAA**, **GDPR**, and **PCI-DSS**.
+    - It helps in **auditing** changes to resources (e.g., users or roles modifying security groups or deleting databases) and tracking **unauthorized access** attempts.
+
 2.  **Troubleshooting and Debugging**:
 
-    -   CloudTrail helps you debug issues in your application or infrastructure. For example, if a deployment fails, you can look up the exact API calls that caused the failure and the error messages returned.
-    -   By analyzing the events, you can pinpoint resource misconfigurations or permissions issues.
+    - CloudTrail helps you debug issues in your application or infrastructure. For example, if a deployment fails, you can look up the exact API calls that caused the failure and the error messages returned.
+    - By analyzing the events, you can pinpoint resource misconfigurations or permissions issues.
+
 3.  **Change Management**:
 
-    -   CloudTrail logs all changes to resources in your environment, such as the creation, modification, or deletion of resources (e.g., EC2 instances, Lambda functions). This is useful for tracking who made what changes and when.
+    - CloudTrail logs all changes to resources in your environment, such as the creation, modification, or deletion of resources (e.g., EC2 instances, Lambda functions). This is useful for tracking who made what changes and when.
+
 4.  **Security Incident Detection**:
 
-    -   With **CloudTrail Insights**, you can detect unusual API activity, such as unauthorized attempts to access resources, or spikes in API call frequency that could indicate a potential security breach.
+    - With **CloudTrail Insights**, you can detect unusual API activity, such as unauthorized attempts to access resources, or spikes in API call frequency that could indicate a potential security breach.
+
 5.  **Monitoring API Usage**:
 
-    -   CloudTrail allows you to track the usage of **AWS APIs** to monitor which services are being used most frequently, who is making the requests, and from where. This helps in cost optimization and ensuring that resources are being used appropriately.
+    - CloudTrail allows you to track the usage of **AWS APIs** to monitor which services are being used most frequently, who is making the requests, and from where. This helps in cost optimization and ensuring that resources are being used appropriately.
 
-* * * * *
+---
 
 ### **Setting Up CloudTrail**
 
@@ -2179,33 +2219,37 @@ Here are the basic steps to set up **AWS CloudTrail**:
 
 1.  **Enable CloudTrail**:
 
-    -   Go to the **CloudTrail Console** and click **Create trail**.
-    -   Choose a **trail name** and specify the **S3 bucket** for storing log files.
-    -   Optionally, choose to send logs to **CloudWatch Logs** for real-time monitoring.
+    - Go to the **CloudTrail Console** and click **Create trail**.
+    - Choose a **trail name** and specify the **S3 bucket** for storing log files.
+    - Optionally, choose to send logs to **CloudWatch Logs** for real-time monitoring.
+
 2.  **Configure Event Logging**:
 
-    -   Choose to capture **management events** (e.g., create, delete, update) and/or **data events** (e.g., access to S3 objects, DynamoDB operations).
-    -   Enable **log file validation** for integrity.
+    - Choose to capture **management events** (e.g., create, delete, update) and/or **data events** (e.g., access to S3 objects, DynamoDB operations).
+    - Enable **log file validation** for integrity.
+
 3.  **Review and Confirm**:
 
-    -   Review the configuration settings and confirm the trail creation.
-    -   CloudTrail will start recording API calls based on your settings.
+    - Review the configuration settings and confirm the trail creation.
+    - CloudTrail will start recording API calls based on your settings.
 
-* * * * *
+---
 
 ### **Security Features in CloudTrail**
 
 1.  **Log File Integrity Validation**:
 
-    -   CloudTrail supports **integrity validation** to ensure that logs have not been tampered with. This is critical for ensuring the authenticity and security of audit logs.
+    - CloudTrail supports **integrity validation** to ensure that logs have not been tampered with. This is critical for ensuring the authenticity and security of audit logs.
+
 2.  **Encryption**:
 
-    -   Logs stored in **Amazon S3** can be encrypted using **AWS KMS** (Key Management Service) to ensure data security.
+    - Logs stored in **Amazon S3** can be encrypted using **AWS KMS** (Key Management Service) to ensure data security.
+
 3.  **Access Control**:
 
-    -   Access to CloudTrail logs can be controlled using **IAM policies**. You can restrict who can view logs, modify settings, or delete trails.
+    - Access to CloudTrail logs can be controlled using **IAM policies**. You can restrict who can view logs, modify settings, or delete trails.
 
-* * * * *
+---
 
 ### **Sample MCQ Question for AWS Developer Associate Exam**
 
@@ -2223,19 +2267,20 @@ Which of the following actions can AWS CloudTrail perform for your AWS account?
 **Explanation:**\
 CloudTrail records all API calls in your AWS account, including who made the request, when, from where, and the parameters of the API call, providing a comprehensive history of all interactions with AWS services.
 
-* * * * *
+---
 
 Let me know if you need more clarification or further details on CloudTrail!
+
 #### 1.3.9.1. CloudTrail Trail
 
-###  CloudTrail Logs for Global Services**
+### CloudTrail Logs for Global Services\*\*
 
 For **global services**, CloudTrail still records API calls and logs them into **region-specific CloudTrail trails**. Most often, **CloudTrail logs for global services** are stored in the **us-east-1 region** (default region for global services). This is because **CloudTrail** typically stores logs in a **region-specific log group** in your S3 bucket, regardless of the global nature of the service.
 
 #### **Example: CloudFront Logs in CloudTrail**
 
--   **CloudFront**, despite being a global service, will have its logs stored in a **CloudWatch log group** in the **region** that you configure for logging. You can choose to send **CloudFront logs to CloudWatch logs** for analysis and monitoring.
--   The logs for CloudFront in **us-east-1** will store API activity that involves operations such as **creating a distribution**, **invalidating cache**, or **accessing a CloudFront distribution**.
+- **CloudFront**, despite being a global service, will have its logs stored in a **CloudWatch log group** in the **region** that you configure for logging. You can choose to send **CloudFront logs to CloudWatch logs** for analysis and monitoring.
+- The logs for CloudFront in **us-east-1** will store API activity that involves operations such as **creating a distribution**, **invalidating cache**, or **accessing a CloudFront distribution**.
 
 Most services log events in the region they occur. The trail then must be
 a one region trail in that region or an all region trail to log that event.
@@ -2298,7 +2343,7 @@ Different from an **identity policy**
 
 Each bucket can only have one policy, but it can have multiple statements.
 
-When we make the principal of the S3 bucket resource policy as "*" and the action is "s3:GetObject" it allows anonymous access to everyone
+When we make the principal of the S3 bucket resource policy as "\*" and the action is "s3:GetObject" it allows anonymous access to everyone
 
 #### 1.4.1.2. ACLs (Legacy)
 
@@ -2374,11 +2419,11 @@ Without Versioning:
 - If you modify an object, the original of that object is replaced.
 - The attribute, **ID of object**, is set to **null**.
 
-Versioning      
+Versioning
 
 - This is off by default.
 - Once it is turned on, it cannot be turned off.
-- Versioning can be suspended (paused)   and enabled again.
+- Versioning can be suspended (paused) and enabled again.
 - This allows for multiple versions of objects within a bucket.
 - Objects which would modify objects **generate a new version** instead.
 
@@ -2437,7 +2482,7 @@ S3 Accelerated Transfer
 - An example is a password on a laptop
   - If the laptop is stolen, the data is already encrypted and useless.
 - Commonly within cloud environments. Even if someone could
-find and access the base storage device, they can't do anything with it.
+  find and access the base storage device, they can't do anything with it.
 - Only one entity involved
 
 #### 1.4.5.2. Encryption in Transit
@@ -2511,7 +2556,7 @@ parties know how the data will be hidden.
 - Think of them as a container for the actual physical master keys.
 - These are all backed by **physical** key material.
 - You can generate or import the key material.
-- CMKs can be used to encrypt or decrypt data  up to **4KB of data**.
+- CMKs can be used to encrypt or decrypt data up to **4KB of data**.
 
 It is logical and key contains
 
@@ -2526,7 +2571,7 @@ It is logical and key contains
 - Generated by KMS using the CMK and `GenerateDataKey` operation.
 - Used to encrypt data larger than 4KB in size.
 - Linked to a specific CMK so KMS can tell that a specific DEK was
-generated with a specific CMK.
+  generated with a specific CMK.
 
 KMS does not store the DEK, once provided to a user or service, it is
 discarded. KMS doesn't actually perform the encryption or decryption
@@ -2538,7 +2583,7 @@ When the DEK is generated, KMS provides two version.
 - Ciphertext Version - Encrypted version of the DEK.
   - This is encrypted by the CMK that generated it.
   - In the future it can be decrypted by KMS using the CMK assuming
-  you have the permissions.
+    you have the permissions.
 
 Architecture
 
@@ -2548,14 +2593,17 @@ Architecture
 4. The encrypted DEK is stored next to the ciphertext generated earlier.
 
 ##### Key Rotation
+
 Key rotation in AWS Key Management Service (KMS) is a practice used to periodically change the cryptographic keys used to encrypt and decrypt data. This is a critical part of maintaining the security and integrity of your encrypted data. Here's a detailed overview:
 
 What is Key Rotation?
+
 - Definition: Key rotation involves periodically replacing old encryption keys with new ones. In AWS KMS, this means generating a new key version and updating the encryption and decryption processes to use the new key while retaining the ability to decrypt data encrypted with older keys.
 
 - Purpose: Key rotation helps mitigate the risk of key compromise and ensures that encryption practices remain secure over time. Regularly rotating keys limits the impact of any potential security vulnerabilities or breaches.
 
 ##### How Key Rotation Works in AWS KMS
+
 - Automatic Key Rotation:
 
   - AWS KMS supports automatic key rotation for customer-managed keys (CMKs). When enabled, AWS KMS automatically rotates the key material of a CMK every year.
@@ -2567,10 +2615,11 @@ What is Key Rotation?
   - Process: You typically create a new CMK and update your encryption and decryption processes to use the new key. You also need to update your key policies and any relevant IAM roles or policies that reference the old key.
 
 - Steps to Enable Automatic Key Rotation
- - Access KMS Console: Open the AWS Management Console and navigate to the KMS section.
- - Select the CMK: Choose the customer-managed key (CMK) for which you want to enable automatic rotation.
- - Enable Rotation: In the key details page, find the option for key rotation and enable it. AWS KMS will then handle the key rotation automatically on an annual basis.
- - 
+- Access KMS Console: Open the AWS Management Console and navigate to the KMS section.
+- Select the CMK: Choose the customer-managed key (CMK) for which you want to enable automatic rotation.
+- Enable Rotation: In the key details page, find the option for key rotation and enable it. AWS KMS will then handle the key rotation automatically on an annual basis.
+-
+
 #### 1.4.6.3. KMS Key Concepts
 
 - Customer Master Keys (CMK) are isolated to a region.
@@ -2578,7 +2627,7 @@ What is Key Rotation?
   - You Cannot extract a CMK.
 - AWS managed CMKs
   - Created automatically by AWS when using a service such
-  as S3 which uses KMS for encryption.
+    as S3 which uses KMS for encryption.
 - Customer managed CMKS
   - Created explicitly by the customer.
   - Much more more configurable, for example the key policy can be edited.
@@ -2601,19 +2650,19 @@ potentially at a different CMK.
 
 #### 1.4.6.4. Key Policy (resource policy)
 
-- It is like a bucket resource policy 
+- It is like a bucket resource policy
 - Every CMK has one.
 - Customer managed CMKs can adjust the policy.
 - Unlike other policies, KMS has to be explicitly told that keys trust the AWS
-account that they're in even its own account.
+  account that they're in even its own account.
 - The trust isn't automatic so be careful when adjusting key policies.
 - You always need a key policy in place so the key trusts the account and so
-that the account can manage it by applying IAM permission policies to IAM users
-in that account.
+  that the account can manage it by applying IAM permission policies to IAM users
+  in that account.
 - In order for IAM to work, IAM is trusted by the account, and the account
-needs to be trusted by the key.
+  needs to be trusted by the key.
 - It sets up this chain of trust from the key to the account to IAM and then
-to an IAM user, if they're granted any identity permissions.
+  to an IAM user, if they're granted any identity permissions.
 
 ### 1.4.7. KMS Key Demo
 
@@ -2674,7 +2723,7 @@ SSE-C Encryption Steps
 1. When placing an object in S3, you provide encryption key and plaintext object
 2. Once the key and object arrive, it is encrypted.
 3. A hash of the key is taken and attached to the object.
-The hash can identify if the specific key was used to encrypt the object.
+   The hash can identify if the specific key was used to encrypt the object.
 4. The key is then discarded after the hash is taken.
 5. The encrypted and one-way hash are stored persistently on storage.
 
@@ -2695,7 +2744,7 @@ SSE-S3 Encryption Steps
 2. S3 generates fully managed and rotated **master key** automatically.
 3. Object generates a key specific for each object that is uploaded.
 4. The master key is used to encrypt the specific object key, and the
-unencrypted version of that key is discarded.
+   unencrypted version of that key is discarded.
 5. The encrypted file and encrypted key are stored side by side in S3.
 
 Three Problems with this method:
@@ -2718,7 +2767,7 @@ The CMK does not need to be managed by AWS and can be a customer managed CMK.
 SSE-KMS Encryption Steps
 
 1. S3 is provided a plaintext version of the data encryption key as well
-as an encrypted version.
+   as an encrypted version.
 2. The data is encrypted with the plaintext key and the key discarded.
 3. The encrypted key is stored alongside the encrypted object.
 
@@ -2758,7 +2807,7 @@ All of the other storage classes trade some of these compromises for another.
 
 - Designed for less frequent rapid access when it is needed.
 - Cheaper rate to store data you will rarely need, but if you do need it, you
-need it quickly.
+  need it quickly.
 - ~54% cheaper than S3 standard.
 - Minimum 128KB charge for each object.
   - Cost benefits might be negated for smaller objects.
@@ -2848,10 +2897,10 @@ There are two types of S3 replication available.
 
 - Cross-Region Replication (CRR)
   - Allows the replication of objects from a source bucket to a destination
-bucket in **different** AWS regions.
+    bucket in **different** AWS regions.
 - Same-Region Replication (SRR)
   - Allows the replication of objects from a source bucket to a destination
-bucket in the **same** AWS region.
+    bucket in the **same** AWS region.
 
 Architecture for both is similar, only difference is if both buckets are
 in the same account or different accounts.
@@ -2877,7 +2926,7 @@ the source account access to the bucket.
 - Define the ownership of the objects.
   - The default is they will be owned by the same account as the source bucket.
   - If the buckets are in different accounts, the objects in the destination
-  could be owned by the source account and not allowed access.
+    could be owned by the source account and not allowed access.
 - Replication Time Control (RTC)
   - Adds a guaranteed level of SLA within 15 minutes for extra cost.
   - This is useful for buckets that must be in sync the whole time.
@@ -2886,17 +2935,17 @@ the source account access to the bucket.
 
 - Replication is not retroactive.
   - If you enable replication on a bucket that already has objects, the old
-  objects will not be replicated.
+    objects will not be replicated.
 - Both buckets must have versioning enabled.
 - It is a one way replication process only.
 - Replication by default can handle objects that are unencrypted or SSE-S3.
   - With configuration it can handle SSE-KMS, but KMS requires more
-configuration to work.
+    configuration to work.
   - It cannot replicate objects with SSE-C because AWS does not have the keys
-necessary.
+    necessary.
 - Source bucket owner needs permissions to objects. If you grant cross-account
-access to a bucket. It is possible the source bucket account will not own
-some of those objects.
+  access to a bucket. It is possible the source bucket account will not own
+  some of those objects.
 - Will not replicate system events, glacier, or glacier deep archive.
 - No deletes are replicated.
 
@@ -2928,9 +2977,9 @@ a certain date and time as requested by the IAM admin user.
 #### 1.4.12.1. S3 Presigned URL Exam PowerUp
 
 - You can create a presigned URL for an object you have do not have access to.
-The object will not allow access because your user does not have access.
+  The object will not allow access because your user does not have access.
 - When using the URL the permission that you have access to, match the identity
-that generated it at the moment the item is being accessed.
+  that generated it at the moment the item is being accessed.
 - If you get an access deny it means the ID never had access, or lost it.
 - Don't generate presigned URLs with an IAM role.
   - The role will likely expire before the URL does.
@@ -3094,12 +3143,9 @@ Taking a /16 subnet and splitting it 16 ways will make each a /20.
 
 ![alt text](<17-VPC-Advanced/Screenshot 2025-03-22 at 5.03.07 pm.png>)
 
-
 ![alt text](<17-VPC-Advanced/Screenshot 2025-03-22 at 5.07.21 pm.png>)
 
-
 ![alt text](<17-VPC-Advanced/Screenshot 2025-03-22 at 5.13.27 pm.png>)
-
 
 so lets say you have a VPC network of VPC 10.16.0.0/16 in the region us-east-1
 
@@ -3109,8 +3155,8 @@ but for the 3 AZ in the above picture we are not using the last 4 subnets
 
 ### **FOR Developer Associate exam You Don't Need to Focus On:**
 
--   You **don't need to dive deeply into advanced VPC design** principles, such as multi-AZ resilience or CIDR block design (e.g., splitting subnets in a /16 range).
--   You **don't need to master advanced topics** like **VPC Traffic Mirroring**, **Transit Gateways**, or **Direct Connect**, as these are typically more relevant to **networking architects** and not specifically required for a developer exam.
+- You **don't need to dive deeply into advanced VPC design** principles, such as multi-AZ resilience or CIDR block design (e.g., splitting subnets in a /16 range).
+- You **don't need to master advanced topics** like **VPC Traffic Mirroring**, **Transit Gateways**, or **Direct Connect**, as these are typically more relevant to **networking architects** and not specifically required for a developer exam.
 
 ### 1.5.3. Advantages of Custom VPC
 
@@ -3119,33 +3165,33 @@ but for the 3 AZ in the above picture we are not using the last 4 subnets
 - Allows isolated networks inside AWS.
 - Nothing IN or OUT of a VPC without explicit configuration meaning network boundary.
   - Isolated blast radius. Any problems are limited to that VPC or anything
-  connected to it.
+    connected to it.
 - Custom VPC are opposite to default VPC allowing Flexible configuration
 - Hybrid networking to allow connection to other cloud or on-prem networking.
 - Default or Dedicated Tenancy. This refers to how the hardware is configured.
   - Default allows on a per resource decision later on.
   - Dedicated locks any resourced created in that VPC to be on dedicated
-  hardware which comes at a cost premium.
+    hardware which comes at a cost premium.
 
 In the context of **VPC** (Virtual Private Cloud) and the **AWS Developer Associate (DVA-CO2)** exam, the terms **Default Tenancy** and **Dedicated Tenancy** refer to how **EC2 instances** are placed on hardware, and this choice impacts the **type of hardware** (shared or dedicated) that AWS uses for your resources.
 
 ### **Default Tenancy**:
 
--   **Default Tenancy** means that the instances you launch in your VPC will run on **shared hardware**. AWS uses its pool of **shared physical servers** to run EC2 instances, and multiple customers' EC2 instances may share the same physical hardware.
+- **Default Tenancy** means that the instances you launch in your VPC will run on **shared hardware**. AWS uses its pool of **shared physical servers** to run EC2 instances, and multiple customers' EC2 instances may share the same physical hardware.
 
-    -   **Key Point**: The physical server is **shared** with other customers, but each EC2 instance remains logically isolated.
-    -   **Cost**: Default Tenancy is **less expensive**, as you're utilizing shared infrastructure.
--   **When to Use Default Tenancy**:
+  - **Key Point**: The physical server is **shared** with other customers, but each EC2 instance remains logically isolated.
+  - **Cost**: Default Tenancy is **less expensive**, as you're utilizing shared infrastructure.
 
-    -   You should choose **Default Tenancy** for most use cases, especially when you don't have specific requirements for dedicated hardware. For instance, if you are running web applications, batch jobs, or development environments, **Default Tenancy** is sufficient and more cost-effective.
+- **When to Use Default Tenancy**:
+
+  - You should choose **Default Tenancy** for most use cases, especially when you don't have specific requirements for dedicated hardware. For instance, if you are running web applications, batch jobs, or development environments, **Default Tenancy** is sufficient and more cost-effective.
 
 ### **Dedicated Tenancy**:
 
--   **Dedicated Tenancy** means that the EC2 instances you launch in your VPC will run on **dedicated hardware**. Each EC2 instance will be placed on **physically isolated** servers that are not shared with any other customer.
+- **Dedicated Tenancy** means that the EC2 instances you launch in your VPC will run on **dedicated hardware**. Each EC2 instance will be placed on **physically isolated** servers that are not shared with any other customer.
 
-    -   **Key Point**: This **locks** all EC2 instances in that VPC to be run on dedicated physical hardware.
-    -   **Cost**: **Dedicated Tenancy** comes at a **cost premium** because AWS uses physically dedicated hardware to run your EC2 instances. The pricing is higher to compensate for this dedicated physical infrastructure.
-
+  - **Key Point**: This **locks** all EC2 instances in that VPC to be run on dedicated physical hardware.
+  - **Cost**: **Dedicated Tenancy** comes at a **cost premium** because AWS uses physically dedicated hardware to run your EC2 instances. The pricing is higher to compensate for this dedicated physical infrastructure.
 
 #### 1.5.3.1. Custom VPC Facts
 
@@ -3157,36 +3203,38 @@ In the context of **VPC** (Virtual Private Cloud) and the **AWS Developer Associ
 - Allocated 1 mandatory private IPv4 CIDR blocks
   <span style='color:red'>!Important</span>
   - it has a restriction that it can be a
-     - Min /28 prefix (16 IP)
-     - Max /16 prefix (65,536 IP)
-     - CIDR Block range of VPC in AWS is always between /28 to /16 
-     - and address is usually 10.0.0.0
+    - Min /28 prefix (16 IP)
+    - Max /16 prefix (65,536 IP)
+    - CIDR Block range of VPC in AWS is always between /28 to /16
+    - and address is usually 10.0.0.0
 - Can add secondary IPv4 Blocks after creation.
   - Max of 5, can be increased with a support ticket
 
 !IMPORTANT
+
 - When thinking of VPC, think of it has a pool of private IPv4 addresses and optionally it can
   use public addresses when needed.
-
 
 VPC can be optionally configured to use IPV6 by assigning Single assigned IPv6 /56 CIDR block
 
 - Still being matured, not everything works the same as IPv4.
 - With increasing use of IPv6, this should be added as a default
 - Range is either allocated by AWS as in you have no choice on which range
-to use, or you can select to use your own IPv6 addresses which you own.
+  to use, or you can select to use your own IPv6 addresses which you own.
 - you cannot pick a block
 - IPv6 does not have a concept private addresses, they are all routed as public by default.
 
 #### 1.5.3.2. DNS provided by R53
 
-
 AWS VPC also has fully featured DNS provided by R53
+
 - Available on the base IP address of the VPC + 2.
-If the VPC is `10.0.0.0` then the DNS IP will be `10.0.0.2`
+  If the VPC is `10.0.0.0` then the DNS IP will be `10.0.0.2`
 
 Two options that manage how DNS works in a VPC: <span style='color:red'>!Important</span>
+
 - Edit DNS hostnames (enableDNSHostName setting)
+
   - if enabled you can assign DNS hostname to public IPs of instances in VPC
   - If true, instances with public IPs in a VPC are given public DNS hostnames.
   - If false, this is not available.
@@ -3195,13 +3243,9 @@ Two options that manage how DNS works in a VPC: <span style='color:red'>!Importa
   - If true, instances in the VPC can use the DNS IP address.
   - If false, this is not available.
 
-
 At this state lets say you have create a VPC with 10.16.0.0/16 CIDR assigned it AWS provided IPv6 and enabled the enableDNSHostname and enableDNSResolution Setting meaning you have
 
-
 ![alt text](<17-VPC-Advanced/Screenshot 2025-03-22 at 5.42.44 pm.png>)
-
-
 
 ### 1.5.4. VPC Subnets Facts
 
@@ -3226,8 +3270,9 @@ Whatever size of the subnet, the IP addresses are five less than you expect.
 If using `10.16.16.0/20` (`10.16.16.0` - `10.16.31.255`)
 
 Unusable address
+
 - Network address: `10.16.16.0` starting address
-- Network + 1: `10.16.16.1` - used by VPC Router  
+- Network + 1: `10.16.16.1` - used by VPC Router
 - Network + 2: `10.16.16.2` - Reserved for DNS
 - Network + 3: `10.16.16.3` - Reserved for future AWS use
 - Broadcast Address: `10.16.31.255` (Last IP in subnet)
@@ -3258,7 +3303,6 @@ this is what you have now subnets with a setting enabled to assign public IPv6 a
 
 ![alt text](<17-VPC-Advanced/Screenshot 2025-03-22 at 5.57.07 pm.png>)
 
-
 Q. Even if auto assigned public IPv6 to instances in subnet it cannot talk to internet unless connected to an internet gateway right
 
 ###### ChatGPT said:
@@ -3271,7 +3315,7 @@ When you launch an EC2 instance within a **VPC** and configure it to be assigned
 
 Also when you assign a public IP to an instance the OS on the instance does not know the public IP it only knows the private IP, the VPC will have a record of matching the private IP with the public IP
 
-* * * 
+---
 
 Q. Can an instance in one subnet of an AZ of a VPC can communicate with an instance of a other subnet of a diiferent AZ of the same VPC by default?
 
@@ -3285,23 +3329,25 @@ In **Amazon VPC**, **subnets** within the same **VPC** are able to communicate w
 
 ### **Why is this possible?**
 
--   **Default VPC Behavior**: When you create a **VPC** in AWS, it comes with a **default route table** that allows **internal communication** between all subnets within that VPC. This means that **instances in different subnets within the same VPC** can reach each other without needing additional routing configurations.
+- **Default VPC Behavior**: When you create a **VPC** in AWS, it comes with a **default route table** that allows **internal communication** between all subnets within that VPC. This means that **instances in different subnets within the same VPC** can reach each other without needing additional routing configurations.
 
--   **Local Routing**: AWS automatically includes a **local route** in the route tables for all subnets within a VPC. The **local route** ensures that traffic destined for another subnet within the same VPC is routed correctly, regardless of whether the destination is in the same AZ or a different AZ.
+- **Local Routing**: AWS automatically includes a **local route** in the route tables for all subnets within a VPC. The **local route** ensures that traffic destined for another subnet within the same VPC is routed correctly, regardless of whether the destination is in the same AZ or a different AZ.
 
--   **Private Communication**: Instances in different subnets of the same VPC communicate privately using **private IP addresses**. The communication does not require any internet access, NAT gateways, or public IPs, as long as the security groups and NACLs allow traffic between the instances.
+- **Private Communication**: Instances in different subnets of the same VPC communicate privately using **private IP addresses**. The communication does not require any internet access, NAT gateways, or public IPs, as long as the security groups and NACLs allow traffic between the instances.
 
 ### **Example:**
 
 Let's say you have the following setup in your VPC:
 
--   **Subnet 1** (AZ-1): `10.0.1.0/24`
+- **Subnet 1** (AZ-1): `10.0.1.0/24`
 
-    -   Instance 1: `10.0.1.10`
--   **Subnet 2** (AZ-2): `10.0.2.0/24`
+  - Instance 1: `10.0.1.10`
 
-    -   Instance 2: `10.0.2.10`
--   **Route Tables**: By default, both subnets have routes allowing **local traffic** within the VPC.
+- **Subnet 2** (AZ-2): `10.0.2.0/24`
+
+  - Instance 2: `10.0.2.10`
+
+- **Route Tables**: By default, both subnets have routes allowing **local traffic** within the VPC.
 
 Since **local routing** is enabled and there are no restrictive security group or NACL rules preventing communication, **Instance 1** in **Subnet 1** can **communicate with Instance 2** in **Subnet 2** over the **private IP addresses** (e.g., `10.0.1.10` to `10.0.2.10`).
 
@@ -3309,24 +3355,25 @@ Since **local routing** is enabled and there are no restrictive security group o
 
 While **default routing** allows communication, it's important to ensure that:
 
--   **Security Groups** allow the desired traffic between the instances.
+- **Security Groups** allow the desired traffic between the instances.
 
-    -   For example, if **Instance 1** needs to communicate with **Instance 2**, you would need to ensure that the **Security Group** of **Instance 1** allows outbound traffic to the **Security Group** of **Instance 2**, and vice versa.
--   **Network Access Control Lists (NACLs)** don't block traffic between subnets. By default, NACLs allow all inbound and outbound traffic. If custom NACLs are used, they need to be configured to allow the necessary traffic.
+  - For example, if **Instance 1** needs to communicate with **Instance 2**, you would need to ensure that the **Security Group** of **Instance 1** allows outbound traffic to the **Security Group** of **Instance 2**, and vice versa.
+
+- **Network Access Control Lists (NACLs)** don't block traffic between subnets. By default, NACLs allow all inbound and outbound traffic. If custom NACLs are used, they need to be configured to allow the necessary traffic.
 
 ### **Key Takeaways**:
 
--   **Yes**, instances in different subnets (even across different AZs) within the same VPC can **communicate** by default.
--   The default **route tables** allow **local routing** within the VPC, meaning traffic can flow freely between subnets.
--   Communication depends on **security group settings** and **NACL configurations**, so ensure they allow traffic as needed.
+- **Yes**, instances in different subnets (even across different AZs) within the same VPC can **communicate** by default.
+- The default **route tables** allow **local routing** within the VPC, meaning traffic can flow freely between subnets.
+- Communication depends on **security group settings** and **NACL configurations**, so ensure they allow traffic as needed.
 
 ### **Exam Power-Up**:
 
--   **VPC Communication**: **Instances within a VPC**, even if they are in **different subnets** or **different Availability Zones**, can **communicate by default**.
--   **Security Groups** and **NACLs**: Ensure that **Security Groups** and **NACLs** allow the necessary traffic for your instances to communicate.
--   **Routing**: The **default route table** includes a **local route**, so no custom routing is needed to communicate within the same VPC.
+- **VPC Communication**: **Instances within a VPC**, even if they are in **different subnets** or **different Availability Zones**, can **communicate by default**.
+- **Security Groups** and **NACLs**: Ensure that **Security Groups** and **NACLs** allow the necessary traffic for your instances to communicate.
+- **Routing**: The **default route table** includes a **local route**, so no custom routing is needed to communicate within the same VPC.
 
-* * * 
+---
 
 ### 1.5.5. VPC Routing and Internet Gateway
 
@@ -3338,11 +3385,11 @@ While **default routing** allows communication, it's important to ensure that:
 - it is controllable with route table
 - Route tables defines what the VPC router will do with traffic when data leaves that subnet.
 - A VPC is created with a main route table. If you don't associate a custom
-route table with a subnet, it uses the main route table of the VPC.
+  route table with a subnet, it uses the main route table of the VPC.
 
 - If you do associate a custom route table you create with a subnet, then the
-main route table is disassociated. A subnet can only have one route table
-associated at a time, 
+  main route table is disassociated. A subnet can only have one route table
+  associated at a time,
 - but a route table can be associated by many subnets.
 
 #### 1.5.5.1. Route Tables
@@ -3354,9 +3401,9 @@ If one route is matched that is selected but if it is matched to a route that is
 The higher the prefix, the more specific the route, thus higher priority.
 
 - after route match the target will say local or simething else
-If the target says local, that means the destination is in the VPC itself.
-Local route can never be updated, they're always present and the local route
-always takes priority. This is the exception to the prefix rule.
+  If the target says local, that means the destination is in the VPC itself.
+  Local route can never be updated, they're always present and the local route
+  always takes priority. This is the exception to the prefix rule.
 
 #### 1.5.5.2. Internet Gateway
 
@@ -3372,32 +3419,35 @@ or AWS Public Zones (S3, SQS, SNS, etc.)
 - but can only be attached to one VPC at a time
 - the IGW runs from the border of the VPC of the AWS public zone which allows instances or services in VPC assigned with the Public IP addresses to communicate the AWS public zone or the internet or to be communicated from the internet
 
-* * * *
+---
 
 > To allow instances in your VPC to communicate with the internet, you need to attach an **Internet Gateway (IGW)** to the **VPC** and configure the **route tables** to ensure that the traffic is correctly routed. Here's how you can **create and assign an Internet Gateway (IGW)** and **configure the route table** for the VPC subnet.
 
 ### **Steps to Create and Assign an Internet Gateway (IGW) and Configure Route Table:**
 
-* * * * *
+---
 
 ### **1\. Create an Internet Gateway (IGW)**
 
 1.  **Open the VPC Console**:
 
-    -   Go to the **VPC Dashboard** in the AWS Management Console.
+    - Go to the **VPC Dashboard** in the AWS Management Console.
+
 2.  **Create an Internet Gateway**:
 
-    -   In the **VPC Dashboard**, on the left side, click on **Internet Gateways** under **Virtual Private Cloud**.
-    -   Click on the **Create internet gateway** button.
+    - In the **VPC Dashboard**, on the left side, click on **Internet Gateways** under **Virtual Private Cloud**.
+    - Click on the **Create internet gateway** button.
+
 3.  **Name the Internet Gateway** (optional):
 
-    -   Give the **Internet Gateway** a name for easy identification.
-    -   For example: **MyInternetGateway**.
+    - Give the **Internet Gateway** a name for easy identification.
+    - For example: **MyInternetGateway**.
+
 4.  **Create the IGW**:
 
-    -   Click **Create** to create the Internet Gateway.
+    - Click **Create** to create the Internet Gateway.
 
-* * * * *
+---
 
 ### **2\. Attach the Internet Gateway to the VPC**
 
@@ -3405,14 +3455,15 @@ Once the **Internet Gateway** is created, you need to **attach it** to your **VP
 
 1.  **Select the IGW**:
 
-    -   In the **Internet Gateways** section of the VPC dashboard, select the **Internet Gateway** that you just created.
+    - In the **Internet Gateways** section of the VPC dashboard, select the **Internet Gateway** that you just created.
+
 2.  **Attach to VPC**:
 
-    -   Click on the **Actions** button at the top and select **Attach to VPC**.
-    -   In the dialog box, select the **VPC** you want to attach the IGW to (typically the default VPC or your custom VPC).
-    -   Click **Attach**.
+    - Click on the **Actions** button at the top and select **Attach to VPC**.
+    - In the dialog box, select the **VPC** you want to attach the IGW to (typically the default VPC or your custom VPC).
+    - Click **Attach**.
 
-* * * * *
+---
 
 ### **3\. Update Route Table to Enable Internet Access**
 
@@ -3420,77 +3471,80 @@ After attaching the **Internet Gateway** to the VPC, you need to configure the *
 
 1.  **Open the Route Tables**:
 
-    -   Go to the **Route Tables** section in the VPC dashboard.
+    - Go to the **Route Tables** section in the VPC dashboard.
+
 2.  **Select the Route Table for the Subnet**:
 
-    -   Choose the route table associated with the subnet where you want to provide **internet access** (typically the **public subnet**). By default, this might be the **main route table** for the VPC.
+    - Choose the route table associated with the subnet where you want to provide **internet access** (typically the **public subnet**). By default, this might be the **main route table** for the VPC.
+
 3.  **Edit Routes**:
 
-    -   Click on the **Routes** tab and then click on the **Edit routes** button.
+    - Click on the **Routes** tab and then click on the **Edit routes** button.
+
 4.  **Add a Route for Internet Traffic**:
 
-    -   Click **Add route**.
-    -   In the **Destination** field, enter `0.0.0.0/0` for IPv4 traffic or `::/0` for IPv6 traffic to indicate the default route for all internet-bound traffic.
-    -   In the **Target** field, select **Internet Gateway** (IGW) from the dropdown list.
-    -   Choose the **Internet Gateway** you created (for example, **MyInternetGateway**).
+    - Click **Add route**.
+    - In the **Destination** field, enter `0.0.0.0/0` for IPv4 traffic or `::/0` for IPv6 traffic to indicate the default route for all internet-bound traffic.
+    - In the **Target** field, select **Internet Gateway** (IGW) from the dropdown list.
+    - Choose the **Internet Gateway** you created (for example, **MyInternetGateway**).
+
 5.  **Save the Route**:
 
-    -   Click **Save routes** to apply the changes.
+    - Click **Save routes** to apply the changes.
 
     Now, any traffic destined for the **internet** from this subnet will be routed through the **Internet Gateway**.
 
-* * * * *
+---
 
 ### **4\. Ensure Security Group and NACL Configuration**
 
 For instances in the **subnet** to access the internet, ensure the following:
 
--   **Security Groups**:
+- **Security Groups**:
 
-    -   Your instance's **Security Group** should allow **outbound traffic** to the internet. By default, security groups allow all outbound traffic.
-    -   If you have custom security groups, ensure that they allow outbound traffic on ports like **HTTP (80)** and **HTTPS (443)**.
--   **Network Access Control Lists (NACLs)**:
+  - Your instance's **Security Group** should allow **outbound traffic** to the internet. By default, security groups allow all outbound traffic.
+  - If you have custom security groups, ensure that they allow outbound traffic on ports like **HTTP (80)** and **HTTPS (443)**.
 
-    -   Ensure that the **NACLs** associated with the subnet do not block outbound internet traffic. The default NACL allows all inbound and outbound traffic, but if you have custom NACLs, make sure to permit **inbound and outbound traffic** on the required ports.
+- **Network Access Control Lists (NACLs)**:
 
-* * * * *
+  - Ensure that the **NACLs** associated with the subnet do not block outbound internet traffic. The default NACL allows all inbound and outbound traffic, but if you have custom NACLs, make sure to permit **inbound and outbound traffic** on the required ports.
+
+---
 
 ### **5\. Assign Public IP (for EC2 Instances)**
 
--   If you want your **EC2 instances** in the **public subnet** to have direct internet access, you need to ensure that they are assigned **public IP addresses**.
--   When launching **EC2 instances**, choose the **Auto-assign Public IP** option to ensure that they receive a **public IPv4 address** (for IPv4 traffic) or **public IPv6 address** (for IPv6 traffic).
+- If you want your **EC2 instances** in the **public subnet** to have direct internet access, you need to ensure that they are assigned **public IP addresses**.
+- When launching **EC2 instances**, choose the **Auto-assign Public IP** option to ensure that they receive a **public IPv4 address** (for IPv4 traffic) or **public IPv6 address** (for IPv6 traffic).
 
-* * * * *
+---
 
 ### **Summary of Steps**:
 
 1.  **Create an Internet Gateway (IGW)** in the **VPC Console**.
 2.  **Attach the IGW** to the **VPC**.
 3.  **Update the route table** associated with the **public subnet** to route traffic to the IGW.
-    -   For IPv4: Add `0.0.0.0/0` route pointing to the **Internet Gateway**.
-    -   For IPv6: Add `::/0` route pointing to the **Internet Gateway**.
+    - For IPv4: Add `0.0.0.0/0` route pointing to the **Internet Gateway**.
+    - For IPv6: Add `::/0` route pointing to the **Internet Gateway**.
 4.  Ensure **Security Groups** and **NACLs** allow the necessary internet-bound traffic.
 5.  Assign **public IPs** to the EC2 instances that need internet access.
 
-* * * * *
+---
 
 ### **Example Route Table (for Public Subnet)**
 
-| Destination | Target |
-| --- | --- |
-| `10.0.0.0/16` | **Local** |
-| `0.0.0.0/0` | **Internet Gateway** |
-| `::/0` | **Internet Gateway** |
+| Destination   | Target               |
+| ------------- | -------------------- |
+| `10.0.0.0/16` | **Local**            |
+| `0.0.0.0/0`   | **Internet Gateway** |
+| `::/0`        | **Internet Gateway** |
 
-* * * * *
+---
 
 ### **Exam Power-Up**:
 
--   **Internet Gateway**: To allow internet access for instances in a VPC, you need to **attach an Internet Gateway** (IGW) to the VPC.
--   **Route Tables**: Ensure that the **route table** of your **public subnet** includes a route for `0.0.0.0/0` (IPv4) or `::/0` (IPv6) pointing to the **Internet Gateway**.
--   **Security**: Check **Security Groups** and **NACLs** to allow internet-bound traffic and ensure proper configuration for outbound connections.
-
-
+- **Internet Gateway**: To allow internet access for instances in a VPC, you need to **attach an Internet Gateway** (IGW) to the VPC.
+- **Route Tables**: Ensure that the **route table** of your **public subnet** includes a route for `0.0.0.0/0` (IPv4) or `::/0` (IPv6) pointing to the **Internet Gateway**.
+- **Security**: Check **Security Groups** and **NACLs** to allow internet-bound traffic and ensure proper configuration for outbound connections.
 
 #### 1.5.5.3. Using IGW
 
@@ -3499,11 +3553,12 @@ Let's break down this example to understand how **Network Address Translation (N
 ---
 
 ### **Scenario Overview:**
+
 - You have an EC2 instance with the following configuration:
   - **Private IP**: `10.16.16.20`
   - **Public IP**: `43.250.192.20`
 - The **public IP address** (`43.250.192.20`) is not directly connected to the EC2 instance. Instead, the **Internet Gateway (IGW)** manages the communication and **NATs** the traffic between the **private IP address** and the **public IP address**.
-  
+
 ### **Step-by-Step Breakdown**:
 
 ---
@@ -3519,19 +3574,21 @@ Let's break down this example to understand how **Network Address Translation (N
 ### **2. EC2 Sends a Request to the Linux Update Server**
 
 - The EC2 instance wants to communicate with a **Linux update server** on the internet. It creates a **packet** with the following details:
+
   - **Source IP**: `10.16.16.20` (the private IP of the EC2 instance)
   - **Destination IP**: The **IP address** of the Linux update server (e.g., `ubuntu.com`).
 
 - At this point, the packet's source IP address is still the EC2 instance’s **private IP** (`10.16.16.20`), which cannot be routed on the internet.
 
 - the destination address is checked on the route table when it doesnot match any local it is routed to the default address 0.0.0.0 which is connected to the IGW
+
 ---
 
 ### **3. Internet Gateway (IGW) Modifies the Packet**
 
 - The **packet** from the EC2 instance is sent to the **Internet Gateway (IGW)**, which is attached to the VPC.
-  
 - The **IGW** checks the **private IP address** (`10.16.16.20`) in the packet. Since the **private IP** cannot be routed on the internet, the **IGW** performs **Network Address Translation (NAT)**.
+
   - The **IGW** **replaces** the **private IP address** (`10.16.16.20`) in the packet header with the **public IP address** (`43.250.192.20`) of the EC2 instance.
   - The modified packet now has:
     - **Source IP**: `43.250.192.20` (the public IP address of the EC2 instance)
@@ -3544,6 +3601,7 @@ Let's break down this example to understand how **Network Address Translation (N
 ### **4. Linux Update Server Responds**
 
 - The **Linux update server** (e.g., `ubuntu.com`) receives the request from the EC2 instance and sends back the **response** (e.g., the updated Linux package).
+
   - The **destination IP** of the server’s response is `43.250.192.20`, which is the **public IP** of the EC2 instance.
 
 - Since the response is sent to the **public IP address** (`43.250.192.20`), it can be routed back through the **internet**.
@@ -3554,7 +3612,6 @@ Let's break down this example to understand how **Network Address Translation (N
 
 - The response packet arrives at the **Internet Gateway (IGW)**.
   - The **IGW** recognizes that the destination IP address is the **public IP address** of the EC2 instance (`43.250.192.20`), and it knows that the EC2 instance uses this **public IP** for outbound traffic.
-  
 - The **IGW** **modifies the packet** again:
   - It replaces the **destination IP** (`43.250.192.20`) with the **private IP address** (`10.16.16.20`) of the EC2 instance.
   - Now, the packet is ready to be sent to the EC2 instance, using its **private IP** (`10.16.16.20`).
@@ -3571,6 +3628,7 @@ Let's break down this example to understand how **Network Address Translation (N
 ### **What Happens with IPv6?**
 
 If the EC2 instance uses an **IPv6 address**, the process is slightly different:
+
 - The **Internet Gateway (IGW)** does not perform **NAT** for **IPv6** addresses because **IPv6 addresses are globally routable**.
   - **IPv6 packets** can directly communicate with the **internet** without needing to be modified by the IGW.
   - The EC2 instance can communicate directly with the internet using its **public IPv6 address**.
@@ -3598,6 +3656,7 @@ If the EC2 instance uses an **IPv6 address**, the process is slightly different:
 ---
 
 ### **Exam Power-Up**:
+
 - **NAT by IGW**: The **Internet Gateway (IGW)** performs **NAT** by replacing the **private IP** of the EC2 instance with the **public IP** when it communicates with the internet.
 - **IPv6**: With **IPv6**, the **IGW** does not need to perform NAT, as **IPv6 addresses** are globally routable.
 - **Security**: The **private IP** of an EC2 instance is **never exposed** to the public internet, and only the **public IP** is visible to external servers.
@@ -3617,13 +3676,14 @@ with your on premise identification service.
 
 It is like only entry point to your private VPC only way to communicate the VPC
 
-***
+---
 
 So this is what we have now, three web subnets enabled to have a public IPv4 assigned to any instances launched in them and have a IGW attached to the VPC and then a route table associated to the three web subnets replacing the default main route table, the new route table has default ipv4 and ipv6 routes pointing to IGW
 
 ![alt text](<17-VPC-Advanced/Screenshot 2025-03-22 at 6.56.27 pm.png>)
 
-***
+---
+
 ### 1.5.6. Network Access Control List (NACL)
 
 Network Access Control Lists (NACLs) are a type of security filter
@@ -3657,12 +3717,13 @@ Each rule has the following fields related to traffic
 - Outbound rule: Destination - who traffic is destined to
 
 > Examples port numbers
+>
 > - ssh: tcp port 22
 > - http: tcp port 80
 > - https: tcp port 443
 > - ping traffic: icmp
 
-the rules are checked in order. If more than one rule match, then the first rule will be prioritized  either allow or deny.
+the rules are checked in order. If more than one rule match, then the first rule will be prioritized either allow or deny.
 
 The rule at the bottom with `*` is the **implicit deny**
 This cannot be edited and is defaulted on each rule list.
@@ -3683,9 +3744,9 @@ If no other rules match the traffic being evaluated, it will be denied.
   - Wide range from port 1024, 65535 which Bob's laptop will choose at random
   - That response is outbound traffic for the server
 - When using NACLs, you must add an outbound port for the response traffic
-as well as the inbound port. This is the ephemeral port.
+  as well as the inbound port. This is the ephemeral port.
 - If the webserver is not managing the apps server, it may communicate
-back on a different port.
+  back on a different port.
 - This back and forth communication can be hard to configure for.
 
 ![alt text](<17-VPC-Advanced/Screenshot 2025-03-23 at 2.50.41 pm.png>)
@@ -3699,12 +3760,12 @@ back on a different port.
 - NACLs are stateless
   - Initiation and response traffic are separate streams requiring two rules.
 - NACLs are attached to subnets and only filter data as it crosses the
-subnet boundary. Two EC2 instances in the same subnet will not check against
-the NACLs when moving data.
+  subnet boundary. Two EC2 instances in the same subnet will not check against
+  the NACLs when moving data.
 - Can explicitly allow and deny traffic. If you need to block one particular
-thing, you need to use NACLs.
+  thing, you need to use NACLs.
 - They only see IPs, ports, protocols, and other network connections.
-No logical resources can be changed with them.
+  No logical resources can be changed with them.
 - NACLs cannot be assigned to specific AWS resources.
 - NACLs can be used with security groups to add explicit deny (Bad IPs/nets)
 - One subnet can only be assigned to one NACL at a time.
@@ -3721,49 +3782,47 @@ A **Security Group** (SG) is a **virtual firewall** that controls inbound and ou
 
 Security Groups are a **core part** of AWS's network security model, helping you control access to your resources based on IP addresses, ports, and protocols.
 
-* * * * *
+---
 
 ### **Key Characteristics of Security Groups:**
 
 1.  **Stateful**:
 
-    -   This means that if you allow an inbound request (e.g., an HTTP request on port 80), the **response** traffic is automatically allowed back, even if you haven't explicitly created an outbound rule.
+    - This means that if you allow an inbound request (e.g., an HTTP request on port 80), the **response** traffic is automatically allowed back, even if you haven't explicitly created an outbound rule.
 
-    -   This behavior simplifies configuration since you don't need to create separate outbound rules for responses.
+    - This behavior simplifies configuration since you don't need to create separate outbound rules for responses.
 
 2.  **Instance-Level Security**:
 
-    -   Security groups are attached to individual instances. They apply to all interfaces (such as **Elastic Network Interfaces (ENIs)**) attached to that instance.
+    - Security groups are attached to individual instances. They apply to all interfaces (such as **Elastic Network Interfaces (ENIs)**) attached to that instance.
 
-    -   For example, if you have a **Web Server EC2 instance**, you can assign a security group to that instance that allows **HTTP** traffic (port 80) and **SSH** traffic (port 22).
+    - For example, if you have a **Web Server EC2 instance**, you can assign a security group to that instance that allows **HTTP** traffic (port 80) and **SSH** traffic (port 22).
 
 3.  **Default Deny All Inbound Traffic**:
 
     - **Implicit deny**
 
-    -   By default, all inbound traffic to an EC2 instance is **denied**. You must explicitly allow inbound traffic by adding rules in the security group.
+    - By default, all inbound traffic to an EC2 instance is **denied**. You must explicitly allow inbound traffic by adding rules in the security group.
 
-    -   Outbound traffic is allowed by default, but can also be restricted by modifying outbound rules.
+    - Outbound traffic is allowed by default, but can also be restricted by modifying outbound rules.
 
 4.  **Allow Rules Only**:
 
-    -   Security groups are **allow lists**. You can only **allow** traffic through. You cannot **deny** specific traffic explicitly (unlike **NACLs**, which support both EXPLICIT **allow** and **deny** rules).
+    - Security groups are **allow lists**. You can only **allow** traffic through. You cannot **deny** specific traffic explicitly (unlike **NACLs**, which support both EXPLICIT **allow** and **deny** rules).
 
 5.  **Multiple Security Groups**:
 
-    -   An EC2 instance can have **multiple security groups** assigned to it. The instance's traffic must satisfy the rules in **all** attached security groups. If any security group allows a particular type of traffic, that traffic is allowed.
-  
-6. They allow referencing IP/CIDR, logical resources, other SG and itself
+    - An EC2 instance can have **multiple security groups** assigned to it. The instance's traffic must satisfy the rules in **all** attached security groups. If any security group allows a particular type of traffic, that traffic is allowed.
 
-7. <span style='color:red'>!Important</span> : SGs are not attached to subnets not to the instance itself but to the Elastic Network Interface of the instance, even if the UI shows that way 
+6.  They allow referencing IP/CIDR, logical resources, other SG and itself
+
+7.  <span style='color:red'>!Important</span> : SGs are not attached to subnets not to the instance itself but to the Elastic Network Interface of the instance, even if the UI shows that way
 
 ![alt text](<17-VPC-Advanced/Screenshot 2025-03-23 at 3.20.15 pm.png>)
 
 If Bob were to be a bad actor we couldn't explicitly deny him just using SG we would need NACL for that
 
-
-
-* * * * *
+---
 
 ### **Security Group Rules**
 
@@ -3777,62 +3836,66 @@ Outbound rules define the traffic that is allowed **out of** your EC2 instance. 
 
 ### **Components of a Security Group Rule**:
 
--   **Protocol**: The type of traffic (TCP, UDP, ICMP, etc.).
--   **Port Range**: The specific port or range of ports the rule applies to (e.g., port 80 for HTTP, port 443 for HTTPS).
--   **Source/Destination**: The IP range or security group that the rule applies to:
-    -   **Source (Inbound)**: Who can send traffic to the EC2 instance (e.g., `0.0.0.0/0` for all IPs, or a specific IP like `203.0.113.20`).
-    -   **Destination (Outbound)**: Where the traffic is allowed to go (e.g., `0.0.0.0/0` to allow traffic to anywhere).
+- **Protocol**: The type of traffic (TCP, UDP, ICMP, etc.).
+- **Port Range**: The specific port or range of ports the rule applies to (e.g., port 80 for HTTP, port 443 for HTTPS).
+- **Source/Destination**: The IP range or security group that the rule applies to:
+  - **Source (Inbound)**: Who can send traffic to the EC2 instance (e.g., `0.0.0.0/0` for all IPs, or a specific IP like `203.0.113.20`).
+  - **Destination (Outbound)**: Where the traffic is allowed to go (e.g., `0.0.0.0/0` to allow traffic to anywhere).
 
 #### **Examples of Security Group Rules**:
 
 1.  **Allow HTTP Traffic (Inbound)**:
 
-    -   **Protocol**: TCP
-    -   **Port Range**: 80
-    -   **Source**: `0.0.0.0/0` (Allows any IP to access your web server)
+    - **Protocol**: TCP
+    - **Port Range**: 80
+    - **Source**: `0.0.0.0/0` (Allows any IP to access your web server)
+
 2.  **Allow SSH Traffic (Inbound)**:
 
-    -   **Protocol**: TCP
-    -   **Port Range**: 22
-    -   **Source**: `203.0.113.20/32` (Allows only a specific IP to SSH into the EC2 instance)
+    - **Protocol**: TCP
+    - **Port Range**: 22
+    - **Source**: `203.0.113.20/32` (Allows only a specific IP to SSH into the EC2 instance)
+
 3.  **Allow Outbound HTTPS Traffic**:
 
-    -   **Protocol**: TCP
-    -   **Port Range**: 443
-    -   **Destination**: `0.0.0.0/0` (Allows outbound traffic to anywhere on the internet, typically used for secure connections)
+    - **Protocol**: TCP
+    - **Port Range**: 443
+    - **Destination**: `0.0.0.0/0` (Allows outbound traffic to anywhere on the internet, typically used for secure connections)
 
-* * * * *
+---
 
 ### **Security Group Use Cases**
 
 1.  **Web Server**:
 
-    -   You have an EC2 instance running a **web server** (e.g., Apache or Nginx). You would:
-        -   **Allow inbound traffic on port 80** (HTTP) and **443** (HTTPS).
-        -   **Allow outbound traffic** for the server to fetch updates or communicate with other services (such as databases or external APIs).
+    - You have an EC2 instance running a **web server** (e.g., Apache or Nginx). You would:
+      - **Allow inbound traffic on port 80** (HTTP) and **443** (HTTPS).
+      - **Allow outbound traffic** for the server to fetch updates or communicate with other services (such as databases or external APIs).
+
 2.  **Database Server**:
 
-    -   You have an EC2 instance running a **database** (e.g., MySQL, PostgreSQL). You would:
-        -   **Allow inbound traffic on port 3306** (for MySQL) from your application servers (or other trusted sources).
-        -   **Deny all inbound traffic** from public IP addresses to prevent unauthorized access.
+    - You have an EC2 instance running a **database** (e.g., MySQL, PostgreSQL). You would:
+      - **Allow inbound traffic on port 3306** (for MySQL) from your application servers (or other trusted sources).
+      - **Deny all inbound traffic** from public IP addresses to prevent unauthorized access.
+
 3.  **SSH Access**:
 
-    -   You want to allow only a specific person or team to SSH into your EC2 instance:
-        -   **Allow inbound traffic on port 22 (SSH)** only from a specific IP address or range (e.g., `203.0.113.20/32`).
-        -   Block any other IP addresses to prevent unauthorized SSH access.
+    - You want to allow only a specific person or team to SSH into your EC2 instance:
+      - **Allow inbound traffic on port 22 (SSH)** only from a specific IP address or range (e.g., `203.0.113.20/32`).
+      - Block any other IP addresses to prevent unauthorized SSH access.
 
-* * * * *
+---
 
 ### **Example Security Group Configuration**
 
 Let's configure a **Security Group** for a **web server** running on an EC2 instance:
 
-| Rule # | Type | Protocol | Port Range | Source | Action |
-| --- | --- | --- | --- | --- | --- |
-| 1 | HTTP | TCP | 80 | `0.0.0.0/0` | Allow |
-| 2 | HTTPS | TCP | 443 | `0.0.0.0/0` | Allow |
-| 3 | SSH | TCP | 22 | `203.0.113.20/32` | Allow |
-| 4 | Outbound | All Traffic | All | `0.0.0.0/0` | Allow |
+| Rule # | Type     | Protocol    | Port Range | Source            | Action |
+| ------ | -------- | ----------- | ---------- | ----------------- | ------ |
+| 1      | HTTP     | TCP         | 80         | `0.0.0.0/0`       | Allow  |
+| 2      | HTTPS    | TCP         | 443        | `0.0.0.0/0`       | Allow  |
+| 3      | SSH      | TCP         | 22         | `203.0.113.20/32` | Allow  |
+| 4      | Outbound | All Traffic | All        | `0.0.0.0/0`       | Allow  |
 
 ### **Explanation**:
 
@@ -3841,17 +3904,17 @@ Let's configure a **Security Group** for a **web server** running on an EC2 inst
 3.  **Inbound Rule 3**: Allows **only a specific IP address** (`203.0.113.20/32`) to connect to the EC2 instance on **port 22** (SSH). This restricts SSH access to just one authorized IP.
 4.  **Outbound Rule**: Allows the EC2 instance to send traffic to **any destination** (typically to external services or updates).
 
-* * * * *
+---
 
 ### **Important Notes:**
 
--   **Security Groups are Stateful**: This means that if you allow an inbound connection (e.g., SSH), the response traffic from the instance (outbound) is automatically allowed, even if you don't create an explicit outbound rule for it.
+- **Security Groups are Stateful**: This means that if you allow an inbound connection (e.g., SSH), the response traffic from the instance (outbound) is automatically allowed, even if you don't create an explicit outbound rule for it.
 
--   **Multiple Security Groups**: An instance can be associated with multiple security groups. In this case, the instance will be subject to the combined rules of all the security groups. If any security group allows a type of traffic, the instance will allow that traffic.
+- **Multiple Security Groups**: An instance can be associated with multiple security groups. In this case, the instance will be subject to the combined rules of all the security groups. If any security group allows a type of traffic, the instance will allow that traffic.
 
--   **Default Behavior**: By default, **all inbound traffic is denied**, and **all outbound traffic is allowed**. When you launch an EC2 instance, a default security group is applied, and you can then modify or create a custom security group for finer-grained control.
+- **Default Behavior**: By default, **all inbound traffic is denied**, and **all outbound traffic is allowed**. When you launch an EC2 instance, a default security group is applied, and you can then modify or create a custom security group for finer-grained control.
 
-* * * * *
+---
 
 ### **Security Group Best Practices**:
 
@@ -3863,15 +3926,14 @@ Let's configure a **Security Group** for a **web server** running on an EC2 inst
 
 4.  **Audit and Monitor**: Regularly audit security group rules to ensure that you are not exposing unnecessary ports to the internet.
 
-* * * * *
+---
 
 ### **Exam Power-Up**:
 
--   **Security Groups**: They are **stateful**, meaning if you allow **inbound traffic**, the corresponding **outbound response** is automatically allowed.
--   **Inbound Rules**: By default, **all inbound traffic is denied**. You must explicitly **allow** the necessary traffic (like HTTP or HTTPS) in your security group.
--   **Outbound Rules**: By default, **all outbound traffic is allowed**, but you can modify this if you want to restrict outgoing traffic.
--   **Principle of Least Privilege**: Only open the necessary ports for communication with your EC2 instances. Restrict access to sensitive services like SSH and databases.
-
+- **Security Groups**: They are **stateful**, meaning if you allow **inbound traffic**, the corresponding **outbound response** is automatically allowed.
+- **Inbound Rules**: By default, **all inbound traffic is denied**. You must explicitly **allow** the necessary traffic (like HTTP or HTTPS) in your security group.
+- **Outbound Rules**: By default, **all outbound traffic is allowed**, but you can modify this if you want to restrict outgoing traffic.
+- **Principle of Least Privilege**: Only open the necessary ports for communication with your EC2 instances. Restrict access to sensitive services like SSH and databases.
 
 #### 1.5.7.1. SGs vs NACL
 
@@ -3879,7 +3941,7 @@ Let's configure a **Security Group** for a **web server** running on an EC2 inst
 - NACLs are used when adding explicit deny, such as bad IPs or bad actors.
 - SGs is the default almost everywhere because they are stateful.
 - NACLs are associated with a subnet and only filter traffic that crosses
-that boundary. If the resource is in the same subnet, it will not do anything.
+  that boundary. If the resource is in the same subnet, it will not do anything.
 
 ### **Security Groups (SG) vs. Network Access Control Lists (NACL)**
 
@@ -3888,24 +3950,26 @@ Both **Security Groups (SGs)** and **Network Access Control Lists (NACLs)** are 
 ---
 
 ### **1. Overview of Security Groups (SG)**
+
 - **Definition**: Security Groups act as **virtual firewalls** that control inbound and outbound traffic to **EC2 instances** (and other AWS resources that support security groups, such as RDS instances).
 - **Scope**: Applied at the **instance level**.
 - **Statefulness**: **Stateful**—If you allow inbound traffic to an instance, the response traffic is automatically allowed, even if no explicit outbound rule exists.
-- **Default Behavior**: 
+- **Default Behavior**:
   - By default, all inbound traffic is **denied**.
   - By default, all outbound traffic is **allowed**.
-- **Rules**: 
+- **Rules**:
   - Only **allow** rules—You can’t block traffic with a security group; you can only allow certain types of traffic.
   - Rules are defined based on **IP protocol**, **port range**, and **source/destination IP addresses**.
-  
+
 ### **2. Overview of Network Access Control Lists (NACL)**
+
 - **Definition**: NACLs are another layer of security at the **subnet level** that control **inbound and outbound traffic** to and from the entire subnet.
 - **Scope**: Applied at the **subnet level**. NACLs filter traffic entering and exiting an entire subnet.
 - **Statelessness**: **Stateless**—This means both inbound and outbound traffic must be explicitly allowed. Responses to allowed inbound traffic will be blocked unless you also allow the outbound return traffic.
-- **Default Behavior**: 
+- **Default Behavior**:
   - By default, the **default NACL** allows all inbound and outbound traffic.
   - Custom NACLs can either **allow** or **deny** traffic explicitly.
-- **Rules**: 
+- **Rules**:
   - **Allow** and **deny** rules—You can **deny** traffic (unlike Security Groups, which can only allow).
   - Rules are defined based on **IP protocol**, **port range**, and **source/destination IP addresses**.
 
@@ -3913,23 +3977,24 @@ Both **Security Groups (SGs)** and **Network Access Control Lists (NACLs)** are 
 
 ### **Key Differences Between Security Groups and NACLs**
 
-| **Feature**                | **Security Groups (SG)**                                  | **Network Access Control Lists (NACL)**                     |
-|----------------------------|------------------------------------------------------------|------------------------------------------------------------|
-| **Scope**                  | Instance level (e.g., EC2, RDS)                           | Subnet level (affects all instances within the subnet)      |
-| **Stateful/Stateless**     | **Stateful**: Responses to allowed inbound traffic are automatically allowed. | **Stateless**: You must allow both inbound and outbound traffic explicitly. |
-| **Default Behavior**       | - Default: All inbound traffic **denied**<br> - Default: All outbound traffic **allowed** | - Default: All inbound and outbound traffic **allowed** (for default NACL) |
-| **Traffic Type**           | Only **allow** rules—can't deny traffic directly.         | **Allow** and **deny** rules—can block traffic.             |
-| **Rules**                  | - Rules apply to **inbound** and **outbound** traffic for instances.<br> - You can specify rules based on **IP address**, **port**, and **protocol**. | - Rules apply to **inbound** and **outbound** traffic for entire subnet.<br> - Can specify **allow** and **deny** rules based on **IP address**, **port**, and **protocol**. |
-| **Application**            | Primarily used to secure specific **instances** like EC2, RDS, etc. | Primarily used to secure the **entire subnet**.             |
-| **Multiple Assignments**   | An instance can be associated with **multiple security groups**. | A subnet can only have **one NACL** associated at a time.   |
-| **Rule Processing Order**  | Rules are **evaluated in any order**. No particular sequence is necessary. | Rules are **evaluated in order** (lower number rules take precedence). |
-| **IP Range Control**       | Allows rules for specific IP ranges (e.g., `10.0.0.0/24`). | Allows rules for specific IP ranges (e.g., `10.0.0.0/24`). |
+| **Feature**               | **Security Groups (SG)**                                                                                                                              | **Network Access Control Lists (NACL)**                                                                                                                                      |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Scope**                 | Instance level (e.g., EC2, RDS)                                                                                                                       | Subnet level (affects all instances within the subnet)                                                                                                                       |
+| **Stateful/Stateless**    | **Stateful**: Responses to allowed inbound traffic are automatically allowed.                                                                         | **Stateless**: You must allow both inbound and outbound traffic explicitly.                                                                                                  |
+| **Default Behavior**      | - Default: All inbound traffic **denied**<br> - Default: All outbound traffic **allowed**                                                             | - Default: All inbound and outbound traffic **allowed** (for default NACL)                                                                                                   |
+| **Traffic Type**          | Only **allow** rules—can't deny traffic directly.                                                                                                     | **Allow** and **deny** rules—can block traffic.                                                                                                                              |
+| **Rules**                 | - Rules apply to **inbound** and **outbound** traffic for instances.<br> - You can specify rules based on **IP address**, **port**, and **protocol**. | - Rules apply to **inbound** and **outbound** traffic for entire subnet.<br> - Can specify **allow** and **deny** rules based on **IP address**, **port**, and **protocol**. |
+| **Application**           | Primarily used to secure specific **instances** like EC2, RDS, etc.                                                                                   | Primarily used to secure the **entire subnet**.                                                                                                                              |
+| **Multiple Assignments**  | An instance can be associated with **multiple security groups**.                                                                                      | A subnet can only have **one NACL** associated at a time.                                                                                                                    |
+| **Rule Processing Order** | Rules are **evaluated in any order**. No particular sequence is necessary.                                                                            | Rules are **evaluated in order** (lower number rules take precedence).                                                                                                       |
+| **IP Range Control**      | Allows rules for specific IP ranges (e.g., `10.0.0.0/24`).                                                                                            | Allows rules for specific IP ranges (e.g., `10.0.0.0/24`).                                                                                                                   |
 
 ---
 
 ### **Use Case Scenarios:**
 
 1. **Security Group Use Case:**
+
    - **Web Server**: You have an EC2 instance running a web server. You would assign a security group to that instance that:
      - **Allows inbound traffic on port 80** (HTTP) and **443** (HTTPS) for **web access**.
      - **Allows outbound traffic** for the web server to send requests to external services, such as a database or other APIs.
@@ -3945,22 +4010,23 @@ Both **Security Groups (SGs)** and **Network Access Control Lists (NACLs)** are 
 
 #### **Security Group Rules for a Web Server:**
 
-| Rule # | Type       | Protocol | Port Range  | Source            | Action   |
-|--------|------------|----------|-------------|-------------------|----------|
-| 100    | HTTP       | TCP      | 80          | `0.0.0.0/0`       | Allow    |
-| 110    | HTTPS      | TCP      | 443         | `0.0.0.0/0`       | Allow    |
-| 120    | SSH        | TCP      | 22          | `192.168.1.1/32`  | Allow    |
-| 130    | Outbound   | All Traffic | All       | `0.0.0.0/0`       | Allow    |
+| Rule # | Type     | Protocol    | Port Range | Source           | Action |
+| ------ | -------- | ----------- | ---------- | ---------------- | ------ |
+| 100    | HTTP     | TCP         | 80         | `0.0.0.0/0`      | Allow  |
+| 110    | HTTPS    | TCP         | 443        | `0.0.0.0/0`      | Allow  |
+| 120    | SSH      | TCP         | 22         | `192.168.1.1/32` | Allow  |
+| 130    | Outbound | All Traffic | All        | `0.0.0.0/0`      | Allow  |
 
 #### **NACL Rules for a Private Subnet:**
 
-| Rule # | Type      | Protocol | Port Range  | Source            | Action    |
-|--------|-----------|----------|-------------|-------------------|-----------|
-| 100    | Allow     | TCP      | 80          | `0.0.0.0/0`       | Allow     |
-| 110    | Allow     | TCP      | 443         | `0.0.0.0/0`       | Allow     |
-| 120    | Deny      | All      | All         | `0.0.0.0/0`       | Deny      |
+| Rule # | Type  | Protocol | Port Range | Source      | Action |
+| ------ | ----- | -------- | ---------- | ----------- | ------ |
+| 100    | Allow | TCP      | 80         | `0.0.0.0/0` | Allow  |
+| 110    | Allow | TCP      | 443        | `0.0.0.0/0` | Allow  |
+| 120    | Deny  | All      | All        | `0.0.0.0/0` | Deny   |
 
 - **Security Group Example**:
+
   - This security group allows **HTTP** (port 80) and **HTTPS** (port 443) traffic from **anywhere** (`0.0.0.0/0`) and **SSH** access (port 22) only from a specific IP (`192.168.1.1/32`).
   - The security group also allows **all outbound traffic** for the EC2 instance.
 
@@ -3971,21 +4037,20 @@ Both **Security Groups (SGs)** and **Network Access Control Lists (NACLs)** are 
 
 ### **Key Differences at a Glance:**
 
-| **Aspect**                 | **Security Groups**                              | **NACLs**                                      |
-|----------------------------|--------------------------------------------------|------------------------------------------------|
-| **Scope**                  | Instance level (applies to individual instances) | Subnet level (applies to all instances in subnet) |
-| **Stateful/Stateless**     | **Stateful**—response traffic is allowed by default | **Stateless**—responses must be explicitly allowed |
-| **Rule Types**             | Only **Allow** rules                             | **Allow** and **Deny** rules                    |
+| **Aspect**                   | **Security Groups**                                  | **NACLs**                                                   |
+| ---------------------------- | ---------------------------------------------------- | ----------------------------------------------------------- |
+| **Scope**                    | Instance level (applies to individual instances)     | Subnet level (applies to all instances in subnet)           |
+| **Stateful/Stateless**       | **Stateful**—response traffic is allowed by default  | **Stateless**—responses must be explicitly allowed          |
+| **Rule Types**               | Only **Allow** rules                                 | **Allow** and **Deny** rules                                |
 | **Order of Rule Evaluation** | No specific order (rules are evaluated in any order) | **Rules are processed in order** (lower rule numbers first) |
-| **Multiple Assignment**    | Can be associated with multiple instances       | A subnet can only be associated with one NACL at a time |
-| **Application**            | Used for fine-grained instance-level access control | Used for broad subnet-level traffic control    |
+| **Multiple Assignment**      | Can be associated with multiple instances            | A subnet can only be associated with one NACL at a time     |
+| **Application**              | Used for fine-grained instance-level access control  | Used for broad subnet-level traffic control                 |
 
 ---
 
 ### **Which Should You Use?**
 
 - **Security Groups** are typically used to control access to **individual EC2 instances** and are most commonly applied for specifying which traffic should be allowed to reach each instance (for example, allowing HTTP/HTTPS access to a web server).
-  
 - **NACLs** are usually used for **subnet-level** security, providing broader control over traffic entering or leaving a subnet (for example, allowing or blocking all traffic to and from a specific subnet).
 
 In most cases, **Security Groups** are used to control **instance-level access**, while **NACLs** provide an additional layer of protection and filtering at the **subnet level**.
@@ -4001,13 +4066,11 @@ In most cases, **Security Groups** are used to control **instance-level access**
 
 Let me know if you need further clarification or examples!
 
-
-***
+---
 
 ### SG Logical referencing
 
 ![alt text](<17-VPC-Advanced/Screenshot 2025-03-23 at 3.32.08 pm.png>)
-
 
 #### SG Self referencing
 
@@ -4015,8 +4078,7 @@ Let me know if you need further clarification or examples!
 
 It is used in a case where in you would want instances with the same SGs to communicate with each other
 
-
-****
+---
 
 ### **Can EC2 Instances in Different VPCs Communicate with Each Other Using Security Groups?**
 
@@ -4028,12 +4090,12 @@ If both instances are in **the same VPC**, then yes, they can communicate with e
 
 **Example (Same VPC)**:
 
--   **Instance 1**: In **VPC1**, associated with **SG1**.
--   **Instance 2**: In **VPC1**, also associated with **SG1**.
+- **Instance 1**: In **VPC1**, associated with **SG1**.
+- **Instance 2**: In **VPC1**, also associated with **SG1**.
 
 Since the instances are in the same VPC and have the same **SG1** assigned, they can communicate with each other without additional setup, as long as the security group rules allow the necessary inbound and outbound traffic between them.
 
-* * * * *
+---
 
 ### **2\. Different VPC Communication:**
 
@@ -4041,21 +4103,21 @@ When instances are in **different VPCs**, they **cannot** communicate using **Se
 
 #### **Why can't instances in different VPCs communicate using Security Groups?**
 
--   **Security Groups** are designed to control access at the **instance level** and are scoped to the VPC. They do not allow communication between instances in different VPCs unless you explicitly set up a **VPC peering connection** or another method of inter-VPC communication.
+- **Security Groups** are designed to control access at the **instance level** and are scoped to the VPC. They do not allow communication between instances in different VPCs unless you explicitly set up a **VPC peering connection** or another method of inter-VPC communication.
 
 ### **Options to Enable Communication Between Instances in Different VPCs:**
 
 If you want to enable communication between instances in **VPC1** and **VPC2**, you need to use one of the following methods:
 
-* * * * *
+---
 
 #### **1\. VPC Peering**
 
 **VPC Peering** allows instances in **two different VPCs** to communicate with each other as if they are in the same VPC. To allow traffic between instances in VPC1 and VPC2 using **Security Groups**, you would:
 
--   **Set up a VPC Peering Connection** between VPC1 and VPC2.
--   **Update Route Tables** in both VPCs to route traffic to the peering connection.
--   **Modify Security Groups** in both VPCs to allow traffic from the peered VPC's IP range or security group.
+- **Set up a VPC Peering Connection** between VPC1 and VPC2.
+- **Update Route Tables** in both VPCs to route traffic to the peering connection.
+- **Modify Security Groups** in both VPCs to allow traffic from the peered VPC's IP range or security group.
 
 **Steps for VPC Peering**:
 
@@ -4063,19 +4125,19 @@ If you want to enable communication between instances in **VPC1** and **VPC2**, 
 2.  **Update Route Tables** in both VPCs to route traffic destined for the other VPC through the peering connection.
 3.  **Update Security Groups** to allow inbound traffic from the peered VPC's IP range (or security group).
 
-* * * * *
+---
 
 #### **2\. VPC Transit Gateway**
 
 A **VPC Transit Gateway** allows communication between multiple VPCs and acts as a central hub for inter-VPC traffic. This is useful if you have multiple VPCs and need them to communicate with each other.
 
-* * * * *
+---
 
 #### **3\. AWS PrivateLink**
 
 **AWS PrivateLink** enables private communication between VPCs without needing to route traffic over the public internet. This method is used primarily for **service-based communication**, such as connecting to AWS services or custom services that are exposed in your VPC.
 
-* * * * *
+---
 
 ### **Example Scenario with VPC Peering:**
 
@@ -4085,42 +4147,43 @@ Let's say you have two VPCs, **VPC1** and **VPC2**. You want the instances in **
 
 1.  **Create a VPC Peering Connection**:
 
-    -   Establish a peering connection between **VPC1** and **VPC2**.
+    - Establish a peering connection between **VPC1** and **VPC2**.
+
 2.  **Update Route Tables**:
 
-    -   Add routes in **VPC1**'s route table to route traffic destined for **VPC2** through the peering connection.
-    -   Similarly, add routes in **VPC2**'s route table to route traffic destined for **VPC1** through the peering connection.
+    - Add routes in **VPC1**'s route table to route traffic destined for **VPC2** through the peering connection.
+    - Similarly, add routes in **VPC2**'s route table to route traffic destined for **VPC1** through the peering connection.
+
 3.  **Update Security Group Rules**:
 
-    -   Modify **SG1** in **VPC1** to allow inbound traffic from the **IP range** or **Security Group** of **VPC2**.
-    -   Modify **SG1** in **VPC2** to allow inbound traffic from the **IP range** or **Security Group** of **VPC1**.
+    - Modify **SG1** in **VPC1** to allow inbound traffic from the **IP range** or **Security Group** of **VPC2**.
+    - Modify **SG1** in **VPC2** to allow inbound traffic from the **IP range** or **Security Group** of **VPC1**.
 
 Once the peering connection is established and the route tables and security groups are updated, the instances in **VPC1** and **VPC2** can communicate with each other.
 
-* * * * *
+---
 
 ### **Summary:**
 
--   **Same VPC**: If the instances are in the **same VPC**, they can communicate with each other using **Security Groups**, as long as the rules allow traffic between the instances, regardless of whether they are assigned the same or different security groups.
--   **Different VPCs**: **Security Groups** alone cannot enable communication between instances in **different VPCs**. You must use a **VPC Peering Connection**, **VPC Transit Gateway**, or **AWS PrivateLink** to enable communication between VPCs. Once you establish inter-VPC connectivity, you can use **Security Groups** to allow traffic between instances in different VPCs.
+- **Same VPC**: If the instances are in the **same VPC**, they can communicate with each other using **Security Groups**, as long as the rules allow traffic between the instances, regardless of whether they are assigned the same or different security groups.
+- **Different VPCs**: **Security Groups** alone cannot enable communication between instances in **different VPCs**. You must use a **VPC Peering Connection**, **VPC Transit Gateway**, or **AWS PrivateLink** to enable communication between VPCs. Once you establish inter-VPC connectivity, you can use **Security Groups** to allow traffic between instances in different VPCs.
 
-* * * * *
+---
 
 ### **Exam Power-Up**:
 
--   **Security Groups** apply to resources within the **same VPC**. If instances are in different VPCs, you cannot use **Security Groups** alone to allow communication.
--   **VPC Peering**, **Transit Gateway**, and **PrivateLink** are the key methods to enable **inter-VPC communication**.
--   Always ensure that **Route Tables** and **Security Group rules** are configured correctly when enabling communication between instances in different VPCs.
+- **Security Groups** apply to resources within the **same VPC**. If instances are in different VPCs, you cannot use **Security Groups** alone to allow communication.
+- **VPC Peering**, **Transit Gateway**, and **PrivateLink** are the key methods to enable **inter-VPC communication**.
+- Always ensure that **Route Tables** and **Security Group rules** are configured correctly when enabling communication between instances in different VPCs.
 
-
-****
+---
 
 ### 1.5.8. Network Address Translation (NAT) Gateway
 
 Set of different processes that can address IP packets by changing
 their source or destination addresses.
 
-**IP masquerading**, hides CIDR block behind one IP. Only one public IP for many private IPs. 
+**IP masquerading**, hides CIDR block behind one IP. Only one public IP for many private IPs.
 
 This allows many IPv4
 addresses to use one public IP for **outgoing** internet access.
@@ -4133,78 +4196,85 @@ A **NAT Gateway (Network Address Translation Gateway)** is a managed **AWS servi
 
 #### **How NAT Gateway Works**:
 
--   **Outbound Traffic**: NAT Gateway allows **private instances** in a **private subnet** to initiate **outbound traffic** to the **internet** (such as accessing S3 buckets or downloading updates) by **translating** their **private IP addresses** to a **public IP address**.
--   **Inbound Traffic**: However, **NAT Gateway only supports one-way communication**, meaning **private instances** can access the internet, but the internet **cannot initiate connections** to private instances. This is because the NAT Gateway only **modifies the source IP** for outgoing traffic, so responses are routed back through the NAT Gateway and sent to the private instance.
+- **Outbound Traffic**: NAT Gateway allows **private instances** in a **private subnet** to initiate **outbound traffic** to the **internet** (such as accessing S3 buckets or downloading updates) by **translating** their **private IP addresses** to a **public IP address**.
+- **Inbound Traffic**: However, **NAT Gateway only supports one-way communication**, meaning **private instances** can access the internet, but the internet **cannot initiate connections** to private instances. This is because the NAT Gateway only **modifies the source IP** for outgoing traffic, so responses are routed back through the NAT Gateway and sent to the private instance.
 
 ### **Key Characteristics of NAT Gateway**:
 
 1.  **Private Instances Can Access the Internet**:
 
-    -   Instances in private subnets use the **NAT Gateway** to access public resources such as **S3**, **EC2**, or **software updates**.
-    -   The **NAT Gateway** provides a **public IP address** for the outgoing requests, but the **private IP address** of the instance remains hidden.
+    - Instances in private subnets use the **NAT Gateway** to access public resources such as **S3**, **EC2**, or **software updates**.
+    - The **NAT Gateway** provides a **public IP address** for the outgoing requests, but the **private IP address** of the instance remains hidden.
+
 2.  **One-Way Communication**:
 
-    -   NAT Gateway allows **outbound communication** from **private instances** to the internet, but **it does not allow inbound communication** from the internet to the private instance.
+    - NAT Gateway allows **outbound communication** from **private instances** to the internet, but **it does not allow inbound communication** from the internet to the private instance.
+
 3.  **Highly Available**:
 
-    -   A **NAT Gateway** is a **managed AWS service** that is **highly available** within an Availability Zone (AZ). However, to make it **AZ-resilient**, you would typically deploy a **NAT Gateway in each AZ** where private subnets exist.
+    - A **NAT Gateway** is a **managed AWS service** that is **highly available** within an Availability Zone (AZ). However, to make it **AZ-resilient**, you would typically deploy a **NAT Gateway in each AZ** where private subnets exist.
+
 4.  **Cost**:
 
-    -   NAT Gateways incur charges based on the **amount of data processed** and the **duration the NAT Gateway is running**.
+    - NAT Gateways incur charges based on the **amount of data processed** and the **duration the NAT Gateway is running**.
 
-* * * * *
+---
 
 ### **Difference Between NAT Gateway, IGW, Static NAT, and IP Masquerading**
 
 Here's a comparison of **NAT Gateway** with other networking technologies:
 
-| **Feature** | **NAT Gateway** | **Internet Gateway (IGW)** | **Static NAT** | **IP Masquerading** |
-| --- | --- | --- | --- | --- |
-| **Purpose** | Allows private instances to access the internet | Allows public and private instances to access the internet | Maps a single public IP to a single private IP | Hides the private IP addresses of instances by replacing them with a public IP |
-| **One-way Communication** | **Yes** -- Outbound traffic only | **Yes** -- Both inbound and outbound traffic | **No** -- Bi-directional traffic (1:1 mapping) | **Yes** -- Outbound traffic only (commonly used in firewalls) |
-| **Network Address Translation** | **Dynamic (uses a pool of IPs)** | **None (used for direct access)** | **Static (1:1 mapping)** | **Dynamic (replaces private IP with a public IP)** |
-| **Used For** | Private instances needing internet access | Public instances needing internet access | Mapping a single public IP to a private IP | Hiding private IP addresses for outbound traffic |
-| **Traffic Direction** | Outbound only from private instances | Both inbound and outbound | Bi-directional (static mapping) | Outbound traffic only |
-| **Scale** | Scales automatically but may incur higher costs for high traffic | Doesn't scale in the same way, tied to the VPC | Manual configuration and typically limited by NAT size | Typically used in firewalls or low-traffic situations |
-| **Availability** | Highly available within an Availability Zone | Must be manually configured and associated with a VPC | Not a managed service in AWS; requires custom setup | Often configured in custom firewalls or EC2 instances |
+| **Feature**                     | **NAT Gateway**                                                  | **Internet Gateway (IGW)**                                 | **Static NAT**                                         | **IP Masquerading**                                                            |
+| ------------------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------- | ------------------------------------------------------ | ------------------------------------------------------------------------------ |
+| **Purpose**                     | Allows private instances to access the internet                  | Allows public and private instances to access the internet | Maps a single public IP to a single private IP         | Hides the private IP addresses of instances by replacing them with a public IP |
+| **One-way Communication**       | **Yes** -- Outbound traffic only                                 | **Yes** -- Both inbound and outbound traffic               | **No** -- Bi-directional traffic (1:1 mapping)         | **Yes** -- Outbound traffic only (commonly used in firewalls)                  |
+| **Network Address Translation** | **Dynamic (uses a pool of IPs)**                                 | **None (used for direct access)**                          | **Static (1:1 mapping)**                               | **Dynamic (replaces private IP with a public IP)**                             |
+| **Used For**                    | Private instances needing internet access                        | Public instances needing internet access                   | Mapping a single public IP to a private IP             | Hiding private IP addresses for outbound traffic                               |
+| **Traffic Direction**           | Outbound only from private instances                             | Both inbound and outbound                                  | Bi-directional (static mapping)                        | Outbound traffic only                                                          |
+| **Scale**                       | Scales automatically but may incur higher costs for high traffic | Doesn't scale in the same way, tied to the VPC             | Manual configuration and typically limited by NAT size | Typically used in firewalls or low-traffic situations                          |
+| **Availability**                | Highly available within an Availability Zone                     | Must be manually configured and associated with a VPC      | Not a managed service in AWS; requires custom setup    | Often configured in custom firewalls or EC2 instances                          |
 
-* * * * *
+---
 
 ### **Use Case: Private Instances in a Private Subnet Needing Internet Access**
 
 Let's assume you have an AWS setup where:
 
--   **Private Subnet**: Contains EC2 instances (e.g., application servers) that **need access to the internet** to **download software updates**, **fetch patches**, or **access public services** like **AWS S3**.
--   **Public Subnet**: Contains a **NAT Gateway** that provides internet access to instances in the private subnet.
--   **Internet Gateway (IGW)**: The **NAT Gateway** in the public subnet uses the **Internet Gateway** to send traffic to the internet.
+- **Private Subnet**: Contains EC2 instances (e.g., application servers) that **need access to the internet** to **download software updates**, **fetch patches**, or **access public services** like **AWS S3**.
+- **Public Subnet**: Contains a **NAT Gateway** that provides internet access to instances in the private subnet.
+- **Internet Gateway (IGW)**: The **NAT Gateway** in the public subnet uses the **Internet Gateway** to send traffic to the internet.
 
 #### **Step-by-Step Process for Internet Access via NAT Gateway**:
 
 1.  **Private Subnet**:
 
-    -   EC2 instances in the **private subnet** (e.g., `10.0.2.0/24`) are not directly connected to the internet.
-    -   These instances **need access to the internet** to download software updates from an external repository (e.g., Linux updates or application dependencies).
+    - EC2 instances in the **private subnet** (e.g., `10.0.2.0/24`) are not directly connected to the internet.
+    - These instances **need access to the internet** to download software updates from an external repository (e.g., Linux updates or application dependencies).
+
 2.  **Public Subnet**:
 
-    -   In the **public subnet** (e.g., `10.0.1.0/24`), you have a **NAT Gateway** with a **public IP address**. The NAT Gateway is used to route outbound traffic from the **private subnet** to the internet.
-    -   The **Internet Gateway (IGW)** is attached to the VPC, allowing the **NAT Gateway** to send traffic to the **AWS public zone** (e.g., **S3** buckets or internet sites).
+    - In the **public subnet** (e.g., `10.0.1.0/24`), you have a **NAT Gateway** with a **public IP address**. The NAT Gateway is used to route outbound traffic from the **private subnet** to the internet.
+    - The **Internet Gateway (IGW)** is attached to the VPC, allowing the **NAT Gateway** to send traffic to the **AWS public zone** (e.g., **S3** buckets or internet sites).
+
 3.  **NAT Gateway Setup**:
 
-    -   The **NAT Gateway** allows **instances in the private subnet** to access the internet **via the public IP of the NAT Gateway**.
-    -   The **private instances** initiate requests to the **NAT Gateway**, which then **translates the private IP addresses** to the **public IP address** of the NAT Gateway for internet-bound traffic.
+    - The **NAT Gateway** allows **instances in the private subnet** to access the internet **via the public IP of the NAT Gateway**.
+    - The **private instances** initiate requests to the **NAT Gateway**, which then **translates the private IP addresses** to the **public IP address** of the NAT Gateway for internet-bound traffic.
+
 4.  **Route Table Configuration**:
 
-    -   **Private Subnet Route Table**:
-        -   All traffic destined for the internet (`0.0.0.0/0`) is routed through the **NAT Gateway** in the **public subnet**.
-    -   **Public Subnet Route Table**:
-        -   The **NAT Gateway** routes traffic to the **Internet Gateway (IGW)** to access the internet.
+    - **Private Subnet Route Table**:
+      - All traffic destined for the internet (`0.0.0.0/0`) is routed through the **NAT Gateway** in the **public subnet**.
+    - **Public Subnet Route Table**:
+      - The **NAT Gateway** routes traffic to the **Internet Gateway (IGW)** to access the internet.
+
 5.  **Communication**:
 
-    -   The private EC2 instance sends a request (e.g., to download software) to the **NAT Gateway**.
-    -   The **NAT Gateway** replaces the private IP address with its public IP and sends the request to the **Internet Gateway**.
-    -   The **Internet Gateway** forwards the request to the **AWS public zone** (e.g., **S3** or external service).
-    -   The requested data or software updates are returned to the **NAT Gateway**.
-    -   The **NAT Gateway** sends the response back to the private EC2 instance, with the private IP address of the EC2 instance used for routing the return traffic.
+    - The private EC2 instance sends a request (e.g., to download software) to the **NAT Gateway**.
+    - The **NAT Gateway** replaces the private IP address with its public IP and sends the request to the **Internet Gateway**.
+    - The **Internet Gateway** forwards the request to the **AWS public zone** (e.g., **S3** or external service).
+    - The requested data or software updates are returned to the **NAT Gateway**.
+    - The **NAT Gateway** sends the response back to the private EC2 instance, with the private IP address of the EC2 instance used for routing the return traffic.
 
 #### **Architecture Diagram**:
 
@@ -4221,39 +4291,35 @@ Let's assume you have an AWS setup where:
 
 ![alt text](<17-VPC-Advanced/Screenshot 2025-03-23 at 4.05.09 pm.png>)
 
-
-* * * * *
+---
 
 ### **Key Points:**
 
--   **One-Way Communication**: With a **NAT Gateway**, **private instances** in private subnets can **access the internet** for tasks like **software updates** or **downloading files**. However, **the internet cannot initiate connections** to the private instances.
--   **NAT Gateway vs IGW**: While an **Internet Gateway (IGW)** provides **two-way communication** (allowing instances in public subnets to both send and receive traffic from the internet), a **NAT Gateway** is used only for **one-way communication** from **private subnets to the internet**.
--   **Use Case**: Private instances requiring internet access for **software updates** can use a **NAT Gateway** in a public subnet, which in turn uses the **Internet Gateway (IGW)** to connect to the public AWS zone (e.g., **S3**).
+- **One-Way Communication**: With a **NAT Gateway**, **private instances** in private subnets can **access the internet** for tasks like **software updates** or **downloading files**. However, **the internet cannot initiate connections** to the private instances.
+- **NAT Gateway vs IGW**: While an **Internet Gateway (IGW)** provides **two-way communication** (allowing instances in public subnets to both send and receive traffic from the internet), a **NAT Gateway** is used only for **one-way communication** from **private subnets to the internet**.
+- **Use Case**: Private instances requiring internet access for **software updates** can use a **NAT Gateway** in a public subnet, which in turn uses the **Internet Gateway (IGW)** to connect to the public AWS zone (e.g., **S3**).
 
-* * * * *
+---
 
 ### **Exam Power-Up**:
 
--   **NAT Gateway**: A **NAT Gateway** allows private instances to access the internet, but it **does not allow** the internet to initiate connections to private instances. It is used primarily for **one-way communication**.
--   **Internet Gateway (IGW)**: A **NAT Gateway** uses an **Internet Gateway (IGW)** to route traffic to public AWS services (like **S3**).
--   **Private Subnet Internet Access**: When private instances need internet access (for updates or services), you use a **NAT Gateway** located in a **public subnet** with access to the **Internet Gateway**.
-
-
+- **NAT Gateway**: A **NAT Gateway** allows private instances to access the internet, but it **does not allow** the internet to initiate connections to private instances. It is used primarily for **one-way communication**.
+- **Internet Gateway (IGW)**: A **NAT Gateway** uses an **Internet Gateway (IGW)** to route traffic to public AWS services (like **S3**).
+- **Private Subnet Internet Access**: When private instances need internet access (for updates or services), you use a **NAT Gateway** located in a **public subnet** with access to the **Internet Gateway**.
 
 ## **Facts**
 
 - It is initialised in a public Subnet since it would need a Public IP
 - Must run from a public subnet to allow for public IP address.
   - Internet Gateway subnets configure to allocate public IPv4 addresses
-  and default routes for those subnets pointing at the IGW.
+    and default routes for those subnets pointing at the IGW.
 - Uses Elastic IPs (Static IPv4 Public)
   - Don't change
   - Allocated to your account
-  
 - <span style='color:red'>!Important:</span> AZ resilient service , but HA in that AZ.
   - If that AZ fails, there is no recovery.
 - For a fully region resilient service, you must deploy one NATGW in each AZ
-with a Route Table for private subnets in each AZ with NATGW as target.
+  with a Route Table for private subnets in each AZ with NATGW as target.
 - IG is fully resiliant.
 - It can get costly with more AZ
 - They are managed by AWS, you can add more than one NAT in a single public subnet and can have private subnets route table to route to them seperately to increase the bandwidth
@@ -4266,7 +4332,7 @@ with a Route Table for private subnets in each AZ with NATGW as target.
 - NAT is not required for IPv6. Inside AWS all IPv6 addresses are publicly routable. IG works with all IPv6 addresses directly.
 - That means if you choose to make an instance in private subnet that have a default IPv6 route to IG, it'll become public instance.
 - Managed service, scales up to 45 Gbps. Can deploy multiple NATGW to increase
-bandwidth.
+  bandwidth.
 - AWS charges on usage per hour and data volume processed.
 
 NATGW cannot do port forwarding or be a bastion server. In that case it might
@@ -4276,7 +4342,6 @@ Fully resiliant NAT Gateway
 
 ![alt text](<17-VPC-Advanced/Screenshot 2025-03-23 at 4.39.22 pm.png>)
 
-
 using EC2 as NAT instance is not recommandabe but possible if you want a cheap option
 
 ![alt text](<17-VPC-Advanced/Screenshot 2025-03-23 at 4.31.36 pm.png>)
@@ -4284,7 +4349,6 @@ using EC2 as NAT instance is not recommandabe but possible if you want a cheap o
 IPv6 does not make sense with NAT since they are publically routable by default, if you still want to use it you can route the default to NAT and then to IG but not required
 
 ![alt text](<17-VPC-Advanced/Screenshot 2025-03-23 at 4.38.22 pm.png>)
-
 
 ### Steps for NAT Gateway setup
 
@@ -4294,7 +4358,6 @@ IPv6 does not make sense with NAT since they are publically routable by default,
 - Create a route table to have the default route pointing to the NAT gateway in public subnet
 - Associate the new route table to the private subnet where the instance is running
 - Instance should now have an internet access.
-
 
 ---
 
@@ -4314,8 +4377,7 @@ Servers are configured in three sections without virtualization.
   - Runs applications.
   - Can make a **system call** to the Kernel to interact with the hardware.
   - If an app tries to interact with the hardware without a system call, it
-  will cause a system error and can crash the server or at minimum the app.
-
+    will cause a system error and can crash the server or at minimum the app.
 
 #### 1.6.1.1. Emulated Virtualization - Software Virtualization
 
@@ -4366,38 +4428,37 @@ EC2 instances are virtual machines run on physical hosts on AWS datacenters.
 
 1.  **On-Demand Instances**:
 
-    -   **Pay-per-use**: You pay for EC2 instances by the second or hour, depending on the instance type.
+    - **Pay-per-use**: You pay for EC2 instances by the second or hour, depending on the instance type.
 
-    -   This is flexible but generally more expensive than Reserved Instances.
+    - This is flexible but generally more expensive than Reserved Instances.
 
-    -   Useful for **short-term** or **unpredictable workloads**.
+    - Useful for **short-term** or **unpredictable workloads**.
 
 2.  **Reserved Instances**:
 
-    -   Reserved Instances offer a **discounted hourly rate** in exchange for a **commitment** to use EC2 for a **1- or 3-year term**.
+    - Reserved Instances offer a **discounted hourly rate** in exchange for a **commitment** to use EC2 for a **1- or 3-year term**.
 
-    -   You can choose between **Standard Reserved Instances** (with a long commitment) and **Convertible Reserved Instances** (which allow flexibility to change instance types).
+    - You can choose between **Standard Reserved Instances** (with a long commitment) and **Convertible Reserved Instances** (which allow flexibility to change instance types).
 
 3.  **Spot Instances**:
 
-    -   **Unused EC2 capacity** is available at a **discounted price** compared to On-Demand pricing.
+    - **Unused EC2 capacity** is available at a **discounted price** compared to On-Demand pricing.
 
-    -   Spot Instances can be **terminated by AWS** if the demand for resources increases.
+    - Spot Instances can be **terminated by AWS** if the demand for resources increases.
 
-    -   Useful for **fault-tolerant applications** and **big data processing**.
+    - Useful for **fault-tolerant applications** and **big data processing**.
 
 4.  **Dedicated Hosts**:
 
-    -   EC2 instances run on **dedicated physical servers** rather than shared infrastructure.
+    - EC2 instances run on **dedicated physical servers** rather than shared infrastructure.
 
-    -   **Licensing**: You can bring your own **licenses** for software (such as Windows or SQL Server) and optimize costs.
+    - **Licensing**: You can bring your own **licenses** for software (such as Windows or SQL Server) and optimize costs.
 
 5.  **Dedicated Instances**:
 
-    -   Similar to **Dedicated Hosts**, but the instance is not **tied to a physical host**.
+    - Similar to **Dedicated Hosts**, but the instance is not **tied to a physical host**.
 
-    -   Instances are physically isolated but still run in a shared **rack**.
-
+    - Instances are physically isolated but still run in a shared **rack**.
 
 - AZ resilient service. They run within only one AZ system.
   - You can't access them cross zone.
@@ -4409,7 +4470,7 @@ EC2 host contains
   - If instance moves hosts, the storage is lost.
 - Can use remote storage, Elastic Block Store (EBS).
   - EBS allows you to allocate volumes of persistent storage to instances
-within the same AZ.
+    within the same AZ.
 - 2 types of networking
   - Storage networking
   - Data networking
@@ -4428,87 +4489,97 @@ An **Elastic Network Interface (ENI)** is a **virtual network interface** that c
 
 ### **Key Concepts of ENI**
 
--   **Virtual Network Interface**: An ENI acts as a virtual network adapter, much like a physical network card that you would attach to an on-premise server.
--   **Can Be Attached to EC2 Instances**: ENIs are attached to **EC2 instances** within a **VPC**, enabling the instance to communicate over the network.
--   **Supports Multiple IPs**: An ENI can have multiple IP addresses (both **IPv4** and **IPv6**) and support **multiple private IP addresses**, making it a flexible and powerful networking tool.
--   **Highly Configurable**: You can attach or detach ENIs from instances, assign Elastic IPs (EIP), configure security groups, and even create them separately from EC2 instances.
+- **Virtual Network Interface**: An ENI acts as a virtual network adapter, much like a physical network card that you would attach to an on-premise server.
+- **Can Be Attached to EC2 Instances**: ENIs are attached to **EC2 instances** within a **VPC**, enabling the instance to communicate over the network.
+- **Supports Multiple IPs**: An ENI can have multiple IP addresses (both **IPv4** and **IPv6**) and support **multiple private IP addresses**, making it a flexible and powerful networking tool.
+- **Highly Configurable**: You can attach or detach ENIs from instances, assign Elastic IPs (EIP), configure security groups, and even create them separately from EC2 instances.
 
 ### **Types of ENIs**
 
 1.  **Primary ENI** (Primary Network Interface):
 
-    -   Every EC2 instance comes with a **primary ENI**, which is automatically created when the instance is launched.
-    -   The primary ENI is always **attached to the instance** and typically has a **private IP address**.
-    -   It is the **default network interface** used by the EC2 instance for network communication.
+    - Every EC2 instance comes with a **primary ENI**, which is automatically created when the instance is launched.
+    - The primary ENI is always **attached to the instance** and typically has a **private IP address**.
+    - It is the **default network interface** used by the EC2 instance for network communication.
+
 2.  **Secondary ENI** (Additional Network Interface):
 
-    -   You can attach additional **secondary ENIs** to your EC2 instances for advanced networking configurations, such as **multiple network interfaces** or separating traffic based on its purpose (e.g., management, data, etc.).
-    -   Secondary ENIs allow you to have multiple **private IP addresses** and **multiple security groups**.
+    - You can attach additional **secondary ENIs** to your EC2 instances for advanced networking configurations, such as **multiple network interfaces** or separating traffic based on its purpose (e.g., management, data, etc.).
+    - Secondary ENIs allow you to have multiple **private IP addresses** and **multiple security groups**.
 
-* * * * *
+---
 
 ### **Key Features of ENIs**
 
 1.  **Multiple Private IPs**:
 
-    -   You can assign **multiple private IP addresses** to a single ENI. This can be useful for multi-homing (assigning multiple addresses to the same instance), hosting multiple websites, or managing network segmentation.
+    - You can assign **multiple private IP addresses** to a single ENI. This can be useful for multi-homing (assigning multiple addresses to the same instance), hosting multiple websites, or managing network segmentation.
+
 2.  **Elastic IP (EIP)**:
 
-    -   **Elastic IPs** can be assigned to an ENI (secondary network interface) to provide a **static, public IP** address for communication with the internet.
-    -   You can associate or disassociate an EIP with an ENI at any time.
+    - **Elastic IPs** can be assigned to an ENI (secondary network interface) to provide a **static, public IP** address for communication with the internet.
+    - You can associate or disassociate an EIP with an ENI at any time.
+
 3.  **Security Groups**:
 
-    -   Each **ENI** can be associated with one or more **security groups**, which define the traffic allowed to and from the interface.
-    -   You can use different security groups for the primary ENI and secondary ENIs to isolate traffic for different purposes (e.g., management traffic vs. data traffic).
+    - Each **ENI** can be associated with one or more **security groups**, which define the traffic allowed to and from the interface.
+    - You can use different security groups for the primary ENI and secondary ENIs to isolate traffic for different purposes (e.g., management traffic vs. data traffic).
+
 4.  **Network Isolation**:
 
-    -   You can configure **multiple ENIs** within a **VPC** to create **network isolation**. For instance, you could have one ENI for private communication (internal network) and another for public-facing traffic (internet or external network).
+    - You can configure **multiple ENIs** within a **VPC** to create **network isolation**. For instance, you could have one ENI for private communication (internal network) and another for public-facing traffic (internet or external network).
+
 5.  **Static Routing**:
 
-    -   ENIs can be used in **static routing** configurations. You can route traffic between different ENIs, create **subnet-to-subnet communication**, or even create **highly available systems** with failover capabilities by attaching ENIs to different instances.
+    - ENIs can be used in **static routing** configurations. You can route traffic between different ENIs, create **subnet-to-subnet communication**, or even create **highly available systems** with failover capabilities by attaching ENIs to different instances.
+
 6.  **Attachment and Detachment**:
 
-    -   ENIs can be **attached** to and **detached** from EC2 instances at runtime. This provides flexibility in reconfiguring network setups or moving network interfaces between instances in the event of failure.
+    - ENIs can be **attached** to and **detached** from EC2 instances at runtime. This provides flexibility in reconfiguring network setups or moving network interfaces between instances in the event of failure.
+
 7.  **IPv6 Support**:
 
-    -   ENIs support **IPv6 addresses** as well. This allows you to assign **IPv6 addresses** to EC2 instances in a VPC and communicate over **IPv6** with both private and public resources.
+    - ENIs support **IPv6 addresses** as well. This allows you to assign **IPv6 addresses** to EC2 instances in a VPC and communicate over **IPv6** with both private and public resources.
 
-* * * * *
-
+---
 
 ### **Use Cases of ENIs**
 
 1.  **Multi-Homed Instances**:
 
-    -   You can assign **multiple ENIs** to an instance to segregate network traffic between different types of communication, such as separating management traffic from application traffic or isolating **private subnets** from **public subnets**.
+    - You can assign **multiple ENIs** to an instance to segregate network traffic between different types of communication, such as separating management traffic from application traffic or isolating **private subnets** from **public subnets**.
+
 2.  **High Availability**:
 
-    -   By attaching **secondary ENIs** to your EC2 instance and assigning **Elastic IPs** (EIP) to them, you can implement **high availability** architectures where **failover** occurs if one ENI or instance becomes unavailable.
+    - By attaching **secondary ENIs** to your EC2 instance and assigning **Elastic IPs** (EIP) to them, you can implement **high availability** architectures where **failover** occurs if one ENI or instance becomes unavailable.
+
 3.  **Multiple Security Groups**:
 
-    -   When an instance has **multiple ENIs**, each ENI can be assigned **different security groups**. This allows you to configure **granular access control** for specific traffic types (e.g., internal management traffic can have one set of security group rules, and public-facing web traffic can have another).
+    - When an instance has **multiple ENIs**, each ENI can be assigned **different security groups**. This allows you to configure **granular access control** for specific traffic types (e.g., internal management traffic can have one set of security group rules, and public-facing web traffic can have another).
+
 4.  **Virtual Private Gateways**:
 
-    -   You can create **VPN connections** between on-premises environments and AWS. The **secondary ENI** can be used for the **VPN traffic**, keeping it separate from the rest of the instance's data traffic.
+    - You can create **VPN connections** between on-premises environments and AWS. The **secondary ENI** can be used for the **VPN traffic**, keeping it separate from the rest of the instance's data traffic.
+
 5.  **Elastic Load Balancer (ELB)**:
 
-    -   If you use an **Application Load Balancer (ALB)** or **Network Load Balancer (NLB)**, instances can have multiple **secondary ENIs** and be part of a load balancing configuration with **separate security groups** to isolate the management and public-facing traffic.
+    - If you use an **Application Load Balancer (ALB)** or **Network Load Balancer (NLB)**, instances can have multiple **secondary ENIs** and be part of a load balancing configuration with **separate security groups** to isolate the management and public-facing traffic.
+
 6.  **Network Security**:
 
-    -   Using **ENIs** with separate security groups, you can ensure that **internal communication** between EC2 instances in a private subnet is restricted and isolated from public-facing traffic.
+    - Using **ENIs** with separate security groups, you can ensure that **internal communication** between EC2 instances in a private subnet is restricted and isolated from public-facing traffic.
 
-* * * * *
+---
 
 ### **EC2 ENI Exam Power-Up**:
 
--   **ENI (Elastic Network Interface)**: A virtual network interface attached to EC2 instances for managing network traffic.
--   **Primary ENI**: The default network interface for an EC2 instance, with the instance's **primary private IP**.
--   **Secondary ENI**: Additional network interfaces attached to instances for specialized traffic and multi-homing (more than one network).
--   **Elastic IPs** can be assigned to secondary ENIs for **public internet access**.
--   **Security Groups** can be assigned to individual **ENIs**, allowing flexible control over network access for different traffic types.
+- **ENI (Elastic Network Interface)**: A virtual network interface attached to EC2 instances for managing network traffic.
+- **Primary ENI**: The default network interface for an EC2 instance, with the instance's **primary private IP**.
+- **Secondary ENI**: Additional network interfaces attached to instances for specialized traffic and multi-homing (more than one network).
+- **Elastic IPs** can be assigned to secondary ENIs for **public internet access**.
+- **Security Groups** can be assigned to individual **ENIs**, allowing flexible control over network access for different traffic types.
 
-
-***
+---
 
 ### **Ways to Connect to an EC2 Instance**
 
@@ -4519,28 +4590,34 @@ You can connect to an **Amazon EC2 instance** in several ways depending on the o
 **SSH** is a **secure method** for accessing Linux/Unix-based EC2 instances. It is the most commonly used method for managing EC2 instances running **Linux-based operating systems** (e.g., Ubuntu, Amazon Linux, CentOS).
 
 #### **Prerequisites for SSH Setup**:
-1. **Key Pair**: 
+
+1. **Key Pair**:
    - When you launch an EC2 instance, you must associate an **SSH key pair** with the instance. The key pair consists of a **public key** (stored by AWS) and a **private key** (stored securely by you).
    - You will need the **private key** file (`.pem`) to connect to the instance via SSH.
-   
-2. **Public IP or Elastic IP**: 
-   - The instance must have a **public IP address** (either automatically assigned or an **Elastic IP**) if you intend to connect from outside AWS. 
+2. **Public IP or Elastic IP**:
+
+   - The instance must have a **public IP address** (either automatically assigned or an **Elastic IP**) if you intend to connect from outside AWS.
    - If the instance is in a **private subnet**, you cannot directly SSH into it unless there is a **bastion host** (jump box) or a **VPN** that connects you to the VPC.
 
 3. **Security Group**:
+
    - Ensure the EC2 instance’s **Security Group** allows **inbound SSH traffic on port 22** from your IP address (or IP range). If you're unsure, you can allow all IPs (`0.0.0.0/0`) temporarily, but it's **highly recommended** to restrict access to only trusted IP addresses.
 
 4. **Private Key File (.pem)**:
    - You need the **private key file** (the `.pem` file) that was generated when the key pair was created. This private key allows you to authenticate securely to the EC2 instance.
 
 #### **SSH Steps**:
+
 1. **Ensure your private key file has the correct permissions**:
+
    ```bash
    chmod 400 /path/to/your-key.pem
    ```
+
    This ensures that your private key file is not publicly viewable by others.
 
 2. **Connect to the instance** using the **SSH command**:
+
    - The basic SSH command format is:
      ```bash
      ssh -i /path/to/your-key.pem ec2-user@<Public_IP_of_Your_Instance>
@@ -4557,6 +4634,7 @@ You can connect to an **Amazon EC2 instance** in several ways depending on the o
 4. You should now be logged into your EC2 instance and have a **command-line interface** to interact with it.
 
 #### **Common SSH Issues**:
+
 - **Permission Denied (publickey)**: This typically occurs if your **private key** is not associated with the EC2 instance, or the instance is not correctly configured to allow SSH.
   - Double-check that you're using the correct **key pair** and ensure the **Security Group** allows SSH traffic.
 - **Timeouts**: This may indicate a network issue, such as the EC2 instance not having a **public IP address** or the **Security Group** blocking your connection.
@@ -4570,30 +4648,34 @@ You can connect to an **Amazon EC2 instance** in several ways depending on the o
 #### **Prerequisites for RDP Setup**:
 
 1. **Key Pair**:
+
    - When launching a Windows EC2 instance, you still need to use an **SSH key pair** to retrieve the **Administrator password** for the instance.
 
 2. **Public IP or Elastic IP**:
+
    - Similar to SSH, the Windows instance needs to have a **public IP** (or **Elastic IP**) assigned, and the **Security Group** should allow **RDP** access on **port 3389** from your IP.
 
 3. **Security Group**:
    - The **Security Group** of the EC2 instance should allow **inbound traffic on port 3389** (RDP). Ensure that the rule allows traffic from your IP or range of IPs.
-   
 4. **Administrator Password**:
    - To log in via RDP, you'll need the **Windows Administrator password**, which can be retrieved using the **private key file** when launching the instance.
 
 #### **RDP Setup Steps**:
 
 1. **Obtain the Windows Administrator Password**:
+
    - After your instance is launched, use the **AWS Console** to retrieve the Administrator password:
      - Go to the **EC2 Dashboard** > **Instances** > select your Windows instance.
      - Click **Actions** > **Get Windows Password**.
      - Upload your **private key file (.pem)** and click **Decrypt Password**. This will give you the **Administrator password**.
 
 2. **Connect to the Windows Instance via RDP**:
+
    - Open **Remote Desktop Connection** (on your local machine):
+
      - For Windows: Open **Remote Desktop Connection** (search for `mstsc`).
      - For MacOS: Use the **Microsoft Remote Desktop** app from the App Store.
-   
+
    - Enter the **Public IP** or **Elastic IP** of your EC2 instance and click **Connect**.
 
 3. **Enter Administrator Credentials**:
@@ -4601,6 +4683,7 @@ You can connect to an **Amazon EC2 instance** in several ways depending on the o
    - Click **OK** and you should be logged into the Windows desktop of your EC2 instance.
 
 #### **Common RDP Issues**:
+
 - **RDP connection timeout**: This can happen if the **Security Group** does not allow RDP traffic (port 3389), or if the instance does not have a **public IP**.
 - **Incorrect credentials**: Ensure you're using the correct **Administrator password** that was retrieved using your private key file.
 
@@ -4611,10 +4694,12 @@ You can connect to an **Amazon EC2 instance** in several ways depending on the o
 **EC2 Instance Connect** is an **AWS-native tool** for connecting to **Linux EC2 instances** without needing SSH keys. It's particularly useful if you don't have the private key or prefer a browser-based method.
 
 #### **Prerequisites**:
+
 1. **Security Group**: Ensure the instance’s **Security Group** allows inbound SSH (port 22).
 2. **IAM Permissions**: You need the **IAM permissions** to use EC2 Instance Connect.
 
 #### **Steps**:
+
 1. Open the **EC2 Console** and select your instance.
 2. Click on **Connect** and choose **EC2 Instance Connect**.
 3. Click **Connect**, and AWS will open a terminal in the browser for you to interact with the instance directly.
@@ -4626,10 +4711,12 @@ You can connect to an **Amazon EC2 instance** in several ways depending on the o
 **AWS Systems Manager (SSM) Session Manager** allows you to connect to EC2 instances **without needing SSH** or **RDP** access. This method is secure and eliminates the need for an open **SSH port** or **RDP port**.
 
 #### **Prerequisites**:
+
 1. **SSM Agent**: The **SSM agent** must be installed and running on your EC2 instance.
 2. **IAM Role**: The EC2 instance must have an **IAM role** with the **SSM permissions** (`AmazonSSMManagedInstanceCore`).
 
 #### **Steps**:
+
 1. Go to the **EC2 Console**, select the instance, and click **Connect**.
 2. Choose **Session Manager** from the **Connect** options, and click **Connect**.
 3. You will be connected to the instance directly from the console.
@@ -4638,66 +4725,68 @@ You can connect to an **Amazon EC2 instance** in several ways depending on the o
 
 ### **Key Differences Between SSH and RDP**
 
-| **Feature**           | **SSH (Linux)**                                | **RDP (Windows)**                             |
-|-----------------------|-----------------------------------------------|----------------------------------------------|
-| **Protocol**          | SSH (Port 22)                                 | RDP (Port 3389)                              |
-| **Access Method**     | Command-line interface                        | Graphical user interface (GUI)               |
-| **Platform**          | Linux/Unix-based EC2 instances                | Windows-based EC2 instances                  |
-| **Authentication**    | Private key (`.pem` file)                     | Administrator password (retrieved via EC2)   |
-| **GUI Access**        | No (Command-line only)                        | Yes (Graphical interface)                    |
-| **Security**          | Encrypted, requires private key               | Encrypted, requires RDP client credentials   |
+| **Feature**        | **SSH (Linux)**                 | **RDP (Windows)**                          |
+| ------------------ | ------------------------------- | ------------------------------------------ |
+| **Protocol**       | SSH (Port 22)                   | RDP (Port 3389)                            |
+| **Access Method**  | Command-line interface          | Graphical user interface (GUI)             |
+| **Platform**       | Linux/Unix-based EC2 instances  | Windows-based EC2 instances                |
+| **Authentication** | Private key (`.pem` file)       | Administrator password (retrieved via EC2) |
+| **GUI Access**     | No (Command-line only)          | Yes (Graphical interface)                  |
+| **Security**       | Encrypted, requires private key | Encrypted, requires RDP client credentials |
 
 ---
 
 ### **Exam Power-Up**:
+
 - **SSH** is the standard method for accessing **Linux EC2 instances**, and you need a **private key file** (`.pem`) for authentication. Make sure the **Security Group** allows inbound traffic on **port 22**.
 - **RDP** is used for **Windows EC2 instances** to access the **GUI**. You need the **Administrator password** (retrieved with the key pair) and the **Security Group** must allow inbound traffic on **port 3389**.
 - For **Linux EC2 instances**, you can also use **EC2 Instance Connect** as an alternative to SSH, and **Session Manager** can be used for both Linux and Windows instances if you have the right IAM permissions.
 
-***
+---
 
 ### **Scenario: Connecting to an EC2 Instance in a Private Subnet via VPN**
 
 In your scenario, you have an EC2 instance running in a **private subnet** within a **VPC**. You want to connect to that EC2 instance through a **VPN**.
 
-
 To connect to your EC2 instance in the **private subnet** via VPN, you do **not need a NAT Gateway**, **public subnet**, or an **Internet Gateway**. Instead, the following setup is needed:
 
 1.  **VPN Gateway**:
 
-    -   **Site-to-Site VPN** or **Client VPN** (AWS VPN solutions) connects your on-premises network or client device (laptop/PC) to your VPC.
-    -   This provides you with **secure access** to your VPC's private resources, including EC2 instances in **private subnets**.
+    - **Site-to-Site VPN** or **Client VPN** (AWS VPN solutions) connects your on-premises network or client device (laptop/PC) to your VPC.
+    - This provides you with **secure access** to your VPC's private resources, including EC2 instances in **private subnets**.
+
 2.  **Routing**:
 
-    -   Ensure that the **VPN connection** is properly routed. When you set up the VPN, you need to make sure the **VPN Gateway** routes traffic to your **private subnet** in the VPC.
-    -   You can modify the **route table** in the private subnet to ensure that the VPN connection is correctly routed to the EC2 instances in the private subnet.
+    - Ensure that the **VPN connection** is properly routed. When you set up the VPN, you need to make sure the **VPN Gateway** routes traffic to your **private subnet** in the VPC.
+    - You can modify the **route table** in the private subnet to ensure that the VPN connection is correctly routed to the EC2 instances in the private subnet.
+
 3.  **Security Groups and NACLs**:
 
-    -   Ensure that the **Security Groups** and **Network Access Control Lists (NACLs)** for the EC2 instance in the private subnet allow traffic from the IP range of the VPN (either from the on-premises VPN gateway or your client device's VPN IP address).
+    - Ensure that the **Security Groups** and **Network Access Control Lists (NACLs)** for the EC2 instance in the private subnet allow traffic from the IP range of the VPN (either from the on-premises VPN gateway or your client device's VPN IP address).
 
 #### **For NAT Gateway and Public Subnet (Not Required for VPN Access)**:
 
--   **NAT Gateway** and **public subnet** are only needed if you want EC2 instances in the **private subnet** to access the **internet** (for updates, patches, etc.). **NAT is not required for VPN access**.
+- **NAT Gateway** and **public subnet** are only needed if you want EC2 instances in the **private subnet** to access the **internet** (for updates, patches, etc.). **NAT is not required for VPN access**.
 
--   **Internet Gateway (IG)** is only required for instances in **public subnets** that need to connect to the internet (e.g., for public-facing web servers or when instances in a public subnet need to download updates). For **VPN traffic**, the IG is not required unless you're using it for general internet access.
+- **Internet Gateway (IG)** is only required for instances in **public subnets** that need to connect to the internet (e.g., for public-facing web servers or when instances in a public subnet need to download updates). For **VPN traffic**, the IG is not required unless you're using it for general internet access.
 
 ### **Typical Architecture for Private Subnet with VPN Access**
 
--   **Private Subnet**: Contains your EC2 instances. These instances don't have direct access to the internet but can be accessed via the VPN connection.
--   **VPN Gateway**: AWS-managed or customer-managed VPN that connects your on-premises network or device to the VPC.
--   **Route Tables**: The route table for the private subnet needs to have routes that direct traffic destined for your on-premises network through the VPN connection.
--   **Security Groups**: Ensure the EC2 instance security group allows traffic from your VPN's IP range.
+- **Private Subnet**: Contains your EC2 instances. These instances don't have direct access to the internet but can be accessed via the VPN connection.
+- **VPN Gateway**: AWS-managed or customer-managed VPN that connects your on-premises network or device to the VPC.
+- **Route Tables**: The route table for the private subnet needs to have routes that direct traffic destined for your on-premises network through the VPN connection.
+- **Security Groups**: Ensure the EC2 instance security group allows traffic from your VPN's IP range.
 
-* * * * *
+---
 
 ### **Exam Power-Up**:
 
--   **VPN**: **Site-to-Site VPN** and **Client VPN** are AWS solutions for securely connecting your on-premises network or personal device to an AWS VPC.
--   **Private Subnet**: EC2 instances in **private subnets** can be accessed securely via a **VPN**, without the need for **NAT Gateway** or **Internet Gateway**.
--   **NAT Gateway**: Only required for **private instances** to access the **internet** (for updates, patches, etc.).
--   **Public Subnet and IG**: Only needed for **publicly accessible** resources in your VPC.
+- **VPN**: **Site-to-Site VPN** and **Client VPN** are AWS solutions for securely connecting your on-premises network or personal device to an AWS VPC.
+- **Private Subnet**: EC2 instances in **private subnets** can be accessed securely via a **VPN**, without the need for **NAT Gateway** or **Internet Gateway**.
+- **NAT Gateway**: Only required for **private instances** to access the **internet** (for updates, patches, etc.).
+- **Public Subnet and IG**: Only needed for **publicly accessible** resources in your VPC.
 
-***
+---
 
 ### Instance relocation
 
@@ -4721,185 +4810,192 @@ The only difference will generally be their size.
 
 AWS EC2 instances come in various types, each designed for different use cases. Here's a simple breakdown to help you understand when to use each type:
 
-* * * * *
+---
 
 ### **1\. General Purpose (T, M)**
 
 **Purpose**: Balanced resources (CPU, memory, storage) for everyday workloads.
 
--   **When to Use**: Ideal for **web servers**, **small to medium databases**, **development/test environments**, and **low-cost applications**.
+- **When to Use**: Ideal for **web servers**, **small to medium databases**, **development/test environments**, and **low-cost applications**.
 
--   **Example Use Case**: Hosting a **basic website** or running a **small database**.
+- **Example Use Case**: Hosting a **basic website** or running a **small database**.
 
--   **Types**:
+- **Types**:
 
-    -   **T-series (e.g., t3)**: **Burstable** performance for low-cost, steady-state workloads (e.g., small websites, small databases).
-    -   **M-series (e.g., m5)**: **Balanced** CPU and memory for regular applications that don't require heavy computation or large memory.
+  - **T-series (e.g., t3)**: **Burstable** performance for low-cost, steady-state workloads (e.g., small websites, small databases).
+  - **M-series (e.g., m5)**: **Balanced** CPU and memory for regular applications that don't require heavy computation or large memory.
 
-* * * * *
+---
 
 ### **2\. Compute Optimized (C)**
 
 **Purpose**: High CPU performance for compute-intensive tasks.
 
--   **When to Use**: Great for tasks that need a lot of **processing power** (e.g., **media processing**, **scientific modeling**, **gaming**, **batch processing**).
+- **When to Use**: Great for tasks that need a lot of **processing power** (e.g., **media processing**, **scientific modeling**, **gaming**, **batch processing**).
 
--   **Example Use Case**: Running **high-performance compute (HPC)** applications like **video encoding** or **scientific simulations**.
+- **Example Use Case**: Running **high-performance compute (HPC)** applications like **video encoding** or **scientific simulations**.
 
--   **Types**:
+- **Types**:
 
-    -   **C-series (e.g., c5)**: Optimized for **CPU-heavy applications** where you need more processing power than general-purpose instances (e.g., media transcoding, rendering).
+  - **C-series (e.g., c5)**: Optimized for **CPU-heavy applications** where you need more processing power than general-purpose instances (e.g., media transcoding, rendering).
 
-* * * * *
+---
 
 ### **3\. Memory Optimized (R, X)**
 
 **Purpose**: High memory (RAM) for handling large datasets in memory.
 
--   **When to Use**: Use for workloads that need large amounts of memory like **in-memory databases**, **data processing**, and **real-time big data analytics**.
+- **When to Use**: Use for workloads that need large amounts of memory like **in-memory databases**, **data processing**, and **real-time big data analytics**.
 
--   **Example Use Case**: Running **large-scale data analytics**, **in-memory caches**, or **NoSQL databases** like **Redis**.
+- **Example Use Case**: Running **large-scale data analytics**, **in-memory caches**, or **NoSQL databases** like **Redis**.
 
--   **Types**:
+- **Types**:
 
-    -   **R-series (e.g., r5)**: Ideal for **memory-intensive applications** such as **big data analysis** and **in-memory databases**.
-    -   **X-series (e.g., x1e)**: Used for workloads requiring **massive memory** like **high-performance computing** or large **SAP HANA** applications.
+  - **R-series (e.g., r5)**: Ideal for **memory-intensive applications** such as **big data analysis** and **in-memory databases**.
+  - **X-series (e.g., x1e)**: Used for workloads requiring **massive memory** like **high-performance computing** or large **SAP HANA** applications.
 
-* * * * *
+---
 
 ### **4\. Accelerated Computing (P, G, F)**
 
 **Purpose**: Instances with **hardware accelerators** like **GPU** and **FPGA** to speed up specific workloads.
 
--   **When to Use**: Use for workloads that require hardware **acceleration**, such as **machine learning**, **AI**, and **video rendering**.
+- **When to Use**: Use for workloads that require hardware **acceleration**, such as **machine learning**, **AI**, and **video rendering**.
 
--   **Example Use Case**: Running **deep learning** algorithms or **high-end gaming** applications that need **GPU support**.
+- **Example Use Case**: Running **deep learning** algorithms or **high-end gaming** applications that need **GPU support**.
 
--   **Types**:
+- **Types**:
 
-    -   **P-series (e.g., p3)**: **GPU instances** designed for **machine learning** and **AI training**.
-    -   **G-series (e.g., g4ad)**: Optimized for **graphic-heavy applications** like **video rendering** or **gaming**.
-    -   **F-series (e.g., f1)**: Instances with **FPGAs** for custom hardware acceleration, useful for specialized workloads like **financial simulations**.
+  - **P-series (e.g., p3)**: **GPU instances** designed for **machine learning** and **AI training**.
+  - **G-series (e.g., g4ad)**: Optimized for **graphic-heavy applications** like **video rendering** or **gaming**.
+  - **F-series (e.g., f1)**: Instances with **FPGAs** for custom hardware acceleration, useful for specialized workloads like **financial simulations**.
 
-* * * * *
+---
 
 ### **5\. Storage Optimized (H, I, D)**
 
 **Purpose**: Instances with **high storage capacity** and fast **local storage** for I/O-heavy tasks.
 
--   **When to Use**: Perfect for workloads that need **high-speed storage**, such as **data warehousing**, **big data analytics**, and **high-performance databases**.
+- **When to Use**: Perfect for workloads that need **high-speed storage**, such as **data warehousing**, **big data analytics**, and **high-performance databases**.
 
--   **Example Use Case**: Running **ElasticSearch** for log analytics or **high-performance databases** that require **low-latency disk operations**.
+- **Example Use Case**: Running **ElasticSearch** for log analytics or **high-performance databases** that require **low-latency disk operations**.
 
--   **Types**:
+- **Types**:
 
-    -   **H-series (e.g., h1)**: Instances with **high storage density** and **fast local storage** for workloads like **distributed file systems** or **big data applications**.
-    -   **I-series (e.g., i3)**: Optimized for **extremely fast storage** (ideal for **high-throughput databases**).
-    -   **D-series (e.g., d2)**: Designed for **massive storage** in **data warehousing** or **big data** applications with **local storage**.
+  - **H-series (e.g., h1)**: Instances with **high storage density** and **fast local storage** for workloads like **distributed file systems** or **big data applications**.
+  - **I-series (e.g., i3)**: Optimized for **extremely fast storage** (ideal for **high-throughput databases**).
+  - **D-series (e.g., d2)**: Designed for **massive storage** in **data warehousing** or **big data** applications with **local storage**.
 
-* * * * *
+---
 
 ### **Quick Memory Aid**:
 
--   **General Purpose**: Balanced for typical workloads (T for bursty, M for steady).
--   **Compute Optimized**: High **CPU** power for processing-intensive tasks (e.g., media rendering, scientific modeling).
--   **Memory Optimized**: More **RAM** for **data-heavy** apps like in-memory databases or big data processing.
--   **Accelerated Computing**: Uses **GPU/FPGA** for **AI, ML**, and **gaming** workloads.
--   **Storage Optimized**: High-speed **local storage** for I/O-heavy tasks (e.g., databases, data warehousing).
+- **General Purpose**: Balanced for typical workloads (T for bursty, M for steady).
+- **Compute Optimized**: High **CPU** power for processing-intensive tasks (e.g., media rendering, scientific modeling).
+- **Memory Optimized**: More **RAM** for **data-heavy** apps like in-memory databases or big data processing.
+- **Accelerated Computing**: Uses **GPU/FPGA** for **AI, ML**, and **gaming** workloads.
+- **Storage Optimized**: High-speed **local storage** for I/O-heavy tasks (e.g., databases, data warehousing).
 
-* * * * *
+---
 
 ### EC2 Instance Type Initials
 
 1.  **T - General Purpose**\
     **Mnemonic**: "**T**ake it easy"
 
-    -   T stands for "Take it easy," meaning it's for general, everyday workloads where you don't need heavy performance.
+    - T stands for "Take it easy," meaning it's for general, everyday workloads where you don't need heavy performance.
+
 2.  **M - General Purpose**\
     **Mnemonic**: "**M**ix it up"
 
-    -   M stands for "Mix it up," since the **M-series** is a balanced general-purpose option (good for a mix of workloads).
+    - M stands for "Mix it up," since the **M-series** is a balanced general-purpose option (good for a mix of workloads).
+
 3.  **C - Compute Optimized**\
     **Mnemonic**: "**C**runch the numbers"
 
-    -   C stands for "Crunch the numbers," which means high CPU performance, great for **compute-heavy tasks** like gaming or media processing.
+    - C stands for "Crunch the numbers," which means high CPU performance, great for **compute-heavy tasks** like gaming or media processing.
+
 4.  **R - Memory Optimized**\
     **Mnemonic**: "**R**eally big brain"
 
-    -   R stands for "Really big brain," referring to **large memory-intensive tasks** like databases or big data processing.
+    - R stands for "Really big brain," referring to **large memory-intensive tasks** like databases or big data processing.
+
 5.  **X - Memory Optimized**\
     **Mnemonic**: "**X**tra memory"
 
-    -   X stands for "Extra memory," suitable for tasks that require **extremely large memory** like **SAP HANA** or high-performance computing.
+    - X stands for "Extra memory," suitable for tasks that require **extremely large memory** like **SAP HANA** or high-performance computing.
+
 6.  **P - Accelerated Computing**\
     **Mnemonic**: "**P**ower up with GPU"
 
-    -   P stands for "Power up with GPU," designed for **machine learning** and **AI** tasks using **GPU acceleration**.
+    - P stands for "Power up with GPU," designed for **machine learning** and **AI** tasks using **GPU acceleration**.
+
 7.  **G - Accelerated Computing**\
     **Mnemonic**: "**G**raphics rendering"
 
-    -   G stands for "Graphics rendering," used for **gaming** or **graphic-intensive applications**.
+    - G stands for "Graphics rendering," used for **gaming** or **graphic-intensive applications**.
+
 8.  **F - Accelerated Computing**\
     **Mnemonic**: "**F**ast FPGA"
 
-    -   F stands for "Fast FPGA," referring to instances with **FPGAs** for specialized, hardware-accelerated tasks like financial simulations.
+    - F stands for "Fast FPGA," referring to instances with **FPGAs** for specialized, hardware-accelerated tasks like financial simulations.
+
 9.  **H - Storage Optimized**\
     **Mnemonic**: "**H**igh storage"
 
-    -   H stands for "High storage," designed for **data-heavy applications** that require **high disk throughput**, like big data processing.
+    - H stands for "High storage," designed for **data-heavy applications** that require **high disk throughput**, like big data processing.
+
 10. **I - Storage Optimized**\
     **Mnemonic**: "**I**ntense I/O"
 
--   I stands for "Intense I/O," used for workloads that require **high IOPS** (e.g., large databases or analytics).
+- I stands for "Intense I/O," used for workloads that require **high IOPS** (e.g., large databases or analytics).
 
 1.  **D - Storage Optimized**\
     **Mnemonic**: "**D**eep data storage"
 
--   D stands for "Deep data storage," ideal for **large storage volumes** with **high throughput**, perfect for **data warehousing**.
+- D stands for "Deep data storage," ideal for **large storage volumes** with **high throughput**, perfect for **data warehousing**.
 
-* * * * *
+---
 
 ### **Quick Mnemonic to Remember the Initials**:
 
--   **T**ake it easy,
--   **M**ix it up,
--   **C**runch the numbers,
--   **R**eally big brain,
--   **X**tra memory,
--   **P**ower up with GPU,
--   **G**raphics rendering,
--   **F**ast FPGA,
--   **H**igh storage,
--   **I**ntense I/O,
--   **D**eep data storage.
+- **T**ake it easy,
+- **M**ix it up,
+- **C**runch the numbers,
+- **R**eally big brain,
+- **X**tra memory,
+- **P**ower up with GPU,
+- **G**raphics rendering,
+- **F**ast FPGA,
+- **H**igh storage,
+- **I**ntense I/O,
+- **D**eep data storage.
 
-* * * * *
-* * * * *
+---
+
+---
 
 ### **Quick Story for Visualization**:
 
 Imagine you're in a **Tech Mansion**:
 
--   You start in the **General Room** where everything is balanced (**T**ake it easy, **M**ix it up).
--   You move into the **Crunching Room** where people are solving complex problems (**C**runch the numbers).
--   Then, into the **Brain Room** where everyone is thinking and using **big memory** (**R**eally big brain, **X**tra memory).
--   The **Power Room** has **super-fast GPUs** (**P**ower up with GPU).
--   The **Graphics Room** is where people design games and visuals (**G**raphics rendering).
--   The **Fast Room** has **FPGA** chips helping finance simulations (**F**ast FPGA).
--   Next, you check out the **Storage Room**, where data is stored in huge volumes: **High Storage** (**H**igh storage), **Intense I/O** (**I**ntense I/O), and **Deep Data Storage** (**D**eep data storage).
+- You start in the **General Room** where everything is balanced (**T**ake it easy, **M**ix it up).
+- You move into the **Crunching Room** where people are solving complex problems (**C**runch the numbers).
+- Then, into the **Brain Room** where everyone is thinking and using **big memory** (**R**eally big brain, **X**tra memory).
+- The **Power Room** has **super-fast GPUs** (**P**ower up with GPU).
+- The **Graphics Room** is where people design games and visuals (**G**raphics rendering).
+- The **Fast Room** has **FPGA** chips helping finance simulations (**F**ast FPGA).
+- Next, you check out the **Storage Room**, where data is stored in huge volumes: **High Storage** (**H**igh storage), **Intense I/O** (**I**ntense I/O), and **Deep Data Storage** (**D**eep data storage).
 
-* * * * *
-
-
-
+---
 
 ### **Exam Power-Up**:
 
--   **T-series**: **Burstable performance** for low-cost and steady-state applications.
--   **C-series**: **High CPU performance** for compute-heavy workloads (e.g., rendering, simulations).
--   **R-series and X-series**: **Memory-heavy instances** for large-scale data processing and in-memory databases.
--   **P, G, F-series**: **GPU/FPGA instances** for AI, deep learning, and gaming workloads.
--   **I, H, D-series**: **Storage-optimized instances** for high-speed storage and high-performance databases.
+- **T-series**: **Burstable performance** for low-cost and steady-state applications.
+- **C-series**: **High CPU performance** for compute-heavy workloads (e.g., rendering, simulations).
+- **R-series and X-series**: **Memory-heavy instances** for large-scale data processing and in-memory databases.
+- **P, G, F-series**: **GPU/FPGA instances** for AI, deep learning, and gaming workloads.
+- **I, H, D-series**: **Storage-optimized instances** for high-speed storage and high-performance databases.
 
 #### 1.6.3.1. Naming Scheme
 
@@ -4938,74 +5034,85 @@ AWS offers three primary types of storage for different use cases: **Block Stora
 
 ### **1. Block Storage**
 
-**Definition**: 
+**Definition**:
+
 - **Block Storage** is the most common type of storage used for **databases**, **virtual machines**, and **boot volumes**. It works by presenting storage as blocks that are managed by the operating system.
 
 **How It Works**:
+
 - Block storage is presented to the **operating system (OS)** as a collection of **blocks**, which are raw storage areas without any predefined structure. The operating system can format these blocks into file systems (e.g., **NTFS** for Windows or **EXT3/EXT4** for Linux) and mount them as **drives** or **volumes**.
 - You can attach this storage to instances (e.g., EC2 instances) as **EBS volumes**, and you can **boot an EC2 instance** from an **EBS volume** if the volume is configured as the root volume.
-  
+
 **Examples**:
+
 - **EBS (Elastic Block Store)** in AWS: EBS volumes provide block-level storage for EC2 instances. You can attach multiple EBS volumes to an instance and use them to store data or use them as boot volumes for the instance.
 - **Spinning Hard Disks or SSDs**: This could be a physical disk (e.g., HDD or SSD) connected directly to a server or a virtual disk in the cloud (EBS in AWS).
 
 **When to Use**:
+
 - Use block storage for **databases**, **virtual machine storage**, or **boot volumes** in instances that require fast, consistent read/write operations.
 
 ---
 
 ### **2. File Storage**
 
-**Definition**: 
+**Definition**:
+
 - **File Storage** provides a way to store files in a **hierarchical structure**. It’s akin to using a **network file share** where you access files by their **file path**.
 
 **How It Works**:
+
 - In **file storage**, data is stored in **directories** and **subdirectories** (just like on a traditional file system). You access data by **navigating** the structure, which is typically organized in **folders**.
 - File storage systems often use protocols like **NFS (Network File System)** or **SMB (Server Message Block)** to enable file sharing across different servers or operating systems.
 - You **cannot boot** an operating system directly from file storage, and it is **not mountable** to EC2 instances the same way as block storage.
 
 **Examples**:
+
 - **Amazon EFS (Elastic File System)**: EFS is a scalable file storage service for EC2 instances. It allows multiple instances to access the same file share concurrently, making it ideal for **shared file storage**.
 - **Windows File Servers**: If you’ve used a file server in your local network, that would be an example of file storage.
 
 **When to Use**:
+
 - Use file storage for workloads that require **shared file systems** or when you need to store data that can be organized hierarchically with directories (e.g., media files, documents, or logs).
 
 ---
 
 ### **3. Object Storage**
 
-**Definition**: 
+**Definition**:
+
 - **Object Storage** is designed for storing a large number of **objects** (files) and allows you to access these objects using a unique **key**. Each object is stored as a **flat collection** and is typically identified by a **key-value pair**.
 
 **How It Works**:
+
 - In object storage, data is stored as **objects**. Each object consists of:
   - **The object itself** (which can be any type of data, such as a document, image, or video).
   - **Metadata** (additional information about the object like size, type, and creation date).
   - **A unique key** (used to access the object).
-  
 - Object storage does not organize data into a hierarchical directory structure. Instead, each object is stored in a flat namespace, and to access it, you need to know the **key** (essentially the "name" of the object).
 - You **cannot mount** or **boot** from object storage. It is purely for **data storage** and **retrieval**.
 
 **Examples**:
+
 - **Amazon S3 (Simple Storage Service)**: S3 is the most widely used object storage service in AWS. It is designed for storing and retrieving any amount of data (e.g., images, videos, backups) over the web. S3 scales well and allows for concurrent access to objects from multiple sources.
-  
+
 **When to Use**:
+
 - Use object storage for **large-scale data storage** (e.g., storing backups, media files, logs) or for applications that need to **scale horizontally** and **simultaneously** access a large number of objects. Object storage is ideal for applications like **data lakes**, **content delivery** (media), and **backup storage**.
 
 ---
 
 ### **Comparison: Block vs File vs Object Storage**
 
-| **Feature**                 | **Block Storage**                        | **File Storage**                         | **Object Storage**                          |
-|-----------------------------|------------------------------------------|------------------------------------------|--------------------------------------------|
-| **Access Method**           | Direct access to blocks (low-level)     | Access files via directories and paths   | Access objects by their key (flat namespace) |
-| **Structure**               | No predefined structure (raw blocks)    | Hierarchical (directories & subdirectories) | Flat (no directory structure, just objects) |
-| **Mountable**               | Yes, can be mounted (e.g., EBS on EC2)   | Yes, as network file share (e.g., EFS)    | No, objects are accessed via API or URL     |
-| **Bootable**                | Yes, can boot from a block volume        | No, cannot boot from file storage        | No, cannot boot from object storage        |
-| **Use Cases**               | Databases, boot volumes, VM storage      | Shared file storage, home directories    | Large-scale data storage, media files, backups |
-| **Scalability**             | Typically limited by the disk size       | Can scale with systems like EFS          | Extremely scalable, designed for large datasets |
-| **Performance**             | Fast I/O operations, low latency         | Moderate performance for file systems    | High throughput for object access, often slower than block storage |
+| **Feature**       | **Block Storage**                      | **File Storage**                            | **Object Storage**                                                 |
+| ----------------- | -------------------------------------- | ------------------------------------------- | ------------------------------------------------------------------ |
+| **Access Method** | Direct access to blocks (low-level)    | Access files via directories and paths      | Access objects by their key (flat namespace)                       |
+| **Structure**     | No predefined structure (raw blocks)   | Hierarchical (directories & subdirectories) | Flat (no directory structure, just objects)                        |
+| **Mountable**     | Yes, can be mounted (e.g., EBS on EC2) | Yes, as network file share (e.g., EFS)      | No, objects are accessed via API or URL                            |
+| **Bootable**      | Yes, can boot from a block volume      | No, cannot boot from file storage           | No, cannot boot from object storage                                |
+| **Use Cases**     | Databases, boot volumes, VM storage    | Shared file storage, home directories       | Large-scale data storage, media files, backups                     |
+| **Scalability**   | Typically limited by the disk size     | Can scale with systems like EFS             | Extremely scalable, designed for large datasets                    |
+| **Performance**   | Fast I/O operations, low latency       | Moderate performance for file systems       | High throughput for object access, often slower than block storage |
 
 ---
 
@@ -5018,6 +5125,7 @@ AWS offers three primary types of storage for different use cases: **Block Stora
 ---
 
 ### **Exam Power-Up**:
+
 - **Block Storage**: **EBS** is block storage, useful for databases and boot volumes, providing low-latency access to raw data.
 - **File Storage**: **EFS** is file storage, useful for shared file systems with directories and multiple access points.
 - **Object Storage**: **S3** is object storage, perfect for scalable, durable, and easily accessible storage for large amounts of data.
@@ -5036,83 +5144,80 @@ When working with **EBS (Elastic Block Store)** in AWS, **IOPS** and **Throughpu
 
 Let's break down what each of these terms means and how they apply to EBS volumes:
 
-* * * * *
+---
 
 ### **1\. IOPS (Input/Output Operations Per Second)**
 
 **Definition**:
 
--   **IOPS** refers to the **number of read and write operations** that an EBS volume can handle per second.
--   It is a measure of how many **random input/output operations** (read/write operations) can occur in one second.
+- **IOPS** refers to the **number of read and write operations** that an EBS volume can handle per second.
+- It is a measure of how many **random input/output operations** (read/write operations) can occur in one second.
 
 **How it works**:
 
--   **Higher IOPS** means the volume can handle more frequent **random read/write operations**. For example, this is crucial for workloads that require frequent access to small chunks of data, such as **databases** (e.g., **MySQL**, **Oracle**) and **transactional applications**.
--   **IOPS** can be critical for **database performance**, as high IOPS ensures that the database can handle many transactions at once without slowing down.
+- **Higher IOPS** means the volume can handle more frequent **random read/write operations**. For example, this is crucial for workloads that require frequent access to small chunks of data, such as **databases** (e.g., **MySQL**, **Oracle**) and **transactional applications**.
+- **IOPS** can be critical for **database performance**, as high IOPS ensures that the database can handle many transactions at once without slowing down.
 
 **Example**:
 
--   **A 10 GB EBS volume** might have a **base IOPS of 30 IOPS**, but you can configure it to burst to **up to 3000 IOPS** if you need more performance for transactional workloads.
+- **A 10 GB EBS volume** might have a **base IOPS of 30 IOPS**, but you can configure it to burst to **up to 3000 IOPS** if you need more performance for transactional workloads.
 
 **Types of EBS Volumes with IOPS**:
 
--   **Provisioned IOPS (io1 and io2)**: These volumes allow you to **provision** a specific number of IOPS (e.g., **1000 IOPS**, **5000 IOPS**) for workloads that need consistent and high-performance storage.
--   **General Purpose SSD (gp2, gp3)**: These volumes provide **bursting** IOPS based on volume size (e.g., **3 IOPS per GB** of storage). **gp3** allows you to provision up to **16,000 IOPS** independently of the volume size.
+- **Provisioned IOPS (io1 and io2)**: These volumes allow you to **provision** a specific number of IOPS (e.g., **1000 IOPS**, **5000 IOPS**) for workloads that need consistent and high-performance storage.
+- **General Purpose SSD (gp2, gp3)**: These volumes provide **bursting** IOPS based on volume size (e.g., **3 IOPS per GB** of storage). **gp3** allows you to provision up to **16,000 IOPS** independently of the volume size.
 
 **When to Use IOPS**:
 
--   Use **high IOPS volumes** (like **io1** and **io2**) for **databases** (e.g., **SQL Server**, **Oracle**, **MongoDB**) or **any application that requires low-latency, high-speed access to small pieces of data**.
+- Use **high IOPS volumes** (like **io1** and **io2**) for **databases** (e.g., **SQL Server**, **Oracle**, **MongoDB**) or **any application that requires low-latency, high-speed access to small pieces of data**.
 
-* * * * *
+---
 
 ### **2\. Throughput**
 
 **Definition**:
 
--   **Throughput** refers to the **amount of data** that can be transferred to and from an EBS volume per second, measured in **MB/s** (megabytes per second).
--   Unlike IOPS, which is focused on how many operations can occur, **throughput** measures how much **data** can be read or written per second.
+- **Throughput** refers to the **amount of data** that can be transferred to and from an EBS volume per second, measured in **MB/s** (megabytes per second).
+- Unlike IOPS, which is focused on how many operations can occur, **throughput** measures how much **data** can be read or written per second.
 
 **How it works**:
 
--   **Higher throughput** is important for **sequential I/O operations**, where you are dealing with **large chunks of data** at a time, such as **media files**, **big data analytics**, or **data backups**.
--   Throughput is typically more important for workloads like **data warehousing** or **large-scale data processing**.
+- **Higher throughput** is important for **sequential I/O operations**, where you are dealing with **large chunks of data** at a time, such as **media files**, **big data analytics**, or **data backups**.
+- Throughput is typically more important for workloads like **data warehousing** or **large-scale data processing**.
 
 **Example**:
 
--   A **Volume with 250 MB/s throughput** could transfer 250 megabytes of data every second.
+- A **Volume with 250 MB/s throughput** could transfer 250 megabytes of data every second.
 
 **Types of EBS Volumes with Throughput**:
 
--   **Throughput Optimized HDD (st1)** and **Cold HDD (sc1)**: These are ideal for **high-throughput, sequential workloads** like **data logging**, **data warehousing**, and **large file processing**.
--   **Provisioned IOPS SSD (io1/io2)**: While **io1/io2** volumes are designed for high IOPS, they also provide **higher throughput** compared to general-purpose SSDs.
--   **General Purpose SSD (gp2, gp3)**: These volumes provide **balanced IOPS** and **throughput**, ideal for most use cases, but **gp3** allows for higher **throughput provisioning** (up to **1,000 MB/s**).
+- **Throughput Optimized HDD (st1)** and **Cold HDD (sc1)**: These are ideal for **high-throughput, sequential workloads** like **data logging**, **data warehousing**, and **large file processing**.
+- **Provisioned IOPS SSD (io1/io2)**: While **io1/io2** volumes are designed for high IOPS, they also provide **higher throughput** compared to general-purpose SSDs.
+- **General Purpose SSD (gp2, gp3)**: These volumes provide **balanced IOPS** and **throughput**, ideal for most use cases, but **gp3** allows for higher **throughput provisioning** (up to **1,000 MB/s**).
 
 **When to Use Throughput**:
 
--   Use volumes with **high throughput** for **sequential I/O workloads**, such as **video processing**, **log processing**, or **large-scale data transfers** that need high **data transfer rates**.
+- Use volumes with **high throughput** for **sequential I/O workloads**, such as **video processing**, **log processing**, or **large-scale data transfers** that need high **data transfer rates**.
 
-* * * * *
-
-
+---
 
 ### **Summary**:
 
--   **IOPS**: Measures how many read/write operations your volume can handle per second. Important for **random access** workloads like **databases**.
--   **Throughput**: Measures how much data can be transferred to/from your volume per second. Important for **sequential access** workloads like **big data analytics** or **media processing**.
+- **IOPS**: Measures how many read/write operations your volume can handle per second. Important for **random access** workloads like **databases**.
+- **Throughput**: Measures how much data can be transferred to/from your volume per second. Important for **sequential access** workloads like **big data analytics** or **media processing**.
 
-* * * * *
+---
 
 ### **Exam Power-Up**:
 
--   **IOPS**: High IOPS is best for **random I/O** operations (databases, transactional systems).
--   **Throughput**: High throughput is best for **sequential I/O** operations (big data processing, streaming, log processing).
--   **EBS Types**:
-    -   **io1/io2**: High IOPS and throughput, ideal for high-performance workloads.
-    -   **gp3**: Balanced performance, good for general workloads.
-    -   **st1/sc1**: High throughput, great for sequential workloads.
+- **IOPS**: High IOPS is best for **random I/O** operations (databases, transactional systems).
+- **Throughput**: High throughput is best for **sequential I/O** operations (big data processing, streaming, log processing).
+- **EBS Types**:
+  - **io1/io2**: High IOPS and throughput, ideal for high-performance workloads.
+  - **gp3**: Balanced performance, good for general workloads.
+  - **st1/sc1**: High throughput, great for sequential workloads.
 
-
-* * * 
+---
 
 ### 1.6.5. Elastic Block Store (EBS)
 
@@ -5120,7 +5225,7 @@ Let's break down what each of these terms means and how they apply to EBS volume
 - Volumes are isolated to one AZ.
   - The data is highly available and resilient for that AZ.
   - All of the data is replicated within that AZ. The entire AZ must have
-  a major fault to go down.
+    a major fault to go down.
 - Two physical storage types available (SSD/HDD)
 - Varying level of performance (IOPS, T-put)
 - Billed as GB/month.
@@ -5138,137 +5243,137 @@ Let's break down what each of these terms means and how they apply to EBS volume
 
 Here's a breakdown of **EBS (Elastic Block Store) volumes**, how to easily remember them, and how they're billed. I'll also explain **burstable IOPS** and **Multi-Attach** EBS.
 
-* * * * *
+---
 
 ### **Types of EBS Volumes**
 
 There are **5 primary types** of EBS volumes, and each is optimized for different use cases:
 
-* * * * *
+---
 
 ### **1\. General Purpose SSD (gp2 and gp3)**
 
--   **Purpose**: Provides **balanced performance** for a variety of workloads.
--   **Use Cases**: **Boot volumes**, **small to medium-sized databases**, and **development/test environments**.
--   **Performance**:
-    -   **gp3** allows **provisioning IOPS** and **throughput** independently, making it a more flexible and performant option than **gp2**.
+- **Purpose**: Provides **balanced performance** for a variety of workloads.
+- **Use Cases**: **Boot volumes**, **small to medium-sized databases**, and **development/test environments**.
+- **Performance**:
+  - **gp3** allows **provisioning IOPS** and **throughput** independently, making it a more flexible and performant option than **gp2**.
 
 **Mnemonic**: "**G**eneral **P**urpose (GP), **G**reat **P**rice"
 
--   GP stands for **General Purpose**. These volumes are great for **everyday tasks** and are **cost-effective**.
+- GP stands for **General Purpose**. These volumes are great for **everyday tasks** and are **cost-effective**.
 
 **Billing**:
 
--   **gp2**: Billed based on **storage** (per GB-month) and **IOPS** (automatically burstable to 3,000 IOPS).
--   **gp3**: Billed based on **storage**, **IOPS**, and **throughput**. You can **provision** IOPS and throughput independently.
+- **gp2**: Billed based on **storage** (per GB-month) and **IOPS** (automatically burstable to 3,000 IOPS).
+- **gp3**: Billed based on **storage**, **IOPS**, and **throughput**. You can **provision** IOPS and throughput independently.
 
-* * * * *
+---
 
 ### **2\. Provisioned IOPS SSD (io1 and io2)**
 
--   **Purpose**: Optimized for **high-performance, low-latency applications** that require **high IOPS** and **consistent performance**.
--   **Use Cases**: **Databases**, **transactional systems**, **critical workloads** like **NoSQL databases** (e.g., **Cassandra**).
--   **Performance**:
-    -   **io1**: Can be provisioned up to **64,000 IOPS**.
-    -   **io2**: Offers **higher durability** and up to **256,000 IOPS**.
+- **Purpose**: Optimized for **high-performance, low-latency applications** that require **high IOPS** and **consistent performance**.
+- **Use Cases**: **Databases**, **transactional systems**, **critical workloads** like **NoSQL databases** (e.g., **Cassandra**).
+- **Performance**:
+  - **io1**: Can be provisioned up to **64,000 IOPS**.
+  - **io2**: Offers **higher durability** and up to **256,000 IOPS**.
 
 **Mnemonic**: "**I**ncredible **O**utstanding **1**/2 Performance"
 
--   io stands for **I/O-intensive applications**. **1/2** is for **io1/io2**, which are **provisioned** for consistent, high IOPS performance.
+- io stands for **I/O-intensive applications**. **1/2** is for **io1/io2**, which are **provisioned** for consistent, high IOPS performance.
 
 **Billing**:
 
--   Billed based on **provisioned storage** (per GB-month), **IOPS** (provisioned), and **throughput**.
+- Billed based on **provisioned storage** (per GB-month), **IOPS** (provisioned), and **throughput**.
 
-* * * * *
+---
 
 ### **3\. Throughput Optimized HDD (st1)**
 
--   **Purpose**: Optimized for **high-throughput, sequential workloads**.
--   **Use Cases**: **Big data processing**, **data warehousing**, **log processing**.
--   **Performance**: Up to **500 MB/s throughput** and **40,000 IOPS**.
+- **Purpose**: Optimized for **high-throughput, sequential workloads**.
+- **Use Cases**: **Big data processing**, **data warehousing**, **log processing**.
+- **Performance**: Up to **500 MB/s throughput** and **40,000 IOPS**.
 
 **Mnemonic**: "**S**equential **T**hroughput (ST)"
 
--   ST stands for **Sequential Throughput**, designed for tasks that require **fast data transfer**.
+- ST stands for **Sequential Throughput**, designed for tasks that require **fast data transfer**.
 
 **Billing**:
 
--   Billed based on **storage** (per GB-month) and **throughput** (per MB transferred). No charge for IOPS.
+- Billed based on **storage** (per GB-month) and **throughput** (per MB transferred). No charge for IOPS.
 
-* * * * *
+---
 
 ### **4\. Cold HDD (sc1)**
 
--   **Purpose**: Designed for **low-cost storage** for infrequent access data.
--   **Use Cases**: **Archival storage**, **backup**, and **log storage**.
--   **Performance**: Lower throughput than **st1**, providing **250 MB/s throughput** and **12,000 IOPS**.
+- **Purpose**: Designed for **low-cost storage** for infrequent access data.
+- **Use Cases**: **Archival storage**, **backup**, and **log storage**.
+- **Performance**: Lower throughput than **st1**, providing **250 MB/s throughput** and **12,000 IOPS**.
 
 **Mnemonic**: "**S**tored **C**old (SC)"
 
--   SC stands for **Stored Cold**, optimized for **infrequent access** or **archival** data.
+- SC stands for **Stored Cold**, optimized for **infrequent access** or **archival** data.
 
 **Billing**:
 
--   Billed based on **storage** (per GB-month) and **throughput** (per MB transferred).
+- Billed based on **storage** (per GB-month) and **throughput** (per MB transferred).
 
-* * * * *
+---
 
-### **5\. Magnetic (Standard)** *(Legacy)*
+### **5\. Magnetic (Standard)** _(Legacy)_
 
--   **Purpose**: Low-cost storage for workloads that don't require high performance.
--   **Use Cases**: Older workloads, backup, and archives that don't require fast access.
--   **Performance**: Moderate throughput and IOPS.
+- **Purpose**: Low-cost storage for workloads that don't require high performance.
+- **Use Cases**: Older workloads, backup, and archives that don't require fast access.
+- **Performance**: Moderate throughput and IOPS.
 
 **Mnemonic**: "**M**agical **S**tandard"
 
--   **M** stands for **Magnetic** storage. It's **magical** for **legacy** workloads.
+- **M** stands for **Magnetic** storage. It's **magical** for **legacy** workloads.
 
 **Billing**:
 
--   Billed based on **storage** (per GB-month). This volume is mostly **phased out** in favor of SSD-based options.
+- Billed based on **storage** (per GB-month). This volume is mostly **phased out** in favor of SSD-based options.
 
-* * * * *
+---
 
 ### **Burstable IOPS**:
 
--   **Burstable IOPS** refers to the ability of certain EBS volumes (especially **gp2** and **gp3**) to handle **IOPS bursts** beyond the baseline IOPS for short periods of time.
-    -   **gp2** automatically bursts to **3,000 IOPS** when the instance requires additional performance. It has a **baseline IOPS** of **3 IOPS per GB** of storage, but it can **burst** up to **3,000 IOPS** if needed (i.e., during peak activity).
-    -   **gp3** allows you to **provision IOPS** directly and can burst up to **16,000 IOPS**.
+- **Burstable IOPS** refers to the ability of certain EBS volumes (especially **gp2** and **gp3**) to handle **IOPS bursts** beyond the baseline IOPS for short periods of time.
+  - **gp2** automatically bursts to **3,000 IOPS** when the instance requires additional performance. It has a **baseline IOPS** of **3 IOPS per GB** of storage, but it can **burst** up to **3,000 IOPS** if needed (i.e., during peak activity).
+  - **gp3** allows you to **provision IOPS** directly and can burst up to **16,000 IOPS**.
 
 **How Burstable IOPS Works**:
 
--   **Bursty IOPS** means that, during normal usage, an EBS volume might not need to perform as many I/O operations (hence, the baseline IOPS is low), but when the system requires it (e.g., a spike in user activity), the volume **bursts** to a higher IOPS rate for a short period of time.
--   **gp2 volumes** accumulate **IOPS credits** when not in heavy use, and these credits are spent during burst activity. Once the credits are exhausted, the volume will revert to its baseline performance.
+- **Bursty IOPS** means that, during normal usage, an EBS volume might not need to perform as many I/O operations (hence, the baseline IOPS is low), but when the system requires it (e.g., a spike in user activity), the volume **bursts** to a higher IOPS rate for a short period of time.
+- **gp2 volumes** accumulate **IOPS credits** when not in heavy use, and these credits are spent during burst activity. Once the credits are exhausted, the volume will revert to its baseline performance.
 
-* * * * *
+---
 
 ### **Multi-Attach EBS**
 
--   **Multi-Attach** allows you to attach a single **EBS volume** to **multiple EC2 instances** in the same **Availability Zone** (AZ).
--   This feature is **available only for io1 and io2 volumes**, which are high-performance SSD volumes.
+- **Multi-Attach** allows you to attach a single **EBS volume** to **multiple EC2 instances** in the same **Availability Zone** (AZ).
+- This feature is **available only for io1 and io2 volumes**, which are high-performance SSD volumes.
 
 **Use Case**:
 
--   **Multi-Attach** is useful for applications that require shared access to the same data from **multiple EC2 instances** simultaneously. This is commonly used in **clustered applications** such as **Apache Hadoop** or **Oracle RAC**.
--   It allows **high availability** and **redundancy**, as multiple instances can access the same volume if one instance goes down.
+- **Multi-Attach** is useful for applications that require shared access to the same data from **multiple EC2 instances** simultaneously. This is commonly used in **clustered applications** such as **Apache Hadoop** or **Oracle RAC**.
+- It allows **high availability** and **redundancy**, as multiple instances can access the same volume if one instance goes down.
 
 **Limitations**:
 
--   **Write Conflicts**: Only one EC2 instance can write to the volume at a time. **Read operations** can be done by all instances, but you need to manage **write access** to avoid conflicts.
+- **Write Conflicts**: Only one EC2 instance can write to the volume at a time. **Read operations** can be done by all instances, but you need to manage **write access** to avoid conflicts.
 
-* * * * *
+---
 
 ### **How EBS Volumes Are Billed**
 
 EBS volumes are billed based on several factors, depending on the type:
 
--   **Provisioned Storage**: You are billed for the amount of storage you provision (in GB per month).
--   **IOPS** (for io1/io2): You are billed for the **IOPS** you provision for io1 and io2 volumes (in IOPS per month).
--   **Throughput**: For throughput-based volumes (st1, sc1, and gp3), you are billed for the throughput you provision (in MB per second).
--   **Snapshot Storage**: If you take snapshots of your EBS volumes, you are billed for the **snapshot storage** used.
+- **Provisioned Storage**: You are billed for the amount of storage you provision (in GB per month).
+- **IOPS** (for io1/io2): You are billed for the **IOPS** you provision for io1 and io2 volumes (in IOPS per month).
+- **Throughput**: For throughput-based volumes (st1, sc1, and gp3), you are billed for the throughput you provision (in MB per second).
+- **Snapshot Storage**: If you take snapshots of your EBS volumes, you are billed for the **snapshot storage** used.
 
-* * * * *
+---
 
 ### **Quick Mnemonic for EBS Volume Types**:
 
@@ -5278,32 +5383,30 @@ EBS volumes are billed based on several factors, depending on the type:
 4.  **sc1** -- "**S**tored **C**old" -- For **cold storage** and infrequent access.
 5.  **magnetic** -- "**M**agical **S**tandard" -- Legacy, **low-cost storage**.
 
-* * * * *
+---
 
 ### **Summary of Key Points**:
 
--   **Burstable IOPS** is a feature in volumes like **gp2** and **gp3** that allows them to temporarily burst their IOPS beyond the baseline.
--   **Multi-Attach** allows an **io1** or **io2** volume to be attached to **multiple EC2 instances** for high-availability applications, but only one instance can write to the volume at any given time.
--   **Billing** is based on **storage** (per GB), **IOPS** (for **io1/io2**), and **throughput** (for **st1, sc1, gp3**).
+- **Burstable IOPS** is a feature in volumes like **gp2** and **gp3** that allows them to temporarily burst their IOPS beyond the baseline.
+- **Multi-Attach** allows an **io1** or **io2** volume to be attached to **multiple EC2 instances** for high-availability applications, but only one instance can write to the volume at any given time.
+- **Billing** is based on **storage** (per GB), **IOPS** (for **io1/io2**), and **throughput** (for **st1, sc1, gp3**).
 
-* * * * *
+---
 
 ### **Exam Power-Up**:
 
--   **EBS Types**: **gp3** (General Purpose), **io1/io2** (High IOPS), **st1/sc1** (High throughput for big data), and **magnetic** (legacy).
--   **Burstable IOPS**: **gp2** volumes can burst to **3,000 IOPS** based on credit accumulation.
--   **Multi-Attach**: Available only for **io1/io2 volumes**, allowing them to be attached to **multiple EC2 instances** in the same AZ.
+- **EBS Types**: **gp3** (General Purpose), **io1/io2** (High IOPS), **st1/sc1** (High throughput for big data), and **magnetic** (legacy).
+- **Burstable IOPS**: **gp2** volumes can burst to **3,000 IOPS** based on credit accumulation.
+- **Multi-Attach**: Available only for **io1/io2 volumes**, allowing them to be attached to **multiple EC2 instances** in the same AZ.
 
 Let me know if you'd like more examples or clarification!
-
-
 
 #### 1.6.5.4. EBS Exam Power Up
 
 - Volumes are created in an AZ, isolated in that AZ.
 - If an AZ fails, the volume is impacted.
 - Highly available and resilient in that AZ. The only reason for failure is
-if the whole AZ fails.
+  if the whole AZ fails.
 - Generally one volume to one instance, except **io1** with multi-attach
 - Has a GB/m fee regardless of instance state.
 - EBS maxes at 80k IOPS per instance and 64k vol (io1)
@@ -5321,7 +5424,7 @@ if the whole AZ fails.
 - Can be attached to more than one instance from the same host.
 - These are ephermal storage (meaning if instance is moved between host) it will lose the data
 - Each instance has a collection of volumes that are
-locked to that specific host. If the instance moves, the data doesn't.
+  locked to that specific host. If the instance moves, the data doesn't.
 
 Instances can move between hosts for many reasons:
 
@@ -5368,22 +5471,20 @@ When to use Instance Store
 - Rigid lifecycle link between storage and the instance.
   - This ensures the data is erased when the instance goes down.
 
-
-
 ### **9\. Key Differences at a Glance**
 
-| **Feature** | **EBS (Elastic Block Store)** | **Instance Store** |
-| --- | --- | --- |
-| **Persistence** | Persistent (data remains when instance stops) | Ephemeral (data lost when instance stops/terminates) |
-| **Durability** | Highly durable (99.999% durability) | Low durability (data is lost if instance fails) |
-| **Performance** | Varies by volume type (gp2, io1, etc.) | High-performance, low-latency access |
-| **Use Cases** | Databases, boot volumes, persistent storage | Temporary storage, scratch space, high-speed cache |
-| **Billing** | Based on storage size, IOPS, and throughput | Free with the EC2 instance (if instance store is available) |
-| **Volume Size** | Up to **16 TiB** (depends on volume type) | Limited by instance type size (depends on the instance type) |
-| **Snapshot Support** | Yes, EBS snapshots can be taken and restored | No snapshot support |
-| **Attachability** | Can be attached to multiple instances (with Multi-Attach for io1/io2) | Tied to the instance, cannot be detached |
+| **Feature**          | **EBS (Elastic Block Store)**                                         | **Instance Store**                                           |
+| -------------------- | --------------------------------------------------------------------- | ------------------------------------------------------------ |
+| **Persistence**      | Persistent (data remains when instance stops)                         | Ephemeral (data lost when instance stops/terminates)         |
+| **Durability**       | Highly durable (99.999% durability)                                   | Low durability (data is lost if instance fails)              |
+| **Performance**      | Varies by volume type (gp2, io1, etc.)                                | High-performance, low-latency access                         |
+| **Use Cases**        | Databases, boot volumes, persistent storage                           | Temporary storage, scratch space, high-speed cache           |
+| **Billing**          | Based on storage size, IOPS, and throughput                           | Free with the EC2 instance (if instance store is available)  |
+| **Volume Size**      | Up to **16 TiB** (depends on volume type)                             | Limited by instance type size (depends on the instance type) |
+| **Snapshot Support** | Yes, EBS snapshots can be taken and restored                          | No snapshot support                                          |
+| **Attachability**    | Can be attached to multiple instances (with Multi-Attach for io1/io2) | Tied to the instance, cannot be detached                     |
 
-* * * * *
+---
 
 ### 1.6.8. EBS Snapshots, restore, and fast snapshot restore
 
@@ -5406,12 +5507,12 @@ Snapshots can be used to migrate data between volumes.
 #### 1.6.8.1. Snapshot and volume performance
 
 - When creating a new EBS volume without a snapshot, the performance is
-available immediately.
+  available immediately.
 - When restoring from S3, performs **Lazy Restore**
   - If you restore a volume, it will transfer it slowly in the background.
   - If you attempt to read data that hasn't been restored yet, it will
-  immediately pull it from S3, but this will achieve lower levels of performance
-  than reading from EBS directly.
+    immediately pull it from S3, but this will achieve lower levels of performance
+    than reading from EBS directly.
   - You can force a read of every block all data immediately using DD.
 
 <span style='color:red'>!Important: </span>
@@ -5428,25 +5529,24 @@ FSR is not free and can get expensive with lost of different snapshots.
 
 #### **Storage Cost**:
 
--   **Snapshots are billed based on the amount of data stored** in them, which is **measured in GB per month**.
--   The cost is calculated for the total amount of **data** stored in the snapshot, not just the volume size. If you create multiple snapshots, you are charged based on the total data that has been backed up.
+- **Snapshots are billed based on the amount of data stored** in them, which is **measured in GB per month**.
+- The cost is calculated for the total amount of **data** stored in the snapshot, not just the volume size. If you create multiple snapshots, you are charged based on the total data that has been backed up.
 
 #### **Incremental Snapshots**:
 
--   Snapshots are **incremental**: After the first snapshot, **only the changes** (deltas) are saved. This means that if you take a snapshot of a volume, the first snapshot will contain the entire volume, and subsequent snapshots will only store the data that has changed.
--   **Example**:
-    -   First snapshot: Entire 100 GB EBS volume is backed up.
-    -   Second snapshot: Only the **changes** made to the volume (e.g., 10 GB) since the last snapshot will be saved.
-    -   The **cost is based on the total size of the snapshot data**, so the second snapshot will only cost for **10 GB** of changes, not the entire 100 GB again.
+- Snapshots are **incremental**: After the first snapshot, **only the changes** (deltas) are saved. This means that if you take a snapshot of a volume, the first snapshot will contain the entire volume, and subsequent snapshots will only store the data that has changed.
+- **Example**:
+  - First snapshot: Entire 100 GB EBS volume is backed up.
+  - Second snapshot: Only the **changes** made to the volume (e.g., 10 GB) since the last snapshot will be saved.
+  - The **cost is based on the total size of the snapshot data**, so the second snapshot will only cost for **10 GB** of changes, not the entire 100 GB again.
 
 #### **Snapshot Storage Pricing**:
 
--   **Snapshot storage** is billed at a rate of **per GB-month** of storage.
-    -   **Example**: If you have a snapshot that is 50 GB, you will be billed for 50 GB of snapshot storage, regardless of how many snapshots you take.
--   **Retention**: The cost continues as long as the snapshot is stored, even if the data in the snapshot hasn't changed. If you delete a snapshot, you stop paying for its storage.
+- **Snapshot storage** is billed at a rate of **per GB-month** of storage.
+  - **Example**: If you have a snapshot that is 50 GB, you will be billed for 50 GB of snapshot storage, regardless of how many snapshots you take.
+- **Retention**: The cost continues as long as the snapshot is stored, even if the data in the snapshot hasn't changed. If you delete a snapshot, you stop paying for its storage.
 
-* * * * *
-
+---
 
 #### 1.6.8.3. EBS Encryption
 
@@ -5459,12 +5559,15 @@ FSR is not free and can get expensive with lost of different snapshots.
 ### **Key Concepts of EBS Encryption**
 
 1. **Data at Rest**:
+
    - **Encryption** ensures that the data **stored on the EBS volume** is secured and cannot be accessed without proper decryption keys.
 
 2. **Data in Transit**:
+
    - **Encryption in transit** protects data as it moves between the **EC2 instance** and the **EBS volume** over the network.
 
 3. **Snapshot Encryption**:
+
    - When you create a snapshot of an encrypted EBS volume, the snapshot itself is automatically encrypted.
 
 4. **Automatic Encryption**:
@@ -5476,7 +5579,7 @@ FSR is not free and can get expensive with lost of different snapshots.
 
 #### **1. Volume Encryption**
 
-- **EBS volumes** can be encrypted using **AWS Key Management Service (KMS)** keys. 
+- **EBS volumes** can be encrypted using **AWS Key Management Service (KMS)** keys.
 - When you create a **new EBS volume**, you have the option to enable **encryption**:
   - By default, EBS volumes use the **AWS-managed KMS key** (`aws/ebs`).
   - You can also specify a **customer-managed KMS key** for more control over the encryption process.
@@ -5485,13 +5588,15 @@ FSR is not free and can get expensive with lost of different snapshots.
 
 - When you enable encryption for an EBS volume, all data written to the volume is **automatically encrypted** before it is stored.
 - Encryption happens at the **block level**, meaning that **all data**, including the operating system, applications, and files, is encrypted.
-  
+
 **Key Management**:
+
 - **KMS keys** are used for both **encryption** and **decryption**. You can use **AWS-managed keys** or create your own **customer-managed keys** (CMKs) for **additional control** over key usage and policies.
 
 - **AWS KMS** provides **centralized management** of encryption keys. It allows you to define policies for who can use the keys and when the keys can be used.
 
 #### **3. Data Access and Encryption Process**:
+
 - **When data is written** to the encrypted EBS volume, the data is automatically encrypted before it’s stored.
 - **When data is read** from the encrypted EBS volume, it is automatically decrypted before it’s provided to the EC2 instance.
 
@@ -5500,14 +5605,17 @@ FSR is not free and can get expensive with lost of different snapshots.
 ### **EBS Encryption Features**
 
 1. **Seamless Integration with EC2**:
+
    - **EBS encryption** works seamlessly with EC2 instances, meaning you don’t need to make any changes to your EC2 instances to access encrypted volumes.
    - EC2 instances that are using **encrypted EBS volumes** can access the data without needing additional decryption steps.
 
 2. **Encryption for Snapshots**:
+
    - **Snapshots of encrypted EBS volumes** are automatically encrypted as well. When you create a snapshot, the snapshot data is encrypted with the same key used for the original volume.
    - If you copy an **encrypted snapshot**, the copy will also be encrypted by default.
-  
+
 3. **Support for Different Volume Types**:
+
    - Encryption can be applied to all types of EBS volumes, including:
      - **General Purpose SSD (gp2/gp3)**
      - **Provisioned IOPS SSD (io1/io2)**
@@ -5515,6 +5623,7 @@ FSR is not free and can get expensive with lost of different snapshots.
      - **Cold HDD (sc1)**
 
 4. **Volume Attachment and Encryption**:
+
    - If you attach an **encrypted EBS volume** to an EC2 instance, the volume will remain encrypted.
    - If you copy an encrypted volume to another region or AZ, the destination volume will automatically be encrypted as well, using either the same or a different encryption key.
 
@@ -5527,7 +5636,6 @@ FSR is not free and can get expensive with lost of different snapshots.
 ### **Key Management for EBS Encryption**
 
 - **AWS-managed keys**: By default, EBS encryption uses the **AWS-managed KMS key** (`aws/ebs`), which is created and managed by AWS. You don’t need to worry about managing these keys yourself.
-  
 - **Customer-managed keys (CMKs)**: If you require more control, you can create your own **CMKs** using **AWS KMS**. You can define key policies, control who can use the key, and even define **rotation policies** for key management.
 
 ---
@@ -5536,7 +5644,6 @@ FSR is not free and can get expensive with lost of different snapshots.
 
 1. **At Volume Creation**:
    - When creating an EBS volume, you can enable encryption by selecting the **Encryption checkbox**. You can then either use the default AWS-managed key or a **customer-managed KMS key**.
-   
 2. **For Existing Volumes**:
    - You **cannot enable encryption on an existing volume** directly. However, you can:
      - Create a snapshot of the unencrypted volume.
@@ -5548,6 +5655,7 @@ FSR is not free and can get expensive with lost of different snapshots.
 ### **EBS Encryption Billing**
 
 1. **Costs for Encryption**:
+
    - **EBS encryption** does **not** incur additional charges. You only pay for the storage (in GB per month) of the encrypted volume and the associated snapshots.
    - The cost for **KMS** is also a consideration: using **AWS-managed keys** is free, but if you use **customer-managed keys (CMKs)**, you may incur charges for KMS operations, such as **key usage** and **requests**.
 
@@ -5557,8 +5665,8 @@ FSR is not free and can get expensive with lost of different snapshots.
 ---
 
 ### **Limitations and Considerations**:
+
 - **Performance Impact**: There is **no performance overhead** when using EBS encryption. The encryption and decryption are performed by the hardware and software, and the performance is nearly identical to an unencrypted volume.
-  
 - **No Support for Instance Store Volumes**: EBS encryption only works for **EBS volumes**, not for **instance store volumes**, as instance store volumes are ephemeral (temporary) and not persistent.
 
 - **Compatibility with Instance Types**: Encryption works with **all EC2 instance types** without needing additional configuration.
@@ -5582,6 +5690,7 @@ FSR is not free and can get expensive with lost of different snapshots.
 ---
 
 ### **Exam Power-Up**:
+
 - **EBS Encryption**: Ensures **data security** at rest and in transit using **KMS** keys.
 - **AWS-managed Keys** are used by default, but you can use **customer-managed keys** for more control.
 - **Snapshots** of encrypted EBS volumes are automatically encrypted and stored securely.
@@ -5592,40 +5701,39 @@ FSR is not free and can get expensive with lost of different snapshots.
   - Snapshots and future volume use the same DEK
 - Can't change a volume to NOT be encrypted.
   - You could mount an unencrypted volume and copy things over but you can't
-  change the original volume.
+    change the original volume.
 - The OS itself isn't aware of the encryption, there is no performance loss.
   - The volume itself is encrypted using AES256
   - This occurs between the EC2 host and the EBS system itself.
   - The OS does not see any encryption. It simply writes data out and reads
-  data in from a disk.
+    data in from a disk.
   - If an exam question does not use AES256, or it suggests you need an OS to
-encrypt or hold the keys, then you need to perform full disk encryption
-at the operating system level.
-
+    encrypt or hold the keys, then you need to perform full disk encryption
+    at the operating system level.
 
 ### Can an Encrypted EBS Volume Be Decrypted to Its Original Form?
+
 No, once an EBS volume is encrypted, it cannot be decrypted directly back to its original, unencrypted state. However, there are ways to move data from an encrypted volume to an unencrypted one using a process that involves creating snapshots and copying volumes, but this is not the same as decrypting the volume itself.
 
 ### **Method 1: Copy the Snapshot to an Unencrypted Volume**
 
 1.  **Take a Snapshot**:
 
-    -   Create a **snapshot** of the encrypted volume. The snapshot will be encrypted because it is a backup of the encrypted volume.
+    - Create a **snapshot** of the encrypted volume. The snapshot will be encrypted because it is a backup of the encrypted volume.
 
 2.  **Copy the Snapshot** to an Unencrypted Volume:
 
-    -   **Copy** the encrypted snapshot and during the copy process, **you have the option to disable encryption**.
+    - **Copy** the encrypted snapshot and during the copy process, **you have the option to disable encryption**.
 
-    -   This will create a **new, unencrypted snapshot** of the data.
+    - This will create a **new, unencrypted snapshot** of the data.
 
 3.  **Create an Unencrypted Volume**:
 
-    -   From the newly copied (unencrypted) snapshot, you can **create a new EBS volume** that is unencrypted.
+    - From the newly copied (unencrypted) snapshot, you can **create a new EBS volume** that is unencrypted.
 
 4.  **Attach the New Unencrypted Volume**:
 
-    -   You can now **attach the unencrypted volume** to your EC2 instance and access the data without encryption.
-
+    - You can now **attach the unencrypted volume** to your EC2 instance and access the data without encryption.
 
 ### **Method 2: Use AWS Data Migration Tools**
 
@@ -5633,10 +5741,10 @@ You can also use **AWS DataSync** or other **migration tools** to copy the data 
 
 ### **Steps**:
 
--   **Create an unencrypted volume** and **use AWS DataSync** to migrate the data from the encrypted volume to the unencrypted volume.
+- **Create an unencrypted volume** and **use AWS DataSync** to migrate the data from the encrypted volume to the unencrypted volume.
 
+---
 
- * * *
 ### 1.6.9. EC2 Network Interfaces, Instance IPs and DNS
 
 An EC2 instance starts with at least one ENI - elastic network interface.
@@ -5654,7 +5762,7 @@ Has these properties
 - Primary IPv4 private address
   - From the range of the subnet the ENI is within.
   - Will be static and not change for the lifetime of the instance
-    - `10.16.0.10`  
+    - `10.16.0.10`
   - Given a DNS name that is associated with the address.
     - `ip-10-16-0-10.ec2.internal`
     - Only resolvable inside the VPC and always points at private IP address
@@ -5679,7 +5787,7 @@ Has these properties
     - This is allocated to your AWS account.
     - Can associate with a private IP on the primary ENI interface or secondary ENI interface.
     - **If you are using a public IPv4 and assign an elastic IP to the instance, the original public IPv4
-    address will be lost. There is no way to recover the original address.**
+      address will be lost. There is no way to recover the original address.**
     - If you remove the elastic IP it will get a **new** public IPv4 but **not** the original one.
 - 0 or more IPv6 address on the interface
   - These are by default public addresses.
@@ -5687,30 +5795,30 @@ Has these properties
   - Applied to network interfaces.
   - Will impact all IP addresses on that interface.
   - If you need different IP addresses impacted by different security
-  groups, then you need to make multiple interfaces and apply different
-  security groups to those interfaces.
+    groups, then you need to make multiple interfaces and apply different
+    security groups to those interfaces.
 - Source / destination checks
   - If traffic is on the interface, it will be discarded if it is not
-  from going to or coming from one of the IP addresses
+    from going to or coming from one of the IP addresses
 
 Secondary Network interfaces function in all the same ways as primary interfaces except
 you can detach interfaces and move them to other EC2 instances.
 
 ## Elastic IP (EIP) in AWS
 
-An Elastic IP (EIP) in AWS is a static, public IPv4 address designed for dynamic cloud computing. 
+An Elastic IP (EIP) in AWS is a static, public IPv4 address designed for dynamic cloud computing.
 It allows you to have a fixed IP address that can be easily associated with your AWS resources, such as EC2 instances, and can be reassigned as needed.
 
 ### Key Features and Uses
 
-- **Static IP Address**: Unlike regular public IP addresses that can change when you stop and start an instance, 
-an Elastic IP address remains the same until you choose to release it. This is useful for scenarios where you need a consistent IP address for applications or services.
+- **Static IP Address**: Unlike regular public IP addresses that can change when you stop and start an instance,
+  an Elastic IP address remains the same until you choose to release it. This is useful for scenarios where you need a consistent IP address for applications or services.
 
-- **Dynamic Association**: You can quickly remap an Elastic IP address to another instance if, for example, 
-your current instance fails or needs to be replaced. This makes it easier to handle failovers and maintenance.
+- **Dynamic Association**: You can quickly remap an Elastic IP address to another instance if, for example,
+  your current instance fails or needs to be replaced. This makes it easier to handle failovers and maintenance.
 
-- **Cost**: AWS provides one Elastic IP per account for free, but additional EIPs come with a small cost. 
-Additionally, if an EIP is not associated with an instance or if you have more than one EIP associated with a running instance, you might incur extra charges.
+- **Cost**: AWS provides one Elastic IP per account for free, but additional EIPs come with a small cost.
+  Additionally, if an EIP is not associated with an instance or if you have more than one EIP associated with a running instance, you might incur extra charges.
 
 - **Use Cases**: Common use cases for Elastic IPs include:
   - Providing a fixed IP address for applications hosted on EC2 instances
@@ -5721,13 +5829,13 @@ Additionally, if an EIP is not associated with an instance or if you have more t
 
 Overall, Elastic IPs are a useful tool for maintaining stable network connections and handling dynamic resource management in AWS environments.
 
-
 #### 1.6.9.2. ENI Exam PowerUp
+
 - Usually the MAC addresses aer static and are used in licensing but in AWS as you can move the Network interfaces
 - Secondary ENI + MAC = Licensing
 - Legacy software is licensed using a mac address.
   - If you provision a secondary ENI to a specific license, you can move
-around the license to different EC2 instances.
+    around the license to different EC2 instances.
 - Multi homed (subnets) management and data.
   - Different security groups are attached to different interfaces.
 - The OS doesn't see the IPv4 public address. (this is performed by NAT)
@@ -5741,36 +5849,40 @@ the VPC, it will never leave the VPC. It does not need to touch the internet
 gateway.
 
 ### 1.6.10. Amazon Machine Image (AMI)
+
 ### **Amazon Machine Image (AMI) Overview**
 
 An **Amazon Machine Image (AMI)** is a **pre-configured template** that contains all the software configuration needed to launch an EC2 instance. AMIs allow you to launch multiple EC2 instances with the same configuration, making it easy to replicate environments and maintain consistency across instances.
 
-* * * * *
+---
 
 ### **Key Features of AMIs:**
 
 1.  **Types of AMIs**:
 
-    -   **Amazon-provided AMIs**: These are provided by AWS and come pre-configured with common operating systems (e.g., Amazon Linux, Ubuntu, Windows).
-    -   **Community AMIs**: These are publicly shared AMIs created by other AWS users or developers.
-    -   **Marketplace AMIs**: These are provided by third-party vendors and may include commercial software (like **licensed software**, databases, etc.). They have **additional costs** for the AMI and the software.
+    - **Amazon-provided AMIs**: These are provided by AWS and come pre-configured with common operating systems (e.g., Amazon Linux, Ubuntu, Windows).
+    - **Community AMIs**: These are publicly shared AMIs created by other AWS users or developers.
+    - **Marketplace AMIs**: These are provided by third-party vendors and may include commercial software (like **licensed software**, databases, etc.). They have **additional costs** for the AMI and the software.
+
 2.  **Regional Nature of AMIs**:
 
-    -   AMIs are **regional**: Each AMI is specific to a **region** and has a **unique AMI ID** in each region. This means that an AMI available in **US East (N. Virginia)** will have a different ID than the one in **EU (Frankfurt)**.
-    -   **AMI cannot be directly used across regions**. However, AMIs can be **copied** between regions.
+    - AMIs are **regional**: Each AMI is specific to a **region** and has a **unique AMI ID** in each region. This means that an AMI available in **US East (N. Virginia)** will have a different ID than the one in **EU (Frankfurt)**.
+    - **AMI cannot be directly used across regions**. However, AMIs can be **copied** between regions.
+
 3.  **Permissions and Access Control**:
 
-    -   **Default permissions**: By default, only the **owner (AWS account)** can use the AMI.
-    -   You can **change the permissions** of the AMI:
-        -   Set the AMI as **public**, allowing any AWS user to launch an instance from the AMI.
-        -   Set the AMI as **private**, restricting access to specific **AWS accounts**.
-    -   Permissions control who can use the AMI and launch EC2 instances from it.
+    - **Default permissions**: By default, only the **owner (AWS account)** can use the AMI.
+    - You can **change the permissions** of the AMI:
+      - Set the AMI as **public**, allowing any AWS user to launch an instance from the AMI.
+      - Set the AMI as **private**, restricting access to specific **AWS accounts**.
+    - Permissions control who can use the AMI and launch EC2 instances from it.
+
 4.  **Creating and Using AMIs**:
 
-    -   **Launch an instance**: When you launch an EC2 instance, you are using an AMI. The instance inherits the software configuration and settings of the AMI.
-    -   **Create an AMI from an EC2 instance**: You can create an AMI from an existing EC2 instance, which captures the current configuration of that instance, including the operating system, software, and any custom configurations. This process is called **"baking"** an AMI.
+    - **Launch an instance**: When you launch an EC2 instance, you are using an AMI. The instance inherits the software configuration and settings of the AMI.
+    - **Create an AMI from an EC2 instance**: You can create an AMI from an existing EC2 instance, which captures the current configuration of that instance, including the operating system, software, and any custom configurations. This process is called **"baking"** an AMI.
 
-* * * * *
+---
 
 ### **AMI Lifecycle**:
 
@@ -5778,87 +5890,90 @@ Here's the **step-by-step lifecycle** of how an AMI is created and used:
 
 #### **1\. Launch (Initial Launch)**:
 
--   When you launch an EC2 instance, the instance is launched from an AMI.
--   **EBS volumes** are created and attached to the EC2 instance using **block IDs**:
-    -   For example:
-        -   **BOOT volume**: `/dev/xvda` (the root volume).
-        -   **DATA volume**: `/dev/xvdf` (additional data storage volume).
--   These volumes contain the necessary operating system files, application files, and data.
+- When you launch an EC2 instance, the instance is launched from an AMI.
+- **EBS volumes** are created and attached to the EC2 instance using **block IDs**:
+  - For example:
+    - **BOOT volume**: `/dev/xvda` (the root volume).
+    - **DATA volume**: `/dev/xvdf` (additional data storage volume).
+- These volumes contain the necessary operating system files, application files, and data.
 
 #### **2\. Configure (Customizing the Instance)**:
 
--   After launching the instance, you can customize it to suit your needs:
-    -   **Install applications** (e.g., a web server, database).
-    -   **Attach additional EBS volumes** for data storage.
-    -   **Modify configurations** (e.g., networking, security settings).
-    -   **Update the instance** (software patches, OS updates, etc.).
--   You may install software, adjust configurations, and make the instance ready for your use case.
+- After launching the instance, you can customize it to suit your needs:
+  - **Install applications** (e.g., a web server, database).
+  - **Attach additional EBS volumes** for data storage.
+  - **Modify configurations** (e.g., networking, security settings).
+  - **Update the instance** (software patches, OS updates, etc.).
+- You may install software, adjust configurations, and make the instance ready for your use case.
 
 #### **3\. Create an AMI**:
 
--   Once the instance is configured and you are satisfied with its setup, you can create an **AMI** from it.
--   The AMI contains:
-    -   **Permissions**: Who can use the AMI, whether it is public or private.
-    -   **EBS Snapshots**: When you create an AMI, AWS takes **snapshots** of the attached EBS volumes. The **first snapshot** is a **full snapshot**, and **subsequent snapshots** are **incremental**, containing only the changes since the last snapshot.
-    -   **Block Device Mapping**: The block device mapping stores which device IDs correspond to which snapshots (for example, `/dev/xvda` might point to a snapshot of the root volume, and `/dev/xvdf` might point to a snapshot of a data volume).
+- Once the instance is configured and you are satisfied with its setup, you can create an **AMI** from it.
+- The AMI contains:
+  - **Permissions**: Who can use the AMI, whether it is public or private.
+  - **EBS Snapshots**: When you create an AMI, AWS takes **snapshots** of the attached EBS volumes. The **first snapshot** is a **full snapshot**, and **subsequent snapshots** are **incremental**, containing only the changes since the last snapshot.
+  - **Block Device Mapping**: The block device mapping stores which device IDs correspond to which snapshots (for example, `/dev/xvda` might point to a snapshot of the root volume, and `/dev/xvdf` might point to a snapshot of a data volume).
 
 #### **4\. Launch (Second Launch)**:
 
--   When you **launch a new EC2 instance from the AMI**, AWS uses the snapshots referenced in the AMI's block device mapping to create new **EBS volumes** in the same **Availability Zone (AZ)**.
-    -   The volumes are created using the same data and block mapping as the original instance, ensuring that the new instance is identical to the one the AMI was created from.
-    -   The new instance will have the same **software configurations** and **attached EBS volumes** as the original instance.
+- When you **launch a new EC2 instance from the AMI**, AWS uses the snapshots referenced in the AMI's block device mapping to create new **EBS volumes** in the same **Availability Zone (AZ)**.
+  - The volumes are created using the same data and block mapping as the original instance, ensuring that the new instance is identical to the one the AMI was created from.
+  - The new instance will have the same **software configurations** and **attached EBS volumes** as the original instance.
 
-* * * * *
+---
 
 ### **Additional AMI Features**:
 
 1.  **AMI Copies Between Regions**:
 
-    -   You can **copy an AMI** to another region. This is useful if you want to replicate the same environment in different geographical regions or ensure that an AMI is available in multiple regions for disaster recovery or scalability.
-    -   The copied AMI will have a new **AMI ID** in the destination region.
+    - You can **copy an AMI** to another region. This is useful if you want to replicate the same environment in different geographical regions or ensure that an AMI is available in multiple regions for disaster recovery or scalability.
+    - The copied AMI will have a new **AMI ID** in the destination region.
+
 2.  **AMI Cannot Be Edited**:
 
-    -   Once an AMI is created, it **cannot be edited**. If you need to make changes to the AMI, you would:
-        -   Launch an instance from the AMI.
-        -   Make the necessary changes to the instance.
-        -   Create a **new AMI** from the updated instance.
+    - Once an AMI is created, it **cannot be edited**. If you need to make changes to the AMI, you would:
+      - Launch an instance from the AMI.
+      - Make the necessary changes to the instance.
+      - Create a **new AMI** from the updated instance.
+
 3.  **AMI and Billing**:
 
-    -   **Billing for AMIs** is based on the **storage capacity of the EBS snapshots** that the AMI references.
-        -   You are billed for the **EBS snapshot storage** used by the AMI, not for the AMI itself.
-    -   **Copying AMIs** between regions incurs additional costs, as you are charged for the **storage** in the new region and for **data transfer** between regions.
+    - **Billing for AMIs** is based on the **storage capacity of the EBS snapshots** that the AMI references.
+      - You are billed for the **EBS snapshot storage** used by the AMI, not for the AMI itself.
+    - **Copying AMIs** between regions incurs additional costs, as you are charged for the **storage** in the new region and for **data transfer** between regions.
 
-* * * * *
+---
 
 ### **AMI Exam Power-Ups**:
 
--   **AMI Types**: Amazon provides **AMI** templates, community AMIs, and AMIs from the **AWS Marketplace** (which may include commercial software).
--   **Regional**: AMIs are **regional**; each region has a **unique AMI ID**.
--   **Permissions**: By default, only your account can use the AMI. You can make it **public** or share it with specific AWS accounts.
--   **AMI Creation**: AMIs are created from **EC2 instances**, and **EBS snapshots** are created for each attached volume.
--   **Incremental Snapshots**: EBS snapshots in AMIs are **incremental** after the first full snapshot.
--   **AMI Copying**: AMIs can be copied between regions, but the copied AMI will have a new **AMI ID**.
--   **Billing**: You are billed for the **storage** used by the **EBS snapshots** referenced by the AMI.
+- **AMI Types**: Amazon provides **AMI** templates, community AMIs, and AMIs from the **AWS Marketplace** (which may include commercial software).
+- **Regional**: AMIs are **regional**; each region has a **unique AMI ID**.
+- **Permissions**: By default, only your account can use the AMI. You can make it **public** or share it with specific AWS accounts.
+- **AMI Creation**: AMIs are created from **EC2 instances**, and **EBS snapshots** are created for each attached volume.
+- **Incremental Snapshots**: EBS snapshots in AMIs are **incremental** after the first full snapshot.
+- **AMI Copying**: AMIs can be copied between regions, but the copied AMI will have a new **AMI ID**.
+- **Billing**: You are billed for the **storage** used by the **EBS snapshots** referenced by the AMI.
 
-* * * * *
+---
 
 ### **Summary**:
 
--   An **Amazon Machine Image (AMI)** is a pre-configured image of an EC2 instance that includes an OS, applications, and configurations.
--   **AMI lifecycle** includes **launching an instance**, **configuring it**, **creating an AMI**, and **launching new instances** from that AMI.
--   **AMI permissions** control access to the image, and you can **copy AMIs across regions**.
--   **AMI creation** involves **EBS snapshots**, which are **incremental**, and you're billed for the **EBS snapshot storage**.
+- An **Amazon Machine Image (AMI)** is a pre-configured image of an EC2 instance that includes an OS, applications, and configurations.
+- **AMI lifecycle** includes **launching an instance**, **configuring it**, **creating an AMI**, and **launching new instances** from that AMI.
+- **AMI permissions** control access to the image, and you can **copy AMIs across regions**.
+- **AMI creation** involves **EBS snapshots**, which are **incremental**, and you're billed for the **EBS snapshot storage**.
 
-* * * * *
+---
 
 ### **Exam Power-Up**:
 
--   **AMI**: Template to launch EC2 instances, includes **OS** and configurations.
--   **Snapshots**: **Full snapshot** initially, followed by **incremental snapshots**.
--   **Regional AMI**: Each **AMI is region-specific** and has a **unique ID** in each region.
--   **Billing**: Billed based on **EBS snapshot storage**.
+- **AMI**: Template to launch EC2 instances, includes **OS** and configurations.
+- **Snapshots**: **Full snapshot** initially, followed by **incremental snapshots**.
+- **Regional AMI**: Each **AMI is region-specific** and has a **unique ID** in each region.
+- **Billing**: Billed based on **EBS snapshot storage**.
 
- * * *
+---
+
 ### 1.6.11. EC2 Pricing Models
 
 #### 1.6.11.1. On-Demand Instances
@@ -5905,11 +6020,11 @@ Cheapest option with no tolerance for disruption.
 
 ### 1.6.12. Instance Status Checks and Autorecovery
 
-Every instance has two high level per instance status checks 
+Every instance has two high level per instance status checks
 
 - System Status Checks
   - Failure of this check could indicate SW or HW problems of the EC2
-service or the host.
+    service or the host.
 - Instance Status Checks
   - Specific to the file system or has a corrupted Kernel.
 
@@ -5924,7 +6039,7 @@ Autorecovery can kick in and help,
 
 ### Termination protection
 
-><span style='color:red'> !Important: </span> Attribute to remember ```disableApiTermination```
+> <span style='color:red'> !Important: </span> Attribute to remember `disableApiTermination`
 
 # Disabling EC2 Termination Protection
 
@@ -5967,9 +6082,9 @@ When customers try to access an application, the load balancer ensures the
 servers get equal parts of the load.
 
 - Sessions are everything.
-  - When you log into youtube, netflix or your email, the state of your interaction with that application is called a *session*.
+  - When you log into youtube, netflix or your email, the state of your interaction with that application is called a _session_.
 - With horizontal scaling you can shift between instances equally.
-- This requires either *application support* or *off-host* sessions.
+- This requires either _application support_ or _off-host_ sessions.
   - If you use off-host sessions, then your session data is stored in another place, an external database.
   - This means that the servers are what's called **stateless**, they are just dump instances of your application.
   - The application does not care which instance you are connected to because your session is externally hosted somewhere else.
@@ -5982,11 +6097,13 @@ servers get equal parts of the load.
 - Allows for better granularity.
 
 ### 1.6.14. Instance Metadata
+
 ### **Instance Metadata in AWS EC2**
 
 **Instance metadata** is a **service** provided by **AWS EC2 instances** that allows the **instance** to access information about its environment. This information can be useful for configuration management, instance management, or retrieving data related to the EC2 instance that it wouldn’t normally have access to.
 
 ### **What is Instance Metadata?**
+
 - **Instance metadata** refers to the data or information related to the **EC2 instance** itself. It contains configuration details about the instance, including networking, instance-specific settings, and user data that were provided when the instance was launched.
 - This data is available **only from within the instance**, which means that only the instance itself can access this metadata by querying a special **metadata endpoint**.
 
@@ -6000,7 +6117,6 @@ servers get equal parts of the load.
   ```
   - The `169.254.169.254` IP address is a **link-local** address, meaning that it is only accessible from the instance itself (not from outside the instance or the VPC).
   - By accessing the URL above, you can retrieve instance-specific details such as **instance ID**, **instance type**, **network interfaces**, **user data**, and more.
-  
 - **Access method**: To access metadata, you can use **curl** (from the EC2 instance), like so:
   ```bash
   curl http://169.254.169.254/latest/meta-data/
@@ -6011,40 +6127,50 @@ servers get equal parts of the load.
 ### **Key Components of Instance Metadata**
 
 1. **Instance Identity Metadata**:
+
    - The instance identity metadata provides information such as the **instance ID**, **AMI ID**, **instance type**, and **region**. This allows an EC2 instance to know its identity and details about the environment.
-   
+
    **Examples**:
+
    - `instance-id`: The unique ID of the EC2 instance (e.g., `i-0123456789abcdef0`).
    - `ami-id`: The ID of the Amazon Machine Image (AMI) the instance was launched from.
    - `instance-type`: The EC2 instance type (e.g., `t2.micro`).
    - `region`: The AWS region in which the instance is running (e.g., `us-east-1`).
 
 2. **Network Metadata**:
+
    - This section provides information about the instance’s **networking configuration**, including **private IP addresses**, **public IP addresses** (if assigned), **subnet IDs**, **VPC IDs**, and **security groups**.
-   
+
    **Examples**:
+
    - `local-ipv4`: The **private IP address** of the instance.
    - `public-ipv4`: The **public IP address** of the instance (if it has one).
    - `security-groups`: The names of the **security groups** the instance belongs to.
 
 3. **User Data**:
+
    - **User data** is data passed to the instance during its launch. This can include **scripts** or other configuration data that can be used to **configure the instance** automatically.
    - User data is commonly used for tasks like **automatic application deployment** or **instance configuration** upon startup.
 
    **Example**:
+
    - `user-data`: A base64-encoded string or script that is passed when the instance is launched (e.g., a bash script to install software).
 
 4. **IAM Role Metadata**:
+
    - If the EC2 instance is associated with an **IAM role**, metadata is available about the **role**, including the **permissions** granted by the role and the temporary **credentials** the instance can use to access AWS services.
-   
+
    **Examples**:
+
    - `iam/info`: Contains details about the IAM role attached to the instance.
    - `iam/security-credentials/<role-name>`: Contains the **temporary security credentials** (access keys, secret keys, and session tokens) used by the EC2 instance to access AWS resources.
 
 5. **Block Device Metadata**:
+
    - Metadata about the **block devices** attached to the EC2 instance is also available. This includes information about the root volume, additional volumes, and the device mapping to the EBS volumes.
-   
+
    **Example**:
+
    - `block-device-mapping`: Information on block devices attached to the instance, such as the device name and volume ID.
 
 ---
@@ -6052,18 +6178,22 @@ servers get equal parts of the load.
 ### **Important Points About Instance Metadata**
 
 1. **No Authentication or Encryption**:
+
    - Instance metadata is **not authenticated** or **encrypted**. This means that **any process running within the instance** can access it.
    - **Security risk**: If an attacker gains access to an EC2 instance, they can potentially access the instance metadata and use the **IAM role credentials** to make unauthorized API requests.
 
 2. **Firewall Restrictions**:
+
    - You can restrict access to instance metadata by configuring the **instance's firewall** (e.g., iptables or AWS security groups). By default, the metadata is available at the `169.254.169.254` address, but access to this can be blocked if necessary.
    - **AWS recommends** using **instance metadata service v2 (IMDSv2)**, which requires the instance to use **session tokens** to access metadata, improving security.
 
 3. **Instance Metadata Service v2 (IMDSv2)**:
+
    - **IMDSv2** was introduced to improve security by requiring that metadata requests be made using **session tokens**. This adds an additional layer of protection against certain types of attacks, such as **Server-Side Request Forgery (SSRF)**.
    - IMDSv2 is **recommended** for all EC2 instances, and you can enforce it when launching or modifying EC2 instances.
 
    **Example of IMDSv2**:
+
    - First, you make a **metadata request** to receive a **token**:
      ```bash
      curl -X PUT http://169.254.169.254/latest/api/token -H "X-aws-ec2-metadata-token-ttl-seconds: 21600"
@@ -6075,18 +6205,21 @@ servers get equal parts of the load.
 
 4. **Metadata Caching**:
    - Instance metadata is typically **cached** to improve performance, meaning that repeated requests to the same metadata endpoint will return the same response without hitting the instance metadata service again.
-   
+
 ---
 
 ### **Common Use Cases for Instance Metadata**
 
 1. **Instance Configuration**:
+
    - Applications running inside an EC2 instance can access the **instance metadata** to configure themselves based on instance-specific details like the **instance ID**, **AMI ID**, or **region**.
 
 2. **Dynamic User Data Scripts**:
+
    - You can access **user data** through instance metadata to **configure the instance on startup**, such as running a script that installs software or modifies configurations.
 
 3. **Accessing IAM Role Credentials**:
+
    - EC2 instances can retrieve **temporary IAM role credentials** from the metadata service. These credentials allow the instance to make AWS API calls on behalf of the IAM role and access other AWS resources, such as **S3 buckets**, **DynamoDB**, or **CloudWatch logs**.
 
 4. **Monitoring and Logging**:
@@ -6103,11 +6236,12 @@ servers get equal parts of the load.
 ---
 
 ### **Exam Power-Up**:
+
 - **Instance Metadata**: Accessible from inside the instance, contains data about the **instance's environment**.
 - **IMDSv2**: Use **session tokens** for improved security and to prevent unauthorized metadata access.
 - **IAM Role Credentials**: Can be retrieved from instance metadata to access AWS resources securely.
 - **User Data**: Scripts or configuration data provided at launch time to configure instances automatically.
-  
+
 ---
 
 ## 1.7. Containers-and-ECS
@@ -6116,7 +6250,6 @@ servers get equal parts of the load.
 
 Virtualization Problems
 
-
 If you run an EC2 virtual machine with Nitro Hypervisor, 4 GB ram, and 40 GB disk,
 the OS can consume 60-70% of the disk and much of the available memory. leaving relatively little for the application running
 
@@ -6124,7 +6257,7 @@ Lets say if your VM is using the same OS type as the Host OST then having instal
 
 so the questiuon is it worth it to install a new VM just for isolation
 
-the answer is no 
+the answer is no
 
 Containers leverage the similarities of multiple guest OS by removing duplicate
 resources. This allows applications to run in their own isolated environments.
@@ -6135,35 +6268,35 @@ resources. This allows applications to run in their own isolated environments.
 
 Containers are often used in modern software development and cloud computing for their flexibility, portability, and efficiency.
 
-* * * * *
+---
 
 ### **Key Characteristics of Containerization**
 
 1.  **Lightweight**:
 
-    -   Unlike **virtual machines (VMs)**, containers share the **host OS kernel**, which makes them much more lightweight. Containers only need to package the **application and its dependencies**, rather than an entire OS, which allows for faster startup times and less overhead.
+    - Unlike **virtual machines (VMs)**, containers share the **host OS kernel**, which makes them much more lightweight. Containers only need to package the **application and its dependencies**, rather than an entire OS, which allows for faster startup times and less overhead.
 
 2.  **Isolation**:
 
-    -   Each container is isolated from the others and from the host system, ensuring that applications running in containers do not interfere with each other. However, unlike VMs, containers do not require a separate OS instance, which makes them more efficient.
+    - Each container is isolated from the others and from the host system, ensuring that applications running in containers do not interfere with each other. However, unlike VMs, containers do not require a separate OS instance, which makes them more efficient.
 
 3.  **Portability**:
 
-    -   Containers are designed to be **portable** across environments. Since they encapsulate the application and all of its dependencies, you can move them between different cloud providers, on-premises systems, or different development and production environments without any changes.
+    - Containers are designed to be **portable** across environments. Since they encapsulate the application and all of its dependencies, you can move them between different cloud providers, on-premises systems, or different development and production environments without any changes.
 
 4.  **Consistency**:
 
-    -   Containers ensure **consistency** across environments. Developers can create a containerized application in their local environment, and the container will run the same way in development, staging, and production environments. This avoids the common "works on my machine" problem.
+    - Containers ensure **consistency** across environments. Developers can create a containerized application in their local environment, and the container will run the same way in development, staging, and production environments. This avoids the common "works on my machine" problem.
 
 5.  **Scalability**:
 
-    -   Containers allow you to easily scale applications up or down. Using container orchestration tools like **Kubernetes** or **Docker Swarm**, you can manage clusters of containers and automate the deployment, scaling, and management of applications.
+    - Containers allow you to easily scale applications up or down. Using container orchestration tools like **Kubernetes** or **Docker Swarm**, you can manage clusters of containers and automate the deployment, scaling, and management of applications.
 
 6.  **Fast Deployment**:
 
-    -   Containers can be started and stopped much faster than VMs because they don't need to boot up an entire operating system. This leads to faster deployment and more efficient resource usage.
+    - Containers can be started and stopped much faster than VMs because they don't need to boot up an entire operating system. This leads to faster deployment and more efficient resource usage.
 
-* * * * *
+---
 
 ### **Problems with Virtual Machines (VMs)**
 
@@ -6171,42 +6304,42 @@ Virtual Machines have been a popular method for virtualization, but they come wi
 
 1.  **Heavy Overhead**:
 
-    -   Each VM includes a full operating system along with the application and its dependencies. This makes VMs **resource-heavy**. Every VM requires its own OS instance, leading to **higher storage, memory, and CPU consumption**.
+    - Each VM includes a full operating system along with the application and its dependencies. This makes VMs **resource-heavy**. Every VM requires its own OS instance, leading to **higher storage, memory, and CPU consumption**.
 
 2.  **Slower Startup Times**:
 
-    -   Starting a VM requires booting up an entire operating system, which can take a significant amount of time. Containers, on the other hand, can start in a matter of seconds.
+    - Starting a VM requires booting up an entire operating system, which can take a significant amount of time. Containers, on the other hand, can start in a matter of seconds.
 
 3.  **Inefficient Resource Utilization**:
 
-    -   VMs often have **over-provisioned resources**, meaning that they might use more resources than necessary. Each VM runs its own OS and allocates fixed amounts of CPU, memory, and disk space, even if they aren't fully utilized.
+    - VMs often have **over-provisioned resources**, meaning that they might use more resources than necessary. Each VM runs its own OS and allocates fixed amounts of CPU, memory, and disk space, even if they aren't fully utilized.
 
 4.  **Complex Management**:
 
-    -   Managing **VMs** can become complex, especially at scale. You need to manage separate **OS instances** on each VM, apply patches, update OSs, and ensure security across many VMs. Containers, being lightweight, reduce the complexity of managing environments.
+    - Managing **VMs** can become complex, especially at scale. You need to manage separate **OS instances** on each VM, apply patches, update OSs, and ensure security across many VMs. Containers, being lightweight, reduce the complexity of managing environments.
 
 5.  **Portability Issues**:
 
-    -   VMs are **less portable** than containers because they depend on the hypervisor and the underlying hardware or infrastructure. Moving a VM to a different host or cloud environment might require extra configuration or adjustments.
+    - VMs are **less portable** than containers because they depend on the hypervisor and the underlying hardware or infrastructure. Moving a VM to a different host or cloud environment might require extra configuration or adjustments.
 
-* * * * *
+---
 
 ### **Differences Between Containers and Virtual Machines**
 
 Here's a comparison of containers and VMs based on several key factors:
 
-| **Factor** | **Containers** | **Virtual Machines** |
-| --- | --- | --- |
-| **Architecture** | Containers share the **host OS kernel**. | VMs include their own **guest OS** along with the application. |
-| **Size** | Containers are **lightweight** (only app + dependencies). | VMs are **heavy** (OS + application). |
-| **Startup Time** | Containers can start in **seconds**. | VMs can take **minutes** to start. |
-| **Resource Overhead** | Containers have **minimal overhead**. | VMs have higher overhead due to separate OSs. |
-| **Portability** | Containers are highly **portable** between environments. | VMs are **less portable** across different systems. |
-| **Isolation** | Containers are isolated at the **application** level. | VMs provide **full isolation** at the OS level. |
-| **Scalability** | Containers are **easier to scale** (e.g., Kubernetes). | Scaling VMs requires more resources and management. |
-| **Management Complexity** | Easier to manage due to **fewer resources**. | Managing VMs can be **complex** and resource-intensive. |
+| **Factor**                | **Containers**                                            | **Virtual Machines**                                           |
+| ------------------------- | --------------------------------------------------------- | -------------------------------------------------------------- |
+| **Architecture**          | Containers share the **host OS kernel**.                  | VMs include their own **guest OS** along with the application. |
+| **Size**                  | Containers are **lightweight** (only app + dependencies). | VMs are **heavy** (OS + application).                          |
+| **Startup Time**          | Containers can start in **seconds**.                      | VMs can take **minutes** to start.                             |
+| **Resource Overhead**     | Containers have **minimal overhead**.                     | VMs have higher overhead due to separate OSs.                  |
+| **Portability**           | Containers are highly **portable** between environments.  | VMs are **less portable** across different systems.            |
+| **Isolation**             | Containers are isolated at the **application** level.     | VMs provide **full isolation** at the OS level.                |
+| **Scalability**           | Containers are **easier to scale** (e.g., Kubernetes).    | Scaling VMs requires more resources and management.            |
+| **Management Complexity** | Easier to manage due to **fewer resources**.              | Managing VMs can be **complex** and resource-intensive.        |
 
-* * * * *
+---
 
 ### **Docker and Its Role in Containerization**
 
@@ -6216,87 +6349,87 @@ Here's a comparison of containers and VMs based on several key factors:
 
 1.  **Docker Images**:
 
-    -   Docker images are read-only templates that include everything needed to run an application (code, libraries, dependencies, etc.). Docker images are the foundation of Docker containers.
+    - Docker images are read-only templates that include everything needed to run an application (code, libraries, dependencies, etc.). Docker images are the foundation of Docker containers.
 
 2.  **Docker Containers**:
 
-    -   A **container** is a running instance of a Docker image. Containers are isolated from each other and the host system, making them lightweight and portable.
+    - A **container** is a running instance of a Docker image. Containers are isolated from each other and the host system, making them lightweight and portable.
 
 3.  **Dockerfile**:
 
-    -   A **Dockerfile** is a script used to build a Docker image. It contains instructions for setting up the application, including installing dependencies, copying files, setting environment variables, etc.
+    - A **Dockerfile** is a script used to build a Docker image. It contains instructions for setting up the application, including installing dependencies, copying files, setting environment variables, etc.
 
 4.  **Docker Engine**:
 
-    -   The **Docker Engine** is the runtime that runs and manages containers. It is responsible for pulling images from a registry (e.g., Docker Hub), running containers, and managing their lifecycle.
+    - The **Docker Engine** is the runtime that runs and manages containers. It is responsible for pulling images from a registry (e.g., Docker Hub), running containers, and managing their lifecycle.
 
 5.  **Docker Hub**:
 
-    -   **Docker Hub** is a cloud-based registry that contains pre-built Docker images. Users can pull these images or upload their own for sharing or distribution.
+    - **Docker Hub** is a cloud-based registry that contains pre-built Docker images. Users can pull these images or upload their own for sharing or distribution.
 
-* * * * *
+---
 
 ### **Advantages of Using Docker**
 
 1.  **Consistency Across Environments**:
 
-    -   Docker ensures that the application will run the same way in development, testing, and production, eliminating the **"it works on my machine"** issue.
+    - Docker ensures that the application will run the same way in development, testing, and production, eliminating the **"it works on my machine"** issue.
 
 2.  **Isolation**:
 
-    -   Docker containers provide **process isolation**, meaning that different applications can run in containers without interfering with each other or with the host system.
+    - Docker containers provide **process isolation**, meaning that different applications can run in containers without interfering with each other or with the host system.
 
 3.  **Portability**:
 
-    -   Since containers encapsulate all dependencies, they are highly **portable**. You can move containers between different systems, cloud providers, or environments without modification.
+    - Since containers encapsulate all dependencies, they are highly **portable**. You can move containers between different systems, cloud providers, or environments without modification.
 
 4.  **Fast Deployment**:
 
-    -   Docker containers are lightweight and can be deployed and scaled much faster than VMs, making them suitable for **microservices** and **CI/CD** workflows.
+    - Docker containers are lightweight and can be deployed and scaled much faster than VMs, making them suitable for **microservices** and **CI/CD** workflows.
 
 5.  **Efficiency**:
 
-    -   Containers are **more efficient** than VMs in terms of resource usage. They share the host OS kernel, which allows them to run with lower overhead and faster startup times.
+    - Containers are **more efficient** than VMs in terms of resource usage. They share the host OS kernel, which allows them to run with lower overhead and faster startup times.
 
-* * * * *
+---
 
 ### **Container vs VM Use Cases**
 
--   **Containers** are well-suited for:
+- **Containers** are well-suited for:
 
-    -   **Microservices architecture**: Where applications are broken down into small, independent services.
+  - **Microservices architecture**: Where applications are broken down into small, independent services.
 
-    -   **CI/CD workflows**: Containers allow for consistent testing, building, and deployment environments.
+  - **CI/CD workflows**: Containers allow for consistent testing, building, and deployment environments.
 
-    -   **Cloud-native applications**: Containers can be easily orchestrated and scaled using tools like **Kubernetes**.
+  - **Cloud-native applications**: Containers can be easily orchestrated and scaled using tools like **Kubernetes**.
 
--   **VMs** are still ideal for:
+- **VMs** are still ideal for:
 
-    -   **Legacy applications**: Older software that requires full OS isolation.
+  - **Legacy applications**: Older software that requires full OS isolation.
 
-    -   **Running multiple operating systems**: If you need to run different OS types (Windows, Linux, etc.) on the same physical hardware.
+  - **Running multiple operating systems**: If you need to run different OS types (Windows, Linux, etc.) on the same physical hardware.
 
-    -   **Highly secure environments**: If you need stronger isolation between applications or services, VMs provide full isolation at the OS level.
+  - **Highly secure environments**: If you need stronger isolation between applications or services, VMs provide full isolation at the OS level.
 
-* * * * *
+---
 
 ### **Summary**
 
--   **Containers** are lightweight, portable, and provide process-level isolation, which makes them ideal for microservices, cloud-native apps, and CI/CD pipelines.
+- **Containers** are lightweight, portable, and provide process-level isolation, which makes them ideal for microservices, cloud-native apps, and CI/CD pipelines.
 
--   **VMs** are more resource-intensive and provide **full OS isolation**, making them suitable for legacy applications, environments needing multiple OS types, or higher security needs.
+- **VMs** are more resource-intensive and provide **full OS isolation**, making them suitable for legacy applications, environments needing multiple OS types, or higher security needs.
 
--   **Docker** is the most popular platform for containerization and simplifies the process of building, managing, and deploying containers.
+- **Docker** is the most popular platform for containerization and simplifies the process of building, managing, and deploying containers.
 
-* * * * *
+---
 
 ### **Exam Power-Up**:
 
--   **Containers**: Lightweight, **fast** startup, **portable**, great for **microservices** and **CI/CD**.
+- **Containers**: Lightweight, **fast** startup, **portable**, great for **microservices** and **CI/CD**.
 
--   **VMs**: Resource-heavy, **slower** startup, used for legacy applications or when **OS-level isolation** is needed.
+- **VMs**: Resource-heavy, **slower** startup, used for legacy applications or when **OS-level isolation** is needed.
 
--   **Docker**: **Automates containerization** and helps with **image management**, making containers easy to deploy, scale, and manage.
+- **Docker**: **Automates containerization** and helps with **image management**, making containers easy to deploy, scale, and manage.
 
 Let me know if you need further clarification on containers, VMs, or Docker!
 
@@ -6313,7 +6446,7 @@ Images contain read only layers, images are layer onto images.
 
 ##### 1.7.1.1.1. What are images used for
 
-1. A docker image is actually how we create a docker container. In fact a docker container is just a running copy of a docker image with one crucial difference: a docker container has an additional *read/write* file system layer. File system layers --  the layers that make up the docker image -- by default are _read_ only; they never change after they are created. And so, the special read/write layer is added which allows containers to run. If you have lots of containers with very similar base structures, they will share the parts that overlap. The other layers are reused between containers. one image can be used to create many containers and only thing that differs these containers are their file system the read/write layer.
+1. A docker image is actually how we create a docker container. In fact a docker container is just a running copy of a docker image with one crucial difference: a docker container has an additional _read/write_ file system layer. File system layers -- the layers that make up the docker image -- by default are _read_ only; they never change after they are created. And so, the special read/write layer is added which allows containers to run. If you have lots of containers with very similar base structures, they will share the parts that overlap. The other layers are reused between containers. one image can be used to create many containers and only thing that differs these containers are their file system the read/write layer.
 
 2. The reuse architecture that is offered by the way containers do their disk images scales really well. Disk space when you have lots of containers is minimized because of this layered architecture. The base layer -- the OS -- they are generally made available by the OS vendors through something called a _container registry_ and a popular one is _docker hub_.
 
@@ -6341,7 +6474,7 @@ in the container registry.
 
 **Dockerfile** and **Docker Compose** are two important components in Docker that help in containerization, but they serve different purposes. Let's break down what each one does and how they are used.
 
-* * * * *
+---
 
 ### **1\. Dockerfile**
 
@@ -6349,13 +6482,13 @@ A **Dockerfile** is a script that contains a series of instructions used to buil
 
 #### **Key Points of a Dockerfile:**
 
--   **Defines the environment** for the application by specifying the base image (e.g., a Linux-based image or a language-specific image like Python or Node.js).
+- **Defines the environment** for the application by specifying the base image (e.g., a Linux-based image or a language-specific image like Python or Node.js).
 
--   **Installs dependencies** like libraries or tools that the application needs.
+- **Installs dependencies** like libraries or tools that the application needs.
 
--   **Copies files** from the host system into the image (e.g., application code, configuration files).
+- **Copies files** from the host system into the image (e.g., application code, configuration files).
 
--   **Sets configurations** like environment variables, ports to expose, and commands to run when the container starts.
+- **Sets configurations** like environment variables, ports to expose, and commands to run when the container starts.
 
 #### **Example Dockerfile:**
 
@@ -6382,21 +6515,21 @@ CMD ["node", "app.js"]
 
 ```
 
--   **FROM node:14**: This sets the base image as a Node.js image with version 14.
+- **FROM node:14**: This sets the base image as a Node.js image with version 14.
 
--   **WORKDIR**: This sets the working directory inside the container.
+- **WORKDIR**: This sets the working directory inside the container.
 
--   **COPY . .**: Copies files from the host into the container.
+- **COPY . .**: Copies files from the host into the container.
 
--   **RUN npm install**: Installs the Node.js dependencies.
+- **RUN npm install**: Installs the Node.js dependencies.
 
--   **EXPOSE 8080**: Specifies that the application will listen on port 8080.
+- **EXPOSE 8080**: Specifies that the application will listen on port 8080.
 
--   **CMD**: The default command to run when the container starts (`node app.js`).
+- **CMD**: The default command to run when the container starts (`node app.js`).
 
 When you build this Dockerfile with the `docker build` command, a **Docker image** is created based on the instructions.
 
-* * * * *
+---
 
 ### **2\. Docker Compose**
 
@@ -6404,11 +6537,11 @@ When you build this Dockerfile with the `docker build` command, a **Docker image
 
 #### **Key Points of Docker Compose:**
 
--   **Defines multi-container applications**: Allows you to define how multiple containers (e.g., a web application and a database) should work together.
+- **Defines multi-container applications**: Allows you to define how multiple containers (e.g., a web application and a database) should work together.
 
--   **Simplifies multi-container orchestration**: You don't need to manually configure the inter-container communication (like setting networks, ports, etc.).
+- **Simplifies multi-container orchestration**: You don't need to manually configure the inter-container communication (like setting networks, ports, etc.).
 
--   **Can define environment variables, volumes, networks, and dependencies** between services.
+- **Can define environment variables, volumes, networks, and dependencies** between services.
 
 #### **Example Docker Compose File:**
 
@@ -6435,23 +6568,23 @@ services:
 
 ```
 
--   **web**: This defines the **Node.js application**.
+- **web**: This defines the **Node.js application**.
 
-    -   **build: .**: It tells Docker Compose to build the Docker image using the `Dockerfile` in the current directory.
+  - **build: .**: It tells Docker Compose to build the Docker image using the `Dockerfile` in the current directory.
 
-    -   **ports**: This exposes the application on port 8080 on the host.
+  - **ports**: This exposes the application on port 8080 on the host.
 
-    -   **depends_on**: Ensures that the `db` service (MongoDB) starts before the `web` service.
+  - **depends_on**: Ensures that the `db` service (MongoDB) starts before the `web` service.
 
-    -   **environment**: Defines environment variables for the container (e.g., `NODE_ENV`).
+  - **environment**: Defines environment variables for the container (e.g., `NODE_ENV`).
 
--   **db**: This defines the **MongoDB service**.
+- **db**: This defines the **MongoDB service**.
 
-    -   **image: mongo:latest**: Uses the official MongoDB image from Docker Hub.
+  - **image: mongo:latest**: Uses the official MongoDB image from Docker Hub.
 
-    -   **volumes**: Mounts the host directory `./data/db` to `/data/db` inside the container to persist data.
+  - **volumes**: Mounts the host directory `./data/db` to `/data/db` inside the container to persist data.
 
-    -   **environment**: Sets the root username and password for MongoDB.
+  - **environment**: Sets the root username and password for MongoDB.
 
 #### **How to Run**:
 
@@ -6471,9 +6604,9 @@ services:
 
 This command will spin up two containers:
 
--   **Web container**: Based on the **Node.js Dockerfile**.
+- **Web container**: Based on the **Node.js Dockerfile**.
 
--   **Database container**: MongoDB, as defined in the `docker-compose.yml` file.
+- **Database container**: MongoDB, as defined in the `docker-compose.yml` file.
 
 ### **Docker Template (Dockerfile + Docker Compose Example)**
 
@@ -6571,7 +6704,7 @@ app.listen(8080, () => {
 
     ```
 
-* * * * *
+---
 
 ### **How the Process Works**:
 
@@ -6581,27 +6714,27 @@ app.listen(8080, () => {
 
 3.  **docker-compose up** starts both the containers: one for the Node.js app and one for MongoDB. The app can now connect to the database, and you can access it via `localhost:8080`.
 
-* * * * *
+---
 
 ### **Summary of Dockerfile vs Docker Compose**
 
-| **Aspect** | **Dockerfile** | **Docker Compose** |
-| --- | --- | --- |
-| **Purpose** | Defines how to build a single image for an application | Defines and runs multi-container applications |
-| **Scope** | Configures a single application container | Manages multiple containers (web, database, etc.) |
-| **Usage** | Create Docker images for your app | Orchestrate multiple containers and services |
-| **File Type** | `.Dockerfile` | `docker-compose.yml` |
-| **Key Functionality** | Installing dependencies, setting up environment | Defining multi-container environment and interdependencies |
-| **Example Use Case** | Building a container for a web application | Running a web app and a database together |
+| **Aspect**            | **Dockerfile**                                         | **Docker Compose**                                         |
+| --------------------- | ------------------------------------------------------ | ---------------------------------------------------------- |
+| **Purpose**           | Defines how to build a single image for an application | Defines and runs multi-container applications              |
+| **Scope**             | Configures a single application container              | Manages multiple containers (web, database, etc.)          |
+| **Usage**             | Create Docker images for your app                      | Orchestrate multiple containers and services               |
+| **File Type**         | `.Dockerfile`                                          | `docker-compose.yml`                                       |
+| **Key Functionality** | Installing dependencies, setting up environment        | Defining multi-container environment and interdependencies |
+| **Example Use Case**  | Building a container for a web application             | Running a web app and a database together                  |
 
-* * * * *
-
+---
 
 ### 1.7.2. Elastic Container Service (ECS) Concepts
 
 - Accepts containers and instructions you provide. It orchestrates where and how to run the containers. It is a managed container-based compute service.
 
 ECS runs into two modes:
+
 1. Using EC2: which uses EC2 as the container host;
 2. Using Fargate: this is the serverless way of doing it.
 
@@ -6627,7 +6760,7 @@ ECS runs into two modes:
 
 ECS helps in organizing and deploying containerized applications, making it easy to run microservices architectures, batch jobs, and web applications in a **highly scalable** and **resilient** environment.
 
-* * * * *
+---
 
 ### **Core Concepts of ECS**
 
@@ -6645,13 +6778,13 @@ Amazon ECS has several key concepts that help you define and manage your contain
 
 Let's go through each of these concepts in detail and explore an example.
 
-* * * * *
+---
 
 ### **1\. Container Definition**
 
--   **Container Definition** is a part of the ECS **Task Definition**. It specifies the settings and configuration for a container within a task, such as the **Docker image**, **port mappings**, **environment variables**, **log configuration**, **memory**, and **CPU** limits.
+- **Container Definition** is a part of the ECS **Task Definition**. It specifies the settings and configuration for a container within a task, such as the **Docker image**, **port mappings**, **environment variables**, **log configuration**, **memory**, and **CPU** limits.
 
--   **Example**: When creating a container definition, you define the **image** for your application, memory requirements, and port mappings.
+- **Example**: When creating a container definition, you define the **image** for your application, memory requirements, and port mappings.
 
 ```
 {
@@ -6672,17 +6805,17 @@ Let's go through each of these concepts in detail and explore an example.
 
 This example defines a container that uses the **nginx** image, assigns **128 CPU units**, **256 MiB of memory**, and maps **port 80** inside the container to **port 80** on the host.
 
-* * * * *
+---
 
 ### **2\. Task**
 
--   A **Task** is the **smallest deployable unit** in ECS. It is a **running instance of a Task Definition**, which can contain **one or more containers**.
+- A **Task** is the **smallest deployable unit** in ECS. It is a **running instance of a Task Definition**, which can contain **one or more containers**.
 
--   **Task Definition** is a blueprint for a task that describes the Docker containers to run, their resources (memory, CPU), and their environment. ECS uses a task definition to launch tasks on a cluster.
+- **Task Definition** is a blueprint for a task that describes the Docker containers to run, their resources (memory, CPU), and their environment. ECS uses a task definition to launch tasks on a cluster.
 
--   A **Task** can have multiple containers that interact with each other (e.g., a web server container and a database container).
+- A **Task** can have multiple containers that interact with each other (e.g., a web server container and a database container).
 
--   **Example**: You create a **Task Definition** and then run it as a **Task** in ECS.
+- **Example**: You create a **Task Definition** and then run it as a **Task** in ECS.
 
 ```
 {
@@ -6706,15 +6839,15 @@ This example defines a container that uses the **nginx** image, assigns **128 CP
 
 ```
 
--   When you run this task, ECS will create an **instance** of the task that runs the **nginx** container.
+- When you run this task, ECS will create an **instance** of the task that runs the **nginx** container.
 
-* * * * *
+---
 
 ### **3\. Task Role**
 
--   **Task Role** is an IAM role that grants permissions for containers within a task to interact with other AWS services, such as **S3**, **DynamoDB**, or **SNS**. The task role is applied at the task level and provides the necessary permissions for the containers within that task to access AWS resources securely.
+- **Task Role** is an IAM role that grants permissions for containers within a task to interact with other AWS services, such as **S3**, **DynamoDB**, or **SNS**. The task role is applied at the task level and provides the necessary permissions for the containers within that task to access AWS resources securely.
 
--   **Example**: If your ECS containers need to access an S3 bucket, you would define an **IAM Role** that grants permission to access S3 and assign it as the **task role**.
+- **Example**: If your ECS containers need to access an S3 bucket, you would define an **IAM Role** that grants permission to access S3 and assign it as the **task role**.
 
 ```
 {
@@ -6739,15 +6872,15 @@ This IAM role might have a policy like this to allow access to S3:
 
 ```
 
-* * * * *
+---
 
 ### **4\. Service**
 
--   An **ECS Service** ensures that a specified number of **tasks** are running and keeps them healthy. If a task crashes or stops, the ECS service automatically replaces it with a new task to meet the desired count.
+- An **ECS Service** ensures that a specified number of **tasks** are running and keeps them healthy. If a task crashes or stops, the ECS service automatically replaces it with a new task to meet the desired count.
 
--   **ECS Service** also allows you to define **load balancing** and automatic scaling rules.
+- **ECS Service** also allows you to define **load balancing** and automatic scaling rules.
 
--   **Example**: Let's say you want to run 3 instances of a web application container using ECS:
+- **Example**: Let's say you want to run 3 instances of a web application container using ECS:
 
 ```
 {
@@ -6767,23 +6900,23 @@ This IAM role might have a policy like this to allow access to S3:
 
 ```
 
--   The **desiredCount** specifies how many tasks the service should maintain (in this case, 3 tasks).
+- The **desiredCount** specifies how many tasks the service should maintain (in this case, 3 tasks).
 
--   The service also registers the container with a **load balancer** to distribute traffic.
+- The service also registers the container with a **load balancer** to distribute traffic.
 
-* * * * *
+---
 
 ### **5\. Cluster**
 
--   A **Cluster** is a logical grouping of **EC2 instances** or **Fargate instances** (depending on the launch type) that ECS uses to run your tasks and services.
+- A **Cluster** is a logical grouping of **EC2 instances** or **Fargate instances** (depending on the launch type) that ECS uses to run your tasks and services.
 
--   A cluster contains the **resources** required to run the containers and tasks defined in ECS.
+- A cluster contains the **resources** required to run the containers and tasks defined in ECS.
 
--   **ECS Cluster** can either be based on **EC2 instances** or **Fargate** (serverless compute).
+- **ECS Cluster** can either be based on **EC2 instances** or **Fargate** (serverless compute).
 
--   **Example**: When you run an ECS service, the tasks will be deployed across the instances within a cluster. For instance, you may have a cluster named `my-cluster` containing multiple EC2 instances, where your tasks are scheduled.
+- **Example**: When you run an ECS service, the tasks will be deployed across the instances within a cluster. For instance, you may have a cluster named `my-cluster` containing multiple EC2 instances, where your tasks are scheduled.
 
-* * * * *
+---
 
 ### **Putting It All Together: ECS Example**
 
@@ -6830,7 +6963,7 @@ Let's say you want to deploy a web application with **two containers** (a web se
 
 ```
 
--   This task definition defines two containers: a **web-container** running `nginx` and a **db-container** running `postgres`.
+- This task definition defines two containers: a **web-container** running `nginx` and a **db-container** running `postgres`.
 
 #### **2\. Create the ECS Cluster**:
 
@@ -6852,57 +6985,54 @@ aws ecs create-cluster --cluster-name my-cluster
 
 ```
 
--   This ECS service will ensure that **2 instances** of the web service are running in the cluster. It will automatically replace any tasks that fail.
+- This ECS service will ensure that **2 instances** of the web service are running in the cluster. It will automatically replace any tasks that fail.
 
-* * * * *
+---
 
 ### **Summary of ECS Concepts**
 
--   **Container Definition**: Specifies container configuration (image, resources, ports, etc.).
+- **Container Definition**: Specifies container configuration (image, resources, ports, etc.).
 
--   **Task**: A running instance of a **task definition**; it can contain multiple containers.
+- **Task**: A running instance of a **task definition**; it can contain multiple containers.
 
--   **Task Role**: IAM role that provides permissions for containers within the task to interact with AWS resources.
+- **Task Role**: IAM role that provides permissions for containers within the task to interact with AWS resources.
 
--   **Service**: Ensures that a specific number of tasks are running and maintains high availability.
+- **Service**: Ensures that a specific number of tasks are running and maintains high availability.
 
--   **Cluster**: A logical grouping of **EC2 instances** or **Fargate instances** where ECS tasks run.
+- **Cluster**: A logical grouping of **EC2 instances** or **Fargate instances** where ECS tasks run.
 
-* * * * *
+---
 
 ### **Exam Power-Up**:
 
--   **ECS** is a **fully managed service** for orchestrating containers.
+- **ECS** is a **fully managed service** for orchestrating containers.
 
--   **Task** is the smallest unit in ECS, running one or more containers.
+- **Task** is the smallest unit in ECS, running one or more containers.
 
--   **Task Definition** is a blueprint, and **Container Definition** is part of it, defining a container's properties.
+- **Task Definition** is a blueprint, and **Container Definition** is part of it, defining a container's properties.
 
--   **Task Role** is an **IAM role** that allows containers within the task to interact with other AWS services.
+- **Task Role** is an **IAM role** that allows containers within the task to interact with other AWS services.
 
--   **ECS Service** ensures that a specified number of tasks are running and replaces any failed tasks.
+- **ECS Service** ensures that a specified number of tasks are running and replaces any failed tasks.
 
--   **Cluster** is a group of instances (EC2 or Fargate) on which ECS tasks are scheduled.
-
-
-
+- **Cluster** is a group of instances (EC2 or Fargate) on which ECS tasks are scheduled.
 
 See the [AWS documentation on container definition](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ContainerDefinition.html) and [task definition](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_TaskDefinition.html) for more information.
+
 - Task does not scale on its own and it is not highly available.
 - ECS **Service** is configured via Service Definition and represents
 - how many copies of a task you want to run for scaling and High Availability.
 
 ECS Concepts
 
-- Container defination: So it defines which Image to use and what port to expose  (Image and port)
+- Container defination: So it defines which Image to use and what port to expose (Image and port)
 - Task Defination: It contains the Security(Task role) what they can access from AWS, one or more Container(s) Resources or Container defination(s)
 - Task role: The Iam role that is assumed by the task to access the AWS resources
 - Service- How many copies of Task you want running to achieve HA and HS and put a LoadBalancer on top to handle the incoming load
 
-
 ### 1.7.3. ECS Cluster Types
-Modes: Basically what you manage and what you would like AWS to manage
 
+Modes: Basically what you manage and what you would like AWS to manage
 
 ECS Cluster manages:
 
@@ -6911,7 +7041,6 @@ ECS Cluster manages:
 - Placement engine
 
 #### 1.7.3.1. EC2 mode
-
 
 ECS cluster is created within a VPC. It benefits from the multiple AZs that
 are within that VPC. which are availabe within VPC
@@ -6979,13 +7108,13 @@ pay for EC2 even when not using the container
 - Private = permissions required for any R/O or R/W operation
 
 **Benefits**
+
 - Integrated with IAM - Permssions
 - Image scanning, basic and enhanced(inspector)
 - ECR near realtime metrics for any pushed pull metrics
 - API actions = cloudTrail
 - Events => EventBridge
 - Replication..Cross-Region And Cross-Account
-
 
 ### **ECS Launch Types: EC2 vs Fargate**
 
@@ -6996,18 +7125,22 @@ Amazon ECS (Elastic Container Service) provides two primary launch types for run
 ### **1. EC2 Launch Type (ECS on EC2)**
 
 #### **Overview**:
+
 The **EC2 Launch Type** means that you are responsible for provisioning and managing the EC2 instances (virtual machines) that run your containerized applications. In this mode, ECS runs your containers on top of **EC2 instances** that you control.
 
 #### **How it works**:
+
 - You create and manage an **EC2 cluster** that provides the compute resources (EC2 instances) where your containers will run.
 - ECS schedules tasks (containers) on the EC2 instances in your cluster, and you need to manage the lifecycle of these EC2 instances (including scaling, patching, and monitoring).
 
 #### **Key Responsibilities**:
+
 - **EC2 instance management**: You are responsible for managing the EC2 instances (including patching, instance types, scaling, and availability).
 - **Cost**: You pay for the EC2 instances you provision (even if they’re idle), and additional ECS charges for running tasks and services.
 - **Scaling**: You manage the scaling of your EC2 instances (e.g., adding or removing EC2 instances based on your application needs).
-  
+
 #### **Use Cases for EC2 Launch Type**:
+
 - You need **complete control** over the EC2 instances and want to manage their configuration.
 - You have specific requirements for the **EC2 instance type** or need to install custom software on the instances.
 - You want to use features like **Elastic Load Balancing** (ELB) with fine-grained control over the instance size, capacity, and scaling.
@@ -7017,18 +7150,22 @@ The **EC2 Launch Type** means that you are responsible for provisioning and mana
 ### **2. Fargate Launch Type**
 
 #### **Overview**:
+
 The **Fargate Launch Type** is a serverless compute engine that allows you to run containers without managing the underlying EC2 instances. Fargate abstracts away the infrastructure management, allowing you to focus solely on your containers and the applications running inside them.
 
 #### **How it works**:
+
 - With Fargate, you **don’t manage EC2 instances**. Instead, you define the **CPU** and **memory** requirements for your tasks, and Fargate automatically provisions and manages the compute resources for you.
 - You only pay for the **compute resources** (CPU and memory) used by the containers, with no need to provision or manage EC2 instances.
 
 #### **Key Responsibilities**:
+
 - **No instance management**: AWS automatically provisions, manages, and scales the compute resources (virtual machines) based on your container requirements.
 - **Cost**: You pay only for the **compute resources** used by your containers (i.e., the CPU and memory allocated to the tasks), which can result in more cost-effective solutions, especially for unpredictable or variable workloads.
 - **Scaling**: Fargate automatically handles scaling of containers based on resource usage and demand, without needing to manage infrastructure.
 
 #### **Use Cases for Fargate Launch Type**:
+
 - You prefer to **not manage EC2 instances** and want a simpler, serverless experience.
 - You want to **scale quickly and automatically** based on the resource requirements of the containers.
 - Ideal for **microservices** or workloads where **you don’t want to worry about infrastructure** and need more **flexibility** for scaling.
@@ -7037,33 +7174,37 @@ The **Fargate Launch Type** is a serverless compute engine that allows you to ru
 
 ### **Differences Between EC2 Launch Type (ECS on EC2) and Fargate Launch Type**
 
-| **Feature**               | **EC2 Launch Type (ECS on EC2)**                            | **Fargate Launch Type**                                      |
-|---------------------------|-------------------------------------------------------------|--------------------------------------------------------------|
-| **Infrastructure**         | You manage EC2 instances (VMs)                              | AWS manages all the infrastructure for you (serverless)      |
-| **Instance Management**    | You manage scaling, patching, and instance health           | No management of instances. AWS handles the scaling           |
-| **Compute Resources**      | You choose EC2 instances based on your needs                | You specify CPU and memory requirements for your tasks       |
-| **Cost Model**             | You pay for the EC2 instances, regardless of usage          | You pay only for the **CPU** and **memory** resources used by the tasks |
-| **Scaling**                | You manage EC2 instance scaling manually                    | Auto-scaling of resources happens automatically with Fargate |
-| **Flexibility**            | Full control over instance types, OS, and configurations    | Less flexibility, AWS handles the compute environment        |
-| **Use Case**               | Best for applications requiring fine control over the infrastructure | Best for microservices and simpler deployments without managing infrastructure |
+| **Feature**             | **EC2 Launch Type (ECS on EC2)**                                     | **Fargate Launch Type**                                                        |
+| ----------------------- | -------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| **Infrastructure**      | You manage EC2 instances (VMs)                                       | AWS manages all the infrastructure for you (serverless)                        |
+| **Instance Management** | You manage scaling, patching, and instance health                    | No management of instances. AWS handles the scaling                            |
+| **Compute Resources**   | You choose EC2 instances based on your needs                         | You specify CPU and memory requirements for your tasks                         |
+| **Cost Model**          | You pay for the EC2 instances, regardless of usage                   | You pay only for the **CPU** and **memory** resources used by the tasks        |
+| **Scaling**             | You manage EC2 instance scaling manually                             | Auto-scaling of resources happens automatically with Fargate                   |
+| **Flexibility**         | Full control over instance types, OS, and configurations             | Less flexibility, AWS handles the compute environment                          |
+| **Use Case**            | Best for applications requiring fine control over the infrastructure | Best for microservices and simpler deployments without managing infrastructure |
 
 ---
 
 ### **Key Differences Between ECS (EC2 Launch Type) and Fargate**
 
 1. **Instance Management**:
+
    - **ECS EC2**: You must provision and manage EC2 instances manually. You are responsible for scaling the infrastructure and ensuring that there is enough capacity to run your containers.
    - **Fargate**: You don’t need to manage instances. AWS automatically handles the infrastructure, scaling, and provisioning of compute resources based on your container requirements.
 
 2. **Cost**:
+
    - **ECS EC2**: You pay for EC2 instances (even when they're idle) and the ECS resources used by the tasks running on those instances.
    - **Fargate**: You only pay for the **CPU** and **memory** resources allocated to your containers (no cost for unused infrastructure). This is often a more **cost-efficient** option for dynamic workloads.
 
 3. **Control**:
+
    - **ECS EC2**: Provides **full control** over the EC2 instances (e.g., instance type, configuration, OS).
    - **Fargate**: Limited control over the underlying infrastructure, as AWS manages it. You only define the **resource requirements** (CPU, memory) for your containers.
 
 4. **Scaling**:
+
    - **ECS EC2**: Requires you to manually scale EC2 instances based on demand. You have to set up Auto Scaling or scale manually.
    - **Fargate**: Scaling is handled automatically. Fargate adjusts the resources needed for your containers based on the task definition.
 
@@ -7080,7 +7221,6 @@ The **Fargate Launch Type** is a serverless compute engine that allows you to ru
   - You have **specific hardware** or OS requirements.
   - You are running **large-scale, persistent** applications with complex configurations.
   - You need to **manually scale** EC2 instances or apply custom configurations to the underlying EC2 instances.
-  
 - **Use Fargate** when:
   - You don’t want to **manage EC2 instances** or the underlying infrastructure.
   - You prefer a **serverless** experience with automatic scaling and compute management.
@@ -7094,7 +7234,6 @@ The **Fargate Launch Type** is a serverless compute engine that allows you to ru
 **Scenario**: You are developing a **web application** with multiple services, and you need to deploy it using ECS.
 
 - If your **web app** requires complex configurations, such as **custom EC2 instance types** (e.g., GPU instances for machine learning), or you need to run specific **OS configurations**, you would choose **ECS EC2**.
-  
 - If your application consists of **simple microservices** and you prefer not to manage the underlying infrastructure, you would use **Fargate** to avoid worrying about EC2 instances, scaling, or patching.
 
 ---
@@ -7107,6 +7246,7 @@ The **Fargate Launch Type** is a serverless compute engine that allows you to ru
 ---
 
 ### **Exam Power-Up**:
+
 - **ECS EC2**: You **manage EC2 instances**; useful when you need more control over the environment.
 - **Fargate**: **Serverless**; you only manage containers and resource requirements, not the underlying infrastructure.
 - **Use Case for ECS EC2**: Full control, persistent workloads, complex configurations.
@@ -7117,22 +7257,21 @@ The **Fargate Launch Type** is a serverless compute engine that allows you to ru
 **Amazon Elastic Container Registry (ECR)** is a fully managed **Docker container registry** that makes it easy to store, manage, and deploy Docker container images. It is designed to be used with **Amazon ECS** (Elastic Container Service), **Amazon EKS** (Elastic Kubernetes Service), and other containerized applications.
 
 ### **Key Features of Amazon ECR**:
+
 1. **Fully Managed**:
    - ECR is **fully managed** by AWS, meaning AWS handles the infrastructure and scaling for you. This eliminates the need to manage your own container registry servers.
-   
 2. **Docker Compatibility**:
    - Amazon ECR supports the Docker **CLI** and integrates with **Amazon ECS**, **EKS**, and other container orchestration platforms. You can easily push and pull Docker images to/from ECR using standard Docker commands.
-   
 3. **Integrated with AWS**:
    - ECR integrates seamlessly with **IAM** (Identity and Access Management) for **fine-grained access control**, **CloudTrail** for auditing, and **Amazon CloudWatch** for monitoring.
-   
 4. **High Availability**:
    - ECR offers **high availability** and **scalability** by storing container images in **multiple AZs (Availability Zones)**, ensuring that images are highly available and resilient to failures.
-   
 5. **Security**:
+
    - ECR uses **encryption** to protect your images, both at rest and in transit, using AWS-managed keys by default. You can also use **customer-managed keys (CMKs)** for additional control over encryption.
 
 6. **Image Scanning**:
+
    - Amazon ECR supports **image scanning** for vulnerabilities. It automatically scans images for known vulnerabilities, helping you ensure that your containers are secure before deployment.
 
 7. **Lifecycle Policies**:
@@ -7143,13 +7282,16 @@ The **Fargate Launch Type** is a serverless compute engine that allows you to ru
 ### **Key Concepts of ECR**
 
 1. **Repositories**:
+
    - A **repository** is a collection of Docker images in ECR. It serves as a storage location where your container images are stored and versioned.
    - ECR supports both **public repositories** (accessible by anyone) and **private repositories** (access controlled).
 
 2. **Images**:
+
    - An **image** in ECR is a Docker image that contains the application and its dependencies. Images are tagged with version numbers or other tags to differentiate them (e.g., `myapp:latest` or `myapp:v1.0`).
 
 3. **Tags**:
+
    - Images in ECR can be tagged with **tags** to identify different versions or configurations of a container. You can tag images as `latest`, `v1.0`, `prod`, etc., to easily reference them when pulling or deploying containers.
 
 4. **Push/Pull Operations**:
@@ -7161,24 +7303,29 @@ The **Fargate Launch Type** is a serverless compute engine that allows you to ru
 ### **How Amazon ECR Works**
 
 1. **Create a Repository**:
+
    - First, you create a **repository** in ECR. A repository can either be **public** or **private** depending on whether you want the container image to be publicly available or only accessible to authenticated users.
-   
+
    Example (AWS CLI command to create a private repository):
+
    ```bash
    aws ecr create-repository --repository-name my-repository
    ```
 
 2. **Push Images to ECR**:
+
    - After building a Docker image locally, you can **tag** it with the ECR repository URL and then **push** it to ECR.
-   
+
    Example (steps to push an image to ECR):
-   
+
    - First, authenticate to the registry:
+
      ```bash
      aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin <aws_account_id>.dkr.ecr.us-west-2.amazonaws.com
      ```
 
    - Tag the image:
+
      ```bash
      docker tag my-image:latest <aws_account_id>.dkr.ecr.us-west-2.amazonaws.com/my-repository:latest
      ```
@@ -7189,17 +7336,21 @@ The **Fargate Launch Type** is a serverless compute engine that allows you to ru
      ```
 
 3. **Pull Images from ECR**:
+
    - To deploy a container from an image in ECR, you need to **pull** the image from the repository.
-   
+
    Example:
+
    ```bash
    docker pull <aws_account_id>.dkr.ecr.us-west-2.amazonaws.com/my-repository:latest
    ```
 
 4. **Lifecycle Policies**:
+
    - You can set lifecycle policies for your ECR repositories to automatically delete old images. For example, you can specify that images older than 30 days or with fewer than 10 pulls should be deleted.
-   
+
    Example:
+
    ```json
    {
      "rules": [
@@ -7224,9 +7375,11 @@ The **Fargate Launch Type** is a serverless compute engine that allows you to ru
 ### **Security and Permissions**
 
 1. **IAM Integration**:
+
    - **IAM roles** and **policies** are used to control access to ECR repositories. You can grant permissions for **pushing**, **pulling**, and **managing** repositories at both the **repository** and **image** level.
-   
+
    Example: An IAM policy to allow pulling from ECR could look like this:
+
    ```json
    {
      "Version": "2012-10-17",
@@ -7251,9 +7404,11 @@ The **Fargate Launch Type** is a serverless compute engine that allows you to ru
    ```
 
 2. **Image Scanning**:
+
    - ECR provides **image scanning** for vulnerabilities, allowing you to check container images for known vulnerabilities before they are used in your applications. This helps ensure that your containers are secure and compliant.
-   
+
    Example:
+
    ```bash
    aws ecr start-image-scan --repository-name my-repository --image-id imageTag=latest
    ```
@@ -7263,11 +7418,8 @@ The **Fargate Launch Type** is a serverless compute engine that allows you to ru
 ### **When to Use Amazon ECR**
 
 - **Storing Container Images**: ECR is ideal when you need a **secure**, **scalable**, and **highly available** solution for storing and managing your Docker container images.
-  
 - **Integration with ECS/EKS**: ECR integrates seamlessly with **Amazon ECS** and **Amazon EKS** for deploying and managing containerized applications.
-  
 - **Private Repositories**: If you need to keep your container images private but still need to share them between different AWS accounts, ECR provides fine-grained access control.
-  
 - **Public Repositories**: If you have open-source projects or public-facing applications that you want to share with the community, ECR supports **public repositories** as well.
 
 ---
@@ -7281,11 +7433,13 @@ The **Fargate Launch Type** is a serverless compute engine that allows you to ru
 ---
 
 ### **Exam Power-Up**:
+
 - **Amazon ECR**: Managed **container registry** for storing and managing Docker images.
 - **Security**: Supports **IAM** for fine-grained permissions and **image scanning** for vulnerabilities.
 - **Public and Private Repositories**: You can have both **private** and **public repositories** in ECR.
 - **Lifecycle Policies**: Automatically manage and **expire old images** using lifecycle policies.
-****
+
+---
 
 ## 1.8. Advanced-EC2
 
@@ -7347,6 +7501,7 @@ data, then restart the instance. This won't be executed since the instance
 has already started.
 
 Bad Practise:
+
 - dont use password or credentials in user-data
 
 #### 1.8.1.3. Boot-Time-To-Service-Time
@@ -7368,6 +7523,7 @@ This way you reduce the post-launch time and thus the boot-time-to-service.
 #### For Linux Instances
 
 1. **Connect to the EC2 Instance:**
+
    - Use SSH to connect to the EC2 instance.
 
 2. **Locate User Data Script Logs:**
@@ -7385,6 +7541,7 @@ This way you reduce the post-launch time and thus the boot-time-to-service.
 #### For Windows Instances
 
 1. **Connect to the EC2 Instance:**
+
    - Use RDP to connect to the EC2 instance.
 
 2. **View User Data Script Logs:**
@@ -7397,13 +7554,16 @@ This way you reduce the post-launch time and thus the boot-time-to-service.
 ## 2. Check CloudTrail Logs (Optional)
 
 1. **Open the CloudTrail Console:**
+
    - Go to the [CloudTrail console](https://console.aws.amazon.com/cloudtrail/).
 
 2. **Search for EC2 Events:**
+
    - Use the event history to search for `RunInstances` or `StartInstances` events related to instance creation and user data execution.
 
 3. **View Event Details:**
    - Click on specific events to view detailed information, which may include user data script contents.
+
 ### **AWS::CloudFormation::Init and cfn-init**
 
 **AWS::CloudFormation::Init** is a configuration management tool used within **CloudFormation templates** to automate the installation and configuration of software on Amazon EC2 instances. It's typically used with EC2 instances to specify configuration steps like installing packages, modifying system settings, and configuring services. The helper script **cfn-init** is installed on the EC2 instance to execute these tasks.
@@ -7421,7 +7581,6 @@ The **`AWS::CloudFormation::Init`** section in a CloudFormation template is used
 ### **What is cfn-init?**
 
 - **`cfn-init`** is a helper script installed on EC2 instances by CloudFormation. It automates the process of **configuring** instances after they are launched.
-  
 - It reads the configuration information (such as software installation, file handling, or user creation) from the **metadata** section of the CloudFormation template.
 
 - **Key Features of `cfn-init`**:
@@ -7446,15 +7605,18 @@ The **`AWS::CloudFormation::Init`** section in a CloudFormation template is used
 
 ### **1.8.2.1. cfn-init Explained**
 
-1. **CloudFormation Template**: 
+1. **CloudFormation Template**:
+
    - The CloudFormation template is the starting point where you define your resources (like EC2 instances).
    - Within the template, there is a special section called `Metadata`, where you can specify configuration information that `cfn-init` will use to configure the instance after it is launched.
 
-2. **UserData**: 
+2. **UserData**:
+
    - The `UserData` section of the CloudFormation template contains commands or scripts that are passed to the EC2 instance when it is launched.
    - This is where you can trigger `cfn-init` to run. `cfn-init` will execute based on the configuration passed in the metadata section and make sure the instance is configured to the desired state.
 
 3. **Desired State**:
+
    - `cfn-init` works to configure the EC2 instance to match the **desired state** described in the CloudFormation template. For example, if you want the EC2 instance to have **Apache** installed and running, `cfn-init` will ensure that Apache is installed, configured, and started correctly.
 
 4. **Monitoring and Change Management**:
@@ -7469,11 +7631,13 @@ When you launch an EC2 instance using CloudFormation, **`CreationPolicy`** is us
 To solve this, **CreationPolicy** and **Signals** are used to explicitly wait for a signal from the resource (like the EC2 instance) indicating that it has been properly configured.
 
 #### **CreationPolicy**:
+
 - The **CreationPolicy** attribute is added to a logical resource (like an EC2 instance) in the CloudFormation template. It includes a **timeout value** and a signal type.
 - **Timeout**: The maximum amount of time CloudFormation will wait for the signal before it considers the resource creation failed.
 - **Signals**: When the instance or resource reaches the desired state (for example, when `cfn-init` has successfully completed its tasks), it sends a signal back to CloudFormation to indicate that it is ready.
 
 #### **Signals**:
+
 - **Signals** are sent using the **cfn-signal** helper script. Once the instance is configured (using `cfn-init`), the instance sends a signal back to CloudFormation indicating that it is ready.
 - CloudFormation will wait for the signal before marking the instance as successfully provisioned.
 
@@ -7501,7 +7665,7 @@ Resources:
     CreationPolicy:
       ResourceSignal:
         Count: 1
-        Timeout: PT15M  # Timeout for 15 minutes
+        Timeout: PT15M # Timeout for 15 minutes
     UserData:
       Fn::Base64: !Sub |
         #!/bin/bash
@@ -7510,6 +7674,7 @@ Resources:
 ```
 
 In this example:
+
 - **`cfn-init`** installs packages and configures the EC2 instance.
 - Once **`cfn-init`** completes successfully, **`cfn-signal`** sends a signal to CloudFormation to confirm that the instance is properly configured and ready.
 - CloudFormation waits for the signal within **15 minutes** (as defined by `Timeout`), and only marks the instance as **created** once the signal is received.
@@ -7526,9 +7691,11 @@ In this example:
 ---
 
 ### **Exam Power-Up**:
+
 - **cfn-init**: Ensures EC2 instances are configured to a **desired state** (e.g., installing packages, setting up users).
 - **CreationPolicy**: Used to wait for a **signal** from an instance before CloudFormation considers the stack as successfully created.
 - **UserData and Metadata**: `cfn-init` is passed in **UserData** and retrieves configuration information from **Metadata** in the CloudFormation template.
+
 ### **EC2 Instance Roles**
 
 **EC2 Instance Roles** are a critical part of AWS security best practices. They are used to allow EC2 instances to securely interact with other AWS services without needing to manually manage **access keys** or **secret keys**.
@@ -7540,15 +7707,18 @@ Instead of embedding **long-term credentials** in your EC2 instances, which can 
 ### **Key Concepts of EC2 Instance Roles**
 
 1. **IAM Role**:
+
    - An **IAM role** is an **AWS identity with specific permissions** that can be assumed by an entity (such as an EC2 instance).
    - An EC2 instance can assume an IAM role, which allows the instance to gain the permissions granted by the role.
    - IAM roles are the **preferred method** to allow access to AWS services, rather than storing static credentials on the instance.
 
 2. **Instance Profile**:
+
    - When you create an **IAM role** for EC2, AWS automatically creates an **instance profile** with the same name as the role. The **instance profile** is the **container** for the role and allows the EC2 instance to use the IAM role's permissions.
    - The **instance profile** is **attached to the EC2 instance**, and through this profile, the EC2 instance can assume the role and get the associated permissions.
 
 3. **Temporary Security Credentials**:
+
    - **IAM roles** provide **temporary credentials** that are automatically managed and rotated by AWS. These credentials consist of an **Access Key ID**, **Secret Access Key**, and a **Session Token**.
    - The temporary credentials are retrieved by the EC2 instance from its **metadata** and are used by processes inside the instance to interact with other AWS services.
    - These temporary credentials are automatically rotated and valid as long as the role is assumed.
@@ -7562,8 +7732,10 @@ Instead of embedding **long-term credentials** in your EC2 instances, which can 
 ### **How EC2 Instance Roles Work: Step-by-Step**
 
 1. **Creating an IAM Role for EC2**:
+
    - When creating an IAM role for an EC2 instance, you define the **permissions policy** (for example, granting access to an S3 bucket).
    - **Example**: An IAM policy granting permissions to read from S3 could look like this:
+
    ```json
    {
      "Version": "2012-10-17",
@@ -7576,14 +7748,18 @@ Instead of embedding **long-term credentials** in your EC2 instances, which can 
      ]
    }
    ```
+
    - After creating the role, AWS automatically creates an **instance profile** with the same name. You then **attach the instance profile** to an EC2 instance.
 
 2. **Assigning the IAM Role to an EC2 Instance**:
+
    - When you launch an EC2 instance, you can select the **IAM role** (created in step 1) to assign it to the instance. AWS automatically attaches the **instance profile** to the instance.
 
 3. **Using the Role Inside the EC2 Instance**:
+
    - After the EC2 instance is launched with the role, the instance can use the role's permissions. Any process running inside the EC2 instance (e.g., a script, application, or service) can use the **temporary credentials** provided through the **instance metadata**.
    - To access the credentials, an application or tool inside the instance can call the instance metadata service:
+
      ```bash
      curl http://169.254.169.254/latest/meta-data/iam/security-credentials/role-name
      ```
@@ -7597,10 +7773,12 @@ Instead of embedding **long-term credentials** in your EC2 instances, which can 
 Here’s a simplified example of how an EC2 instance might use its role's temporary credentials:
 
 1. **Assigning Role to EC2**:
+
    - You create an IAM role called `MyS3AccessRole` with permissions to access an S3 bucket (`s3:GetObject`).
    - You launch an EC2 instance and assign the `MyS3AccessRole` IAM role to it.
 
 2. **Accessing the Metadata for Temporary Credentials**:
+
    - An application running on the EC2 instance (let’s say a Python script) needs to list the contents of the S3 bucket.
    - The script retrieves the temporary credentials by calling the metadata endpoint:
      ```bash
@@ -7609,8 +7787,10 @@ Here’s a simplified example of how an EC2 instance might use its role's tempor
      This returns the temporary **Access Key ID**, **Secret Access Key**, and **Session Token**.
 
 3. **Using the Temporary Credentials to Access S3**:
+
    - The script can then use these temporary credentials to authenticate API calls to S3 using AWS SDKs or the AWS CLI.
    - For example, using the **AWS SDK for Python (boto3)**:
+
      ```python
      import boto3
 
@@ -7620,7 +7800,7 @@ Here’s a simplified example of how an EC2 instance might use its role's tempor
          aws_secret_access_key='SecretAccessKey',
          aws_session_token='SessionToken'
      )
-     
+
      # Use temporary credentials to access S3
      s3 = session.client('s3')
      response = s3.list_objects_v2(Bucket='my-bucket')
@@ -7663,6 +7843,7 @@ When using AWS CLI, SDKs, or applications that interact with AWS resources, they
 ---
 
 ### **Exam Power-Up**:
+
 - **EC2 Instance Role**: Assigns an IAM role to an EC2 instance, allowing it to interact with other AWS services securely.
 - **Instance Profile**: Container for the IAM role that allows EC2 instances to use it.
 - **Temporary Credentials**: Credentials for EC2 instances are automatically rotated and managed, accessible through instance metadata.
@@ -7685,12 +7866,15 @@ Each type has a different use case and provides different levels of security.
 ---
 
 ### **1. String**
+
 - **Definition**: A simple, plain text string. It can store any text data without any encryption.
-- **Use Case**: 
+- **Use Case**:
+
   - Used for storing configuration values that do **not require encryption**, such as general configuration settings, feature flags, or non-sensitive application parameters.
   - Example: Storing a simple database connection string that does not include sensitive credentials.
 
   **Example**:
+
   ```bash
   aws ssm put-parameter --name "/app/config/version" --value "1.0.3" --type "String"
   ```
@@ -7701,12 +7885,15 @@ Each type has a different use case and provides different levels of security.
 ---
 
 ### **2. StringList**
+
 - **Definition**: A list of strings. A StringList parameter is used to store **multiple string values** as a single parameter.
-- **Use Case**: 
+- **Use Case**:
+
   - Useful for storing lists of values, such as a list of **server names**, **IP addresses**, or **database names** that your application needs to access. It helps in cases where you need to pass multiple pieces of configuration in a single parameter.
   - Example: A list of **allowed IP addresses** for a web application firewall.
 
   **Example**:
+
   ```bash
   aws ssm put-parameter --name "/app/allowed_ips" --value "10.0.0.1,10.0.0.2,10.0.0.3" --type "StringList"
   ```
@@ -7717,18 +7904,22 @@ Each type has a different use case and provides different levels of security.
 ---
 
 ### **3. SecureString**
+
 - **Definition**: A **SecureString** is used for storing sensitive information, such as passwords or API keys. It is automatically encrypted using **AWS Key Management Service (KMS)**.
-- **Use Case**: 
+- **Use Case**:
+
   - Used to store **secrets** like database credentials, API keys, access tokens, and other sensitive data that require encryption at rest.
   - This type of parameter integrates tightly with **KMS** to provide encryption and decryption capabilities.
   - Example: Storing an **API key** for an external service or a **database password** that requires protection.
 
   **Example**:
+
   ```bash
   aws ssm put-parameter --name "/app/db_password" --value "supersecretpassword" --type "SecureString" --key-id "alias/my-key"
   ```
 
 - **Advantages**:
+
   - Parameters of type `SecureString` are **automatically encrypted** using KMS, ensuring that sensitive data is protected at rest.
   - You can specify which **KMS key** should be used for encryption and decryption of the value.
 
@@ -7741,22 +7932,23 @@ Each type has a different use case and provides different levels of security.
 
 While both **AWS Systems Manager Parameter Store** and **AWS Secrets Manager** are used for storing sensitive data (like passwords and API keys), there are some key differences between them.
 
-| Feature                         | **Parameter Store**                                              | **Secrets Manager**                                           |
-|----------------------------------|------------------------------------------------------------------|---------------------------------------------------------------|
-| **Data Types**                   | String, StringList, SecureString                                  | Secrets (encrypted), can store binary data, arbitrary text    |
-| **Encryption**                    | **Supports encryption** using KMS for SecureString parameters.  | Built-in encryption using KMS. Supports **automatic rotation** of secrets. |
-| **Use Case**                      | General configuration, parameters that need encryption (SecureString), non-sensitive data. | **Storing secrets**, such as API keys, credentials, with **automatic rotation**. |
-| **Versioning**                    | Supports **manual versioning** for parameters.                   | **Automatic versioning** with secret versions.               |
-| **Access Control**                | Uses **IAM policies** for access control.                       | Supports **IAM**, **resource-based policies**, and automatic secret access control. |
-| **Rotation**                      | Does not support **automatic secret rotation**.                  | **Automatic secret rotation** is supported.                  |
-| **Cost**                          | Lower cost for storing parameters.                               | Higher cost for secret management and automatic rotation.    |
-| **Service Integration**           | Integrated with AWS services (e.g., CloudFormation, Lambda).     | Integrated with **AWS Lambda**, **RDS**, **Redshift**, and more. |
+| Feature                 | **Parameter Store**                                                                        | **Secrets Manager**                                                                 |
+| ----------------------- | ------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------- |
+| **Data Types**          | String, StringList, SecureString                                                           | Secrets (encrypted), can store binary data, arbitrary text                          |
+| **Encryption**          | **Supports encryption** using KMS for SecureString parameters.                             | Built-in encryption using KMS. Supports **automatic rotation** of secrets.          |
+| **Use Case**            | General configuration, parameters that need encryption (SecureString), non-sensitive data. | **Storing secrets**, such as API keys, credentials, with **automatic rotation**.    |
+| **Versioning**          | Supports **manual versioning** for parameters.                                             | **Automatic versioning** with secret versions.                                      |
+| **Access Control**      | Uses **IAM policies** for access control.                                                  | Supports **IAM**, **resource-based policies**, and automatic secret access control. |
+| **Rotation**            | Does not support **automatic secret rotation**.                                            | **Automatic secret rotation** is supported.                                         |
+| **Cost**                | Lower cost for storing parameters.                                                         | Higher cost for secret management and automatic rotation.                           |
+| **Service Integration** | Integrated with AWS services (e.g., CloudFormation, Lambda).                               | Integrated with **AWS Lambda**, **RDS**, **Redshift**, and more.                    |
 
 ---
 
 ### **When to Use Parameter Store vs. Secrets Manager**
 
 - **Use Parameter Store when**:
+
   - You need to store **non-sensitive** data, like configuration parameters or public API keys.
   - You don’t need **automatic secret rotation**.
   - You have a small number of parameters or simple secret management needs.
@@ -7772,6 +7964,7 @@ While both **AWS Systems Manager Parameter Store** and **AWS Secrets Manager** a
 ### **Cost Considerations**
 
 - **AWS Systems Manager Parameter Store**:
+
   - **Free Tier**: Up to 10,000 parameters per account are free.
   - **Standard Parameter**: You incur costs if you store more than 10,000 parameters or if you use **SecureString** parameters (with encryption).
   - **Cost for SecureString**: You are charged for the **KMS encryption requests** and the **storage** of SecureString parameters.
@@ -7788,6 +7981,7 @@ While both **AWS Systems Manager Parameter Store** and **AWS Secrets Manager** a
 ### **Example Use Case for Each Type of String**
 
 1. **String**:
+
    - Use this type to store configuration values that do **not require encryption**, such as an **application version** or a **feature flag**.
    - **Example**: You want to store the version number of your application for a deployment.
      ```bash
@@ -7795,6 +7989,7 @@ While both **AWS Systems Manager Parameter Store** and **AWS Secrets Manager** a
      ```
 
 2. **StringList**:
+
    - Use this type to store a **list of strings** (e.g., a list of **allowed IP addresses** or **server names**).
    - **Example**: A list of **allowed IP addresses** for your application.
      ```bash
@@ -7820,11 +8015,11 @@ While both **AWS Systems Manager Parameter Store** and **AWS Secrets Manager** a
 ---
 
 ### **Exam Power-Up**:
+
 - **String**: Used for non-sensitive, plain text data (e.g., configuration parameters).
 - **StringList**: Useful for storing **multiple string values** (e.g., list of IPs).
 - **SecureString**: Used for **encrypted sensitive data** (e.g., passwords, API keys), integrates with **KMS**.
 - **Cost**: Parameter Store is **cost-effective** for simple use cases, but **Secrets Manager** is more feature-rich for managing dynamic secrets with automatic rotation.
-
 
 ### **System and Application Logging on EC2 with CloudWatch**
 
@@ -7837,14 +8032,17 @@ Let's break down the key concepts and details:
 ### **CloudWatch Agent for EC2 Logging**
 
 1. **Why CloudWatch Agent is Needed**:
+
    - CloudWatch **can’t natively capture logs** inside an EC2 instance. It only captures logs from AWS services (e.g., EC2, Lambda, etc.) but cannot directly access **OS-level logs** (like system logs, application logs, or custom log files).
    - **CloudWatch Agent** is required to send **OS-level logs and metrics** (such as memory usage, disk space, and custom application logs) to CloudWatch from EC2 instances.
 
 2. **Installation of CloudWatch Agent**:
+
    - You need to install the **CloudWatch Agent** on your EC2 instances to allow them to send **logs** and **metrics** to CloudWatch.
    - Once installed, the **CloudWatch Agent** can monitor system-level logs and application logs, sending them to **CloudWatch Logs** and **CloudWatch Metrics**.
 
 3. **Configuration of CloudWatch Agent**:
+
    - The **CloudWatch Agent** requires configuration to specify what types of logs and metrics to collect (e.g., **system logs**, **application logs**, **performance metrics**).
    - The configuration can be managed through a configuration file or stored in **AWS Systems Manager Parameter Store**, allowing for easy updates and consistency across instances.
 
@@ -7857,14 +8055,16 @@ Let's break down the key concepts and details:
 ### **CloudWatch Logs and Log Groups**
 
 1. **Log Groups and Log Streams**:
+
    - In CloudWatch Logs, you organize logs into **log groups**. A **log group** is a collection of logs that share the same permissions and retention policies.
    - Inside each **log group**, there are **log streams**. Each log stream represents a set of log data from a specific **instance** or **source** (for example, one log stream per EC2 instance).
-   
+
    - Example:
      - **Log Group**: `/aws/ec2/system/logs`
      - **Log Stream**: `i-1234567890abcdef0` (instance ID)
 
 2. **Injecting Logs into CloudWatch**:
+
    - The **CloudWatch Agent** collects and pushes the logs into the appropriate log groups and streams in CloudWatch.
    - Once configured, you can use CloudWatch to view, search, and analyze logs from your EC2 instances.
 
@@ -7886,17 +8086,18 @@ While CloudWatch Agent is versatile, it has some limitations. Here’s a list of
 
 1. **Logs from External Systems**:
    - CloudWatch Agent can only log data from **EC2 instances** that have the agent installed. It **cannot collect logs** from systems outside of AWS unless those systems are specifically sending logs to CloudWatch (e.g., via the CloudWatch Logs Agent).
-   
 2. **Logs Before Agent Installation**:
+
    - CloudWatch Agent can only collect logs **after it is installed** and configured. It **cannot retroactively collect logs** from before the agent was installed on an instance.
 
 3. **Service-Specific Logs Not Configured for Collection**:
+
    - CloudWatch Agent will only collect logs or metrics that have been explicitly configured. It **won’t capture logs** from services or applications unless they are **properly configured** within the agent settings (e.g., logs from non-application services that aren’t included in the configuration).
 
 4. **Logs from Unsupported OS or Custom Software**:
    - CloudWatch Agent may not be able to capture logs from **non-supported operating systems** or **non-standard log sources**. The agent has support for common OS types (like **Linux** and **Windows**), but it may not support certain custom or legacy applications.
-   
 5. **CloudWatch Agent Isn’t a Logging Solution for All AWS Services**:
+
    - CloudWatch Agent doesn’t capture **logs from other AWS services** like **AWS Lambda**, **S3**, **DynamoDB**, or **SNS**. These services must be configured separately to send logs to CloudWatch.
 
 6. **Sensitive Data Logging**:
@@ -7907,6 +8108,7 @@ While CloudWatch Agent is versatile, it has some limitations. Here’s a list of
 ### **Costs Associated with CloudWatch Logging**
 
 1. **CloudWatch Logs Pricing**:
+
    - **Data Ingestion**: You incur costs based on the **amount of log data** ingested into CloudWatch Logs. The price is typically charged per **GB of log data** ingested.
    - **Storage Costs**: You also incur costs for **storing logs** in CloudWatch Logs. The pricing is based on the amount of data stored per month.
    - **Log Retention**: CloudWatch allows you to define a **log retention period** (e.g., keep logs for 7 days or 1 year). If you store logs for a longer period, this could increase costs.
@@ -7930,16 +8132,16 @@ While CloudWatch Agent is versatile, it has some limitations. Here’s a list of
 ---
 
 ### **Exam Power-Up**:
+
 - **CloudWatch Agent**: Required for **OS-level logs** and metrics from EC2 instances.
 - **IAM Role**: The **IAM role** allows EC2 instances to securely interact with CloudWatch for logging and monitoring.
 - **Log Groups and Log Streams**: **Log groups** store logs, and each EC2 instance has a unique **log stream**.
 - **Costs**: You incur costs for data ingestion, storage, and retrieval of logs in CloudWatch.
 
-
 ### 1.8.8. Enhanced Networking
 
 Enhanced networking uses SR-IOV.
-The physical network interface is aware of the virtualization.
+The physical network interface of Host is aware of the virtualization.
 Each instance is given exclusive access to one part of a physical network
 interface card.
 
@@ -7947,6 +8149,8 @@ There is no charge for this and is available on most EC2 types.
 It allows for higher IO and lower host CPU usage
 This provides more bandwidth and higher packet per seconds.
 In general this provides lower latency.
+
+![EBS Optimized](<10-EC2-Advanced/Screenshot 2025-03-27 at 1.48.01 pm.png>)
 
 #### 1.8.8.1. EBS Optimized
 
@@ -7971,21 +8175,25 @@ An **EC2 Placement Group** is a logical grouping of EC2 instances that helps opt
 The **Cluster Placement Group** is designed to provide **high performance** for workloads that require **low latency**, **high network throughput**, and **high packet-per-second performance**. In this type, instances within the group are placed physically close together, often on the **same rack** or even the **same EC2 host**. This helps achieve the highest level of network performance.
 
 #### **Key Features**:
+
 - **Physical Proximity**: Instances within the group are placed on the same **physical hardware** or within a very close **network** to minimize latency.
 - **Performance**: Cluster placement groups allow you to achieve **10 Gbps** of **single-stream performance**, significantly higher than the typical **5 Gbps** offered in standard EC2 setups.
 - **Networking**: Instances within the cluster can communicate with each other with **very low latency** and high **network throughput**.
 - **Failure Risk**: The downside is that if the hardware fails (like a network switch, power supply, or an entire rack failure), the **entire cluster** could be affected.
-  
+
 #### **When to Use Cluster Placement**:
+
 - **High-Performance Applications**: Applications requiring fast network speeds, low latency, and high throughput (e.g., **high-performance computing** (HPC), **big data** processing, **video rendering**).
 - **Single-Stream Performance**: If your application needs **high single-stream network performance**, cluster placement is your best option.
 
 #### **Cluster Placement Best Practices**:
+
 - **Launch All Instances at Once**: It is a best practice to launch all the instances at once, as launching after the initial group may limit your available capacity.
 - **Same Availability Zone (AZ)**: Cluster placement groups **cannot span across AZs**. They must reside entirely in one AZ.
 - **Supported Instance Types**: Cluster placement requires specific **instance types** (like compute-optimized, memory-optimized, and storage-optimized instances).
 
 #### **Cluster Placement Exam PowerUp**:
+
 - **Cannot span multiple AZs**: Cluster placement is **restricted to a single AZ**.
 - **10 Gbps single stream performance**: Achieve **maximum performance** for single-stream data transmission.
 - **Instances in the same rack**: Best for **high-performance computing** or applications requiring low latency.
@@ -7997,15 +8205,18 @@ The **Cluster Placement Group** is designed to provide **high performance** for 
 The **Spread Placement Group** is designed for high **availability** and **resilience**. Instances in a spread placement group are spread across **multiple physical racks** within an AZ. This helps ensure that if there is a failure in one rack (such as network or power issues), only a **single instance** is affected, minimizing the impact on your application.
 
 #### **Key Features**:
+
 - **Instances Spread Across Different Racks**: Each instance in a spread group is placed on a **different physical rack** with its own power and network supply, ensuring that instances are isolated from each other.
 - **Maximum Resilience**: This ensures **fault isolation**, so a failure in one rack does not affect other instances.
-- **Limitations**: You can place only **7 instances per AZ** in a spread placement group, but you can use multiple AZs for more instances.
+- **Limitations**: <span style='color:red'>Important:</span> You can place only **7 instances per AZ** in a spread placement group, but you can use multiple AZs for more instances.
 
 #### **When to Use Spread Placement**:
+
 - **High Availability**: Use spread placement when your application needs **high availability** and **fault tolerance**, such as **critical instances** or **small clusters** where high availability is more important than performance.
 - **Distributed Applications**: Suitable for applications like **database replicas**, **high-availability web servers**, or **distributed applications** requiring instances to be spread across multiple physical resources.
 
 #### **Spread Placement Exam PowerUp**:
+
 - **High Resilience**: Spread placement is ideal for **critical instances** that require **high availability** and **resilience**.
 - **7 instances per AZ**: The **hard limit** is **7 instances per AZ** in a spread placement group.
 - **Not Supported for Dedicated Instances**: Spread placement does not work for **dedicated instances** or **dedicated hosts**.
@@ -8017,16 +8228,19 @@ The **Spread Placement Group** is designed for high **availability** and **resil
 The **Partition Placement Group** is designed to provide both **resilience** and **scalability** for applications that require a balance between performance and fault isolation. In this type of placement group, EC2 instances are grouped into **partitions**. Each partition is placed on a **separate physical rack**, so if a failure occurs in one partition (such as a hardware issue), only the instances in that partition are affected.
 
 #### **Key Features**:
+
 - **Instances Grouped into Partitions**: Instances are spread across **multiple partitions**, and each partition is isolated from others to minimize the impact of failure.
 - **Customizable Partition Size**: You can choose how many instances to launch in each partition or let AWS decide based on your needs.
 - **Scaling Flexibility**: Unlike **spread placement**, you can launch **many instances per partition**, so you can scale without hitting the limit of **7 instances per AZ**.
 
 #### **When to Use Partition Placement**:
+
 - **Large-Scale Distributed Applications**: Ideal for applications like **HDFS**, **Cassandra**, or **HBase** that require **fault tolerance** with the ability to scale.
 - **Data Warehousing**: Suitable for large **distributed storage** or **data processing systems** where you want to spread instances across isolated physical hardware but need to scale horizontally.
 - **Fault Isolation**: When you want to ensure that failures in one **partition** do not affect the rest of your system.
 
 #### **Partition Placement Exam PowerUp**:
+
 - **7 Partitions per AZ**: You can have up to **7 partitions per AZ**.
 - **More Flexibility**: Unlike spread groups, you can launch **many instances in each partition**.
 - **Use Case**: Great for **distributed systems** like **HDFS**, **Cassandra**, and **HBase**.
@@ -8038,16 +8252,19 @@ The **Partition Placement Group** is designed to provide both **resilience** and
 An **EC2 Dedicated Host** is a physical server fully dedicated to your use in AWS. With a **dedicated host**, you can run **EC2 instances** on specific physical hardware, giving you more control over the instance placement and helping you meet **compliance** or **licensing** requirements that need specific hardware configurations.
 
 #### **Key Features**:
+
 - **Dedicated Physical Hardware**: You are allocated a **physical server** that hosts your instances.
 - **No Instance Charges**: You pay for the **dedicated host itself**, not the individual instances. This is different from the usual EC2 pricing model.
 - **Licensing**: Suitable for **software licensing** that is based on the **physical server** (e.g., per-core licensing).
 - **Instance Types**: Hosts are designed for specific families of instances (e.g., M5, C5), and each host supports only a certain number of instances based on its physical capacity.
 
 #### **When to Use EC2 Dedicated Hosts**:
+
 - **Licensing Requirements**: Use dedicated hosts when you need to comply with licensing agreements that require instances to be bound to **specific physical hardware** (e.g., **Windows Server**, **SQL Server**, or other software with **core-based licensing**).
 - **Compliance**: Useful when your application has **regulatory requirements** to control the physical hardware your workloads run on.
 
 #### **Limitations**:
+
 - **No Support for Placement Groups**: Dedicated hosts **do not support placement groups** (Cluster, Spread, or Partition).
 - **AMI Limits**: Some **AMI types** cannot be used on dedicated hosts.
 - **RDS Not Supported**: **Amazon RDS** instances are **not supported** on dedicated hosts.
@@ -8064,14 +8281,1603 @@ An **EC2 Dedicated Host** is a physical server fully dedicated to your use in AW
 ---
 
 ### **Exam Power-Up**:
+
 - **Cluster Placement**: **10 Gbps single stream performance** within a **single AZ**.
 - **Spread Placement**: **High availability** with **7 instances per AZ** limit.
 - **Partition Placement**: Spread across **multiple partitions** for **fault isolation** and **scalability**.
-- **Dedicated Hosts**: **Physical servers** dedicated to you for **licensing** and **compliance** needs. 
+- **Dedicated Hosts**: **Physical servers** dedicated to you for **licensing** and **compliance** needs.
 
 ---
 
-## Cloud Formation
+## 1.9 Cloud Formation
+
+### **AWS CloudFormation Overview**
+
+**AWS CloudFormation** is a service that allows you to define and provision AWS infrastructure using **code** (via templates) rather than manually configuring resources. CloudFormation templates are written in **JSON** or **YAML**, and they describe the infrastructure resources you want to create, modify, or delete.
+
+CloudFormation automates the process of **deploying, managing, and updating AWS resources** based on the desired configuration, making infrastructure provisioning repeatable, scalable, and more consistent. It integrates tightly with other AWS services, such as **IAM**, **EC2**, **S3**, **RDS**, and more.
+
+* * * * *
+
+### **Key Concepts in CloudFormation**
+
+1.  **Logical Resources**
+
+2.  **Physical Resources**
+
+3.  **Templates**
+
+4.  **Stacks**
+
+5.  **Updates and Stack Changes**
+
+* * * * *
+
+### **1\. Logical Resources**
+
+-   **Logical Resources** represent the **desired configuration** of AWS resources as defined in the **CloudFormation template**. These resources are declared in the template and act as **abstractions** of the actual resources you want to create.
+
+-   These logical resources can include:
+
+    -   **EC2 instances**
+
+    -   **S3 buckets**
+
+    -   **IAM roles**
+
+    -   **Security groups**
+
+    -   **VPCs**
+
+-   Logical resources do not directly correspond to **physical resources** in the cloud. Instead, they are used by CloudFormation to figure out what needs to be created or modified.
+
+-   **Example**: In a CloudFormation template, you define an **EC2 instance** as a logical resource:
+
+    ```
+    Resources:
+      MyEC2Instance:
+        Type: AWS::EC2::Instance
+        Properties:
+          InstanceType: t2.micro
+          ImageId: ami-12345678
+
+    ```
+
+* * * * *
+
+### **2\. Physical Resources**
+
+-   **Physical Resources** refer to the **actual infrastructure** that gets created when CloudFormation provisions your stack.
+
+-   These physical resources are based on the logical resources and are the **real-world representations** of what you defined in the template (e.g., an **EC2 instance**, **S3 bucket**, **VPC**).
+
+-   CloudFormation translates the **logical resource definitions** into actual **physical infrastructure** within AWS.
+
+-   **Example**: When you run the above CloudFormation template, CloudFormation will create a **physical EC2 instance** with the specified instance type (`t2.micro`) and image ID (`ami-12345678`) in your AWS account.
+
+* * * * *
+
+### **3\. Templates**
+
+-   A **CloudFormation template** is a JSON or YAML file that describes the **infrastructure resources** and their configurations.
+
+-   Templates can define **parameters**, **resources**, **outputs**, and **metadata** for the CloudFormation stack.
+
+-   **Key Sections of a Template**:
+
+    -   **Parameters**: Input values that can be passed into the template when creating or updating a stack. These allow flexibility in customizing the stack's resources.
+
+    -   **Resources**: The AWS resources (e.g., EC2 instances, RDS databases, VPCs) you want to create or manage.
+
+    -   **Outputs**: Values that you want to be returned after stack creation, such as the instance's public IP address.
+
+    -   **Metadata**: Additional information about resources, typically used to store configuration information for automation tools.
+
+-   **Example Template**: A simple CloudFormation template to create an EC2 instance.
+
+```
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  InstanceType:
+    Type: String
+    Default: t2.micro
+Resources:
+  MyEC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: !Ref InstanceType
+      ImageId: ami-12345678
+Outputs:
+  InstanceId:
+    Description: "Instance ID"
+    Value: !Ref MyEC2Instance
+
+```
+
+-   **Explanation**:
+
+    -   The **`Parameters`** section allows you to specify the instance type when creating the stack.
+
+    -   The **`Resources`** section defines the **EC2 instance** with the specified instance type and AMI image.
+
+    -   The **`Outputs`** section will return the EC2 instance ID after the stack is created.
+
+* * * * *
+
+### **4\. Stacks**
+
+-   A **Stack** is a collection of AWS resources that you create, update, or delete together. When you launch a CloudFormation template, it creates a **stack** of resources based on the template's definitions.
+
+-   Stacks can be:
+
+    -   **Created**: To launch a new set of resources defined in a template.
+
+    -   **Updated**: To modify existing resources based on changes made in the template.
+
+    -   **Deleted**: To remove all resources associated with the stack.
+
+-   **Stack Example**:
+
+    -   **Stack Name**: `MyTestStack`
+
+    -   This stack could contain resources like EC2 instances, S3 buckets, VPCs, and IAM roles.
+
+-   **Stack Lifecycle**:
+
+    -   When a stack is created, CloudFormation provisions the **logical resources** as **physical resources** in AWS.
+
+    -   CloudFormation manages all resources under that stack, allowing you to update or delete them all together.
+
+* * * * *
+
+### **5\. Updates and Stack Changes**
+
+-   **Updating a Stack**: When you make changes to a CloudFormation template (e.g., changing the instance type or adding a new resource), you can update the stack. CloudFormation will automatically figure out how to update the **physical resources** to reflect the changes in the template.
+
+-   **Example**:
+
+    -   Suppose you initially created an EC2 instance with an instance type of `t2.micro`.
+
+    -   Later, you update the template to change the instance type to `t2.small`.
+
+**How the Update Works**:
+
+-   CloudFormation will first compare the new template with the existing stack.
+
+-   CloudFormation will detect that the **instance type** of the EC2 instance has changed.
+
+-   CloudFormation will **replace the EC2 instance** by creating a new instance with the new instance type (`t2.small`) and terminating the old instance.
+
+#### **Important Aspects of Stack Updates**:
+
+-   **Replacement of Resources**: Some changes may require CloudFormation to replace the resource (e.g., changing the instance type of an EC2 instance).
+
+-   **Rolling Updates**: CloudFormation can apply changes **gradually** across resources (especially in larger systems) to avoid downtime.
+
+-   **Stack Policy**: CloudFormation supports a **stack policy** that can prevent certain resources from being updated during a stack update.
+
+* * * * *
+
+### **Example of Stack Update and Physical Resource Changes**
+
+1.  **Initial Stack** (CloudFormation template):
+
+    ```
+    AWSTemplateFormatVersion: '2010-09-09'
+    Resources:
+      MyEC2Instance:
+        Type: AWS::EC2::Instance
+        Properties:
+          InstanceType: t2.micro
+          ImageId: ami-12345678
+
+    ```
+
+    -   After running this template, CloudFormation provisions an EC2 instance (`MyEC2Instance`) of type `t2.micro`.
+
+2.  **Updated Stack** (New CloudFormation template):
+
+    ```
+    AWSTemplateFormatVersion: '2010-09-09'
+    Resources:
+      MyEC2Instance:
+        Type: AWS::EC2::Instance
+        Properties:
+          InstanceType: t2.small  # Updated instance type
+          ImageId: ami-12345678
+
+    ```
+
+    -   When you update the stack with this new template, CloudFormation will **replace the EC2 instance** with a new `t2.small` instance and terminate the old `t2.micro` instance.
+
+* * * * *
+
+### **Tips to Memorize Key Concepts**:
+
+-   **Logical vs Physical**:
+
+    -   **Logical Resources**: Think of them as the **blueprint** or the **desired state** of your infrastructure.
+
+    -   **Physical Resources**: These are the **real-world objects** that are created from the logical resources (actual EC2 instance, S3 bucket).
+
+-   **Templates**: Templates are like **recipes** for provisioning resources. They define what resources should look like and how they should behave.
+
+-   **Stacks**: Stacks are like **projects** that hold everything together. When you create a stack, it provisions the resources. When you update it, it updates the resources.
+
+-   **Updates**: If you change something in your template, CloudFormation tries to **update the physical resources** to match the changes. For instance, changing an instance type causes CloudFormation to **replace** the EC2 instance.
+
+* * * * *
+
+### **Summary**
+
+-   **CloudFormation** enables you to provision AWS resources using **templates** that define logical resources. When the template is executed, it provisions physical resources.
+
+-   **Logical Resources** are abstractions of infrastructure (e.g., EC2 instance, S3 bucket), while **Physical Resources** represent the actual infrastructure in AWS.
+
+-   **Templates** define the resources, and **Stacks** are collections of resources managed by CloudFormation.
+
+-   **Updating a Stack** updates the associated physical resources to reflect the changes in the CloudFormation template, sometimes replacing resources like EC2 instances to match new configurations.
+
+* * * * *
+
+### **Exam Power-Up**:
+
+-   **Logical Resources**: Represent the **desired state** defined in templates.
+
+-   **Physical Resources**: The **real AWS infrastructure** created by CloudFormation.
+
+-   **Templates**: Define infrastructure as **code**, using JSON or YAML.
+
+-   **Stacks**: Group of resources created, updated, and deleted together.
+
+-   **Stack Updates**: CloudFormation automatically manages resource changes, sometimes replacing resources.
+
+### Example Non portable YAML template
+
+> You can use below as reference
+> https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html
+
+``` YAML
+Resources:
+  Bucket:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      BucketName: 'accatpics13333337'
+  Instance:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      InstanceType: "t2.micro"
+      ImageId: 'ami-090fa75af13c156b4'
+
+```
+The above isa non portable template as the AMI id and the bucket name are hardcoded meaning that it would fail if you run it twice because the bucket name has to be unique or it would also fail If we run it from a different region because AMIs are specific to a specific region hence the parameters are used to let the user select the options to make templates reusable and portable
+
+
+
+### **AWS CloudFormation Concepts: Parameters, Pseudo Parameters, Intrinsic Functions, Mappings, Outputs, Wait Conditions, and cfn-signal**
+
+**AWS CloudFormation** provides a powerful infrastructure-as-code service that allows you to define, provision, and manage AWS resources. It supports several key features to customize and enhance the templates, such as **parameters**, **pseudo parameters**, **intrinsic functions**, **mappings**, **outputs**, and **wait conditions**. These features help you dynamically manage configurations, handle conditions, and pass data between resources and stacks.
+
+Let’s go over each concept in detail, with examples in **YAML** templates where needed.
+
+---
+
+### **1. CloudFormation Parameters**
+
+**Parameters** allow you to pass dynamic values into a CloudFormation template at runtime. These values are defined in the **Parameters** section of the template and can be used in various parts of the template to configure resources or set configurations. 
+
+#### **Use Case**:
+- **Dynamic Resource Configuration**: Allow users to specify values like instance types, image IDs, or any other configurable resource parameter during stack creation.
+
+#### **Example**:
+```yaml
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  InstanceType:
+    Description: EC2 instance type
+    Type: String
+    Default: t2.micro
+    AllowedValues:
+      - t2.micro
+      - t2.small
+      - t2.medium
+    ConstraintDescription: Must be a valid EC2 instance type.
+
+Resources:
+  MyEC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: !Ref InstanceType
+      ImageId: ami-12345678
+```
+- **Explanation**:
+  - The `InstanceType` parameter allows the user to specify the EC2 instance type when launching the stack.
+  - The `!Ref InstanceType` retrieves the value specified by the user at stack creation.
+
+---
+
+### **2. Pseudo Parameters**
+
+**Pseudo parameters** are special parameters that are automatically provided by CloudFormation. These parameters do not require you to define them in the template, but CloudFormation will make them available for use. 
+
+#### **Common Pseudo Parameters**:
+- **AWS::AccountId**: The AWS account ID of the user.
+- **AWS::Region**: The region where the stack is being created.
+- **AWS::StackName**: The name of the CloudFormation stack.
+- **AWS::NoValue**: Represents a value that will cause CloudFormation to remove a resource property.
+
+#### **Example**:
+```yaml
+AWSTemplateFormatVersion: '2010-09-09'
+
+Resources:
+  MyBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub 'my-bucket-${AWS::AccountId}-${AWS::Region}-${AWS::StackName}'
+```
+- **Explanation**:
+  - The `BucketName` combines the `AWS::AccountId`, `AWS::Region`, and `AWS::StackName` pseudo parameters to create a unique bucket name.
+
+---
+
+### **3. Intrinsic Functions**
+
+**Intrinsic functions** in CloudFormation allow you to manipulate values, reference other resources, and perform operations like conditions and substitutions within a template. These functions help make the templates more dynamic.
+
+#### **Common Intrinsic Functions**:
+- **!Ref**: Returns the value of a specified parameter or resource.
+- **!GetAtt**: Returns the value of an attribute of a resource (e.g., public IP address of an EC2 instance).
+- **!Sub**: Performs string substitution to create dynamic strings.
+- **!Join**: Joins a list of values into a single string.
+
+#### **Example** using **!Ref**, **!GetAtt**, and **!Sub**:
+```yaml
+AWSTemplateFormatVersion: '2010-09-09'
+
+Parameters:
+  Environment:
+    Type: String
+    Default: production
+
+Resources:
+  MyBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub 'my-bucket-${Environment}-${AWS::Region}'
+
+  MyEC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      ImageId: ami-12345678
+      AvailabilityZone: !Select [ 0, !GetAZs '' ]  # Get first AZ in region
+```
+- **Explanation**:
+  - The **!Sub** function dynamically substitutes `${Environment}` and `${AWS::Region}` into the bucket name.
+  - The **!GetAZs** function retrieves a list of availability zones in the region, and **!Select** gets the first AZ to place the EC2 instance.
+
+---
+
+### **4. Mappings**
+
+**Mappings** allow you to define key-value pairs to map one value to another, often used for regional mappings or other environment-specific configurations. 
+
+#### **Use Case**:
+- **Region-Specific Configuration**: If you have resources that require different configurations in different regions (e.g., AMI IDs, instance types), you can use mappings to map those configurations.
+
+#### **Example**:
+```yaml
+AWSTemplateFormatVersion: '2010-09-09'
+
+Mappings:
+  RegionMap:
+    us-east-1:
+      AMI: ami-12345678
+    us-west-1:
+      AMI: ami-23456789
+
+Resources:
+  MyEC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      ImageId: !FindInMap [RegionMap, !Ref AWS::Region, AMI]
+```
+- **Explanation**:
+  - The `RegionMap` mapping provides different **AMI IDs** based on the region. **!FindInMap** retrieves the appropriate AMI ID based on the current region.
+
+---
+
+### **5. Outputs**
+
+**Outputs** are values that are returned after the stack is created or updated. They allow you to display important information such as resource IDs, URLs, or other properties that you may want to access after stack creation.
+
+#### **Use Case**:
+- **Access Resource Information**: After creating an EC2 instance, you might want to return its **public IP address** or **instance ID**.
+
+#### **Example**:
+```yaml
+AWSTemplateFormatVersion: '2010-09-09'
+
+Resources:
+  MyEC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      ImageId: ami-12345678
+
+Outputs:
+  InstanceID:
+    Description: "The Instance ID"
+    Value: !Ref MyEC2Instance
+  InstancePublicIP:
+    Description: "Public IP address of the instance"
+    Value: !GetAtt MyEC2Instance.PublicIp
+```
+- **Explanation**:
+  - The `Outputs` section returns the **Instance ID** and **Public IP** of the EC2 instance after the stack is created.
+
+---
+
+### **6. Wait Conditions**
+
+**Wait Conditions** in CloudFormation are used to delay the completion of the stack creation process until a specific signal is received. This is useful when you need to ensure that a resource (like an EC2 instance or application) is fully initialized before the stack creation is considered complete.
+
+#### **Use Case**:
+- **Waiting for EC2 Instance Initialization**: If your stack includes an EC2 instance that requires initialization or configuration (e.g., running a script to configure the system), you can use a wait condition to pause stack creation until that initialization is complete.
+
+#### **Example**:
+```yaml
+AWSTemplateFormatVersion: '2010-09-09'
+
+Resources:
+  MyWaitCondition:
+    Type: AWS::CloudFormation::WaitCondition
+    Properties:
+      Handle: !Ref MyWaitConditionHandle
+      Timeout: '600'  # Wait for up to 10 minutes
+      Count: 1
+
+  MyWaitConditionHandle:
+    Type: AWS::CloudFormation::WaitConditionHandle
+
+  MyEC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      ImageId: ami-12345678
+    Metadata:
+      AWS::CloudFormation::Init:
+        configSets:
+          default:
+            - InstallSoftware
+        InstallSoftware:
+          commands:
+            01_install_software:
+              command: !Sub "yum install -y httpd"
+    DependsOn: MyWaitCondition
+
+Outputs:
+  InstancePublicIP:
+    Description: "Public IP address"
+    Value: !GetAtt MyEC2Instance.PublicIp
+```
+
+- **Explanation**:
+  - **MyWaitCondition**: A **WaitCondition** is used to pause stack creation until the **signal** from the EC2 instance (through `cfn-signal`) is received.
+  - **MyEC2Instance**: The EC2 instance is configured to send a signal to the wait condition after it has finished installing software.
+  - **Metadata and AWS::CloudFormation::Init**: The EC2 instance will run commands to install software, and once completed, it will signal that it is done, allowing CloudFormation to complete the stack creation.
+
+---
+
+### **7. cfn-signal**
+
+**cfn-signal** is a helper script that sends a signal from an EC2 instance to a **WaitCondition** in CloudFormation. It allows the instance to inform CloudFormation when it has completed a particular task (e.g., installation, configuration).
+
+#### **Example Usage**:
+```bash
+/opt/aws/bin/cfn-signal --exit-code 0 --stack my-stack --resource MyWaitCondition --region us-west-2
+```
+
+- **Explanation**:
+  - The command sends a **success signal** (exit code `0`) from the EC2 instance to CloudFormation to indicate that it has successfully completed its initialization tasks.
+  - This allows CloudFormation to proceed with completing the stack creation.
+
+---
+
+
+### **8\. CloudFormation Conditions**
+
+**Conditions** in CloudFormation allow you to control whether certain resources are created, updated, or deleted based on a **Boolean expression** (i.e., true or false). Conditions are useful when you want to conditionally create resources based on the value of a parameter, a specific AWS region, or some other factors in the template.
+
+#### **Use Case for Conditions**:
+
+-   You can create resources only if a certain parameter is passed during stack creation, or only if the stack is being created in a specific region.
+
+#### **How Conditions Work**:
+
+-   Conditions are defined in the **`Conditions`** section of a CloudFormation template.
+
+-   You can use conditions in resource, output, and metadata sections.
+
+-   If the condition evaluates to **true**, the associated resource or property is created or modified. If it evaluates to **false**, the resource is not created or modified.
+
+#### **Common Intrinsic Functions Used with Conditions**:
+
+-   **`Fn::Equals`**: Compares two values and returns true if they are equal.
+
+-   **`Fn::If`**: Performs a conditional evaluation. If a condition evaluates to true, a specified value is returned; otherwise, another value is returned.
+
+-   **`Fn::Not`**: Reverses the result of a condition.
+
+-   **`Fn::Or`**: Returns true if at least one condition evaluates to true.
+
+-   **`Fn::And`**: Returns true if all conditions are true.
+
+#### **Example of Using Conditions**:
+
+Let's create an example where we only want to create an **EC2 instance** if a certain parameter (`CreateEC2`) is set to **true**.
+
+```YAML
+AWSTemplateFormatVersion: '2010-09-09'
+
+Parameters:
+  CreateEC2:
+    Type: String
+    Default: 'true'
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Description: Whether to create EC2 instance or not.
+
+Conditions:
+  CreateEC2Instance: !Equals [ !Ref CreateEC2, 'true' ]
+
+Resources:
+  MyEC2Instance:
+    Type: AWS::EC2::Instance
+    Condition: CreateEC2Instance  # This EC2 instance will only be created if the condition is true
+    Properties:
+      InstanceType: t2.micro
+      ImageId: ami-12345678
+
+Outputs:
+  EC2InstanceID:
+    Description: "The EC2 Instance ID"
+    Value: !Ref MyEC2Instance
+    Condition: CreateEC2Instance  # This output will only appear if the condition is true
+
+```
+
+#### **Explanation**:
+
+-   **Condition Definition**: The `CreateEC2Instance` condition checks if the `CreateEC2` parameter is set to **'true'**.
+
+-   **Conditional Resource Creation**: The EC2 instance will only be created if the condition evaluates to **true**.
+
+-   **Conditional Output**: The output for the EC2 instance ID will only be displayed if the EC2 instance is created.
+
+* * * * *
+
+### **9\. The `DependsOn` Attribute**
+
+The **`DependsOn`** attribute in CloudFormation allows you to control the order in which resources are created, updated, or deleted. By default, CloudFormation determines the order of resource creation based on their relationships (e.g., if a security group is attached to an EC2 instance, the security group is created first). However, there are cases where you might need to explicitly control the order of resource creation.
+
+#### **Use Case for `DependsOn`**:
+
+-   When you need a specific resource to be created or deleted before another resource, regardless of any implicit dependencies between them.
+
+#### **How `DependsOn` Works**:
+
+-   The **`DependsOn`** attribute is used in the **resource** section to specify which other resources must be created first before the resource is created or modified.
+
+-   You can use **`DependsOn`** to ensure that resources are created in a specific order, which is especially useful in scenarios where resources don't have implicit dependencies (e.g., when a bucket should be created before an object is uploaded).
+
+#### **Example of Using `DependsOn`**:
+
+Let's say you need to create an **S3 bucket** first and then upload a file to it using a separate **AWS Lambda function**.
+
+```YAML
+AWSTemplateFormatVersion: '2010-09-09'
+
+Resources:
+  MyBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: my-bucket-example
+
+  MyLambdaFunction:
+    Type: AWS::Lambda::Function
+    DependsOn: MyBucket  # This Lambda function depends on the S3 bucket to be created first
+    Properties:
+      FunctionName: MyLambda
+      Handler: index.handler
+      Role: arn:aws:iam::123456789012:role/MyLambdaRole
+      Code:
+        S3Bucket: !Ref MyBucket
+        S3Key: code/my-lambda-code.zip
+      Runtime: nodejs12.x
+
+Outputs:
+  BucketName:
+    Description: "The S3 Bucket Name"
+    Value: !Ref MyBucket
+
+```
+
+#### **Explanation**:
+
+-   **`DependsOn`**: The `MyLambdaFunction` depends on `MyBucket`. This means CloudFormation will create the S3 bucket **first** before creating the Lambda function, even though the Lambda function doesn't have an explicit reference to the bucket in the `Resources` section (but references it through the `Code` property).
+
+* * * * *
+
+### **Tips for Memorizing**:
+
+1.  **Conditions**:
+
+    -   Conditions allow you to **dynamically control** whether resources are created based on parameters, regions, or other inputs.
+
+    -   Remember **Fn::Equals** to check values and **Fn::If** for conditional expressions.
+
+2.  **DependsOn**:
+
+    -   Use **`DependsOn`** when the order of resource creation is critical and must be explicitly controlled.
+
+    -   It ensures that one resource is **created before another** (e.g., creating a bucket before uploading objects).
+
+3.  **Common Use Cases**:
+
+    -   **Conditions**: Enabling or disabling resources like EC2 instances, security groups, or S3 buckets based on parameters.
+
+    -   **DependsOn**: Ensuring the correct order of creation when no implicit dependencies exist, like uploading files after creating an S3 bucket.
+
+
+
+### **Summary**
+
+- **Parameters**: Allow user input at stack creation, making templates flexible.
+- **Pseudo Parameters**: Automatically provided values such as `AWS::Region`, `AWS::StackName`, etc.
+- **Intrinsic Functions**: Functions like `!Ref`, `!GetAtt`, `!Sub`, and `!Join` allow for dynamic string generation and resource referencing.
+- **Mappings**: Define key-value pairs to handle environment-specific values like AMI IDs.
+- **Outputs**: Display important information about created resources,
+
+---
+### **AWS CloudFormation Concepts: Nested Stacks, Cross-Stack References, StackSets, and Deletion Policies**
+
+In **AWS CloudFormation**, managing large or complex stacks becomes easier through various features like **nested stacks**, **cross-stack references**, **stack sets**, and **deletion policies**. These features allow you to modularize your infrastructure, reuse templates across different stacks, ensure resources are managed consistently, and control the deletion behavior of your resources.
+
+Let’s go through each of these concepts in detail.
+
+---
+
+### **1. Nested Stacks**
+
+A **nested stack** is a CloudFormation stack that is created as part of another CloudFormation stack. Essentially, you can include a stack inside another stack, allowing for better organization, modularization, and reusability of your CloudFormation templates.
+
+#### **Why Use Nested Stacks**:
+- **Modularization**: You can break a large infrastructure template into smaller, reusable templates. This makes it easier to manage and maintain.
+- **Reusability**: Common infrastructure components (e.g., VPC, security groups, EC2 instances) can be reused across multiple stacks.
+- **Simplify Templates**: Complex templates can be split into multiple smaller templates, improving readability.
+
+#### **How Nested Stacks Work**:
+- You create a **parent stack** and reference **child stacks** within it using the `AWS::CloudFormation::Stack` resource type.
+- The child stacks can reference other resources in the parent stack or other child stacks.
+  
+#### **Example**:
+
+Suppose you have a **parent stack** that provisions a VPC, and a **child stack** that provisions EC2 instances in that VPC. The child stack is included within the parent stack using the `AWS::CloudFormation::Stack` resource.
+
+**Parent Stack (main-template.yaml)**:
+
+```yaml
+AWSTemplateFormatVersion: '2010-09-09'
+
+Resources:
+  VPCStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: https://s3.amazonaws.com/mybucket/vpc-template.yaml  # URL to the child stack template
+```
+
+**Child Stack (vpc-template.yaml)**:
+
+```yaml
+AWSTemplateFormatVersion: '2010-09-09'
+
+Resources:
+  MyVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/16
+```
+
+- **Explanation**: 
+  - The **parent stack** (`main-template.yaml`) contains a resource (`VPCStack`) that references the **child stack** (`vpc-template.yaml`).
+  - When you launch the parent stack, it automatically creates the resources in the child stack, such as the **VPC**.
+
+---
+
+### **2. Cross-Stack References**
+
+**Cross-stack references** allow you to reference resources from one stack in another stack. This is useful when you have multiple stacks and need to share resources between them.
+
+#### **Why Use Cross-Stack References**:
+- **Decouple stacks**: Keep different parts of your infrastructure in separate stacks (e.g., VPC, EC2, RDS), but still reference them across stacks.
+- **Modular and scalable**: Avoid creating tightly coupled stacks and make the infrastructure more manageable and scalable.
+
+#### **How Cross-Stack References Work**:
+- **Exporting resources**: One stack exports a value (such as the **VPC ID**, **Security Group ID**, or **Subnet ID**), and another stack **imports** that value.
+- You use **`Export`** in the source stack and **`ImportValue`** in the target stack.
+
+#### **Example**:
+
+**Stack A (exports a VPC ID)**:
+
+```yaml
+AWSTemplateFormatVersion: '2010-09-09'
+
+Resources:
+  MyVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/16
+
+Outputs:
+  VPCId:
+    Value: !Ref MyVPC
+    Export:
+      Name: MyVPCId
+```
+
+**Stack B (imports VPC ID)**:
+
+```yaml
+AWSTemplateFormatVersion: '2010-09-09'
+
+Resources:
+  MyEC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      ImageId: ami-12345678
+      NetworkInterfaces:
+        - NetworkInterfaceId: !ImportValue MyVPCId  # Import VPC from Stack A
+          DeviceIndex: 0
+```
+
+- **Explanation**:
+  - In **Stack A**, the **VPC ID** is exported as `MyVPCId`.
+  - In **Stack B**, the **VPC ID** is imported using `!ImportValue MyVPCId` to attach an EC2 instance to the imported VPC.
+
+---
+
+### **3. StackSets**
+
+**StackSets** allow you to deploy CloudFormation stacks across multiple AWS accounts and regions in one operation. This is useful for managing a consistent infrastructure across different regions or accounts, especially in large, multi-account environments.
+
+#### **Why Use StackSets**:
+- **Multi-Region Deployment**: Deploy resources consistently across multiple AWS regions.
+- **Multi-Account Deployment**: Deploy resources across multiple accounts using a single template.
+
+#### **How StackSets Work**:
+- StackSets manage the creation, update, and deletion of stacks in multiple regions or accounts simultaneously.
+- You define a **CloudFormation StackSet** and specify the target accounts and regions.
+
+#### **Example**:
+
+```yaml
+AWSTemplateFormatVersion: '2010-09-09'
+
+Resources:
+  MyS3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: my-bucket-123
+```
+
+- **Create a StackSet**:
+  - You create a StackSet in CloudFormation, specify the template, and select the regions and accounts where you want to deploy it.
+
+- **Explanation**:
+  - This example creates an S3 bucket in **multiple AWS regions** or **accounts** by using StackSets.
+
+---
+
+### **4. Deletion Policy**
+
+**Deletion policies** allow you to control the behavior of AWS resources when a stack is deleted. By default, CloudFormation will delete resources when a stack is deleted. However, you can specify a **deletion policy** to protect important resources (like **S3 buckets**, **RDS databases**, or **EBS volumes**) from being deleted when the stack is deleted.
+
+#### **Why Use Deletion Policies**:
+- **Protect Critical Resources**: Prevent important resources from being accidentally deleted.
+- **Retention of Data**: Ensure that data (like in an S3 bucket or RDS instance) is preserved even when the stack is deleted.
+
+#### **Common Deletion Policy Options**:
+- **Retain**: Resources are retained when the stack is deleted. The resource will not be deleted, and its data is preserved.
+- **Snapshot**: For certain resources like RDS or EBS volumes, CloudFormation will take a snapshot before deleting the resource.
+- **Delete** (default): The resource is deleted when the stack is deleted.
+
+#### **Example**:
+
+```yaml
+AWSTemplateFormatVersion: '2010-09-09'
+
+Resources:
+  MyEC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      ImageId: ami-12345678
+    DeletionPolicy: Retain  # EC2 instance will not be deleted when the stack is deleted
+
+  MyRDSInstance:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      DBInstanceClass: db.t2.micro
+      Engine: mysql
+    DeletionPolicy: Snapshot  # RDS instance will take a snapshot before deletion
+```
+
+- **Explanation**:
+  - **MyEC2Instance**: The EC2 instance will be **retained** when the stack is deleted, so it won’t be removed.
+  - **MyRDSInstance**: The RDS instance will have a **snapshot taken** before it’s deleted, so you can restore it later if needed.
+
+---
+
+### **Summary**
+
+- **Nested Stacks**: Helps break down large CloudFormation templates into smaller, reusable components.
+- **Cross-Stack References**: Allows you to reference resources from one stack in another stack (use `Export` and `ImportValue`).
+- **StackSets**: Used to deploy CloudFormation stacks across **multiple accounts** and **regions** in one go.
+- **Deletion Policies**: Control how resources behave when the stack is deleted (e.g., **retain**, **snapshot**, or **delete**).
+
+---
+
+### **Exam Power-Up**:
+- **Nested Stacks**: **Modularize** your infrastructure by splitting templates into smaller, reusable components.
+- **Cross-Stack References**: Use **`Export`** and **`ImportValue`** to share resources across stacks.
+- **StackSets**: Use to deploy resources **across multiple regions** and **accounts** at once.
+- **Deletion Policies**: Control the fate of resources on stack deletion, e.g., **Retain** or **Snapshot**.
+
+---
+### **CloudFormation Stack Roles**
+
+In AWS CloudFormation, **stack roles** refer to the **AWS Identity and Access Management (IAM) roles** that are associated with the execution of CloudFormation stacks. These roles define the permissions CloudFormation uses to create, update, and delete resources as part of the stack operation. Understanding how these roles work is essential for ensuring that CloudFormation has the necessary permissions to perform actions on your behalf while maintaining security and access control.
+
+There are two primary types of roles in CloudFormation:
+
+1. **Service-Linked Role for CloudFormation**
+2. **Execution Role (IAM Role)**
+
+---
+
+### **1. Service-Linked Role for CloudFormation**
+
+A **service-linked role** is an IAM role that allows CloudFormation to perform actions on AWS resources on your behalf. This role is created and managed by AWS, and it is tied specifically to the CloudFormation service.
+
+#### **Key Features**:
+- CloudFormation uses this role to interact with other AWS services and resources as needed.
+- The service-linked role for CloudFormation is typically used when the CloudFormation stack creates or updates AWS resources that require permissions (e.g., EC2 instances, S3 buckets, IAM roles).
+- This role has predefined permissions associated with it, and AWS automatically manages it.
+
+#### **Role Name**:
+- The default name for this role is: `AWSServiceRoleForCloudFormation`
+
+#### **Permissions**:
+- The permissions are managed by AWS and allow CloudFormation to perform actions like creating, deleting, or modifying resources.
+- Example actions include: `ec2:CreateInstance`, `s3:CreateBucket`, `iam:CreateRole`.
+
+#### **Creation**:
+- AWS automatically creates this role when you use CloudFormation for the first time. If needed, you can also create or modify it manually, but it should be done with care because it is service-specific.
+
+---
+
+### **2. Execution Role (IAM Role)**
+
+An **Execution Role** is an IAM role that CloudFormation uses to perform actions on your behalf when it’s provisioning resources in your stack. You define the execution role when you launch a stack, and it specifies the **permissions** needed for CloudFormation to create or modify the resources within your template.
+
+This is also called the **CloudFormation stack role**, and it's used when you want CloudFormation to have specific permissions that are different from the service-linked role, such as when CloudFormation needs to assume an IAM role to access other AWS resources.
+
+#### **When to Use an Execution Role**:
+- When you are creating or updating AWS resources that require specific permissions (e.g., EC2 instances, Lambda functions, IAM roles).
+- When you want CloudFormation to access specific resources in other AWS services using permissions that you define in the role.
+
+#### **Example**:
+Let's say you have a CloudFormation stack that needs to create an S3 bucket and an EC2 instance, but it also needs permission to assume a role for a Lambda function that will be used by the EC2 instance. You would assign an **execution role** that allows CloudFormation to perform these actions.
+
+#### **How to Specify an Execution Role in CloudFormation**:
+
+```yaml
+AWSTemplateFormatVersion: '2010-09-09'
+
+Parameters:
+  RoleName:
+    Type: String
+    Description: The name of the IAM role that the stack will assume
+
+Resources:
+  MyExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: cloudformation.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: CloudFormationPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - ec2:CreateInstance
+                  - s3:CreateBucket
+                Resource: '*'
+
+  MyS3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub 'my-bucket-${AWS::StackName}'
+      
+  MyEC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      ImageId: ami-12345678
+```
+
+- **Explanation**:
+  - In the example above, the **execution role** (`MyExecutionRole`) is granted permissions to create **EC2 instances** and **S3 buckets**. The policy attached to the role includes the permissions needed by CloudFormation to create those resources.
+  - The `AssumeRolePolicyDocument` allows CloudFormation to **assume** this role during stack creation.
+  
+---
+
+### **CloudFormation Stack Role Permissions**
+
+For a CloudFormation stack, the permissions needed will depend on what resources are being created and the actions CloudFormation needs to perform. Common permissions for CloudFormation stack roles include:
+
+- **Resource Creation Permissions**:
+  - `ec2:CreateInstance` – for creating EC2 instances
+  - `s3:CreateBucket` – for creating S3 buckets
+  - `iam:CreateRole` – for creating IAM roles
+  - `lambda:CreateFunction` – for creating Lambda functions
+
+- **Resource Management Permissions**:
+  - `ec2:DescribeInstances` – to retrieve details of EC2 instances
+  - `s3:ListBucket` – to list contents in S3 buckets
+  - `iam:GetRole` – to retrieve IAM role details
+  
+- **Resource Deletion Permissions**:
+  - `ec2:TerminateInstances` – to terminate EC2 instances
+  - `s3:DeleteBucket` – to delete S3 buckets
+  - `iam:DeleteRole` – to delete IAM roles
+
+### **Important Best Practices**:
+- **Principle of Least Privilege**: The execution role should only have the permissions it absolutely needs to carry out the tasks within the CloudFormation stack. This minimizes the potential attack surface.
+- **Create a Separate Role**: For better security, create a separate IAM role with the necessary permissions for CloudFormation and associate it with the stack.
+  
+---
+
+### **How CloudFormation Uses the Role for Resource Creation**
+
+When CloudFormation creates resources, it uses the **execution role** to perform actions such as creating EC2 instances, S3 buckets, or IAM roles. Here’s the step-by-step process of how it works:
+
+1. **Define the Execution Role**: You define an IAM role that CloudFormation will assume during the stack creation process.
+2. **Stack Creation**: CloudFormation reads the template, checks the resources to be created, and uses the IAM role to create resources (like EC2, S3, etc.).
+3. **Resource Provisioning**: For each resource, CloudFormation checks if the role has the necessary permissions (e.g., creating an EC2 instance) and assumes the role to perform the action.
+4. **Stack Completion**: Once all resources are created, CloudFormation finalizes the stack and the resources are available.
+
+---
+
+### **Example of CloudFormation Role with Permissions**
+
+Here’s an example of how to define a **stack execution role** with specific permissions.
+
+```yaml
+AWSTemplateFormatVersion: '2010-09-09'
+
+Resources:
+  MyExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: cloudformation.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: StackExecutionPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - ec2:RunInstances
+                  - ec2:DescribeInstances
+                Resource: "*"
+
+  MyInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      ImageId: ami-12345678
+      IamInstanceProfile: !Ref MyExecutionRole
+```
+
+- **Explanation**:
+  - The `MyExecutionRole` allows CloudFormation to create an EC2 instance using the role's permissions (i.e., `ec2:RunInstances`, `ec2:DescribeInstances`).
+  - The **EC2 instance** uses the `IamInstanceProfile` property to associate the execution role with the EC2 instance during creation.
+
+---
+
+### **Summary**
+
+- **Service-Linked Role for CloudFormation**: This is a managed IAM role created by AWS that gives CloudFormation permissions to create resources on your behalf.
+- **Execution Role**: This is an IAM role that you define to give CloudFormation the permissions it needs to manage resources. You can specify this role in your CloudFormation stack.
+- **Permissions**: The execution role should follow the **Principle of Least Privilege**, granting only the permissions needed for CloudFormation to create, update, and delete resources.
+  
+### **Exam Power-Up**:
+- **Service-Linked Role**: AWS automatically creates a role named `AWSServiceRoleForCloudFormation`.
+- **Execution Role**: You define the execution role with **necessary permissions** for the stack.
+- **Principle of Least Privilege**: Always limit permissions to the **minimum** needed for CloudFormation to perform stack operations.
+
+* * * * *
+
+### **Key Differences Between Service-Linked Role and Execution Role**
+
+| **Aspect** | **Service-Linked Role** | **Execution Role** |
+| --- | --- | --- |
+| **Purpose** | Allows **AWS services** to perform actions on your behalf. | Allows **resources (EC2, Lambda)** to interact with AWS services. |
+| **Creation** | **Automatically created** by AWS when you use a service. | **Manually created** by you for specific resources. |
+| **Permissions** | Permissions are **predefined** by AWS and specific to the service. | Permissions are **customizable** based on your requirements. |
+| **Role Assumed By** | **AWS service** (e.g., CloudFormation, EC2). | **IAM resources** (e.g., EC2 instances, Lambda functions). |
+| **Trust Relationship** | Trust policy allows specific AWS service to assume the role. | Trust policy allows specific AWS resources (like EC2) to assume the role. |
+| **Example** | `AWSServiceRoleForCloudFormation` for CloudFormation service. | Role assigned to an EC2 instance to access S3 or DynamoDB. |
+
+* * * * *
+
+### **Example Scenario**
+
+Imagine you're using **AWS CloudFormation** to create a stack that provisions an EC2 instance and an S3 bucket.
+
+1.  **Service-Linked Role**:
+
+    -   CloudFormation needs to interact with EC2, S3, and other services to create the resources in the stack.
+
+    -   AWS creates a **service-linked role** like `AWSServiceRoleForCloudFormation` that gives CloudFormation the required permissions to create these resources. You don't need to manually create or manage this role.
+
+2.  **Execution Role**:
+
+    -   The **EC2 instance** might need access to an S3 bucket or DynamoDB table for some application functionality.
+
+    -   You create an **execution role** for the EC2 instance, granting it permissions to access these services (e.g., `s3:ListBucket`, `dynamodb:Query`).
+
+    -   The EC2 instance assumes this role to access S3 and DynamoDB resources.
+
+* * * * *
+
+---
+
+### **cfn-init, cfn-hup, and cfn-signal in AWS CloudFormation**
+
+AWS CloudFormation provides several helper scripts to assist in configuring EC2 instances during the stack creation or update process. These tools—**`cfn-init`**, **`cfn-hup`**, and **`cfn-signal`**—help automate the configuration of your EC2 instances and signal CloudFormation when tasks are complete. Let’s look at each of these in detail.
+
+---
+
+### **1. cfn-init**
+
+**`cfn-init`** is a helper script used to configure EC2 instances during stack creation or updates. It is designed to handle the initialization of the instance, such as installing software, configuring services, or modifying system settings.
+
+#### **How `cfn-init` Works**:
+- **Runs as part of EC2 instance startup**: `cfn-init` is often executed as part of **user data** or **metadata** when an EC2 instance is launched.
+- **Uses CloudFormation Metadata**: The script reads the instance’s **metadata** to determine what actions to take. These actions are typically specified using **`AWS::CloudFormation::Init`**.
+- **Applies configuration and installs packages**: You can define package installations, software configurations, and service starts within CloudFormation metadata.
+
+#### **Common Use Case**:
+- **Installing Packages**: For example, you can use `cfn-init` to install Apache HTTP server and start the service on an EC2 instance.
+
+#### **Example**:
+
+```yaml
+AWSTemplateFormatVersion: '2010-09-09'
+
+Resources:
+  MyInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-12345678
+      InstanceType: t2.micro
+      Metadata:
+        AWS::CloudFormation::Init:
+          configSets:
+            default:
+              - InstallSoftware
+          InstallSoftware:
+            packages:
+              yum:
+                httpd: []
+            commands:
+              01_start_httpd:
+                command: service httpd start
+```
+
+In this example:
+- The **`AWS::CloudFormation::Init`** metadata configures `cfn-init` to install the **Apache HTTPD** package on the EC2 instance and start the service.
+- `cfn-init` would be run automatically during the instance initialization process to apply these configurations.
+
+---
+
+### **2. cfn-hup**
+
+**`cfn-hup`** is a daemon that runs on EC2 instances and monitors changes to CloudFormation metadata. It listens for updates to the instance’s metadata (including changes made by `cfn-init`) and applies changes to the instance configuration when necessary.
+
+#### **How `cfn-hup` Works**:
+- **Runs as a background process**: `cfn-hup` runs in the background on EC2 instances and periodically checks for changes in CloudFormation stack metadata.
+- **Automatically applies changes**: If there are changes in the metadata (e.g., updated `AWS::CloudFormation::Init` configuration), `cfn-hup` will apply those changes without needing to restart the instance.
+
+#### **Common Use Case**:
+- **Dynamic Configuration Updates**: If you want to update configurations dynamically without re-booting the instance, you can use `cfn-hup` to automatically apply changes made to CloudFormation metadata.
+
+#### **Example**:
+- You might configure `cfn-hup` to monitor and apply changes to an EC2 instance’s configuration, such as updating configuration files when the stack is updated.
+
+To use `cfn-hup` on an EC2 instance, you would add a command to the EC2 instance’s **metadata** to install the `cfn-hup` service and configure it to monitor for updates.
+
+```yaml
+Metadata:
+  AWS::CloudFormation::Init:
+    configSets:
+      default:
+        - InstallPackages
+        - Installcfn-hup
+    InstallPackages:
+      packages:
+        yum:
+          httpd: []
+    Installcfn-hup:
+      commands:
+        01_install_cfn_hup:
+          command: yum install -y cfn-hup
+        02_start_cfn_hup:
+          command: service cfn-hup start
+```
+
+This configuration will install `cfn-hup` on the EC2 instance and start it.
+
+---
+
+### **3. cfn-signal**
+
+**`cfn-signal`** is a helper script used to send a signal to CloudFormation to indicate that a resource (typically an EC2 instance) has been successfully created or initialized. It’s commonly used in conjunction with **wait conditions** in CloudFormation to pause stack creation until certain actions are completed.
+
+#### **How `cfn-signal` Works**:
+- **Signals CloudFormation**: `cfn-signal` sends a signal to CloudFormation to indicate that a task has been completed successfully.
+- **Works with WaitConditions**: It is often used in combination with **WaitConditions** to delay stack creation until specific tasks (like software installation) are completed.
+- **Exit Codes**: It uses exit codes to determine success or failure. An exit code of `0` typically indicates success, while `1` indicates failure.
+
+#### **Common Use Case**:
+- **Waiting for EC2 Initialization**: You can use `cfn-signal` to signal CloudFormation when an EC2 instance has finished configuring or when a custom script has completed successfully.
+
+#### **Example**:
+
+Here’s an example that combines **`cfn-init`**, **`cfn-hup`**, and **`cfn-signal`**.
+
+```yaml
+AWSTemplateFormatVersion: '2010-09-09'
+
+Resources:
+  MyWaitConditionHandle:
+    Type: AWS::CloudFormation::WaitConditionHandle
+
+  MyWaitCondition:
+    Type: AWS::CloudFormation::WaitCondition
+    Properties:
+      Handle: !Ref MyWaitConditionHandle
+      Timeout: '600'
+      Count: 1
+
+  MyInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-12345678
+      InstanceType: t2.micro
+      Metadata:
+        AWS::CloudFormation::Init:
+          configSets:
+            default:
+              - InstallPackages
+              - StartService
+          InstallPackages:
+            packages:
+              yum:
+                httpd: []
+          StartService:
+            service:
+              httpd:
+                enabled: 'true'
+                state: 'started'
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          /opt/aws/bin/cfn-init --region ${AWS::Region} --stack ${AWS::StackName} --resource MyInstance
+          /opt/aws/bin/cfn-signal --exit-code 0 --stack ${AWS::StackName} --resource MyWaitCondition --region ${AWS::Region}
+      DependsOn: MyWaitCondition
+
+Outputs:
+  InstancePublicIP:
+    Description: "Public IP address of the EC2 instance"
+    Value: !GetAtt MyInstance.PublicIp
+```
+
+- **Explanation**:
+  - **`MyWaitCondition`**: The CloudFormation stack will **pause** until `cfn-signal` sends a signal indicating the EC2 instance is initialized.
+  - **`cfn-init`**: Runs on the EC2 instance to install the HTTP server.
+  - **`cfn-signal`**: Sends a **success signal** (exit code 0) to CloudFormation to indicate the EC2 instance setup is complete.
+  - **`DependsOn`**: Ensures that the EC2 instance is created after the wait condition, and the `cfn-signal` properly signals completion.
+
+---
+
+### **Summary of `cfn-init`, `cfn-hup`, and `cfn-signal`**
+
+| **Tool**       | **Purpose**                                                          | **Typical Use**                                                |
+|----------------|----------------------------------------------------------------------|----------------------------------------------------------------|
+| **`cfn-init`**  | Initializes EC2 instances by installing packages, configuring services, and applying metadata. | Install software, configure services on EC2 instances.        |
+| **`cfn-hup`**   | Daemon that runs on EC2 instances to monitor and apply updates to CloudFormation metadata. | Automatically apply configuration changes to running instances. |
+| **`cfn-signal`**| Sends signals to CloudFormation indicating the success or failure of a resource creation or initialization. | Signal completion of instance setup, typically used with WaitConditions. |
+
+---
+
+### **Exam Power-Up**:
+- **`cfn-init`**: Used to configure EC2 instances during **stack creation** (e.g., installing software).
+- **`cfn-hup`**: A background **daemon** that automatically applies updates to EC2 instances when **metadata changes**.
+- **`cfn-signal`**: **Signals CloudFormation** that an EC2 instance or task is **successfully completed**, commonly used with **WaitConditions** to pause stack creation until tasks are done.
+
+
+---
+### **AWS CloudFormation Change Set**
+
+A **CloudFormation Change Set** is a summary of the changes that CloudFormation will make to your stack when you update it. It shows the **difference** between the current stack configuration and the new configuration you are applying, so you can **review** the changes before actually updating the stack.
+
+The Change Set helps you understand how your update will affect the stack and the resources within it. This is useful for avoiding unintended changes or disruptions in your infrastructure.
+
+---
+
+### **Why Use a Change Set?**
+- **Preview Changes**: Before making changes to a running stack, you can see what will happen (e.g., which resources will be created, modified, or deleted).
+- **Avoid Mistakes**: It gives you the ability to **verify** changes and ensure no critical resources are accidentally deleted or misconfigured.
+- **Audit Updates**: You can use it as a **safety check** to ensure that the resources are updated in a controlled manner.
+
+---
+
+### **How Change Sets Work**
+
+1. **Create or Update Stack**:
+   When you want to update a CloudFormation stack, you first **create a Change Set** instead of updating the stack directly.
+   
+2. **Preview Changes**:
+   The Change Set is generated by CloudFormation and it lists the differences between the **current stack** and the **new stack** (based on the template you're submitting). It will show:
+   - **Resources to be created**.
+   - **Resources to be updated**.
+   - **Resources to be deleted**.
+
+3. **Review the Change Set**:
+   You review the **proposed changes** and verify that they are correct.
+
+4. **Execute the Change Set**:
+   Once you're confident in the changes, you can **execute** the Change Set to apply the changes to the stack.
+
+5. **Rollbacks**:
+   If something goes wrong, CloudFormation can automatically roll back to the previous stack state, ensuring that the infrastructure remains in a stable state.
+
+---
+
+### **Key Features of Change Sets**
+
+- **Show Differences**: A Change Set shows the exact **difference** (additions, deletions, and modifications) between the **current stack** and the **updated stack**.
+- **Safe Preview**: You can view what resources will be impacted before making changes, providing a **safety net**.
+- **Supports Resource Updates**: It helps to plan updates for resources that may require replacements (like EC2 instances, S3 buckets, etc.).
+- **Does Not Apply Changes Automatically**: You must explicitly execute the Change Set to apply the changes; it only previews them initially.
+
+---
+
+### **Change Set Example Workflow**
+
+Let’s walk through an example of how to use a **Change Set** in CloudFormation.
+
+1. **Create a Stack**:
+   First, create a CloudFormation stack using a template (e.g., to create an EC2 instance).
+
+   Example Template (`initial-template.yaml`):
+   ```yaml
+   AWSTemplateFormatVersion: '2010-09-09'
+
+   Resources:
+     MyEC2Instance:
+       Type: AWS::EC2::Instance
+       Properties:
+         InstanceType: t2.micro
+         ImageId: ami-12345678
+   ```
+
+2. **Create a Change Set**:
+   Now, you want to **update** this stack, so instead of directly updating it, you’ll create a Change Set. Let’s say you want to update the EC2 instance type.
+
+   New Template (`updated-template.yaml`):
+   ```yaml
+   AWSTemplateFormatVersion: '2010-09-09'
+
+   Resources:
+     MyEC2Instance:
+       Type: AWS::EC2::Instance
+       Properties:
+         InstanceType: t2.small  # Updated instance type
+         ImageId: ami-12345678
+   ```
+
+   **Steps to Create a Change Set**:
+   - In the **AWS Management Console**, navigate to the **CloudFormation** section.
+   - Select your stack and click on **Create Change Set**.
+   - Upload the new template (`updated-template.yaml`) and **preview** the changes.
+
+3. **Review the Change Set**:
+   CloudFormation will show you a summary of the changes:
+   - **Modified**: EC2 instance type has changed from `t2.micro` to `t2.small`.
+
+   The Change Set will indicate that **no resources** will be deleted or added, only the existing EC2 instance will be updated.
+
+4. **Execute the Change Set**:
+   Once you’re satisfied with the changes, you can **execute** the Change Set. CloudFormation will apply the changes and update the EC2 instance with the new instance type.
+
+---
+
+### **Example of Viewing and Executing a Change Set**
+
+Here is how you can create and execute a Change Set using the **AWS CLI**:
+
+1. **Create Change Set**:
+   ```bash
+   aws cloudformation create-change-set \
+     --stack-name my-stack \
+     --template-body file://updated-template.yaml \
+     --change-set-name my-change-set
+   ```
+
+2. **Describe Change Set**:
+   After creating the Change Set, you can view the details of the changes:
+   ```bash
+   aws cloudformation describe-change-set \
+     --stack-name my-stack \
+     --change-set-name my-change-set
+   ```
+
+3. **Execute Change Set**:
+   If you're satisfied with the changes, execute the Change Set to apply the changes:
+   ```bash
+   aws cloudformation execute-change-set \
+     --stack-name my-stack \
+     --change-set-name my-change-set
+   ```
+
+---
+
+### **Best Practices for Change Sets**
+
+- **Preview Before Applying**: Always create a Change Set and **review the differences** before applying changes to avoid unexpected impacts on your infrastructure.
+- **Use Change Sets with Critical Updates**: For critical resources (e.g., production environments), always use Change Sets to ensure the changes are what you expect.
+- **Rollbacks**: If the changes don’t work as expected, you can **rollback** the stack to its previous state.
+
+---
+
+### **Key Points to Remember About Change Sets**:
+
+- **Preview Changes**: A Change Set is used to **preview** the changes before they are applied to the stack.
+- **Safety**: It ensures that you understand the impact of updates (especially for critical resources) before execution.
+- **Execution is Manual**: You must explicitly execute a Change Set to apply the changes; it does not apply automatically.
+
+---
+
+### **Summary**
+
+- **Change Sets** provide a way to preview the changes CloudFormation will make before they are applied to your resources, helping you understand what will happen to your infrastructure during an update.
+- You **create** a Change Set, **review** the proposed changes, and then **execute** the changes if you're satisfied with them.
+- **Best Practice**: Always use **Change Sets** in production environments to prevent unintended consequences and to verify resource changes.
+
+---
+
+### **Exam Power-Up**:
+- **Change Sets**: Use **Change Sets** to **preview** resource changes before updating the stack.
+- **Safety**: Always **review** the changes before execution to avoid unwanted resource modifications.
+- **Manual Execution**: You need to **execute** the Change Set to apply the changes, ensuring you're in control of the update process.
+
+---### **AWS CloudFormation Custom Resources**
+
+**Custom Resources** in AWS CloudFormation allow you to extend the functionality of CloudFormation beyond the built-in resource types (like EC2, S3, RDS, etc.). With custom resources, you can invoke custom logic or integrate with **external systems** and services that are not directly supported by CloudFormation.
+
+Custom resources provide a way to **create, update, and delete resources** that are specific to your application, or resources that AWS does not natively support.
+
+---
+
+### **How Do Custom Resources Work?**
+
+A **custom resource** allows you to specify a custom action (such as invoking a Lambda function or calling an API) to be performed during stack operations (create, update, delete).
+
+When you define a custom resource, you provide:
+1. **Service Token**: A Lambda function ARN or an **Amazon SNS topic ARN**. This is the entity that CloudFormation will invoke when performing actions on the custom resource.
+2. **Properties**: These are input parameters you define for the custom resource to pass to the Lambda function, API, or service.
+
+CloudFormation interacts with the custom resource by calling the associated **Lambda function** (or SNS topic) with events to create, update, or delete the resource.
+
+#### **The Process**:
+- **Create**: CloudFormation triggers the Lambda function to create the resource.
+- **Update**: CloudFormation triggers the Lambda function to update the resource.
+- **Delete**: CloudFormation triggers the Lambda function to delete the resource.
+- **Return Data**: The Lambda function sends a response back to CloudFormation, indicating whether the action was successful, and providing any relevant data (e.g., resource IDs, status).
+
+---
+
+### **When to Use Custom Resources**
+- **Non-AWS Services**: If you need to integrate with a third-party service or API that isn’t directly supported by CloudFormation.
+- **Advanced Logic**: If you need to run complex logic (e.g., custom validation or dynamic resource creation) during stack operations.
+- **Automated Resource Creation**: For scenarios where you want to automate the creation of non-AWS resources, like adding entries to a database or provisioning resources via external APIs.
+
+---
+
+### **Creating a Custom Resource Example**
+
+Let’s look at an example where we use a **Lambda function** as a custom resource to create a custom action during CloudFormation stack operations.
+
+#### **1. Create Lambda Function**
+First, you would write a Lambda function that handles the logic for your custom resource. For example, the Lambda function could create a resource in a third-party service or send an email notification.
+
+Here’s a simple Lambda function written in Python that logs the creation of a resource and returns the result to CloudFormation:
+
+```python
+import json
+
+def lambda_handler(event, context):
+    request_type = event['RequestType']
+    resource_properties = event['ResourceProperties']
+    
+    # Log the resource properties
+    print(f"Request Type: {request_type}")
+    print(f"Resource Properties: {resource_properties}")
+    
+    # Respond back to CloudFormation
+    if request_type == "Create":
+        response_data = {"Message": "Custom resource created successfully!"}
+    elif request_type == "Update":
+        response_data = {"Message": "Custom resource updated successfully!"}
+    elif request_type == "Delete":
+        response_data = {"Message": "Custom resource deleted successfully!"}
+    
+    send_response(event, context, "SUCCESS", response_data)
+
+def send_response(event, context, status, response_data):
+    response_body = {
+        'Status': status,
+        'Reason': 'See the details in CloudWatch Log Stream: ' + context.log_stream_name,
+        'PhysicalResourceId': context.log_stream_name,  # Unique identifier for this resource
+        'StackId': event['StackId'],
+        'RequestId': event['RequestId'],
+        'LogicalResourceId': event['LogicalResourceId'],
+        'Data': response_data
+    }
+    
+    requests.put(event['ResponseURL'], data=json.dumps(response_body))
+```
+
+#### **2. Define the Custom Resource in CloudFormation Template**
+
+Once your Lambda function is created, you can define a custom resource in your CloudFormation template like this:
+
+```yaml
+AWSTemplateFormatVersion: '2010-09-09'
+
+Resources:
+  CustomLambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: LambdaBasicExecutionPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: 
+                  - logs:*
+                  - cloudformation:DescribeStackResources
+                Resource: "*"
+
+  MyCustomResource:
+    Type: Custom::MyCustomResource
+    Properties:
+      ServiceToken: arn:aws:lambda:us-west-2:123456789012:function:MyCustomLambdaFunction
+      ResourceName: MyResource
+      Message: "Creating My Custom Resource"
+
+Outputs:
+  CustomResourceMessage:
+    Description: "Message from Custom Resource"
+    Value: !GetAtt MyCustomResource.Message
+```
+
+#### **Explanation**:
+- **`MyCustomResource`**: Defines the **Custom Resource** in CloudFormation with the type `Custom::MyCustomResource`.
+- **`ServiceToken`**: This is the **ARN** of the Lambda function that CloudFormation will invoke to handle actions for the custom resource.
+- **`Properties`**: These are the input parameters that will be passed to the Lambda function (in this case, `ResourceName` and `Message`).
+  
+#### **Output**:
+- The **output** returns a message generated by the Lambda function, which in this case could be the result of creating the custom resource.
+
+---
+
+### **Custom Resource Lifecycle**
+
+1. **Create**: When the stack is created, CloudFormation sends a **CREATE request** to the Lambda function (using the `ServiceToken`), and the Lambda function performs the necessary action (e.g., creating a resource) and sends a success response back to CloudFormation.
+2. **Update**: When the stack is updated, CloudFormation sends an **UPDATE request** to the Lambda function, and the function performs the necessary updates.
+3. **Delete**: When the stack is deleted, CloudFormation sends a **DELETE request** to the Lambda function, and the Lambda function deletes the resource or cleans up.
+
+---
+
+### **Error Handling in Custom Resources**
+
+- If something goes wrong during resource creation, update, or deletion, the Lambda function can return an **error response** to CloudFormation, which will trigger a **stack rollback**.
+- You can send a **failure response** by setting the **status** to `"FAILED"` in the response.
+
+Example:
+```python
+def send_failure_response(event, context, error_message):
+    response_body = {
+        'Status': 'FAILED',
+        'Reason': error_message,
+        'PhysicalResourceId': context.log_stream_name,
+        'StackId': event['StackId'],
+        'RequestId': event['RequestId'],
+        'LogicalResourceId': event['LogicalResourceId'],
+        'Data': {}
+    }
+    
+    requests.put(event['ResponseURL'], data=json.dumps(response_body))
+```
+
+---
+
+### **Best Practices for Custom Resources**
+
+- **Use Lambda for Logic**: Lambda is often the best way to implement custom logic. It’s simple to set up and can scale automatically.
+- **Handle Rollback Logic**: If a resource fails to be created, ensure that the Lambda function has proper rollback logic to clean up any partially created resources.
+- **Timeouts**: Set reasonable timeouts for your Lambda functions. CloudFormation waits for a response for up to **1 hour** for custom resources.
+- **Logging**: Always log the actions taken by the Lambda function to **CloudWatch Logs** for easier troubleshooting.
+- **Return Physical Resource ID**: The `PhysicalResourceId` is a unique identifier for the custom resource and should be returned in the response so that CloudFormation can track the resource.
+
+---
+
+### **Summary**
+
+- **Custom Resources** in CloudFormation allow you to extend CloudFormation with custom logic or integrate with external systems.
+- CloudFormation interacts with custom resources using **Lambda functions** (or SNS topics), which perform the desired actions.
+- You can **create**, **update**, and **delete** custom resources during stack operations, and Lambda functions return success or failure statuses.
+- **Error handling** and proper logging are important to ensure smooth operations.
+
+---
+
+### **Exam Power-Up**:
+- **Custom Resources**: Use **Lambda** to implement custom actions or integrate with non-AWS services during CloudFormation stack operations.
+- **Service Token**: Always specify a **Lambda ARN** (or SNS ARN) in the **`ServiceToken`** to handle requests.
+- **Lifecycle**: A custom resource goes through the **Create**, **Update**, and **Delete** lifecycle phases.
+  
 
 
 
@@ -8137,9 +9943,9 @@ There could be one of three checks
 
 - TCP checks: R53 tries to establish TCP with end point within 10 (fast) or 30 seconds (standard).
 - HTTP/HTTPS: Same as TCP but within 4 seconds. The end point must respond
-with a 200 or 300 status code within 3 seconds of checking.
+  with a 200 or 300 status code within 3 seconds of checking.
 - HTTP/HTTPS String matching: Same as above, the body must have a string within the first
-5120 bytes. This is chosen by the user.
+  5120 bytes. This is chosen by the user.
 
 It will be deemed healthy or unhealthy.
 
@@ -8152,49 +9958,49 @@ There are three types of checks.
 ### 1.9.3. Route 53 Routing Policies Examples
 
 - **Simple**: Route traffic to a single resource. Client queries the resolver
-which has one record. It will respond with 3 values and these get forwarded
-back to the client. The client then picks one of the three at random.
-This is a single record only. No health checks.
+  which has one record. It will respond with 3 values and these get forwarded
+  back to the client. The client then picks one of the three at random.
+  This is a single record only. No health checks.
 
 - **Failover**: Create two records of the same name and the same type. One
-is set to be the primary and the other is the secondary. This is the same
-as the simple policy except for the response. Route 53 knows the health of
-both instances. As long as the primary is healthy, it will respond with
-this one. If the health check with the primary fails, the backup will be
-returned instead. This is set to implement active - passive failover.
+  is set to be the primary and the other is the secondary. This is the same
+  as the simple policy except for the response. Route 53 knows the health of
+  both instances. As long as the primary is healthy, it will respond with
+  this one. If the health check with the primary fails, the backup will be
+  returned instead. This is set to implement active - passive failover.
 
 - **Weighted**: Create multiple records of the same name within the hosted zone.
-For each of those records, you provide a weighted value. The total weight
-is the same as the weight of all the records of the same name. If all of the
-parts of the same name are healthy, it will distribute the load based
-on the weight. If one of them fails its health check, it will be skipped over
-and over again until a good one gets hit. This can be used for migration
-to separate servers.
+  For each of those records, you provide a weighted value. The total weight
+  is the same as the weight of all the records of the same name. If all of the
+  parts of the same name are healthy, it will distribute the load based
+  on the weight. If one of them fails its health check, it will be skipped over
+  and over again until a good one gets hit. This can be used for migration
+  to separate servers.
 
 - **Latency-based**: Multiple records in a hosted zone can be created with
-the same name and same type. When a client request arrives, it knows which
-region the request comes from. It knows the lowest latency and will respond
-with the lowest latency.
+  the same name and same type. When a client request arrives, it knows which
+  region the request comes from. It knows the lowest latency and will respond
+  with the lowest latency.
 
 - **Geolocation**: Focused to delivering results matching the query of your
-customers. The record will first be matched based on the country if possible.
-If this does not happen, the record will be checked based on the continent.
-Finally, if nothing matches again it will respond with the default response.
-This can be used for licensing rights. If overlapping regions occur,
-the priority will always go to the most specific or smallest region. The US
-will be chosen over the North America record.
+  customers. The record will first be matched based on the country if possible.
+  If this does not happen, the record will be checked based on the continent.
+  Finally, if nothing matches again it will respond with the default response.
+  This can be used for licensing rights. If overlapping regions occur,
+  the priority will always go to the most specific or smallest region. The US
+  will be chosen over the North America record.
 
 - **Multi-value**: Simple records use one name and multiple values in this record.
-These will be health checked and the unhealthy responses will automatically
-be removed. With multi-value, you can have multiple records with the same
-name and each of these records can have a health check. R53 using this method
-will respond to queries with any and all healthy records, but it removes
-any records that are marked as unhealthy from those responses. This removes
-the problem with simple routing where a single unhealthy record can make it
-through to your customers. Great alternative to simple routing when
-you need to improve the reliability, and it's an alternative to failover
-when you have more than two records to respond with, but don't want
-the complexity or the overhead of weighted routing.
+  These will be health checked and the unhealthy responses will automatically
+  be removed. With multi-value, you can have multiple records with the same
+  name and each of these records can have a health check. R53 using this method
+  will respond to queries with any and all healthy records, but it removes
+  any records that are marked as unhealthy from those responses. This removes
+  the problem with simple routing where a single unhealthy record can make it
+  through to your customers. Great alternative to simple routing when
+  you need to improve the reliability, and it's an alternative to failover
+  when you have more than two records to respond with, but don't want
+  the complexity or the overhead of weighted routing.
 
 ---
 
@@ -8411,7 +10217,7 @@ This does not provide fault tolerance as there will be some impact during change
 - Multi-AZ feature is not free tier, extra infrastructure for standby.
   - Generally two times the price.
 - The standby replica cannot be accessed directly unless a fail occurs.
-   - Can't be used for scaling. It's an availability improvement not performance one.
+  - Can't be used for scaling. It's an availability improvement not performance one.
 - Failover is highly available, not fault tolerant.
 - Offers only high availability and minimizes disruptions associated with software updates, backups, and instance type changes not performance improvement or scalability. (Don't for exam questions that try to trick you into choosing options that say Multi-AZ can improve performance.)
 - Same region only (others AZ in the VPC).
@@ -8421,7 +10227,7 @@ This does not provide fault tolerance as there will be some impact during change
   - Primary RDS failure
   - Manual failover for testing
   - If you change the type of a RDS instance, it will failover as part of
-  changing that type.
+    changing that type.
 
 ### 1.10.5. RDS Backup and Restores
 
@@ -8455,7 +10261,7 @@ saved to S3. Transaction logs store the actual data which changes inside a
 database so the actual operations that are executed. This allows a database
 to be restored to a point in time often with 5 minute granularity.
 
-Automatic cleanups can be anywhere from *0 to 35* days.
+Automatic cleanups can be anywhere from _0 to 35_ days.
 This means you can restore to any point in that time frame.
 This will use both the snapshots and the translation logs.
 
@@ -8469,10 +10275,10 @@ expire automatically.
 
 - When performing a restore, RDS creates a new RDS with a new endpoint address.
 - When restoring a manual snapshot, you are setting it to a single point
-in time. This influences the RPO value.
+  in time. This influences the RPO value.
 - Automated backups are different, they allow any 5 minute point in time.
 - Backups are restored and transaction logs are replayed to bring DB to
-desired point in time.
+  desired point in time.
 - Restores aren't fast, think about RTO.
 
 ### 1.10.6. RDS Read-Replicas
@@ -8513,7 +10319,7 @@ encryption, configuration, and networking without intervention.
 
 ### 1.10.7. Enhanced Monitoring
 
-CloudWatch gathers metrics about CPU utilization from the hypervisor for a DB instance, and Enhanced Monitoring gathers its metrics from an agent on the instance. As a result, you might find differences between the measurements, because the hypervisor layer performs a small amount of work. The differences can be greater if your DB instances use smaller instance classes, because then there are likely more virtual machines (VMs) that are managed by the hypervisor layer on a single physical instance. 
+CloudWatch gathers metrics about CPU utilization from the hypervisor for a DB instance, and Enhanced Monitoring gathers its metrics from an agent on the instance. As a result, you might find differences between the measurements, because the hypervisor layer performs a small amount of work. The differences can be greater if your DB instances use smaller instance classes, because then there are likely more virtual machines (VMs) that are managed by the hypervisor layer on a single physical instance.
 
 > Enhanced Monitoring metrics are useful when you want to see how different processes or threads on a DB instance use the CPU.
 
@@ -8563,9 +10369,9 @@ it doesn't have to make any storage modifications.
 - High water mark billing or billed for the most used.
   - Storage which is freed up can be re-used.
   - If you reduce a lot of storage, you will need to create a brand new
-  cluster and migrate data from the old cluster to the new cluster.
+    cluster and migrate data from the old cluster to the new cluster.
 - Storage is for the cluster and not the instances which means Replicas can be
-added and removed without requiring storage, provisioning, or removal.
+  added and removed without requiring storage, provisioning, or removal.
 
 #### 1.10.8.1. Aurora Endpoints
 
@@ -8581,7 +10387,7 @@ Minimum endpoints
   - Will point at primary instance if that is all there is.
   - Will load balance across all available replicas for read operations.
   - Additional replicas which are used for reads will be load balanced
-  automatically.
+    automatically.
 
 #### 1.10.8.2. Costs
 
@@ -8639,7 +10445,7 @@ without worrying about usage. This is managed by AWS on your behalf.
   - You only pay for resources as you consume them on a per second basis.
 - New applications with unpredictable workloads.
 - Great for variable workloads such as sales cycles.
-It can scale in and out based on demand
+  It can scale in and out based on demand
 - Good for development and test databases, can scale back when not needed.
 - Great for multi-tenant applications.
   - Billing a user a set dollar amount per month per license.
@@ -8651,7 +10457,7 @@ Introduces the idea of secondary regions with up to 16 read only replicas.
 Replication from primary region to secondary regions happens at the storage
 layer and typically occurs within one second.
 
-- Great for *cross region disaster recovery and business continuity*.
+- Great for _cross region disaster recovery and business continuity_.
 - Global read scaling
   - Low latency performance improvements for international customers.
 - The application can perform read operations against the read replicas.
@@ -8755,10 +10561,10 @@ You can use hybrid networking to connect to the same mount targets.
   - **General purpose** is good for _latency sensitive_ use cases.
     - General purpose should be default for 99.9% of uses.
   - **Max I/O performance** mode can scale to higher levels of aggregate t-put
-  and IOPS but it does have increased latencies.
+    and IOPS but it does have increased latencies.
 - Two throughput modes:
   - Bursting works like GP2 volumes inside EBS with a burst pool.
-  The more data you store in the FS, the better performance you get.
+    The more data you store in the FS, the better performance you get.
   - Provisioned t-put modes can specify t-put requirements separately from size.
 - Two storage classes available:
   - Standard
@@ -8853,7 +10659,7 @@ to direct traffic to different Target Groups based on their DNS.
 #### 1.12.2.2. ALB Exam PowerUp
 
 - Targets are one single compute resource that connections are directed
-towards. Targets represents Lambda functions, EC2 instances, ECS containers.
+  towards. Targets represents Lambda functions, EC2 instances, ECS containers.
 - Target groups are groups of targets which are addressed using rules.
 - Rules are:
   - path-based `/cat` or `/dog`
@@ -8861,7 +10667,7 @@ towards. Targets represents Lambda functions, EC2 instances, ECS containers.
 - Support EC2, EKS, Lambda, HTTPS, HTTP/2 and websockets.
 - ALB can use Server Name Indication (SNI)[^1] for multiple SSL certs attached to that LB.
   - LB can direct individual domain names using SSL certs at different target
-  groups.
+    groups.
 - AWS does not suggest using Classic Load Balancer (CLB), these are legacy.
   - This can only use one SSL certificate.
 
@@ -8936,18 +10742,18 @@ Part of AWS Version 2 series of load balancers.
 1. NLBs are Layer 4, only understand TCP and UDP.
 
 2. Can't interpret HTTP or HTTPs, but this makes it much faster in latency.
-[**EXAM HINT]** => If you see anything about latency and HTTP and HTTPS are not involved, this should default to a NLB.
+   [**EXAM HINT]\*\* => If you see anything about latency and HTTP and HTTPS are not involved, this should default to a NLB.
 
 3. Rapid Scaling: There is nothing stopping NLB from load balancing on HTTP just by routing data. They would do this really fast and can deliver millions of requests per second.
 
 4. Only member of the load balancing family that can be provided a static IP.
-There is 1 interface per AZ. Can also use Elastic IPs (whitelisting on firewalls) and should be used for this purpose.
+   There is 1 interface per AZ. Can also use Elastic IPs (whitelisting on firewalls) and should be used for this purpose.
 
 5. Can perform SSL pass through.
 
 6. NLB can load balance non-HTTP/S applications, doesn't care about anything
-above TCP/UDP. This means it can handle load balancing for FTP or things
-that aren't HTTP or HTTPS.
+   above TCP/UDP. This means it can handle load balancing for FTP or things
+   that aren't HTTP or HTTPS.
 
 ### 1.12.6. SSL Offload and Session Stickiness
 
@@ -9022,7 +10828,7 @@ the same backend instance. This will happen until:
 
 - A server failure, then the user will be moved to a different server.
 - The cookie expires, the whole process will repeat and will receive a
-new cookie
+  new cookie
 
 This could cause backend unevenness because one user will always be forced
 to the same server no matter what the distributed load is. Applications
@@ -9055,10 +10861,10 @@ This is the least cost effective way to architect systems.
 - Utilizes load balancers in between tiers to add capacity.
 - Tiers are still tightly coupled.
   - Tiers expect a response from each other. If one tier fails, subsequent
-  tiers will also fail because they will not receive the proper response.
+    tiers will also fail because they will not receive the proper response.
   - Back loads in one tier will impact the other tiers and customer experience.
 - Tiers must be operational and send responses even if they are not processing
-anything of value otherwise the system fails.
+  anything of value otherwise the system fails.
 
 #### 1.13.1.3. Evolving with Queues
 
@@ -9072,7 +10878,7 @@ anything of value otherwise the system fails.
 - The queue will have an autoscaling group to increase processing capacity.
 - The autoscaling group will only bring up servers as they are needed.
 - The queue has the location of the S3 bucket and passes this onto the
-processing tier.
+  processing tier.
 
 #### 1.13.1.4. Microservices Architecture
 
@@ -9107,7 +10913,7 @@ A mature event-driven architecuture only consumes resources while handling event
 - Services can be producers and consumers at once.
 - Resources are not waiting around to be used.
 - Event router is needed for event driven architecture that also manages
-an event bus.
+  an event bus.
 - Only consumes resources while handling events.
 
 ### 1.13.2. AWS Lambda
@@ -9226,7 +11032,7 @@ Great during an architecture evolution because the endpoints don't change.
 
 1. Create a managed API and point at the existing monolithic application.
 2. Using API gateway allows the business to evolve along the way slowly.
-This might move some of the data to fargate and aurora architecture.
+   This might move some of the data to fargate and aurora architecture.
 3. Move to a full serverless architecture with DynamoDB.
 
 ### 1.13.5. Serverless
@@ -9246,25 +11052,25 @@ Your aim should be to use as-a-Service offerings as much as you can; code as lit
 A user wants to upload videos to a website for transcoding.
 
 1. User browses to a static website that is running the uploader. The JS runs
-directly from the web browser.
+   directly from the web browser.
 2. Third party auth provider, google in this case, authenticates via **token**.
 3. AWS cannot use tokens provided by third parties. **Cognito** is called to
-swap the third party token for AWS credentials.
+   swap the third party token for AWS credentials.
 4. Service uses these temporary credentials to upload a video to S3 bucket.
 5. Bucket will generate an event once it has completed the upload.
 6. A lambda triggers to transcode the video as needed. The
-transcoder will get the original S3 bucket video location and will use
-this for its workload.
+   transcoder will get the original S3 bucket video location and will use
+   this for its workload.
 7. Output will be added to a new transcode bucket and will put an entry into
-DynamoDB.
+   DynamoDB.
 8. User can interact with another Lambda to pull the media from the
-transcode bucket using the DynamoDB entry.
+   transcode bucket using the DynamoDB entry.
 
 ### 1.13.6. Simple Notification Service (SNS)
 
 - HA, Durable, PUB/SUB messaging service.
 - Public AWS service meaning to access it, you need network connectivity
-with the Public AWS endpoints. The benefit of this is that it becomes accessible from anywhere that has that network connectivity.
+  with the Public AWS endpoints. The benefit of this is that it becomes accessible from anywhere that has that network connectivity.
 - Coordinates sending and delivering of messages: payloads that are up to 256KB in size.
   - Messages are not designed for large binary files.
 - SNS topics are the base entity of SNS.
@@ -9278,7 +11084,7 @@ with the Public AWS endpoints. The benefit of this is that it becomes accessible
 - Fanout allows for a single SNS topic with multiple SQS queues as subscribers.
   - Can create multiple related workflows.
   - Allows multiple SQS queues to process the workload in slightly different
-  ways.
+    ways.
 
 Offers:
 
@@ -9291,12 +11097,13 @@ Offers:
 ### 1.13.7. AWS Step Functions
 
 There are some crucial lambdas limitations:
+
 - Lambda is a FaaS product
 - There is a 15-minute maximum execution time
 - Lambda functions can, theoretically, be chained together but, this can get messy at scale
 - Runtime environments are _stateless_. Each environment is isolated; cleaned each time and any data needs to be transferred between environments if you want to maintain any form of state. This is why you cannot hold a state through different Lambda function invocations.
 
-Step funtions allow you to create state machines. A state machine is a workflow. It has a *start point*, *end point*, and in between there are *states*. States are things inside a State Machine which can do things. States can do things, and take in data, modify data, and output data.
+Step funtions allow you to create state machines. A state machine is a workflow. It has a _start point_, _end point_, and in between there are _states_. States are things inside a State Machine which can do things. States can do things, and take in data, modify data, and output data.
 
 State machine is designed to perform an activity or workflow with lots of individual components and maintain the idea of data between those states.
 
@@ -9305,6 +11112,7 @@ Maximum duration for a state machine execution is 1 year.
 Two types of workflow
 
 - Standard
+
   - Default
   - 1 year workflow exeution limit
 
@@ -9336,7 +11144,7 @@ are available.
 - Map
   - accepts a list of things
   - for each item in that list, performs an action or set of actions based on
-  that particular item.
+    that particular item.
 - Task
   - represents a single unit of work performed by a State Machine.
   - it allows the state machine to actually do things.
@@ -9355,27 +11163,28 @@ Public service that provides fully managed highly available message queues.
 - **Visibility timeout**
   - The amount of time a client has to process a message in some way
   - When a client polls and receives messages, they aren't deleted from the
-  queue and are hidden for the length of this timeout.
+    queue and are hidden for the length of this timeout.
   - This is the amount of time that a client can wait to work on the messages.
   - If the client does not delete the message by the end, it will reappear in
-  the queue.
+    the queue.
 - **Dead-letter queue**
   - if a message is received multiple times but is unable to be finished, this
-  puts it into a different workload to try and fix the corruption.
+    puts it into a different workload to try and fix the corruption.
 - ASG can scale and lambdas can be invoked based on queue length.
 - Standard queue
-  - multi-lane highway. 
+  - multi-lane highway.
   - guarantee the order and at least once delivery.
 - FIFO queue
+
   - single lane road with no way to overtake
   - guarantee the order and at exactly once delivery
   - 3,000 messages p/s with batching or up to 300 messages p/s without
 
-    Standard Queue| FIFO Queue |
-    ---------|----------|---------
-    Multi lane highway | Single lane road with no way to overtake | 
-    guarantee the order and at least one delivery | guarantee the order and at exactly one delivery | 
-    empty| 3000 messages p/s with batching or up to 300 messages p/s without | 
+    | Standard Queue                                | FIFO Queue                                                        |
+    | --------------------------------------------- | ----------------------------------------------------------------- |
+    | Multi lane highway                            | Single lane road with no way to overtake                          |
+    | guarantee the order and at least one delivery | guarantee the order and at exactly one delivery                   |
+    | empty                                         | 3000 messages p/s with batching or up to 300 messages p/s without |
 
 Billed on **requests** not messages. A request is a single request to SQS.
 One request can return 0 - 10 messages up to 64KB data in total.
@@ -9385,11 +11194,11 @@ less effective.
 Two ways to poll
 
 - short (immediate) : uses 1 request and can return 0 or more messages. If the
-queue is empty, it will return 0 and try again. This hurts queues that stay
-short
+  queue is empty, it will return 0 and try again. This hurts queues that stay
+  short
 
 - long (waitTimeSeconds) : it will wait for up to 20 seconds for messages
-to arrive on the queue. It will sit and wait if none currently exist.
+  to arrive on the queue. It will sit and wait if none currently exist.
 
 Messages can live on SQS Queue for up to 15 days. They offer KMS encryption
 at rest. Server side encryption. Data is encrypted in transit with SQS and any
@@ -9401,16 +11210,16 @@ policies only can allow access from an outside account. This is a resource polic
 ### 1.13.9. Kinesis
 
 - Scalable streaming service. It is designed to inject data from
-lots of devices or lots of applications.
-- Many producers send data into a Kinesis Stream. Streams are the basic unit of Kinesis. 
+  lots of devices or lots of applications.
+- Many producers send data into a Kinesis Stream. Streams are the basic unit of Kinesis.
 - The stream can scale from low to near infinite data rates.
 - Highly available public service by design.
 - Streams store a 24-hour moving window of data.
   - Can be increased to 7 days.
   - Data 24 hours + 1s is replaced by new data entering the stream.
 - Kinesis includes the storage costs within it for the amount of data
-that can be ingested during a 24 hour period. However much you ingest during
-24 hours, that's included.
+  that can be ingested during a 24 hour period. However much you ingest during
+  24 hours, that's included.
 - Multiple consumers can access data from that moving window.
   - One might look at data points once per hour
   - Another looks at data 1 per minute.
@@ -9420,7 +11229,7 @@ that can be ingested during a 24 hour period. However much you ingest during
 **Kinesis data records (1MB)** are stored across shards and are the blocks
 of data for a stream.
 
-**Kinesis Data Firehose** connects to a Kinesis stream. It can move the data from a stream onto S3 or another service. Kinesis Firehose allows for the long term persistence of storage of kinesis data into services like S3. 
+**Kinesis Data Firehose** connects to a Kinesis stream. It can move the data from a stream onto S3 or another service. Kinesis Firehose allows for the long term persistence of storage of kinesis data into services like S3.
 
 ### 1.13.10. SQS vs Kinesis
 
@@ -9438,12 +11247,12 @@ SQS
 - Allow for async communications
 - Once the message is processed, it is deleted
 
-  Kinesis | SQS |
-  ---------|----------|
-  Large throughout or large numbers of devices| One thing or one group of things sending messages to the queue
-  Huge scale ingestion with multiple consumers| One consumption group from that tier| C2
-  Rolling window for multiple consumers | Allow for async communications | C3
-  Designed for data ingestion, analytics, monitoring, and app clicks | Once the message is processed, it is deleted | C3
+  | Kinesis                                                            | SQS                                                            |
+  | ------------------------------------------------------------------ | -------------------------------------------------------------- | --- |
+  | Large throughout or large numbers of devices                       | One thing or one group of things sending messages to the queue |
+  | Huge scale ingestion with multiple consumers                       | One consumption group from that tier                           | C2  |
+  | Rolling window for multiple consumers                              | Allow for async communications                                 | C3  |
+  | Designed for data ingestion, analytics, monitoring, and app clicks | Once the message is processed, it is deleted                   | C3  |
 
 ---
 
@@ -9455,7 +11264,7 @@ SQS
 - Download caching only
 - Content is cached in locations close to customers.
 - If the content is not available on the local cache when requested, CloudFront
-will fetch the item and cache it and deliver it locally.
+  will fetch the item and cache it and deliver it locally.
 - This provides lower latency (more responsiveness) and higher throughput (faster page loads) for customers.
 - Can handle static and dynamic content.
 - **Origin** the original location of your content, can be an S3 bucket or ALB. In theory it can be anywhere on the internet accessible by CloudFront.
@@ -9488,12 +11297,12 @@ caching or just selected ones.
 ### 1.14.2. AWS Certificate Manager (ACM)
 
 - HTTP lacks encryption and is insecure
-- HTTPS (HyperText Transfer Protocol Secure) uses SSL/TLS to create a secure tunnel over which normal http can be transferred.  
+- HTTPS (HyperText Transfer Protocol Secure) uses SSL/TLS to create a secure tunnel over which normal http can be transferred.
 - Data is encrypted in-transit from the perspective of an outside observer.
 - HTTPS Certificates also allows for servers to prove their identity
 - Signed by a trusted authority (a Certificate Authority [CAs]), which are trusted by your browser.
 - To be secure, a website generates a certificate, and has a CA sign it. The
-website then uses that certificate to prove its authenticity.
+  website then uses that certificate to prove its authenticity.
 - ACM allows you to create, renew, and deploy certificates.
 - Supported AWS services ONLY (CloudFront, ALB and API Gateway, Elastic Beanstalk, CloudFormation, **NOT EC2**)
 - If it's not a managed service, ACM doesn't support it.
@@ -9504,8 +11313,8 @@ website then uses that certificate to prove its authenticity.
 1. Identity can be associated with a CloudFront distribution.
 2. The edge locations gain this identity.
 3. Create or adjust the bucket policy on the S3 origin. Add an explicit allow
-for the OAI. Can remove any other explicit allows on the OAI. This leaves
-the implicit deny.
+   for the OAI. Can remove any other explicit allows on the OAI. This leaves
+   the implicit deny.
 
 As long as accesses are coming from the edge locations, it will know they
 are from the OAI and allow them. Any direct attempts will not use the OAI and
@@ -9517,33 +11326,32 @@ permissions.
 ### 1.14.3.(1/2) Lambda@Edge
 
 - Permits to run lightweight Labda functions at Edge Locations
- - Adjust data between Viewer & Origin
- - Only Node.JS and Python are supported
- - Only AWS Public Space is supported ( NO VPC )
- - No layers supported
- - Different Limits vs Normal Lambda
+- Adjust data between Viewer & Origin
+- Only Node.JS and Python are supported
+- Only AWS Public Space is supported ( NO VPC )
+- No layers supported
+- Different Limits vs Normal Lambda
 
- **Lambda@Edge Use Cases**
+**Lambda@Edge Use Cases**
 
- - A/B Testing - Viewer Request
- - Migration Between S3 Origins - Origin Request
- - Different objects based on Device - Origin Request
- - Content By Country - Origin Request
-
+- A/B Testing - Viewer Request
+- Migration Between S3 Origins - Origin Request
+- Different objects based on Device - Origin Request
+- Content By Country - Origin Request
 
 ### 1.14.4. AWS Global Accelerator
 
 - Move the AWS network closer to customers.
 - Designed to optimize the flow of data from users to your AWS infrastructure.
-- While CloudFront caches your application at Edge Locations, Global Accelerator moves the AWS infrastructure closer to your customers. 
+- While CloudFront caches your application at Edge Locations, Global Accelerator moves the AWS infrastructure closer to your customers.
 - Generally customers who are further away from your infrastructure go through
-more internet based hops and this means a lower quality connection.
+  more internet based hops and this means a lower quality connection.
 - Normal IP addresses are unicast IP addresses. These refer to one thing.
 - Global Accelerator starts with 2 **anycast** IP address
   - Special IP address
   - Anycast IPs allow a single IP to be in multiple locations.
   - Traffic initially uses public internet and enters Global Accelerator at
-  the closest edge location.
+    the closest edge location.
   - Traffic then flows globally across the AWS global backbone network.
 - Global accelerator is a network product, and it uses non HTTP/S (TCP/UDP) protocols.
 - If you see questions that mention _caching_ that will most likely be CloudFront but, if you see questions that mention TCP or UDP and the requirement for _global performance optimization_ then possibly it's going to be global accelerator which is the right answer.
@@ -9579,19 +11387,20 @@ Example of Flow Logs
 
 ```html
 <version>
-<account>
-<interface-id>
-<srcaddr>
-<dstaddr>
-<srcport>
-<dstport>
-<protocol>
-<packets>
-<bytes>
-<start>
-<end>
-<action>
-<log-status>
+  <account>
+    <interface-id>
+      <srcaddr>
+        <dstaddr>
+          <srcport>
+            <dstport>
+              <protocol>
+                <packets>
+                  <bytes>
+                    <start>
+                      <end>
+                        <action>
+                          <log-status></log-status></action></end></start></bytes></packets></protocol></dstport></srcport></dstaddr></srcaddr></interface-id></account
+></version>
 ```
 
 ### 1.15.2. Egress-Only Internet Gateway
@@ -9603,9 +11412,9 @@ Example of Flow Logs
 - Using IPv6, all IPs are publicly routable.
   - Internet Gateway (IPv6) allows all IPs **in** and **out**
 - Egress-only is **outbound only** for IPv6. It is exactly the same as
-NAT, only outbound only.
+  NAT, only outbound only.
 - To configure the Egress-only gateway, you must add default IPv6 route `::/0`
-added to RT with `eigw-id` as target.
+  added to RT with `eigw-id` as target.
 
 ### 1.15.3. VPC Gateway Endpoints
 
@@ -9618,15 +11427,16 @@ Resources inside need to be granted IP address or implement one or more
 NAT gateways which allow instances with private IP addresses to access
 these public services.
 
-- When you allocate a gateway endpoint to a subnet, a ***prefix list*** is added
-to the route table. The target is the gateway endpoint. Any traffic destined for S3, goes via the gateway endpoint. The gateway endpoint is highly available for all AZs in a region by default.
+- When you allocate a gateway endpoint to a subnet, a **_prefix list_** is added
+  to the route table. The target is the gateway endpoint. Any traffic destined for S3, goes via the gateway endpoint. The gateway endpoint is highly available for all AZs in a region by default.
 
 - With a gateway endpoint you set which subnet will be used with it and
-it will configure automatically. A gateway endpoint is a VPC gateway object.
+  it will configure automatically. A gateway endpoint is a VPC gateway object.
+
   - Endpoint policy controls what things can be connected to by that endpoint.
 
 - Gateway endpoints can only be used to access services in the same region.
-Can't access cross-region services. You cannot, for instance, access an S3 bucket located in the `ap-southeast-2` region from a gateway endpoint in the `us-east-1` region.
+  Can't access cross-region services. You cannot, for instance, access an S3 bucket located in the `ap-southeast-2` region from a gateway endpoint in the `us-east-1` region.
 
 - Prevent Leaky Buckets: S3 buckets can be set to private only by allowing access ONLY from a gateway endpoint. For anything else, the _implicit deny_ will apply.
 
@@ -9641,21 +11451,21 @@ A limitation is that they are only accessible from inside that specific VPC.
   - Must add one endpoint for one subnet per AZ
 - Network access controlled via security groups.
 - You can use Endpoint policies to restrict what can be accessed with
-the endpoint.
+  the endpoint.
 - ONLY TCP and IPv4 at the moment.
-- Behind the scenes, it uses ***PrivateLink***.
+- Behind the scenes, it uses **_PrivateLink_**.
   - PrivateLink allows external services to be injected into your VPC either from AWS or $3^{rd}$ parties.
 - Endpoint provides a **NEW** service endpoint DNS
   - e.g. `vpce-123-xyz.sns.us-east-1.vpce.amazonaws.com`
 - **Regional DNS** is one single DNS name that works whatever AZ you're using to
-access the interface endpoint. Good for simplicity and HA.
+  access the interface endpoint. Good for simplicity and HA.
 - **Zonal DNS** resolved to that one specific interface in that one specific AZ.
 - Either of those two points of endpoints can be used by applications to
-directly and immediately utilize interface endpoints.
+  directly and immediately utilize interface endpoints.
 - PrivateDNS associates R53 private hosted zone with your VPC. This private
-hosted zone carries a replacement DNS record for the default service
-endpoint DNS name. It overrides the default service DNS with a new version
-that points at your interface endpoint. Enabled by default.
+  hosted zone carries a replacement DNS record for the default service
+  endpoint DNS name. It overrides the default service DNS with a new version
+  that points at your interface endpoint. Enabled by default.
 
 #### 1.15.4.1. Gateway Endpoints vs Interface Endpoints
 
@@ -9671,25 +11481,26 @@ endpoint. You can either use the endpoint specific DNS names or you can
 enable PrivateDNS which overrides the default and allows unmodified
 applications to access the services using the interface endpoint. This doesn't
 use routing and only DNS.
-Interface endpoints because they use normal VPC network interfaces are **not highly available**. 
+Interface endpoints because they use normal VPC network interfaces are **not highly available**.
+
 > Make sure as a Solutions Architect when you are designing an architecture if you are utilizing multiple AZs then you need to put interface endpoints in every AZ that you use inside that VPC.
 
 ### 1.15.5. VPC Peering
 
-VPC Peering is a service that lets you create a private and encrypted network link between ***two and only two VPCs***.
+VPC Peering is a service that lets you create a private and encrypted network link between **_two and only two VPCs_**.
 
 - Peering connection can be in the same or cross region and in the same or across accounts.
 
 - When you create a VPC peer, you can enable an option so that public hostnames
-of services in the peered VPC resolve to the private internal IPs. You
-can use the same DNS names if its in peered VPCs or not. If you attempt
-to resolve the public DNS hostname of an EC2 instance, it will resolve
-to the private IP address of the EC2 instance.
+  of services in the peered VPC resolve to the private internal IPs. You
+  can use the same DNS names if its in peered VPCs or not. If you attempt
+  to resolve the public DNS hostname of an EC2 instance, it will resolve
+  to the private IP address of the EC2 instance.
 
 - VPCs in the same region can reference each other by using security group id.
-You can do the same efficient referencing and nesting of security groups that
-you can do if you're inside the same VPC. This is a feature that only works
-with VPC peers inside the same region.
+  You can do the same efficient referencing and nesting of security groups that
+  you can do if you're inside the same VPC. This is a feature that only works
+  with VPC peers inside the same region.
 
 In different regions, you can utilize security groups, but you'll need to
 reference IP addresses or IP ranges. If VPC peers are in the same region,
@@ -9710,7 +11521,7 @@ VPC Peering Connections CANNOT be created with overlapping VPC CIDRs.
 ### 1.16.1. AWS Site-to-Site VPN
 
 - A logical connection between a VPC and on-premise network encrypted in transit
-using IPSec, running over the public internet (in most cases).
+  using IPSec, running over the public internet (in most cases).
 - This can be fully Highly Available if you design it correctly
 - Quick to provision, less than an hour.
 - VPNs connect VPCs and private on-prem networks.
@@ -9721,17 +11532,17 @@ using IPSec, running over the public internet (in most cases).
 
 Differences between static and dynamic VPN.
 
-Static| Dynamic |
----------|----------|
- Uses static networking config | Uses border gateway protocol (BGP) | C1
- Networks for remote side statically configured on the VPN connection | BGP is configured on both the customer and AWS side using (ASN). Networks are exchanged via BGP. | C2
- Routes for remote side added to route tables as static routes | Routes can be added statically or configured dynamically by using a feature called ***route propagation*** on the route tables in the VPC| C3
+| Static                                                               | Dynamic                                                                                                                                   |
+| -------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | --- |
+| Uses static networking config                                        | Uses border gateway protocol (BGP)                                                                                                        | C1  |
+| Networks for remote side statically configured on the VPN connection | BGP is configured on both the customer and AWS side using (ASN). Networks are exchanged via BGP.                                          | C2  |
+| Routes for remote side added to route tables as static routes        | Routes can be added statically or configured dynamically by using a feature called **_route propagation_** on the route tables in the VPC | C3  |
 
 - VPN connection itself stores the config and links to one VGW and one CGW
 - Speed cap on VPN with two tunnels of 1.25 Gbps (gigabits per second).
   - AWS limit, will need to check speed supported by customer router.
   - Will be processing overhead on encrypting and decrypting data.
-  At high speeds, this overhead can be significant.
+    At high speeds, this overhead can be significant.
 - Latency is inconsistent because it uses the public internet.
 - Cost
   - AWS charges hourly
@@ -9751,10 +11562,10 @@ Static| Dynamic |
 - This is a **cross connect** to your customer router (requires VLANs/BGP)
 - You can connect to a partner router if extending to your location.
   - The port needs to be arranged to connect somewhere else and connect to
-  your hardware.
+    your hardware.
 - This is a single fiber optic cable from the AWS Managed DX port to your network.
 - You can run Virtual Interfaces (VIFs) over a single DX connect fiber optic line.
-- There is a one-to-many relationship between a DX line and VIFs. Therefore, you can multiple VIFs running on a single DX line. 
+- There is a one-to-many relationship between a DX line and VIFs. Therefore, you can multiple VIFs running on a single DX line.
 - VIFs are of two types:
   - Private VIF (VPC)
     - Connects to one AWS VPC
@@ -9797,7 +11608,7 @@ the benefits of IPSEC encryption.
   - Site to Site VPN attachments
   - Direct Connect attachments
 - VPC attachments are configured with a subnet in each AZ where service
-is required.
+  is required.
 - Can be used to create global networks.
   - You can use these for cross-region peering attachments.
 - Can share between accounts using AWS Resource Access Manager (RAM)
@@ -9884,16 +11695,16 @@ One common directory is **Active Directory** by Microsoft and its full name is
 
 - **Simple AD**: should be default. Designed for simple requirements.
 - **Microsoft AD**: is anything with Windows or if it needs a trust relationship
-with on-prem. This is not an emulation or adjusted by AWS.
+  with on-prem. This is not an emulation or adjusted by AWS.
 - **AD Connector**: Use AWS services without storing any directory info in the
-cloud, it proxies to your on-prem directory.
+  cloud, it proxies to your on-prem directory.
 
 ### 1.16.7. AWS DataSync
 
 - Data transfer service TO and FROM AWS.
 - This is used for migrations or for large amounts of data processing transfers.
 - Designed to work at huge scales. Each agent can handle 10 Gbps and each job
-can handle 50 million files.
+  can handle 50 million files.
 - Transfers metadata and timestamps
 - Each agent is about 100 TB per day.
 - Can use bandwidth limiters to avoid customer impact
@@ -9932,7 +11743,7 @@ can handle 50 million files.
   - Client side and AWS side
   - Can perform automatic and on-demand backups.
 - File systems can be access using VPC, Peering, VPN, Direct Connect. Native
-windows filesystem or Directory Services.
+  windows filesystem or Directory Services.
 
 #### 1.16.8.1. Words to look for
 
@@ -9965,7 +11776,7 @@ windows filesystem or Directory Services.
 - Usable via Console, CLI, API, or SDK (integration)
 - Supports the automatic rotation of secrets using Lambda.
 - Directly integrates with RDS and a limited set of AWS products. If lambda
-is invoked and changes a secret, the password can automatically change in RDS.
+  is invoked and changes a secret, the password can automatically change in RDS.
 - Secrets are encrypted at rest.
 - Integrates with IAM, can use IAM permissions to control access to secrets.
 
@@ -9991,10 +11802,11 @@ requests to your website.
   - Free with Route53 and CloudFront as default
   - Provides layer 3 and layer 4 protection against DDoS attacks.
 - Shield advanced
+
   - $3000 per month
   - Includes EC2, ELB, CloudFront, Global Acceleration and R53
   - Provides access to DDoS advanced response team and financial insurance
-against increased costs.
+    against increased costs.
 
 - WAF (web application firewall)
   - Layer 7 firewall (HTTP/s) firewall
@@ -10063,9 +11875,9 @@ AWS has no access to the HSM appliances which store the keys.
 #### 1.17.3.1. Cloud HSM Use Cases
 
 - No native AWS integration with AWS products. You can't use S3 SSE with
-CloudHSM.
+  CloudHSM.
 - Can offload the SSL/TLS processing from webservers. CloudHSM
-is much more efficient to do these encryption processes.
+  is much more efficient to do these encryption processes.
 - Oracle Databases can use CloudHSM to enable **transparent data encryption (TDE)**
 - Can protect the private keys an issuing certificate authority.
 - Anything that needs to interact with non AWS products.
@@ -10099,7 +11911,7 @@ NoSQL Database as a Service (DBaaS)
 - Every item in the table needs a unique primary key.
 - Attributes may or may not be there. This is not necessary.
 - Items can be at most 400KB in size. This includes the primary key and
-attributes.
+  attributes.
 
 In DynamoDB, capacity means speed. If you choose on-demand capacity model
 you don't have to worry about capacity. You only pay for the operations
@@ -10127,7 +11939,7 @@ replay any point in that window to a 1 second granularity.
 - NoSQL, you should jump towards DynamoDB.
 - Relational data, this is NOT DynamoDB.
 - If you see key value and DynamoDB is an answer, this is likely the proper
-choice.
+  choice.
 
 Access to Dynamo is from the console, CLI, or API. You don't have SQL access.
 
@@ -10215,7 +12027,7 @@ If you can tolerate the cost savings you can scale better.
 
 - Store 10 items per second with 2.5K average size per item.
 - Calculate WCU per item, round up, then multiply by average per second.
-- (2.5 KB / 1 KB) = 3 * 10 p/s = 30 WCU
+- (2.5 KB / 1 KB) = 3 \* 10 p/s = 30 WCU
 
 To calculate the Write Capacity Unit we need:
 
@@ -10233,12 +12045,12 @@ Answer: $N_i \cdot S_i$ = $10 \cdot 3 = 30$ WCUs
 
 - Retrieve 10 items per second with 2.5K average size per item.
 - Calculate RCU per item, round up, then multiply by average per second.
-- (2.5 KB / 4 KB) = 1 * 10 p/s = 10 RCU for strongly consistent.
+- (2.5 KB / 4 KB) = 1 \* 10 p/s = 10 RCU for strongly consistent.
   - 5 RCU for eventually consistent.
 
 Note: 1 RCU $=$ 4KB
 
-Example: What is the RCU of storing 10 items per second with 2.5K average size per item. 
+Example: What is the RCU of storing 10 items per second with 2.5K average size per item.
 
 $N_i = 10$
 $S_i = 1$ $\Rightarrow$ how many 2.5 ($\sim$3) can you get in 4, which is 1.
@@ -10289,10 +12101,10 @@ need to poll databases.
 
 - Great for improving data retrieval in DynamoDB.
 - Query can only work on 1 PK value at a time and optionally a single
-or range of SK values.
+  or range of SK values.
 - Indexes are a way to provide an alternative view on table data.
 - You have the ability to choose which attributes are projected
-to the table.
+  to the table.
 
 #### 1.18.4.1. Local Secondary Indexes (LSI)
 
@@ -10317,13 +12129,13 @@ to the table.
 - GSI will have their own RCU and WCU allocations.
 - You can then choose which attributes are included in this table.
 - GSIs are **always** eventually consistent. Replication between
-base and GSI is Async
+  base and GSI is Async
 
 #### 1.18.4.3. LSI and GSI Considerations
 
 - Must be careful which projections are used to manage capacity.
 - If you don't project a specific attribute, then you require the attribute when
-querying data, it will then fetch the data later in an inefficient way.
+  querying data, it will then fetch the data later in an inefficient way.
 - This means you should try to plan what will be used on the front.
 
 **GSI as default** and only use LSI when **strong consistency** is required
@@ -10337,7 +12149,7 @@ to look at other attributes from the original purpose.
 - Global tables provide multi-master cross-region replication.
   - All tables are the same.
 - Tables are created in multiple AWS regions. In one of the tables, you
-configure the links between all of the tables.
+  configure the links between all of the tables.
 - DynamoDB will enable replication between all of the tables.
   - Tables become table replicas.
 - Between the tables, **last writer wins** in conflict resolution.
@@ -10406,33 +12218,33 @@ database, then written to DAX.
 
 - Primary node which writes and Replicas which support read operations.
 - Nodes are HA, if the primary node fails there will be an election and
-secondary nodes will be made primary.
+  secondary nodes will be made primary.
 - In-memory cache allows for much faster read operations and significantly
-reduced costs. If you are performing the same set of read operations on the same
-set of data over and over again, you can achieve performance improvements
-by implementing DAX and caching those results.
+  reduced costs. If you are performing the same set of read operations on the same
+  set of data over and over again, you can achieve performance improvements
+  by implementing DAX and caching those results.
 - With DAX you can scale up or scale out.
 - DAX supports write-through. If you write data to DynamoDB, you can
-use the DAX SDK. DAX will handle that data being committed to DynamoDB
-and also storing that data inside the cache.
+  use the DAX SDK. DAX will handle that data being committed to DynamoDB
+  and also storing that data inside the cache.
 - DAX is not a public service and is deployed within a VPC. Anything
-that uses that data many times will benefit from DAX.
+  that uses that data many times will benefit from DAX.
 - Any questions which talk about caching with DynamoDB, assume it is DAX.
 
 ### 1.18.7. Amazon Athena
 
 - You can take data stored in S3 and perform Ad-hoc queries on data. Pay
-only for the data consumed.
+  only for the data consumed.
 - Start off with structured, semi-structured and even unstructured data that is
-stored in its raw form on S3.
+  stored in its raw form on S3.
 - Athena uses **schema-on-read**, the original data is never changed
-and remains on S3 in its original form.
+  and remains on S3 in its original form.
 - The schema which you define in advance, modifies data in flight when its read.
 - Normally with databases, you need to make a table and then load the data in.
 - With Athena you create a schema and load data on this schema on the fly in
-a relational style way without changing the data.
+  a relational style way without changing the data.
 - The output of a query can be sent to other services and can be
-performed in an event driven fully serverless way.
+  performed in an event driven fully serverless way.
 
 #### 1.18.7.1. Athena Explained
 
