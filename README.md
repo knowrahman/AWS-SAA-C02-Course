@@ -7112,7 +7112,180 @@ The **Fargate Launch Type** is a serverless compute engine that allows you to ru
 - **Use Case for ECS EC2**: Full control, persistent workloads, complex configurations.
 - **Use Case for Fargate**: Simpler deployments, microservices, serverless architecture.
 
-Let me know if you need further clarification!
+### **Amazon Elastic Container Registry (ECR)**
+
+**Amazon Elastic Container Registry (ECR)** is a fully managed **Docker container registry** that makes it easy to store, manage, and deploy Docker container images. It is designed to be used with **Amazon ECS** (Elastic Container Service), **Amazon EKS** (Elastic Kubernetes Service), and other containerized applications.
+
+### **Key Features of Amazon ECR**:
+1. **Fully Managed**:
+   - ECR is **fully managed** by AWS, meaning AWS handles the infrastructure and scaling for you. This eliminates the need to manage your own container registry servers.
+   
+2. **Docker Compatibility**:
+   - Amazon ECR supports the Docker **CLI** and integrates with **Amazon ECS**, **EKS**, and other container orchestration platforms. You can easily push and pull Docker images to/from ECR using standard Docker commands.
+   
+3. **Integrated with AWS**:
+   - ECR integrates seamlessly with **IAM** (Identity and Access Management) for **fine-grained access control**, **CloudTrail** for auditing, and **Amazon CloudWatch** for monitoring.
+   
+4. **High Availability**:
+   - ECR offers **high availability** and **scalability** by storing container images in **multiple AZs (Availability Zones)**, ensuring that images are highly available and resilient to failures.
+   
+5. **Security**:
+   - ECR uses **encryption** to protect your images, both at rest and in transit, using AWS-managed keys by default. You can also use **customer-managed keys (CMKs)** for additional control over encryption.
+
+6. **Image Scanning**:
+   - Amazon ECR supports **image scanning** for vulnerabilities. It automatically scans images for known vulnerabilities, helping you ensure that your containers are secure before deployment.
+
+7. **Lifecycle Policies**:
+   - You can define **lifecycle policies** to automate the management of container images. This helps with automatic cleanup of old images that are no longer needed, reducing storage costs.
+
+---
+
+### **Key Concepts of ECR**
+
+1. **Repositories**:
+   - A **repository** is a collection of Docker images in ECR. It serves as a storage location where your container images are stored and versioned.
+   - ECR supports both **public repositories** (accessible by anyone) and **private repositories** (access controlled).
+
+2. **Images**:
+   - An **image** in ECR is a Docker image that contains the application and its dependencies. Images are tagged with version numbers or other tags to differentiate them (e.g., `myapp:latest` or `myapp:v1.0`).
+
+3. **Tags**:
+   - Images in ECR can be tagged with **tags** to identify different versions or configurations of a container. You can tag images as `latest`, `v1.0`, `prod`, etc., to easily reference them when pulling or deploying containers.
+
+4. **Push/Pull Operations**:
+   - **Pushing** refers to uploading Docker images from your local machine or CI/CD pipeline to ECR.
+   - **Pulling** refers to downloading Docker images from ECR to be used in your ECS, EKS, or other container orchestration service.
+
+---
+
+### **How Amazon ECR Works**
+
+1. **Create a Repository**:
+   - First, you create a **repository** in ECR. A repository can either be **public** or **private** depending on whether you want the container image to be publicly available or only accessible to authenticated users.
+   
+   Example (AWS CLI command to create a private repository):
+   ```bash
+   aws ecr create-repository --repository-name my-repository
+   ```
+
+2. **Push Images to ECR**:
+   - After building a Docker image locally, you can **tag** it with the ECR repository URL and then **push** it to ECR.
+   
+   Example (steps to push an image to ECR):
+   
+   - First, authenticate to the registry:
+     ```bash
+     aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin <aws_account_id>.dkr.ecr.us-west-2.amazonaws.com
+     ```
+
+   - Tag the image:
+     ```bash
+     docker tag my-image:latest <aws_account_id>.dkr.ecr.us-west-2.amazonaws.com/my-repository:latest
+     ```
+
+   - Push the image:
+     ```bash
+     docker push <aws_account_id>.dkr.ecr.us-west-2.amazonaws.com/my-repository:latest
+     ```
+
+3. **Pull Images from ECR**:
+   - To deploy a container from an image in ECR, you need to **pull** the image from the repository.
+   
+   Example:
+   ```bash
+   docker pull <aws_account_id>.dkr.ecr.us-west-2.amazonaws.com/my-repository:latest
+   ```
+
+4. **Lifecycle Policies**:
+   - You can set lifecycle policies for your ECR repositories to automatically delete old images. For example, you can specify that images older than 30 days or with fewer than 10 pulls should be deleted.
+   
+   Example:
+   ```json
+   {
+     "rules": [
+       {
+         "rulePriority": 1,
+         "description": "Delete images older than 30 days",
+         "action": {
+           "type": "expire"
+         },
+         "filter": {
+           "tagStatus": "any",
+           "countType": "imageCountMoreThan",
+           "countNumber": 30
+         }
+       }
+     ]
+   }
+   ```
+
+---
+
+### **Security and Permissions**
+
+1. **IAM Integration**:
+   - **IAM roles** and **policies** are used to control access to ECR repositories. You can grant permissions for **pushing**, **pulling**, and **managing** repositories at both the **repository** and **image** level.
+   
+   Example: An IAM policy to allow pulling from ECR could look like this:
+   ```json
+   {
+     "Version": "2012-10-17",
+     "Statement": [
+       {
+         "Effect": "Allow",
+         "Action": "ecr:GetAuthorizationToken",
+         "Resource": "*"
+       },
+       {
+         "Effect": "Allow",
+         "Action": "ecr:BatchGetImage",
+         "Resource": "arn:aws:ecr:us-west-2:123456789012:repository/my-repository"
+       },
+       {
+         "Effect": "Allow",
+         "Action": "ecr:BatchCheckLayerAvailability",
+         "Resource": "arn:aws:ecr:us-west-2:123456789012:repository/my-repository"
+       }
+     ]
+   }
+   ```
+
+2. **Image Scanning**:
+   - ECR provides **image scanning** for vulnerabilities, allowing you to check container images for known vulnerabilities before they are used in your applications. This helps ensure that your containers are secure and compliant.
+   
+   Example:
+   ```bash
+   aws ecr start-image-scan --repository-name my-repository --image-id imageTag=latest
+   ```
+
+---
+
+### **When to Use Amazon ECR**
+
+- **Storing Container Images**: ECR is ideal when you need a **secure**, **scalable**, and **highly available** solution for storing and managing your Docker container images.
+  
+- **Integration with ECS/EKS**: ECR integrates seamlessly with **Amazon ECS** and **Amazon EKS** for deploying and managing containerized applications.
+  
+- **Private Repositories**: If you need to keep your container images private but still need to share them between different AWS accounts, ECR provides fine-grained access control.
+  
+- **Public Repositories**: If you have open-source projects or public-facing applications that you want to share with the community, ECR supports **public repositories** as well.
+
+---
+
+### **Summary**
+
+- **Amazon ECR** is a **fully managed container registry** for storing and managing Docker images.
+- It provides **high availability**, **security**, and **scalability** for your container images, with features like **image scanning**, **encryption**, **IAM integration**, and **lifecycle management**.
+- ECR integrates seamlessly with **Amazon ECS**, **EKS**, and other AWS services for deploying containerized applications.
+
+---
+
+### **Exam Power-Up**:
+- **Amazon ECR**: Managed **container registry** for storing and managing Docker images.
+- **Security**: Supports **IAM** for fine-grained permissions and **image scanning** for vulnerabilities.
+- **Public and Private Repositories**: You can have both **private** and **public repositories** in ECR.
+- **Lifecycle Policies**: Automatically manage and **expire old images** using lifecycle policies.
+****
 
 ## 1.8. Advanced-EC2
 
@@ -7231,238 +7404,537 @@ This way you reduce the post-launch time and thus the boot-time-to-service.
 
 3. **View Event Details:**
    - Click on specific events to view detailed information, which may include user data script contents.
+### **AWS::CloudFormation::Init and cfn-init**
 
+**AWS::CloudFormation::Init** is a configuration management tool used within **CloudFormation templates** to automate the installation and configuration of software on Amazon EC2 instances. It's typically used with EC2 instances to specify configuration steps like installing packages, modifying system settings, and configuring services. The helper script **cfn-init** is installed on the EC2 instance to execute these tasks.
 
-### 1.8.2. AWS::CloudFormation::Init
+Let’s break down the core components and concepts involved:
 
-**cfn-init** is a helper script installed on EC2 OS.
-This is a simple configuration management system.
+---
 
-- User Data is procedural and run by the OS line by line.
-- cfn-init can be procedural, but can also be desired state.
-  - Can specify particular versions of packages. It will ensure things are
-  configured to that end state.
-  - Can manipulate OS groups and users.
-  - Can download sources and extract them using authentication.
+### **1.8.2. AWS::CloudFormation::Init**
 
-This is executed as any other command by being passed into the instance as part
-of the user data and retrieves its directives from the CloudFormation
-stack and you define this data in the CloudFormation template called
-`AWS::CloudFormation::Init`.
+The **`AWS::CloudFormation::Init`** section in a CloudFormation template is used to define the configuration that will be applied to an EC2 instance when it is created. The **`cfn-init`** helper script runs the configuration commands on the instance. The key feature of `AWS::CloudFormation::Init` is that it allows you to declare the **desired state** for your EC2 instance.
 
-#### 1.8.2.1. cfn-init explained
+---
 
-Starts off with a **CloudFormation template**.
-This has a logical resource within it which is to create an EC2 instance.
-This has a specific section called `Metadata`.
-This then passes in the information passed in as `UserData`.
-cfn-init gets variables passed into the user data by CloudFormation.
+### **What is cfn-init?**
 
-It knows the desired state and can work towards a final configuration.
-This can monitor the user data and change things as the EC2 data changes.
+- **`cfn-init`** is a helper script installed on EC2 instances by CloudFormation. It automates the process of **configuring** instances after they are launched.
+  
+- It reads the configuration information (such as software installation, file handling, or user creation) from the **metadata** section of the CloudFormation template.
 
-#### 1.8.2.2. CreationPolicy and Signals
+- **Key Features of `cfn-init`**:
+  1. **Procedural and Desired State Configuration**: Unlike traditional **user data** scripts, which are purely procedural, `cfn-init` can define a **desired state**. For example, you can specify that a package should always be at a specific version, and `cfn-init` will ensure that the instance maintains that version even after reboots.
+  2. **Package Management**: It can install and configure software packages on the EC2 instance, such as Apache, MySQL, or custom applications.
+  3. **System Configuration**: You can manage system users, groups, files, and directories, ensuring the EC2 instance is set up in the way you need.
+  4. **Authentication**: `cfn-init` can download sources (like application files) from Amazon S3, Git repositories, or other sources, using authentication as necessary.
 
-If you pass in user data, there is no way for CloudFormation to know
-if the EC2 instance was provisioned properly. It may be marked as complete,
-but the instance could be broken.
+---
 
-A **CreationPolicy** is something which is added to a logical resource
-inside a CloudFormation template. You create it and supply a timeout value.
+### **How cfn-init Works**
 
-This waits for a signal from the resource itself before moving to a create
-complete state.
+1. **CloudFormation Template**: You start with a **CloudFormation template** that defines an EC2 instance. The template includes a section called `Metadata`, where the `AWS::CloudFormation::Init` configuration is specified.
 
-### 1.8.3. EC2 Instance Roles
-Roles are preferred of doing anything instead of storing the credentials anywhere
+2. **UserData**: The CloudFormation template’s `UserData` section is used to pass the `cfn-init` script to the EC2 instance at launch. The script contains the instructions that `cfn-init` will execute once the instance starts.
 
-it is an IAM role that instance assumes.
+3. **Configuration Management**: `cfn-init` reads the configuration defined in the `AWS::CloudFormation::Init` section and works to ensure the EC2 instance is in the **desired state**. This might include installing packages, setting environment variables, creating files, and configuring users and groups.
 
-IAM roles are the best practice ways for services to be granted permissions.
-EC2 instance roles are roles that an instance can assume and anything
-running in that instance has the permissions that role grants.
+4. **Desired State**: Unlike simple user data scripts, which execute in a linear fashion, `cfn-init` checks the current state of the instance and works towards the **desired configuration**. For example, if a package is missing or the wrong version is installed, `cfn-init` will install the correct version.
 
-Starts with an IAM role with a permissions policy.
-EC2 instance role allows the EC2 service to assume that role.
+---
 
-when you create an IAM role for EC2 it automatically creates an instance profile with the same name
-and you attach this new instance profile to the EC2 instance
+### **1.8.2.1. cfn-init Explained**
 
-The **instance profile** is the item that allows the permissions to get
-inside the instance. When you create an instance role in the console,
-an instance profile is created with the same name.
+1. **CloudFormation Template**: 
+   - The CloudFormation template is the starting point where you define your resources (like EC2 instances).
+   - Within the template, there is a special section called `Metadata`, where you can specify configuration information that `cfn-init` will use to configure the instance after it is launched.
 
-When IAM roles are assumed, you are provided temporary roles based on the
-permission assigned to that role. These credentials are passed through
-instance **meta-data**.
+2. **UserData**: 
+   - The `UserData` section of the CloudFormation template contains commands or scripts that are passed to the EC2 instance when it is launched.
+   - This is where you can trigger `cfn-init` to run. `cfn-init` will execute based on the configuration passed in the metadata section and make sure the instance is configured to the desired state.
 
-EC2 and the secure token service ensure the credentials never expire.
+3. **Desired State**:
+   - `cfn-init` works to configure the EC2 instance to match the **desired state** described in the CloudFormation template. For example, if you want the EC2 instance to have **Apache** installed and running, `cfn-init` will ensure that Apache is installed, configured, and started correctly.
 
-Key facts
+4. **Monitoring and Change Management**:
+   - **`cfn-init`** can monitor changes and adjust the instance configuration if necessary. For example, if something changes on the instance (e.g., a package is removed or updated), `cfn-init` can automatically reconfigure the instance to match the desired state as defined in the template.
 
-- Credentials are inside meta-data
-  - iam/security-credentials/role-name
-  - automatically rotated - always valid
-  - Resources need to check the meta-data periodically
-- Should always use roles compared to storing long term credentials
-- CLI tools use role credentials automatically
-- After configuration of the role the command line tools and even sdks like .net will automatically look for the configuration using the meta-data/iam/security-credentials 
-  and use them on the priority basis unless you specify a new profile to be used
-   -- Priorities List
-    - Command line options
-    - Environment varibles
-    - CLI credentials file
-    - CLI configuration file
-    - Container Credentials
-    - Instance profile credentials
- 
+---
 
-### 1.8.4. AWS System Manager Parameter Store
+### **1.8.2.2. CreationPolicy and Signals**
 
-Passing secrets into an EC2 instance is bad practice even with user-data because anyone
-who has access to the meta-data has access to the secrets.
+When you launch an EC2 instance using CloudFormation, **`CreationPolicy`** is used to ensure that the resources are created successfully before CloudFormation considers the stack creation complete. By default, CloudFormation may not know if the EC2 instance was properly initialized. It might mark the creation as **complete** even if the instance is not ready or properly configured.
 
-Parameter store allows for storage of **configuration** and **secrets**
+To solve this, **CreationPolicy** and **Signals** are used to explicitly wait for a signal from the resource (like the EC2 instance) indicating that it has been properly configured.
 
-- Strings
-- StringList
-- SecureString
+#### **CreationPolicy**:
+- The **CreationPolicy** attribute is added to a logical resource (like an EC2 instance) in the CloudFormation template. It includes a **timeout value** and a signal type.
+- **Timeout**: The maximum amount of time CloudFormation will wait for the signal before it considers the resource creation failed.
+- **Signals**: When the instance or resource reaches the desired state (for example, when `cfn-init` has successfully completed its tasks), it sends a signal back to CloudFormation to indicate that it is ready.
 
+#### **Signals**:
+- **Signals** are sent using the **cfn-signal** helper script. Once the instance is configured (using `cfn-init`), the instance sends a signal back to CloudFormation indicating that it is ready.
+- CloudFormation will wait for the signal before marking the instance as successfully provisioned.
 
-many aws service are natively integrated with parameter store like Cfn and so on
+#### **Example: CreationPolicy with Signal**
 
-Parameter Store:
+Here’s an example of how to use **CreationPolicy** with **Signals** in a CloudFormation template:
 
-- Can store license codes, database strings, and full configs and passwords.
-- Allows for storing hierarchies and versioning of a value.
-- Can store plaintext and ciphertext.
-  - This integrates with **kms** to encrypt passwords. ex: $DB-user, $DB-PASWORD
-- Public parameters: Allows for public parameters such as the latest AMI parameter to be stored
-and referenced during EC2 creation
-- Is a public service so any services needs access to the public sphere or
-to be an AWS public service.
-- Applications, EC2 instances, lambda functions can all request access to
-parameter store.
-- Tied closely to IAM, can use
-  - Long term credentials such as access keys.
-  - Short term use of IAM roles.
+```yaml
+Resources:
+  MyEC2Instance:
+    Type: AWS::EC2::Instance
+    Metadata:
+      AWS::CloudFormation::Init:
+        configSets:
+          default:
+            - InstallPackages
+        InstallPackages:
+          packages:
+            yum:
+              httpd: []
+    Properties:
+      InstanceType: t2.micro
+      ImageId: ami-12345678
+      KeyName: my-key
+    CreationPolicy:
+      ResourceSignal:
+        Count: 1
+        Timeout: PT15M  # Timeout for 15 minutes
+    UserData:
+      Fn::Base64: !Sub |
+        #!/bin/bash
+        /opt/aws/bin/cfn-init -v --stack ${AWS::StackName} --resource MyEC2Instance --region ${AWS::Region}
+        /opt/aws/bin/cfn-signal --exit-code 0 --stack ${AWS::StackName} --resource MyEC2Instance --region ${AWS::Region}
+```
 
-### 1.8.5. System and Application Logging on EC2
+In this example:
+- **`cfn-init`** installs packages and configures the EC2 instance.
+- Once **`cfn-init`** completes successfully, **`cfn-signal`** sends a signal to CloudFormation to confirm that the instance is properly configured and ready.
+- CloudFormation waits for the signal within **15 minutes** (as defined by `Timeout`), and only marks the instance as **created** once the signal is received.
+
+---
+
+### **Summary**
+
+- **AWS::CloudFormation::Init** and **cfn-init** provide a **configuration management** system for EC2 instances, ensuring that the desired state of an instance (like installed packages and system configurations) is met during instance provisioning.
+- **cfn-init** allows for a more **declarative** configuration, unlike **user data scripts**, which are purely **procedural**.
+- **CreationPolicy** and **Signals** help ensure that CloudFormation waits for the EC2 instance to be fully configured before marking the stack creation as complete.
+- This is useful for ensuring that resources are ready and configured before moving forward with other CloudFormation operations.
+
+---
+
+### **Exam Power-Up**:
+- **cfn-init**: Ensures EC2 instances are configured to a **desired state** (e.g., installing packages, setting up users).
+- **CreationPolicy**: Used to wait for a **signal** from an instance before CloudFormation considers the stack as successfully created.
+- **UserData and Metadata**: `cfn-init` is passed in **UserData** and retrieves configuration information from **Metadata** in the CloudFormation template.
+### **EC2 Instance Roles**
+
+**EC2 Instance Roles** are a critical part of AWS security best practices. They are used to allow EC2 instances to securely interact with other AWS services without needing to manually manage **access keys** or **secret keys**.
+
+Instead of embedding **long-term credentials** in your EC2 instances, which can be insecure and difficult to manage, EC2 instance roles use **IAM roles** to **automatically grant permissions** to the EC2 instance. These roles are assigned to EC2 instances at launch, and the instance uses the role to access AWS resources securely.
+
+---
+
+### **Key Concepts of EC2 Instance Roles**
+
+1. **IAM Role**:
+   - An **IAM role** is an **AWS identity with specific permissions** that can be assumed by an entity (such as an EC2 instance).
+   - An EC2 instance can assume an IAM role, which allows the instance to gain the permissions granted by the role.
+   - IAM roles are the **preferred method** to allow access to AWS services, rather than storing static credentials on the instance.
+
+2. **Instance Profile**:
+   - When you create an **IAM role** for EC2, AWS automatically creates an **instance profile** with the same name as the role. The **instance profile** is the **container** for the role and allows the EC2 instance to use the IAM role's permissions.
+   - The **instance profile** is **attached to the EC2 instance**, and through this profile, the EC2 instance can assume the role and get the associated permissions.
+
+3. **Temporary Security Credentials**:
+   - **IAM roles** provide **temporary credentials** that are automatically managed and rotated by AWS. These credentials consist of an **Access Key ID**, **Secret Access Key**, and a **Session Token**.
+   - The temporary credentials are retrieved by the EC2 instance from its **metadata** and are used by processes inside the instance to interact with other AWS services.
+   - These temporary credentials are automatically rotated and valid as long as the role is assumed.
+
+4. **EC2 Instance Metadata**:
+   - The **instance metadata** provides the temporary security credentials to the EC2 instance. You can access the credentials using the instance's metadata endpoint (`http://169.254.169.254/latest/meta-data/iam/security-credentials/role-name`).
+   - The credentials provided through the metadata are **automatically rotated** and valid until the instance is terminated or the role is modified.
 
-CloudWatch and CloudWatch Logs cannot natively capture data inside an instance.
+---
+
+### **How EC2 Instance Roles Work: Step-by-Step**
 
-CloudWatch Agent is required for OS visible data. It sends this data into CW
-For CW to function, it needs configuration and permissions in addition
-to having the CW agent installed.
-The CW agent needs to know what information to inject into CW and CW Logs.
+1. **Creating an IAM Role for EC2**:
+   - When creating an IAM role for an EC2 instance, you define the **permissions policy** (for example, granting access to an S3 bucket).
+   - **Example**: An IAM policy granting permissions to read from S3 could look like this:
+   ```json
+   {
+     "Version": "2012-10-17",
+     "Statement": [
+       {
+         "Effect": "Allow",
+         "Action": "s3:GetObject",
+         "Resource": "arn:aws:s3:::my-bucket/*"
+       }
+     ]
+   }
+   ```
+   - After creating the role, AWS automatically creates an **instance profile** with the same name. You then **attach the instance profile** to an EC2 instance.
 
-The agent also needs some permissions to interact with AWS.
-This is done with an IAM role as best practice.
-The IAM role has permissions to interact with CW logs.
-The IAM role is attached to the instance which provides the instance and
-anything running on the instance, permissions to manage CW logs.
+2. **Assigning the IAM Role to an EC2 Instance**:
+   - When you launch an EC2 instance, you can select the **IAM role** (created in step 1) to assign it to the instance. AWS automatically attaches the **instance profile** to the instance.
 
-The data requested is then injected in CW logs.
-There is one log group for each individual log we want to capture.
-There is one log stream for each group for each instance that needs
-management.
+3. **Using the Role Inside the EC2 Instance**:
+   - After the EC2 instance is launched with the role, the instance can use the role's permissions. Any process running inside the EC2 instance (e.g., a script, application, or service) can use the **temporary credentials** provided through the **instance metadata**.
+   - To access the credentials, an application or tool inside the instance can call the instance metadata service:
+     ```bash
+     curl http://169.254.169.254/latest/meta-data/iam/security-credentials/role-name
+     ```
 
-We can use parameter store to store the configuration for the CW agent.
+   - This call returns the **temporary credentials** (access key, secret key, and session token), which can be used to interact with AWS services.
 
-### 1.8.6. EC2 Placement Groups
+---
 
-#### 1.8.6.1. Cluster Placement -> Pack Instances Close Together
+### **Temporary Credentials Example**
 
-Designed so that instances within the same cluster are physically close together.
+Here’s a simplified example of how an EC2 instance might use its role's temporary credentials:
 
-Achieves the highest level of performance possible inside EC2.
+1. **Assigning Role to EC2**:
+   - You create an IAM role called `MyS3AccessRole` with permissions to access an S3 bucket (`s3:GetObject`).
+   - You launch an EC2 instance and assign the `MyS3AccessRole` IAM role to it.
 
-Best practice is to launch all of the instances within that group at the
-same time.
-If you launch with 9 instances and AWS places you in a place with capacity
-for 12, you are now limited in how many you can add.
+2. **Accessing the Metadata for Temporary Credentials**:
+   - An application running on the EC2 instance (let’s say a Python script) needs to list the contents of the S3 bucket.
+   - The script retrieves the temporary credentials by calling the metadata endpoint:
+     ```bash
+     curl http://169.254.169.254/latest/meta-data/iam/security-credentials/MyS3AccessRole
+     ```
+     This returns the temporary **Access Key ID**, **Secret Access Key**, and **Session Token**.
 
-Cluster placements need to be part of the same AZ. Cluster
-placement groups are generally the same rack, but they can even be the same
-EC2 host.
+3. **Using the Temporary Credentials to Access S3**:
+   - The script can then use these temporary credentials to authenticate API calls to S3 using AWS SDKs or the AWS CLI.
+   - For example, using the **AWS SDK for Python (boto3)**:
+     ```python
+     import boto3
 
-All members have direct connections to each other. They can achieve
-**10 Gbps single stream** vs 5 Gbps normally. They also have the lowest
-latency and max packets-per-second (PPS) possible in AWS.
+     # Get temporary credentials from instance metadata
+     session = boto3.Session(
+         aws_access_key_id='AccessKeyId',
+         aws_secret_access_key='SecretAccessKey',
+         aws_session_token='SessionToken'
+     )
+     
+     # Use temporary credentials to access S3
+     s3 = session.client('s3')
+     response = s3.list_objects_v2(Bucket='my-bucket')
+     print(response)
+     ```
 
-If the hardware fails, the entire cluster will fail.
+4. **Credential Rotation**:
+   - The instance will **automatically rotate** the credentials every few hours, and the script can continue using the new credentials without any manual intervention.
 
-##### 1.8.6.1.1. Cluster Placement Exam PowerUp
+---
 
-- **Clusters can't span AZs**. The first AZ used will lock down the cluster.
-- They can span VPC peers.
-- Requires a supported instance type.
-- Best practice to use the same type of instance (not mandatory).
-- Best practice to launch all instances at once (not mandatory).
-- This is the only way to achieve **10Gbps SINGLE stream performance**, other data metrics assume multiple streams.
-- Use cases: Performance, fast transfer speeds, and low consistent latency.
+### **Credential Priority**
 
-#### 1.8.6.2. Spread Placement -> Keep Instances Separated
+When using AWS CLI, SDKs, or applications that interact with AWS resources, they will automatically attempt to use credentials based on the following priority order (from highest to lowest):
 
-Keep instances separated
+1. **Command-line options**: Explicit credentials passed via CLI commands (e.g., `aws s3 ls --access-key YOUR_ACCESS_KEY --secret-key YOUR_SECRET_KEY`).
+2. **Environment variables**: If credentials are set in environment variables like `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`, these take priority.
+3. **CLI credentials file**: The credentials file located at `~/.aws/credentials` or `C:\Users\USER_NAME\.aws\credentials` (for the AWS CLI).
+4. **CLI configuration file**: The `~/.aws/config` file, which may contain the profile name or default credentials.
+5. **Container credentials**: If you're using Amazon ECS or other container services, the container's task role credentials will be used.
+6. **Instance profile credentials**: Credentials provided by the EC2 instance's IAM role (accessed through metadata).
 
-This provides the best resilience and availability.
-Spread groups can span multiple AZs. Information will be put on distinct
-racks with their own network or power supply. There is a limit of 7 instances
-per AZ. The more AZs in a region, the more instances inside a spread placement
-group.
+---
 
-##### 1.8.6.2.1. Spread Placement Exam PowerUp
+### **Best Practices for EC2 Instance Roles**
 
-- Provides the highest level of availability and resilience.
-  - Each instance by default runs from a different rack.
-- **7 instances per AZ is a hard limit**.
-- Not supported for dedicated instances or hosts.
+- **Never store long-term credentials** (access keys or secret keys) on EC2 instances. Always use IAM roles to securely grant permissions.
+- **Use the least privilege principle** when assigning permissions to IAM roles. Only grant the permissions that are strictly necessary for the application running on the EC2 instance.
+- **Automate credential management** using IAM roles, as the credentials are automatically rotated and do not need to be manually managed.
 
-- Use case: small number of critical instances that need to be kept separated
-from each other. Several mirrors of an application; different nodes of an application; etc.
+---
 
-#### 1.8.6.3. Partition Placement -> Groups of Instances Spread Apart
+### **Summary**
 
-Groups of instances spread apart
+- **EC2 Instance Roles** allow EC2 instances to securely assume permissions to interact with other AWS services without needing to store long-term credentials.
+- The permissions are provided through **temporary security credentials**, which are retrieved from **instance metadata**.
+- **Instance Profiles** are created automatically when you create an IAM role for EC2 and are used to attach the IAM role to the EC2 instance.
+- **AWS best practices** recommend always using **IAM roles** rather than storing credentials manually, as roles ensure **temporary credentials** that are automatically rotated and managed by AWS.
 
-If a problem occurs with one rack's networking or power, it will
-at most take out one instance.
+---
 
-The main difference is you can launch as many instances in each partition
-as you desire.
+### **Exam Power-Up**:
+- **EC2 Instance Role**: Assigns an IAM role to an EC2 instance, allowing it to interact with other AWS services securely.
+- **Instance Profile**: Container for the IAM role that allows EC2 instances to use it.
+- **Temporary Credentials**: Credentials for EC2 instances are automatically rotated and managed, accessible through instance metadata.
+- **Security Best Practices**: Always use **IAM roles** for EC2 instances instead of storing static credentials.
 
-When you launch a partition group, you can allow AWS decide or you can
-specifically decide.
+### **AWS Systems Manager Parameter Store**
 
-##### 1.8.6.3.1. Partition Placement Exam PowerUp
+**AWS Systems Manager Parameter Store** is a fully managed service used to store configuration data and secrets such as passwords, database connection strings, license keys, and application configurations. It is designed to provide a **centralized location** for storing such information securely and enables the integration of sensitive configuration values in AWS services like **EC2**, **Lambda**, and **CloudFormation**.
 
-- 7 partitions maximum for each AZ
-- Instances can be placed into a specific partition, or AWS can pick.
-- This is not supported on dedicated hosts.
-- Great for HDFS, HBase, and Cassandra
+#### **Types of Parameters in Parameter Store**
 
-### 1.8.7. EC2 Dedicated Hosts
+There are three types of parameters that you can store in **AWS Systems Manager Parameter Store**:
 
-EC2 host allocated to you in its entirety.
-Pay for the host itself which is designed for a family of instances.
-There are no instance charges.
-You can pay for a host on-demand or reservation with 1 or 3 year terms.
+1. **String**
+2. **StringList**
+3. **SecureString**
 
-The host hardware has physical sockets and cores. This dictates how
-many instances can be run on the HW.
+Each type has a different use case and provides different levels of security.
 
-Hosts are designed for a specific size and family. If you purchase one host, you configure what type of instances you want to run on it. With the older VM
-system you cannot mix and match. The new Nitro system allows for mixing and
-matching host size.
+---
 
-#### 1.8.7.1. Dedicated Hosts Limitations
+### **1. String**
+- **Definition**: A simple, plain text string. It can store any text data without any encryption.
+- **Use Case**: 
+  - Used for storing configuration values that do **not require encryption**, such as general configuration settings, feature flags, or non-sensitive application parameters.
+  - Example: Storing a simple database connection string that does not include sensitive credentials.
 
-- AMI Limits, some versions can't be used
-- Amazon RDS instances are not supported
-- Placement groups are not supported for dedicated hosts.
-- Hosts can be shared with other organization accounts using **Resource Access Manager (RAM)**
-- This is mostly used for licensing problems related to ports.
+  **Example**:
+  ```bash
+  aws ssm put-parameter --name "/app/config/version" --value "1.0.3" --type "String"
+  ```
+
+- **Limitations**:
+  - **No encryption** is applied to `String` type parameters, so it is suitable only for non-sensitive data.
+
+---
+
+### **2. StringList**
+- **Definition**: A list of strings. A StringList parameter is used to store **multiple string values** as a single parameter.
+- **Use Case**: 
+  - Useful for storing lists of values, such as a list of **server names**, **IP addresses**, or **database names** that your application needs to access. It helps in cases where you need to pass multiple pieces of configuration in a single parameter.
+  - Example: A list of **allowed IP addresses** for a web application firewall.
+
+  **Example**:
+  ```bash
+  aws ssm put-parameter --name "/app/allowed_ips" --value "10.0.0.1,10.0.0.2,10.0.0.3" --type "StringList"
+  ```
+
+- **Limitations**:
+  - `StringList` can store values as a **comma-separated list**. While it’s useful for lists, the data is still not encrypted.
+
+---
+
+### **3. SecureString**
+- **Definition**: A **SecureString** is used for storing sensitive information, such as passwords or API keys. It is automatically encrypted using **AWS Key Management Service (KMS)**.
+- **Use Case**: 
+  - Used to store **secrets** like database credentials, API keys, access tokens, and other sensitive data that require encryption at rest.
+  - This type of parameter integrates tightly with **KMS** to provide encryption and decryption capabilities.
+  - Example: Storing an **API key** for an external service or a **database password** that requires protection.
+
+  **Example**:
+  ```bash
+  aws ssm put-parameter --name "/app/db_password" --value "supersecretpassword" --type "SecureString" --key-id "alias/my-key"
+  ```
+
+- **Advantages**:
+  - Parameters of type `SecureString` are **automatically encrypted** using KMS, ensuring that sensitive data is protected at rest.
+  - You can specify which **KMS key** should be used for encryption and decryption of the value.
+
+- **Limitations**:
+  - SecureString parameters **cannot be retrieved as plain text** unless they are decrypted by the service that has appropriate permissions (using IAM policies to allow access to KMS).
+
+---
+
+### **Key Differences Between Parameter Store and Secrets Manager**
+
+While both **AWS Systems Manager Parameter Store** and **AWS Secrets Manager** are used for storing sensitive data (like passwords and API keys), there are some key differences between them.
+
+| Feature                         | **Parameter Store**                                              | **Secrets Manager**                                           |
+|----------------------------------|------------------------------------------------------------------|---------------------------------------------------------------|
+| **Data Types**                   | String, StringList, SecureString                                  | Secrets (encrypted), can store binary data, arbitrary text    |
+| **Encryption**                    | **Supports encryption** using KMS for SecureString parameters.  | Built-in encryption using KMS. Supports **automatic rotation** of secrets. |
+| **Use Case**                      | General configuration, parameters that need encryption (SecureString), non-sensitive data. | **Storing secrets**, such as API keys, credentials, with **automatic rotation**. |
+| **Versioning**                    | Supports **manual versioning** for parameters.                   | **Automatic versioning** with secret versions.               |
+| **Access Control**                | Uses **IAM policies** for access control.                       | Supports **IAM**, **resource-based policies**, and automatic secret access control. |
+| **Rotation**                      | Does not support **automatic secret rotation**.                  | **Automatic secret rotation** is supported.                  |
+| **Cost**                          | Lower cost for storing parameters.                               | Higher cost for secret management and automatic rotation.    |
+| **Service Integration**           | Integrated with AWS services (e.g., CloudFormation, Lambda).     | Integrated with **AWS Lambda**, **RDS**, **Redshift**, and more. |
+
+---
+
+### **When to Use Parameter Store vs. Secrets Manager**
+
+- **Use Parameter Store when**:
+  - You need to store **non-sensitive** data, like configuration parameters or public API keys.
+  - You don’t need **automatic secret rotation**.
+  - You have a small number of parameters or simple secret management needs.
+  - You need to store values like **database connection strings**, **license keys**, or **feature flags**.
+
+- **Use Secrets Manager when**:
+  - You need to store sensitive information (like **API keys**, **database credentials**, **secrets**) that needs **automatic rotation** and **enhanced management**.
+  - You want to manage sensitive data at scale, with automatic updates and **recovery features**.
+  - You need tight integration with services that require dynamic secrets, like **RDS** or **Lambda**.
+
+---
+
+### **Cost Considerations**
+
+- **AWS Systems Manager Parameter Store**:
+  - **Free Tier**: Up to 10,000 parameters per account are free.
+  - **Standard Parameter**: You incur costs if you store more than 10,000 parameters or if you use **SecureString** parameters (with encryption).
+  - **Cost for SecureString**: You are charged for the **KMS encryption requests** and the **storage** of SecureString parameters.
+  - **Request Costs**: Charges are also based on the number of **parameter fetch requests** (API calls).
+
+- **AWS Secrets Manager**:
+  - Secrets Manager is a **paid service**.
+  - **Cost per Secret**: There is a fee for each **stored secret**.
+  - **Cost per Rotation**: Additional costs are incurred for **secret rotation** functionality.
+  - **API Calls**: Charges apply for **API calls** to retrieve, list, and rotate secrets.
+
+---
+
+### **Example Use Case for Each Type of String**
+
+1. **String**:
+   - Use this type to store configuration values that do **not require encryption**, such as an **application version** or a **feature flag**.
+   - **Example**: You want to store the version number of your application for a deployment.
+     ```bash
+     aws ssm put-parameter --name "/app/version" --value "v1.0.0" --type "String"
+     ```
+
+2. **StringList**:
+   - Use this type to store a **list of strings** (e.g., a list of **allowed IP addresses** or **server names**).
+   - **Example**: A list of **allowed IP addresses** for your application.
+     ```bash
+     aws ssm put-parameter --name "/app/allowed_ips" --value "192.168.1.1,192.168.1.2" --type "StringList"
+     ```
+
+3. **SecureString**:
+   - Use this type for storing sensitive data like **database credentials**, **API keys**, or **access tokens**.
+   - **Example**: Storing a **database password** securely.
+     ```bash
+     aws ssm put-parameter --name "/app/db_password" --value "supersecretpassword" --type "SecureString" --key-id "alias/my-kms-key"
+     ```
+
+---
+
+### **Summary**
+
+- **AWS Systems Manager Parameter Store** is a great solution for securely storing both configuration data and secrets.
+- It supports three types of parameters: **String**, **StringList**, and **SecureString**, with **SecureString** providing encryption for sensitive data.
+- **Parameter Store** is integrated with various AWS services and can be used for both general configuration and secret management, but it does not offer **automatic rotation** (unlike **Secrets Manager**).
+- Use **Parameter Store** for **non-sensitive data** or when encryption and versioning are needed. Use **Secrets Manager** when you need **automatic secret rotation** or more **advanced secret management** features.
+
+---
+
+### **Exam Power-Up**:
+- **String**: Used for non-sensitive, plain text data (e.g., configuration parameters).
+- **StringList**: Useful for storing **multiple string values** (e.g., list of IPs).
+- **SecureString**: Used for **encrypted sensitive data** (e.g., passwords, API keys), integrates with **KMS**.
+- **Cost**: Parameter Store is **cost-effective** for simple use cases, but **Secrets Manager** is more feature-rich for managing dynamic secrets with automatic rotation.
+
+
+### **System and Application Logging on EC2 with CloudWatch**
+
+**Amazon CloudWatch** provides a powerful monitoring and logging solution for AWS resources and applications. However, CloudWatch **does not natively capture logs** or metrics directly from **EC2 instances** or their operating systems. To collect logs and system-level metrics from EC2 instances, you need to use the **CloudWatch Agent**, which enables you to send log data and system metrics from the EC2 instances to CloudWatch.
+
+Let's break down the key concepts and details:
+
+---
+
+### **CloudWatch Agent for EC2 Logging**
+
+1. **Why CloudWatch Agent is Needed**:
+   - CloudWatch **can’t natively capture logs** inside an EC2 instance. It only captures logs from AWS services (e.g., EC2, Lambda, etc.) but cannot directly access **OS-level logs** (like system logs, application logs, or custom log files).
+   - **CloudWatch Agent** is required to send **OS-level logs and metrics** (such as memory usage, disk space, and custom application logs) to CloudWatch from EC2 instances.
+
+2. **Installation of CloudWatch Agent**:
+   - You need to install the **CloudWatch Agent** on your EC2 instances to allow them to send **logs** and **metrics** to CloudWatch.
+   - Once installed, the **CloudWatch Agent** can monitor system-level logs and application logs, sending them to **CloudWatch Logs** and **CloudWatch Metrics**.
+
+3. **Configuration of CloudWatch Agent**:
+   - The **CloudWatch Agent** requires configuration to specify what types of logs and metrics to collect (e.g., **system logs**, **application logs**, **performance metrics**).
+   - The configuration can be managed through a configuration file or stored in **AWS Systems Manager Parameter Store**, allowing for easy updates and consistency across instances.
+
+4. **IAM Role and Permissions**:
+   - For the **CloudWatch Agent** to interact with CloudWatch, the **EC2 instance** needs an IAM role with permissions to write logs and metrics to CloudWatch.
+   - The IAM role must include policies like `CloudWatchLogsFullAccess` or `CloudWatchAgentServerPolicy` to give the instance the required permissions to interact with CloudWatch.
+
+---
+
+### **CloudWatch Logs and Log Groups**
+
+1. **Log Groups and Log Streams**:
+   - In CloudWatch Logs, you organize logs into **log groups**. A **log group** is a collection of logs that share the same permissions and retention policies.
+   - Inside each **log group**, there are **log streams**. Each log stream represents a set of log data from a specific **instance** or **source** (for example, one log stream per EC2 instance).
+   
+   - Example:
+     - **Log Group**: `/aws/ec2/system/logs`
+     - **Log Stream**: `i-1234567890abcdef0` (instance ID)
+
+2. **Injecting Logs into CloudWatch**:
+   - The **CloudWatch Agent** collects and pushes the logs into the appropriate log groups and streams in CloudWatch.
+   - Once configured, you can use CloudWatch to view, search, and analyze logs from your EC2 instances.
+
+3. **Custom Logs**:
+   - In addition to default system logs (such as `/var/log/syslog` or `/var/log/messages`), you can configure the CloudWatch Agent to push **custom application logs** (like `app.log` or `webserver.log`) to CloudWatch.
+
+---
+
+### **Using AWS Systems Manager Parameter Store for Configuration**
+
+- The **CloudWatch Agent** configuration can be stored in **AWS Systems Manager Parameter Store**, which is a centralized and secure location for storing configuration values, secrets, and application parameters.
+- By storing the CloudWatch Agent configuration in Parameter Store, you can easily manage and update the configuration without having to manually modify files on the EC2 instances.
+
+---
+
+### **What CloudWatch Agent Cannot Log**
+
+While CloudWatch Agent is versatile, it has some limitations. Here’s a list of what **CloudWatch Agent cannot log**:
+
+1. **Logs from External Systems**:
+   - CloudWatch Agent can only log data from **EC2 instances** that have the agent installed. It **cannot collect logs** from systems outside of AWS unless those systems are specifically sending logs to CloudWatch (e.g., via the CloudWatch Logs Agent).
+   
+2. **Logs Before Agent Installation**:
+   - CloudWatch Agent can only collect logs **after it is installed** and configured. It **cannot retroactively collect logs** from before the agent was installed on an instance.
+
+3. **Service-Specific Logs Not Configured for Collection**:
+   - CloudWatch Agent will only collect logs or metrics that have been explicitly configured. It **won’t capture logs** from services or applications unless they are **properly configured** within the agent settings (e.g., logs from non-application services that aren’t included in the configuration).
+
+4. **Logs from Unsupported OS or Custom Software**:
+   - CloudWatch Agent may not be able to capture logs from **non-supported operating systems** or **non-standard log sources**. The agent has support for common OS types (like **Linux** and **Windows**), but it may not support certain custom or legacy applications.
+   
+5. **CloudWatch Agent Isn’t a Logging Solution for All AWS Services**:
+   - CloudWatch Agent doesn’t capture **logs from other AWS services** like **AWS Lambda**, **S3**, **DynamoDB**, or **SNS**. These services must be configured separately to send logs to CloudWatch.
+
+6. **Sensitive Data Logging**:
+   - While CloudWatch can collect logs, it is **not ideal for logging sensitive data** (e.g., passwords, API keys) without encryption. If sensitive data needs to be logged, it should be stored in a **secure manner** (e.g., encrypted storage, or using **AWS Secrets Manager**).
+
+---
+
+### **Costs Associated with CloudWatch Logging**
+
+1. **CloudWatch Logs Pricing**:
+   - **Data Ingestion**: You incur costs based on the **amount of log data** ingested into CloudWatch Logs. The price is typically charged per **GB of log data** ingested.
+   - **Storage Costs**: You also incur costs for **storing logs** in CloudWatch Logs. The pricing is based on the amount of data stored per month.
+   - **Log Retention**: CloudWatch allows you to define a **log retention period** (e.g., keep logs for 7 days or 1 year). If you store logs for a longer period, this could increase costs.
+   - **Data Retrieval and Search**: Costs are incurred when you search or retrieve logs from CloudWatch Logs, especially for large-scale data queries.
+
+2. **CloudWatch Agent Costs**:
+   - The CloudWatch Agent itself is free to use, but you will incur costs based on the **metrics** and **logs** it sends to CloudWatch.
+   - For EC2 instances, the agent needs to be installed on each instance, which can lead to additional costs based on the number of instances and the amount of log data generated.
+
+---
+
+### **Summary of CloudWatch Agent and Logging on EC2**
+
+- **CloudWatch Agent** is required to collect **OS-level logs** and **system metrics** from EC2 instances and send them to **CloudWatch Logs** and **CloudWatch Metrics**.
+- The CloudWatch Agent is configured via a configuration file or can use **AWS Systems Manager Parameter Store** for dynamic configuration.
+- The **IAM role** associated with the EC2 instance provides **permissions** for the CloudWatch Agent to write logs and metrics to CloudWatch.
+- **CloudWatch Logs** organizes log data into **log groups** and **log streams**, with each instance having its own log stream.
+- **CloudWatch Agent cannot log** logs from systems outside of AWS, non-supported OS or services, and retroactively collect logs from instances.
+- There are **costs** for data ingestion, storage, and log retrieval in CloudWatch, based on the volume of data being collected.
+
+---
+
+### **Exam Power-Up**:
+- **CloudWatch Agent**: Required for **OS-level logs** and metrics from EC2 instances.
+- **IAM Role**: The **IAM role** allows EC2 instances to securely interact with CloudWatch for logging and monitoring.
+- **Log Groups and Log Streams**: **Log groups** store logs, and each EC2 instance has a unique **log stream**.
+- **Costs**: You incur costs for data ingestion, storage, and retrieval of logs in CloudWatch.
+
 
 ### 1.8.8. Enhanced Networking
 
@@ -7487,6 +7959,121 @@ and dedicated capacity has been provided for that instance for EBS usage.
 Most new instances support this and have this enabled by default for no charge.
 
 ---
+
+### **EC2 Placement Groups Overview**
+
+An **EC2 Placement Group** is a logical grouping of EC2 instances that helps optimize your application’s performance, availability, and resilience within the AWS infrastructure. Depending on your application's requirements, you can choose between three types of placement groups: **Cluster**, **Spread**, and **Partition**. Each of these types optimizes for different aspects such as **high performance**, **availability**, or **resilience**.
+
+---
+
+### **1.8.6.1. Cluster Placement Group**
+
+The **Cluster Placement Group** is designed to provide **high performance** for workloads that require **low latency**, **high network throughput**, and **high packet-per-second performance**. In this type, instances within the group are placed physically close together, often on the **same rack** or even the **same EC2 host**. This helps achieve the highest level of network performance.
+
+#### **Key Features**:
+- **Physical Proximity**: Instances within the group are placed on the same **physical hardware** or within a very close **network** to minimize latency.
+- **Performance**: Cluster placement groups allow you to achieve **10 Gbps** of **single-stream performance**, significantly higher than the typical **5 Gbps** offered in standard EC2 setups.
+- **Networking**: Instances within the cluster can communicate with each other with **very low latency** and high **network throughput**.
+- **Failure Risk**: The downside is that if the hardware fails (like a network switch, power supply, or an entire rack failure), the **entire cluster** could be affected.
+  
+#### **When to Use Cluster Placement**:
+- **High-Performance Applications**: Applications requiring fast network speeds, low latency, and high throughput (e.g., **high-performance computing** (HPC), **big data** processing, **video rendering**).
+- **Single-Stream Performance**: If your application needs **high single-stream network performance**, cluster placement is your best option.
+
+#### **Cluster Placement Best Practices**:
+- **Launch All Instances at Once**: It is a best practice to launch all the instances at once, as launching after the initial group may limit your available capacity.
+- **Same Availability Zone (AZ)**: Cluster placement groups **cannot span across AZs**. They must reside entirely in one AZ.
+- **Supported Instance Types**: Cluster placement requires specific **instance types** (like compute-optimized, memory-optimized, and storage-optimized instances).
+
+#### **Cluster Placement Exam PowerUp**:
+- **Cannot span multiple AZs**: Cluster placement is **restricted to a single AZ**.
+- **10 Gbps single stream performance**: Achieve **maximum performance** for single-stream data transmission.
+- **Instances in the same rack**: Best for **high-performance computing** or applications requiring low latency.
+
+---
+
+### **1.8.6.2. Spread Placement Group**
+
+The **Spread Placement Group** is designed for high **availability** and **resilience**. Instances in a spread placement group are spread across **multiple physical racks** within an AZ. This helps ensure that if there is a failure in one rack (such as network or power issues), only a **single instance** is affected, minimizing the impact on your application.
+
+#### **Key Features**:
+- **Instances Spread Across Different Racks**: Each instance in a spread group is placed on a **different physical rack** with its own power and network supply, ensuring that instances are isolated from each other.
+- **Maximum Resilience**: This ensures **fault isolation**, so a failure in one rack does not affect other instances.
+- **Limitations**: You can place only **7 instances per AZ** in a spread placement group, but you can use multiple AZs for more instances.
+
+#### **When to Use Spread Placement**:
+- **High Availability**: Use spread placement when your application needs **high availability** and **fault tolerance**, such as **critical instances** or **small clusters** where high availability is more important than performance.
+- **Distributed Applications**: Suitable for applications like **database replicas**, **high-availability web servers**, or **distributed applications** requiring instances to be spread across multiple physical resources.
+
+#### **Spread Placement Exam PowerUp**:
+- **High Resilience**: Spread placement is ideal for **critical instances** that require **high availability** and **resilience**.
+- **7 instances per AZ**: The **hard limit** is **7 instances per AZ** in a spread placement group.
+- **Not Supported for Dedicated Instances**: Spread placement does not work for **dedicated instances** or **dedicated hosts**.
+
+---
+
+### **1.8.6.3. Partition Placement Group**
+
+The **Partition Placement Group** is designed to provide both **resilience** and **scalability** for applications that require a balance between performance and fault isolation. In this type of placement group, EC2 instances are grouped into **partitions**. Each partition is placed on a **separate physical rack**, so if a failure occurs in one partition (such as a hardware issue), only the instances in that partition are affected.
+
+#### **Key Features**:
+- **Instances Grouped into Partitions**: Instances are spread across **multiple partitions**, and each partition is isolated from others to minimize the impact of failure.
+- **Customizable Partition Size**: You can choose how many instances to launch in each partition or let AWS decide based on your needs.
+- **Scaling Flexibility**: Unlike **spread placement**, you can launch **many instances per partition**, so you can scale without hitting the limit of **7 instances per AZ**.
+
+#### **When to Use Partition Placement**:
+- **Large-Scale Distributed Applications**: Ideal for applications like **HDFS**, **Cassandra**, or **HBase** that require **fault tolerance** with the ability to scale.
+- **Data Warehousing**: Suitable for large **distributed storage** or **data processing systems** where you want to spread instances across isolated physical hardware but need to scale horizontally.
+- **Fault Isolation**: When you want to ensure that failures in one **partition** do not affect the rest of your system.
+
+#### **Partition Placement Exam PowerUp**:
+- **7 Partitions per AZ**: You can have up to **7 partitions per AZ**.
+- **More Flexibility**: Unlike spread groups, you can launch **many instances in each partition**.
+- **Use Case**: Great for **distributed systems** like **HDFS**, **Cassandra**, and **HBase**.
+
+---
+
+### **1.8.7. EC2 Dedicated Hosts**
+
+An **EC2 Dedicated Host** is a physical server fully dedicated to your use in AWS. With a **dedicated host**, you can run **EC2 instances** on specific physical hardware, giving you more control over the instance placement and helping you meet **compliance** or **licensing** requirements that need specific hardware configurations.
+
+#### **Key Features**:
+- **Dedicated Physical Hardware**: You are allocated a **physical server** that hosts your instances.
+- **No Instance Charges**: You pay for the **dedicated host itself**, not the individual instances. This is different from the usual EC2 pricing model.
+- **Licensing**: Suitable for **software licensing** that is based on the **physical server** (e.g., per-core licensing).
+- **Instance Types**: Hosts are designed for specific families of instances (e.g., M5, C5), and each host supports only a certain number of instances based on its physical capacity.
+
+#### **When to Use EC2 Dedicated Hosts**:
+- **Licensing Requirements**: Use dedicated hosts when you need to comply with licensing agreements that require instances to be bound to **specific physical hardware** (e.g., **Windows Server**, **SQL Server**, or other software with **core-based licensing**).
+- **Compliance**: Useful when your application has **regulatory requirements** to control the physical hardware your workloads run on.
+
+#### **Limitations**:
+- **No Support for Placement Groups**: Dedicated hosts **do not support placement groups** (Cluster, Spread, or Partition).
+- **AMI Limits**: Some **AMI types** cannot be used on dedicated hosts.
+- **RDS Not Supported**: **Amazon RDS** instances are **not supported** on dedicated hosts.
+
+---
+
+### **Summary of EC2 Placement Groups and Dedicated Hosts**
+
+- **Cluster Placement Group**: Best for applications that require **low latency** and **high network performance** within a single AZ. Used when you need to maximize throughput, such as for **high-performance computing** or **big data** workloads.
+- **Spread Placement Group**: Provides **high availability** and fault tolerance by spreading instances across multiple racks. Best for small critical instances that need **resilience** and **high availability**.
+- **Partition Placement Group**: Suitable for large distributed applications that need **fault isolation** across physical racks while offering more **scalability** compared to spread placement.
+- **EC2 Dedicated Hosts**: Best for **compliance** and **licensing** requirements that demand **specific physical hardware** for EC2 instances.
+
+---
+
+### **Exam Power-Up**:
+- **Cluster Placement**: **10 Gbps single stream performance** within a **single AZ**.
+- **Spread Placement**: **High availability** with **7 instances per AZ** limit.
+- **Partition Placement**: Spread across **multiple partitions** for **fault isolation** and **scalability**.
+- **Dedicated Hosts**: **Physical servers** dedicated to you for **licensing** and **compliance** needs. 
+
+---
+
+## Cloud Formation
+
+
 
 ## 1.9. Route-53
 
