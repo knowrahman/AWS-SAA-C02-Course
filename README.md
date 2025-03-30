@@ -10495,6 +10495,953 @@ There are three types of checks.
 
 ---
 
+## Route 53 Health Checks
+
+### What is a Health Check?
+
+A **health check** in Route 53 monitors the health of a resource (like a web server, load balancer, or API endpoint) to determine if it’s reachable and functioning.
+
+### What Can Be Checked?
+
+1. **Endpoint health**: IP address or domain (e.g., `https://api.rahmanstore.com`)
+2. **CloudWatch alarms**: Custom metric-based health
+3. **Other health checks**: Route 53 can monitor the status of other checks (calculated health check)
+
+### Health Check Configuration Options:
+- **Protocol**: HTTP, HTTPS, or TCP
+- **Port**: Default or custom
+- **Request path**: `/health`, `/ping`, etc.
+- **Failure threshold**: Number of failed checks before marking unhealthy
+- **Request interval**: 10 or 30 seconds
+- **Optional**: Enable alarm integration (CloudWatch), latency graphs, or “string matching” in responses
+
+### Use Cases:
+- Failover routing
+- Remove unhealthy records from Simple or Multi-value routing
+- Improve reliability and auto-recovery
+
+---
+
+## Routing Policies in Route 53
+
+### 1. Simple Routing
+
+**Use case**: Route traffic to a single resource.
+
+- Example: `rahmanstore.com → 18.222.1.1`
+- No health checks, no routing logic
+- Can’t use it for complex failover or weighted behavior
+
+---
+
+### 2. Failover Routing
+
+**Use case**: Automatically switch to a backup when the primary is down.
+
+- Requires health checks
+- You create two records:
+  1. Primary (with health check)
+  2. Secondary (backup)
+
+**Example:**
+- Primary: `app.rahmanstore.com → EC2 instance` (health check enabled)
+- Secondary: `app.rahmanstore.com → S3 static site` (no health check)
+- When EC2 is unhealthy, traffic automatically goes to the S3 site
+
+---
+
+### 3. Weighted Routing
+
+**Use case**: Distribute traffic between multiple resources based on weights (great for A/B testing or gradual rollout).
+
+- Each record has a weight (0–255)
+- Can use health checks optionally
+
+**Example:**
+- Version A of site → 80%
+- Version B of site → 20%
+- Records: `api.rahmanstore.com → 80 to ELB-A, 20 to ELB-B`
+
+---
+
+### 4. Latency-Based Routing
+
+**Use case**: Route users to the AWS Region with the **lowest latency** for the user.
+
+- Requires you to have resources in multiple AWS Regions
+- Route 53 uses latency measurements from AWS edge locations
+
+**Example:**
+- US users → us-east-1
+- Asia users → ap-southeast-1
+
+If a user in Singapore accesses `rahmanstore.com`, they’ll be directed to ap-southeast-1 if it has lower latency.
+
+---
+
+### 5. Geolocation Routing
+
+**Use case**: Route traffic based on the **geographic location** of the user (country, continent, or state-level in the US).
+
+- Useful for:
+  - Complying with legal/regional requirements
+  - Serving localized content
+
+**Example:**
+- US traffic → `us.rahmanstore.com`
+- Europe → `eu.rahmanstore.com`
+
+You can create a **default record** for users who don’t match any specific location.
+
+---
+
+### 6. GeoProximity Routing (Using Traffic Flow Only)
+
+**Use case**: Similar to geolocation, but **more precise** and allows **biasing** traffic toward certain regions using weights.
+
+- Requires Route 53 **traffic flow** (not via console record sets)
+- Bias allows you to shift more or less traffic to a region
+
+**Example:**
+- You have two endpoints:
+  - One in Tokyo, one in Sydney
+  - You bias Tokyo +20%, so more traffic goes there even if both are equidistant
+
+---
+
+### 7. Multi-Value Answer Routing
+
+**Use case**: Like Simple routing, but returns multiple healthy IPs (up to 8), enabling a **basic load-balancing** effect.
+
+- Health checks are supported
+- Ideal for apps with multiple identical resources
+
+**Example:**
+- `rahmanstore.com` returns:
+  - IP1 (healthy)
+  - IP2 (healthy)
+  - IP3 (unhealthy) → not returned
+
+---
+
+## Summary Table
+
+| Routing Policy        | Health Checks | Use Case                               |
+|-----------------------|---------------|----------------------------------------|
+| Simple                | Optional      | One resource, basic DNS                |
+| Failover              | Required      | Primary-backup failover                |
+| Weighted              | Optional      | A/B testing, traffic split             |
+| Latency-based         | Optional      | Route to lowest-latency region         |
+| Geolocation           | Optional      | Route by user location                 |
+| GeoProximity          | Optional      | Precision geo-routing with bias        |
+| Multi-value Answer    | Yes           | Return multiple healthy endpoints      |
+
+---
+
+## Exam Powerups
+
+1. **Failover Routing** requires a **health check** on the **primary only**.
+2. **Latency-based routing** depends on **measured response times**, not physical distance.
+3. **Geolocation** routes by **user’s location**; **GeoProximity** routes by **resource location**.
+4. **Weighted routing** is perfect for **blue-green** or **canary deployments**.
+5. **Multi-value answer** is the only policy that returns **multiple healthy IPs** for basic load balancing.
+
+---
+
+
+Route 53 Interoperability
+-------------------------
+
+### 1\. **With EC2**
+
+-   You can create A or Alias records in Route 53 pointing to an **EC2 instance's Elastic IP**.
+
+-   If the EC2 is part of an **Auto Scaling Group**, it's better to point to a **Load Balancer** instead.
+
+**Example:**
+
+-   `app.rahmanstore.com → Alias → ELB → EC2 instances`
+
+* * * * *
+
+### 2\. **With Elastic Load Balancers (ELB)**
+
+-   ELBs **don't have static IPs**, so Route 53 uses **Alias records** to point to ELBs.
+
+-   Alias records allow mapping your domain to ELB DNS names **at the root level** (like `rahmanstore.com`).
+
+* * * * *
+
+### 3\. **With S3 Static Website Hosting**
+
+-   For static sites hosted on S3, Route 53 can create an **Alias record** pointing to the S3 website endpoint.
+
+**Caution**:
+
+-   Use the **website endpoint**, not the S3 bucket URL.
+
+**Example:**
+
+-   `www.rahmanstore.com → Alias → S3 Static Website Endpoint`
+
+* * * * *
+
+### 4\. **With CloudFront**
+
+-   CloudFront distributions (CDNs) have DNS names (like `d1ab2xyz.cloudfront.net`)
+
+-   Route 53 can create an **Alias** or **CNAME** record pointing to CloudFront.
+
+**Example:**
+
+-   `cdn.rahmanstore.com → Alias → CloudFront`
+
+* * * * *
+
+### 5\. **With VPC and Private Hosted Zones**
+
+-   When you associate a **Private Hosted Zone** with a **VPC**, DNS queries are resolved **only within that VPC**.
+
+-   Used for internal services (e.g., microservices, private APIs)
+
+**Example:**
+
+-   `api.internal.rahmanstore.com → Private IP of a service inside VPC`
+
+* * * * *
+
+### 6\. **With API Gateway**
+
+-   For custom domain names in API Gateway, Route 53 uses an **Alias** record to map a domain/subdomain to the API's CloudFront distribution.
+
+**Example:**
+
+-   `api.rahmanstore.com → Alias → API Gateway Domain`
+
+* * * * *
+
+### 7\. **With AWS Global Accelerator**
+
+-   Route 53 Alias records can point to Global Accelerator endpoints for low-latency global traffic.
+
+* * * * *
+
+### 8\. **With Route 53 Resolver**
+
+-   For hybrid cloud or on-premises integration, **Route 53 Resolver** allows:
+
+    -   **Inbound endpoints**: On-prem systems can resolve Route 53 DNS.
+
+    -   **Outbound endpoints**: Route 53 can forward requests to your on-prem DNS servers.
+
+**Use case**: You have internal servers with `.corp` domain on-prem, and AWS resources that need to resolve them.
+
+* * * * *
+
+### 9\. **With CloudWatch and Health Checks**
+
+-   Health checks can trigger **CloudWatch alarms**, which can trigger:
+
+    -   Auto-recovery
+
+    -   Notifications (SNS)
+
+    -   Failover actions
+
+* * * * *
+
+Common Interop Mistakes to Avoid
+--------------------------------
+
+1.  Using a CNAME at the **root domain** (e.g., `rahmanstore.com`) → **Use Alias instead**.
+
+2.  Pointing to an **S3 bucket name** instead of the **website endpoint**.
+
+3.  Creating private hosted zones without associating them with **correct VPCs**.
+
+4.  Not enabling health checks on **primary failover records**.
+
+* * * * *
+
+Exam Powerups
+-------------
+
+1.  **Alias records** are AWS-native and preferred for resources like ELB, CloudFront, and S3 static sites.
+
+2.  Route 53 **Private Hosted Zones** are scoped to **VPCs**, not accounts or regions.
+
+3.  You **can't** use CNAME at the **zone apex** (e.g., `rahmanstore.com`), but **Alias** works there.
+
+4.  For **custom domains with API Gateway**, Route 53 must point to the **CloudFront distribution** behind the API.
+
+5.  Use **Route 53 Resolver** to connect AWS DNS with **on-prem environments** securely.
+
+* * * * *
+
+
+### What is a Private Hosted Zone?
+
+A **Private Hosted Zone** in Route 53 is used to manage DNS records that are only accessible within specific VPCs in AWS. It allows for private DNS resolution for resources inside the VPC, such as internal services (e.g., `db.internal.example.com`), that are not exposed to the public internet.
+
+### How Does a Private Hosted Zone Work?
+
+When a private hosted zone is created, DNS records within that zone are only resolvable within the VPCs it is associated with. This means that any resource or service (e.g., EC2 instances, Lambda functions) within the VPC can resolve the DNS names in the private hosted zone, but these names cannot be resolved outside the VPC.
+
+### Associating a Private Hosted Zone with a VPC
+
+To associate a private hosted zone with a VPC, the following steps should be followed:
+
+1.  **Create the Private Hosted Zone**
+
+    -   In the Route 53 console, go to **Hosted Zones**.
+
+    -   Click on **Create Hosted Zone**.
+
+    -   Specify the domain name (e.g., `internal.example.com`).
+
+    -   Under **Type**, choose **Private Hosted Zone**.
+
+    -   For the **VPC**, select the VPC that should have access to this private hosted zone.
+
+2.  **Choose VPCs for Association**
+
+    -   After the hosted zone is created, navigate to the **VPCs** tab.
+
+    -   You can associate the zone with **multiple VPCs**. If a VPC needs to resolve DNS records in this zone, it must be associated.
+
+3.  **Creating DNS Records**
+
+    -   Once associated, create DNS records like A, CNAME, or other types that map internal resources (e.g., `api.internal.example.com` → IP of a backend server).
+
+4.  **Verify DNS Resolution**
+
+    -   To ensure that the DNS records are being resolved correctly, test within the VPC by attempting to resolve the domain using `nslookup` or similar DNS tools on an EC2 instance.
+
+### Key Considerations
+
+-   Private hosted zones can be associated with multiple VPCs within the same AWS account or across different accounts (using VPC sharing).
+
+-   If you want to expose certain DNS records to the public (for example, an external-facing `www.example.com`), you can combine a **public hosted zone** and a **private hosted zone**.
+
+-   Private hosted zones can only be used with VPCs within the same AWS region, although it's possible to create cross-region DNS resolution if VPCs are peered.
+
+* * * * *
+
+### Exam Powerups
+
+1.  **Private Hosted Zones** are only resolvable within **associated VPCs**.
+
+2.  VPCs must be explicitly **associated** with private hosted zones for DNS resolution.
+
+3.  You can **associate multiple VPCs** with a private hosted zone.
+
+4.  **Public hosted zones** are used for external DNS resolution, while **private hosted zones** are used for internal DNS resolution within a VPC.
+
+---
+
+### Split View 
+
+**Split View** in the context of DNS refers to the practice of managing both **public** and **private DNS records** for the same domain name, where:
+
+- **Public DNS records** are used to resolve domain names for users on the internet.
+- **Private DNS records** are used for internal resources within a Virtual Private Cloud (VPC) in AWS.
+
+### How Split View Works
+
+With a **split-view DNS setup**, you have different DNS configurations for users based on whether they are inside or outside the VPC. Here’s how it works:
+
+1. **Public DNS Records**:
+   - These records are stored in a **public hosted zone** in Route 53.
+   - They are accessible from the public internet and are used for resources that need to be accessed by anyone globally, such as a website or public API.
+
+2. **Private DNS Records**:
+   - These records are stored in a **private hosted zone** in Route 53.
+   - They are only accessible from within the VPC and are used for internal resources like databases, application servers, or services that should not be publicly accessible.
+
+### Example Scenario
+
+- You have a domain `example.com`:
+  - **Public record**: `www.example.com` → resolves to an **EC2 instance** in the public internet.
+  - **Private record**: `api.example.com` → resolves to an **internal API server** inside a VPC that is not accessible from the internet.
+
+### Split View Use Case
+
+In a **split-view** configuration, a user accessing `www.example.com` from the public internet will be directed to the EC2 instance in the public record. However, a user inside your VPC, accessing `api.example.com`, would resolve to an internal server IP that is not accessible outside the VPC.
+
+This method is useful when you need to keep internal services isolated from the public internet but still use the same domain name for both internal and external purposes.
+
+---
+
+### Exam Powerups
+
+1. **Split View** DNS uses both **public** and **private hosted zones** for the same domain.
+2. Public records are for **internet users**, while private records are for **VPC users**.
+3. Split-view DNS allows you to keep **internal resources private** while exposing certain resources to the internet.
+
+---
+
+### Geolocation Routing vs. GeoProximity Routing
+
+Both **Geolocation Routing** and **GeoProximity Routing** in Route 53 allow you to route traffic based on the **geographic location** of the users. However, they differ in how they determine where to route the traffic.
+
+---
+
+### 1. **Geolocation Routing**
+
+**Geolocation Routing** directs traffic based on the geographic location of the **requesting user** (the client). It’s used when you want to route users to different endpoints depending on their region or country.
+
+#### Key Features:
+- Routes traffic based on the **user's geographic location** (such as **country**, **continent**, or even **state-level** for US users).
+- You create different records for specific **locations** (e.g., one for US, one for Europe).
+- The user’s location is determined using **IP geolocation**.
+- **Default routing record** can be used for users who don't match any location.
+
+#### Example:
+- **US Traffic**: Routes to `us.rahmanstore.com` (ELB in the US)
+- **EU Traffic**: Routes to `eu.rahmanstore.com` (ELB in Europe)
+- **Default Traffic**: Routes to a general server if the user is not from the US or EU.
+
+In this case, **geolocation routing** would send users from the US to one server and users from Europe to another, based on their IP address.
+
+---
+
+### 2. **GeoProximity Routing**
+
+**GeoProximity Routing** is a more **fine-grained approach** compared to Geolocation Routing. It routes traffic based not only on the user's location but also on the **location of AWS resources**, and it allows you to **bias** the traffic toward specific resources (regions or endpoints).
+
+#### Key Features:
+- Routes traffic based on **both the user's location and the location of resources** (e.g., AWS regions or servers).
+- Allows **biasing**, which lets you direct more traffic to a particular resource or region, even if they are geographically close.
+- You can define a **bias factor** (positive or negative), which influences the amount of traffic routed to a given resource.
+- More useful for **global traffic distribution** or **specific regional routing preferences**.
+
+#### Example:
+- A user in **New York** might be routed to a server in **North Virginia (us-east-1)**, but you want to route more traffic to a new server in **Ohio (us-east-2)** for **testing**.
+- With **GeoProximity routing**, you can specify a **positive bias** for the Ohio region, meaning more users will be directed to Ohio even if they are geographically closer to Virginia.
+
+In this case, **GeoProximity** allows for routing adjustments based on both **geographic proximity** and **customized traffic distribution preferences**.
+
+---
+
+### **Key Differences Between Geolocation Routing and GeoProximity Routing**
+
+| Feature                        | Geolocation Routing                                   | GeoProximity Routing                                  |
+|---------------------------------|------------------------------------------------------|-------------------------------------------------------|
+| **Routing Based On**            | User's **geographic location** (country, region, state) | User's location **and** AWS resource location (region, endpoint) |
+| **Biasing**                     | No biasing mechanism                                 | **Biasing** allows traffic to be shifted toward specific resources |
+| **Use Case**                    | For serving content based on user location           | For directing traffic to specific resources while considering geographic proximity and resource location |
+| **Traffic Distribution**        | Straightforward routing by region/country            | Allows traffic adjustment via bias (more traffic to certain resources) |
+| **Granularity**                 | Country, continent, or state-level (for US)           | More granular, allowing control over traffic distribution by distance and resource location |
+
+---
+
+### **Bias in GeoProximity Routing**
+
+**Bias** in GeoProximity Routing gives the flexibility to **force more traffic** to go to a particular AWS region or endpoint, even if it’s not the closest one geographically.
+
+- **Positive Bias**: Directs more traffic to the specified resource.
+- **Negative Bias**: Directs less traffic to the specified resource.
+
+#### Example Scenario:
+
+- If you have a server in **US East (North Virginia)** and another in **US West (Oregon)**, and you want to direct **more traffic** to Oregon despite being farther from some users, you can set a **positive bias** for the Oregon region.
+  
+  - Bias for US East: `0`
+  - Bias for US West: `+30` (this will route more traffic to Oregon)
+
+#### Why Bias Is Useful:
+- Allows you to gradually test new resources.
+- Optimizes for regions with lower latency.
+- Allows control over traffic based on strategic business goals (e.g., load testing or redundancy).
+
+---
+
+### **Exam Powerups**
+
+1. **Geolocation Routing** sends users to different endpoints based on their **location** (e.g., US, EU).
+2. **GeoProximity Routing** uses both the **user's location** and the **location of AWS resources**, with the ability to **bias traffic** toward certain resources.
+3. **Biasing** in GeoProximity Routing allows you to direct more traffic to specific resources, even if they are farther away.
+4. **Geolocation Routing** does not support biasing, whereas **GeoProximity Routing** allows fine control over traffic distribution.
+
+---
+
+## CloudFront
+
+### What is Amazon CloudFront?
+
+**Amazon CloudFront** is a **Content Delivery Network (CDN)** service that helps distribute content globally with low latency and high transfer speeds. CloudFront works by caching content at edge locations across the globe, so that content is delivered from the nearest location to the user, improving load times and reducing the load on your origin server.
+
+CloudFront integrates well with other AWS services, making it easier to serve static and dynamic content (such as images, videos, HTML files, APIs, and more).
+
+---
+
+### How Does CloudFront Work?
+
+CloudFront operates by delivering content through **edge locations**, which are geographically distributed around the world. Here's how it functions:
+
+1. **Origin**: The **origin** is the source of the content you want to deliver. The origin can be an S3 bucket, an EC2 instance, an Elastic Load Balancer (ELB), or even a custom origin.
+   
+2. **Edge Locations**: CloudFront caches content at **edge locations** around the globe. These edge locations are data centers that sit closer to users to reduce latency. When a user requests content, CloudFront checks if the content is available in the nearest edge location. If the content is not cached, it fetches it from the origin and caches it for future requests.
+
+3. **Distribution**: CloudFront uses **distributions** to manage the content delivery process. A distribution is a collection of edge locations and settings that define how CloudFront should deliver the content.
+
+4. **Caching**: Once the content is fetched from the origin, CloudFront caches it at the edge location for a defined amount of time (TTL - Time To Live). Subsequent requests for the same content are served directly from the cache, reducing the need for another request to the origin.
+
+---
+
+### **CloudFront Architecture**
+
+Here’s a breakdown of CloudFront’s architecture:
+
+1. **Origins**:
+   - The **origin** can be:
+     - **Amazon S3**: Typically used for static content such as images, videos, or static website files.
+     - **EC2 Instances**: For dynamic content like APIs or custom application logic.
+     - **Elastic Load Balancer (ELB)**: Used for scaling and distributing content across multiple EC2 instances.
+     - **Custom Origins**: Any HTTP server, whether on AWS or outside AWS.
+
+2. **Edge Locations**:
+   - CloudFront has **over 225** edge locations worldwide. When users access your content, CloudFront routes their requests to the nearest edge location, based on latency.
+   - Edge locations act as a cache for content, storing copies of static and dynamic content.
+
+3. **Distributions**:
+   - A **CloudFront distribution** is a configuration that tells CloudFront how to deliver your content. There are two types of distributions:
+     - **Web Distribution**: For serving static content (HTML, CSS, JavaScript, images, videos) and dynamic content over HTTP/HTTPS.
+     - **RTMP Distribution**: For streaming media using the **RTMP (Real-Time Messaging Protocol)**.
+   - When you create a distribution, you specify the origin, caching rules, and any other necessary settings like custom error pages or access restrictions.
+
+4. **Request Flow**:
+   - When a user sends a request to CloudFront (e.g., `https://www.rahmanstore.com/image.jpg`), CloudFront first checks its local cache at the nearest edge location.
+   - If the requested content is found in the cache (a **cache hit**), it is delivered to the user immediately.
+   - If the content is not in the cache (a **cache miss**), CloudFront forwards the request to the origin. After fetching the content, it caches it at the edge location for future requests.
+
+---
+
+### CloudFront Features
+
+1. **Global Distribution**:
+   - CloudFront has over **225 edge locations** worldwide, ensuring that content is delivered quickly regardless of where the user is located.
+   
+2. **Content Caching**:
+   - Content is cached at the edge locations for a configurable time (TTL). CloudFront can cache static files like images, videos, and HTML pages.
+   
+3. **Low Latency and High Transfer Speed**:
+   - By serving content from the nearest edge location, CloudFront reduces **latency** and improves **transfer speed**, making it ideal for delivering media and static files.
+
+4. **HTTPS and SSL/TLS**:
+   - CloudFront supports **SSL/TLS encryption** for secure delivery of content. You can use your own SSL certificates or use Amazon's default CloudFront certificate.
+
+5. **Access Control**:
+   - CloudFront allows you to restrict access to your content based on geographic locations (**Geo-blocking**), IP addresses, or use **signed URLs** to grant time-limited access to certain users.
+
+6. **Real-Time Metrics and Logging**:
+   - CloudFront provides detailed metrics and logs for all requests made to your distribution. It can be integrated with **Amazon CloudWatch** for real-time monitoring.
+
+7. **Custom Error Pages**:
+   - You can configure CloudFront to serve **custom error pages** when errors like 404 or 500 occur, improving user experience.
+
+8. **Origin Failover**:
+   - CloudFront supports **origin failover**, meaning if one origin fails (e.g., S3 bucket or EC2 instance), CloudFront can be configured to route requests to a backup origin.
+
+9. **Lambda@Edge**:
+   - With **Lambda@Edge**, you can run Lambda functions closer to the user at the edge locations. This allows for **real-time content modification** (e.g., user authentication, redirects, URL rewrites) without needing to send the request back to the origin.
+
+---
+
+### CloudFront Workflow (Detailed Request Flow)
+
+1. **User Request**: A user sends an HTTP or HTTPS request to a CloudFront distribution (e.g., `https://www.example.com/image.jpg`).
+   
+2. **Edge Location**: CloudFront routes the request to the **nearest edge location** to the user.
+
+3. **Cache Check**:
+   - If the content is **cached at the edge location** (cache hit), CloudFront returns the content immediately.
+   - If the content is **not cached** (cache miss), CloudFront forwards the request to the **origin** (e.g., S3, EC2, or ELB).
+
+4. **Origin Response**: The origin returns the requested content to CloudFront.
+
+5. **Content Caching**: CloudFront caches the content at the edge location, according to the TTL settings.
+
+6. **Final Response**: CloudFront returns the content to the user. Future requests for the same content will be served from the cache, reducing load times and improving performance.
+
+---
+
+### CloudFront with Other AWS Services
+
+1. **S3 and CloudFront**: CloudFront can serve static content directly from an **S3 bucket** with low latency.
+   - Use CloudFront for caching images, videos, and other assets stored in S3.
+   
+2. **Elastic Load Balancer and CloudFront**: For dynamic content or APIs, CloudFront can integrate with an **Elastic Load Balancer** to direct traffic to a set of EC2 instances.
+   
+3. **Lambda@Edge**: You can run Lambda functions directly at CloudFront edge locations to modify requests or responses.
+   
+4. **WAF (Web Application Firewall)**: CloudFront can be used with **AWS WAF** to protect against malicious attacks (e.g., SQL injection, DDoS).
+
+---
+
+### Exam Powerups
+
+1. **CloudFront** is a **Content Delivery Network (CDN)** that caches content at **edge locations** for faster delivery.
+2. It integrates with **S3**, **EC2**, **ELB**, and **custom origins** to deliver both static and dynamic content.
+3. **Lambda@Edge** allows running code at edge locations for **real-time content modification**.
+4. CloudFront improves performance with **low latency** and **high transfer speed** through its global network of edge locations.
+5. **Origin failover** ensures traffic is routed to a backup origin if the primary fails.
+
+---
+### Architectural Flow of Hosting a Website with S3 and CloudFront
+
+Let's walk through the architecture where **Amazon S3** is used to host a static website with images, **Amazon CloudFront** acts as the Content Delivery Network (CDN), and we configure CloudFront with a custom domain while setting up proper cache behavior at the edge and regional levels.
+
+* * * * *
+
+### Step 1: **Host Static Website on S3**
+
+1.  **Create an S3 Bucket**:
+
+    -   The first step is to create an **S3 bucket** to store your static website files (HTML, CSS, JavaScript, images, etc.).
+
+    -   Enable **static website hosting** on the S3 bucket by setting the bucket properties. For example:
+
+        -   **Index Document**: `index.html`
+
+        -   **Error Document**: `error.html`
+
+2.  **Upload Website Files**:
+
+    -   Upload the files for your website to the S3 bucket, such as HTML files, images, and other assets.
+
+    -   Ensure the files are publicly accessible if you want the website to be publicly available. You can use an **S3 bucket policy** or set the individual object permissions for this.
+
+3.  **Access Permissions**:
+
+    -   Set appropriate **permissions** for the bucket and objects to ensure that they are publicly readable.
+
+    Example policy:
+
+    ```
+    {
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Effect": "Allow",
+          "Principal": "*",
+          "Action": "s3:GetObject",
+          "Resource": "arn:aws:s3:::your-bucket-name/*"
+        }
+      ]
+    }
+
+    ```
+
+* * * * *
+
+### Step 2: **Set Up CloudFront Distribution**
+
+1.  **Create CloudFront Distribution**:
+
+    -   Go to **Amazon CloudFront** and create a **new distribution**.
+
+    -   Set the **origin** to the **S3 bucket** (select the S3 bucket URL or use the bucket's static website endpoint URL).
+
+    -   Select **Web** distribution, as you're serving web content.
+
+2.  **Configure CloudFront Settings**:
+
+    -   **Default Cache Behavior**:
+
+        -   Set to cache all static files (HTML, CSS, JavaScript, and images).
+
+        -   Set **Viewer Protocol Policy** to **Redirect HTTP to HTTPS** for secure content delivery.
+
+    -   **Default TTL (Time to Live)**: This determines how long the content will be cached at edge locations.
+
+        -   For images, set a higher TTL to ensure they are cached longer.
+
+    -   **Cache Based on Query String Parameters**: You may or may not enable this based on whether your website uses query parameters for caching.
+
+3.  **CloudFront Domain**:
+
+    -   After creating the distribution, CloudFront provides a **CloudFront domain name** such as `d1ab2xyz.cloudfront.net`.
+
+    -   This domain can be used immediately to access the website content.
+
+* * * * *
+
+### Step 3: **Custom Domain Configuration for CloudFront**
+
+1.  **Set Up a Custom Domain in Route 53**:
+
+    -   In **AWS Route 53**, you can create a **CNAME** or **Alias record** to point your custom domain to the CloudFront distribution.
+
+    -   For example, if your custom domain is `www.rahmanstore.com`, create an **Alias** record in Route 53:
+
+        -   **Name**: `www.rahmanstore.com`
+
+        -   **Alias Target**: `d1ab2xyz.cloudfront.net` (provided by CloudFront)
+
+2.  **SSL Configuration**:
+
+    -   CloudFront supports SSL/TLS encryption, so you can associate your own **SSL certificate** (using **AWS Certificate Manager** or ACM) to enable HTTPS on your custom domain.
+
+    -   After configuring SSL, users will be able to access the website securely through `https://www.rahmanstore.com`.
+
+* * * * *
+
+### Step 4: **CloudFront Caching Behavior**
+
+#### **Caching at Edge Locations**
+
+CloudFront caches the content at its **edge locations**, which are globally distributed data centers. The closer the user is to the edge location, the faster the content is delivered.
+
+1.  **Cache Behavior at Edge Locations**:
+
+    -   **Cache Content**: When a user requests content, CloudFront checks if the content is cached at the nearest edge location.
+
+    -   **Cache Hit**: If the content is cached, it is served immediately from the edge location, minimizing latency.
+
+    -   **Cache Miss**: If the content is not cached at the edge, CloudFront forwards the request to the **origin (S3 bucket)**, fetches the content, caches it, and serves it.
+
+#### **Regional Caching**
+
+CloudFront also works by delivering cached content regionally, and the caching behavior at edge locations is **closely tied to regional caching**:
+
+-   **Edge Locations**: CloudFront caches content in geographically distributed edge locations around the world. These locations serve requests based on proximity, reducing latency.
+
+-   **Regional Caching**: Content can be cached in regions with a high number of requests. For example, if most users are in North America, CloudFront will serve content from edge locations closest to North America, improving speed.
+
+* * * * *
+
+### Step 5: **Cache Behavior Between CloudFront and S3**
+
+**Cache Behavior Configuration** (between CloudFront and the S3 bucket) determines how CloudFront interacts with your S3 bucket for content retrieval. This involves several configurations:
+
+1.  **Caching Based on Path**:
+
+    -   CloudFront caches objects based on the **URL path**. For example:
+
+        -   `/images/*` can be cached for a longer period (set a higher TTL).
+
+        -   `/index.html` might have a shorter TTL because it's likely to change more frequently.
+
+2.  **Cache Based on Query String Parameters**:
+
+    -   If your website uses query strings to modify content (e.g., `image.jpg?size=large`), you can set CloudFront to cache content based on those query string parameters.
+
+    -   **Cache Query String**: If set to **All**, CloudFront caches different versions of content based on query string parameters. If set to **None**, CloudFront treats URLs without query strings as identical.
+
+3.  **Cache Control Headers**:
+
+    -   You can set **Cache-Control headers** in your S3 objects to influence caching behavior in CloudFront:
+
+        -   For example, `Cache-Control: max-age=86400` tells CloudFront to cache the object for **24 hours**.
+
+    -   This helps fine-tune the caching behavior and ensure content is updated appropriately.
+
+4.  **Lambda@Edge** (Optional):
+
+    -   For more advanced cache manipulation, you can use **Lambda@Edge** to run functions at CloudFront edge locations. For example, you could rewrite URLs, inspect headers, or even modify cache behavior based on dynamic conditions.
+
+* * * * *
+
+### Architecture Flow Summary:
+
+1.  **S3 Bucket**: Stores the static files of the website (HTML, images, CSS, etc.).
+
+2.  **CloudFront Distribution**:
+
+    -   Caches content at edge locations to speed up delivery.
+
+    -   Delivers content based on proximity to the user.
+
+    -   Configured with caching rules, TTLs, and query string handling.
+
+3.  **Route 53**: Maps the custom domain to the CloudFront distribution via **Alias records**.
+
+4.  **CloudFront Caching**: Caches content in regional edge locations, reducing load on S3 and improving performance.
+
+5.  **Cache Behavior Configuration**: Determines how CloudFront caches content and interacts with the S3 bucket, including cache settings and TTL values.
+
+* * * * *
+
+### Exam Powerups:
+
+1.  **CloudFront** caches content at **edge locations** to minimize latency and improve delivery speed.
+
+2.  A **custom domain** can be associated with CloudFront using **Route 53 Alias records**.
+
+3.  **Caching Behavior** between CloudFront and the origin (S3) is controlled by TTL, query string handling, and Cache-Control headers.
+
+4.  **Lambda@Edge** can be used to manipulate content or cache behavior at the edge.
+
+5.  **Regional caching** improves performance by serving content from locations close to the user.
+
+* * * * *
+
+
+### **TTL (Time to Live) and Cache Invalidation in CloudFront**
+
+TTL (Time to Live) determines how long CloudFront caches content before it checks the origin (like an S3 bucket) for newer versions of that content. It’s a key component of how CloudFront manages caching behavior, impacting both performance and how quickly changes appear on the site.
+
+### **TTL (Time to Live)**
+
+**TTL** defines the period for which cached content is considered **fresh**. After this time expires, CloudFront will attempt to fetch the content from the origin server again.
+
+#### How TTL Works in CloudFront:
+1. **Cache Hit**: If the content is still fresh (within its TTL), it’s served directly from the cache at the edge location.
+2. **Cache Miss**: Once the TTL expires or if the content was never cached, CloudFront sends a request to the origin for fresh content, caches it at the edge, and serves it to the user.
+
+The TTL value can vary depending on several factors, such as the type of content, caching rules, and cache-control headers.
+
+---
+
+![alt text](<Cloudfront/Screenshot 2025-03-30 at 6.17.53 pm.png>)
+
+
+### **Setting TTL for CloudFront Caching**
+
+You can set the TTL for content in **CloudFront** in several ways, including the following methods:
+
+1. **CloudFront Distribution Settings**:
+   - When creating or editing a CloudFront distribution, you can set default cache behavior settings, including **Minimum TTL**, **Maximum TTL**, and **Default TTL**.
+   - These are the fallback TTL values for all cached content unless overridden by headers or specific cache behaviors.
+
+2. **Cache-Control Headers**:
+   - CloudFront respects the **Cache-Control** headers from your origin (S3 bucket, EC2, or other custom origins). 
+   - You can set the **Cache-Control** header on the objects in your origin to dictate how long CloudFront should cache them.
+   
+   Example header from your origin:
+   ```
+   Cache-Control: public, max-age=86400
+   ```
+   - This means that the object will be cached for **86400 seconds** (24 hours) at the edge location.
+
+3. **TTL in Cache Behavior Settings**:
+   - In CloudFront, within each **Cache Behavior**, you can specify the TTL settings:
+     - **Minimum TTL**: The shortest time CloudFront will cache content. Even if the origin sends a shorter TTL, CloudFront will cache the object for at least this time.
+     - **Maximum TTL**: The longest time CloudFront will cache the content, even if the origin sets a longer TTL.
+     - **Default TTL**: The default TTL for objects when no TTL is specified in the origin headers.
+
+---
+
+### **Setting Cache-Control and TTL Headers on S3 (Origin)**
+
+If you're using **Amazon S3** as the origin, you can set cache control headers at the **object level** to control TTL for CloudFront.
+
+#### Steps to Set Cache-Control Header on S3 Objects:
+
+1. **Setting Cache-Control Metadata for Individual Objects**:
+   - While uploading or after uploading an object, you can add **Cache-Control** metadata to control the caching behavior.
+   - For example, when uploading an image file (`image.jpg`), you can specify the **Cache-Control** header like this:
+     - **Cache-Control**: `max-age=86400` (24 hours).
+
+2. **AWS S3 Console**:
+   - Go to the **S3 Console**, select the file, then click on **Properties**.
+   - Under **Metadata**, you can add a **Cache-Control** header with a specified TTL value.
+
+3. **S3 API**:
+   - When uploading a file programmatically to S3, you can set the Cache-Control header in the request.
+   
+   Example using AWS SDK:
+   ```javascript
+   const s3 = new AWS.S3();
+   const params = {
+     Bucket: 'your-bucket-name',
+     Key: 'path/to/image.jpg',
+     Body: fileData,
+     CacheControl: 'max-age=86400'
+   };
+   s3.putObject(params, function(err, data) {
+     if (err) console.log(err, err.stack);
+     else console.log(data);
+   });
+   ```
+
+4. **S3 Static Website Hosting**:
+   - If you're using **S3 static website hosting**, the Cache-Control headers can also be set directly on the S3 bucket’s objects, similar to other objects in S3.
+
+---
+
+### **Cache Invalidation**
+
+**Cache Invalidation** is the process of removing or refreshing cached content in CloudFront before it expires based on TTL. This is useful when the content in your origin changes, but you want the new content to be served immediately, rather than waiting for the TTL to expire.
+
+---
+
+### **How Cache Invalidation Works**
+
+1. **Invalidation Requests**:
+   - You can issue an **invalidating request** to CloudFront to explicitly delete certain objects from the cache, forcing CloudFront to fetch fresh content from the origin the next time it’s requested.
+   
+2. **Types of Invalidation**:
+   - **File Invalidation**: You can invalidate specific files (e.g., `/images/image.jpg`). Once the content is invalidated, CloudFront will fetch it from the origin and cache the updated version.
+   - **Wildcard Invalidation**: You can invalidate a group of files with a wildcard, like `/images/*` to invalidate all image files under the `/images/` directory.
+   
+3. **Invalidation Process**:
+   - When you send an invalidation request, CloudFront removes the specified objects from its cache in all edge locations.
+   - The next request for those objects will be fetched from the origin and cached again.
+
+4. **Limitations**:
+   - By default, you can make **1,000 invalidation requests per month** for free. After this, additional requests are charged.
+   - An invalidation can take up to **15 minutes** to propagate, although it can vary.
+
+---
+
+### **Example of Cache Invalidation**
+
+Let’s say you’ve uploaded a new version of your homepage (`index.html`), but CloudFront is still serving the older version. You can send an **invalidation request** to force CloudFront to remove the old version from the cache.
+
+**Steps to invalidate the cache**:
+1. Go to the **CloudFront Console**.
+2. Select **Invalidations** under your distribution.
+3. Create a new invalidation request.
+4. Enter the path(s) you want to invalidate, for example, `/index.html` or `/images/*` to invalidate all images.
+
+**Invalidation request example**:
+```json
+{
+  "Paths": ["/index.html", "/images/*"],
+  "CallerReference": "unique-string"
+}
+```
+
+CloudFront will then remove these files from all its edge caches and fetch the fresh versions from the origin the next time they are requested.
+
+---
+
+### **Cache-Control Headers Recap**
+
+Here are some common **Cache-Control** header directives and their effects:
+
+- **max-age=<seconds>**: Specifies how long CloudFront will cache an object.
+  - Example: `Cache-Control: max-age=3600` (Cache for 1 hour).
+  
+- **public**: Indicates the response can be cached by any cache (CloudFront, browser, or proxy).
+  - Example: `Cache-Control: public, max-age=86400` (Cache for 24 hours).
+
+- **private**: Indicates the response is intended for a single user and should not be cached by shared caches.
+  - Example: `Cache-Control: private, max-age=3600` (Cache for 1 hour).
+
+- **no-cache**: The object must be revalidated before being served from the cache.
+  - Example: `Cache-Control: no-cache, max-age=0`.
+
+- **no-store**: The object should not be cached at all.
+  - Example: `Cache-Control: no-store`.
+
+---
+
+### **Exam Powerups**
+
+1. **TTL** defines how long CloudFront caches content before checking the origin for updates.
+2. **Cache-Control headers** set on the origin (e.g., S3) dictate caching rules in CloudFront.
+3. CloudFront **invalidates cache** when explicitly instructed, removing content from edge caches before TTL expires.
+4. Invalidation requests can target **specific files** or use wildcards for broad invalidation.
+5. Cache invalidation can take up to **15 minutes** to propagate across all edge locations.
+
+---
+
+
+
+
 ## 1.10. Relational-Database-Service-RDS
 
 ### 1.10.1. Database Refresher
