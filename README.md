@@ -8297,7 +8297,7 @@ An **EC2 Dedicated Host** is a physical server fully dedicated to your use in AW
 
 CloudFormation automates the process of **deploying, managing, and updating AWS resources** based on the desired configuration, making infrastructure provisioning repeatable, scalable, and more consistent. It integrates tightly with other AWS services, such as **IAM**, **EC2**, **S3**, **RDS**, and more.
 
-* * * * *
+---
 
 ### **Key Concepts in CloudFormation**
 
@@ -8311,69 +8311,69 @@ CloudFormation automates the process of **deploying, managing, and updating AWS 
 
 5.  **Updates and Stack Changes**
 
-* * * * *
+---
 
 ### **1\. Logical Resources**
 
--   **Logical Resources** represent the **desired configuration** of AWS resources as defined in the **CloudFormation template**. These resources are declared in the template and act as **abstractions** of the actual resources you want to create.
+- **Logical Resources** represent the **desired configuration** of AWS resources as defined in the **CloudFormation template**. These resources are declared in the template and act as **abstractions** of the actual resources you want to create.
 
--   These logical resources can include:
+- These logical resources can include:
 
-    -   **EC2 instances**
+  - **EC2 instances**
 
-    -   **S3 buckets**
+  - **S3 buckets**
 
-    -   **IAM roles**
+  - **IAM roles**
 
-    -   **Security groups**
+  - **Security groups**
 
-    -   **VPCs**
+  - **VPCs**
 
--   Logical resources do not directly correspond to **physical resources** in the cloud. Instead, they are used by CloudFormation to figure out what needs to be created or modified.
+- Logical resources do not directly correspond to **physical resources** in the cloud. Instead, they are used by CloudFormation to figure out what needs to be created or modified.
 
--   **Example**: In a CloudFormation template, you define an **EC2 instance** as a logical resource:
+- **Example**: In a CloudFormation template, you define an **EC2 instance** as a logical resource:
 
-    ```
-    Resources:
-      MyEC2Instance:
-        Type: AWS::EC2::Instance
-        Properties:
-          InstanceType: t2.micro
-          ImageId: ami-12345678
+  ```
+  Resources:
+    MyEC2Instance:
+      Type: AWS::EC2::Instance
+      Properties:
+        InstanceType: t2.micro
+        ImageId: ami-12345678
 
-    ```
+  ```
 
-* * * * *
+---
 
 ### **2\. Physical Resources**
 
--   **Physical Resources** refer to the **actual infrastructure** that gets created when CloudFormation provisions your stack.
+- **Physical Resources** refer to the **actual infrastructure** that gets created when CloudFormation provisions your stack.
 
--   These physical resources are based on the logical resources and are the **real-world representations** of what you defined in the template (e.g., an **EC2 instance**, **S3 bucket**, **VPC**).
+- These physical resources are based on the logical resources and are the **real-world representations** of what you defined in the template (e.g., an **EC2 instance**, **S3 bucket**, **VPC**).
 
--   CloudFormation translates the **logical resource definitions** into actual **physical infrastructure** within AWS.
+- CloudFormation translates the **logical resource definitions** into actual **physical infrastructure** within AWS.
 
--   **Example**: When you run the above CloudFormation template, CloudFormation will create a **physical EC2 instance** with the specified instance type (`t2.micro`) and image ID (`ami-12345678`) in your AWS account.
+- **Example**: When you run the above CloudFormation template, CloudFormation will create a **physical EC2 instance** with the specified instance type (`t2.micro`) and image ID (`ami-12345678`) in your AWS account.
 
-* * * * *
+---
 
 ### **3\. Templates**
 
--   A **CloudFormation template** is a JSON or YAML file that describes the **infrastructure resources** and their configurations.
+- A **CloudFormation template** is a JSON or YAML file that describes the **infrastructure resources** and their configurations.
 
--   Templates can define **parameters**, **resources**, **outputs**, and **metadata** for the CloudFormation stack.
+- Templates can define **parameters**, **resources**, **outputs**, and **metadata** for the CloudFormation stack.
 
--   **Key Sections of a Template**:
+- **Key Sections of a Template**:
 
-    -   **Parameters**: Input values that can be passed into the template when creating or updating a stack. These allow flexibility in customizing the stack's resources.
+  - **Parameters**: Input values that can be passed into the template when creating or updating a stack. These allow flexibility in customizing the stack's resources.
 
-    -   **Resources**: The AWS resources (e.g., EC2 instances, RDS databases, VPCs) you want to create or manage.
+  - **Resources**: The AWS resources (e.g., EC2 instances, RDS databases, VPCs) you want to create or manage.
 
-    -   **Outputs**: Values that you want to be returned after stack creation, such as the instance's public IP address.
+  - **Outputs**: Values that you want to be returned after stack creation, such as the instance's public IP address.
 
-    -   **Metadata**: Additional information about resources, typically used to store configuration information for automation tools.
+  - **Metadata**: Additional information about resources, typically used to store configuration information for automation tools.
 
--   **Example Template**: A simple CloudFormation template to create an EC2 instance.
+- **Example Template**: A simple CloudFormation template to create an EC2 instance.
 
 ```
 AWSTemplateFormatVersion: '2010-09-09'
@@ -8394,69 +8394,69 @@ Outputs:
 
 ```
 
--   **Explanation**:
+- **Explanation**:
 
-    -   The **`Parameters`** section allows you to specify the instance type when creating the stack.
+  - The **`Parameters`** section allows you to specify the instance type when creating the stack.
 
-    -   The **`Resources`** section defines the **EC2 instance** with the specified instance type and AMI image.
+  - The **`Resources`** section defines the **EC2 instance** with the specified instance type and AMI image.
 
-    -   The **`Outputs`** section will return the EC2 instance ID after the stack is created.
+  - The **`Outputs`** section will return the EC2 instance ID after the stack is created.
 
-* * * * *
+---
 
 ### **4\. Stacks**
 
--   A **Stack** is a collection of AWS resources that you create, update, or delete together. When you launch a CloudFormation template, it creates a **stack** of resources based on the template's definitions.
+- A **Stack** is a collection of AWS resources that you create, update, or delete together. When you launch a CloudFormation template, it creates a **stack** of resources based on the template's definitions.
 
--   Stacks can be:
+- Stacks can be:
 
-    -   **Created**: To launch a new set of resources defined in a template.
+  - **Created**: To launch a new set of resources defined in a template.
 
-    -   **Updated**: To modify existing resources based on changes made in the template.
+  - **Updated**: To modify existing resources based on changes made in the template.
 
-    -   **Deleted**: To remove all resources associated with the stack.
+  - **Deleted**: To remove all resources associated with the stack.
 
--   **Stack Example**:
+- **Stack Example**:
 
-    -   **Stack Name**: `MyTestStack`
+  - **Stack Name**: `MyTestStack`
 
-    -   This stack could contain resources like EC2 instances, S3 buckets, VPCs, and IAM roles.
+  - This stack could contain resources like EC2 instances, S3 buckets, VPCs, and IAM roles.
 
--   **Stack Lifecycle**:
+- **Stack Lifecycle**:
 
-    -   When a stack is created, CloudFormation provisions the **logical resources** as **physical resources** in AWS.
+  - When a stack is created, CloudFormation provisions the **logical resources** as **physical resources** in AWS.
 
-    -   CloudFormation manages all resources under that stack, allowing you to update or delete them all together.
+  - CloudFormation manages all resources under that stack, allowing you to update or delete them all together.
 
-* * * * *
+---
 
 ### **5\. Updates and Stack Changes**
 
--   **Updating a Stack**: When you make changes to a CloudFormation template (e.g., changing the instance type or adding a new resource), you can update the stack. CloudFormation will automatically figure out how to update the **physical resources** to reflect the changes in the template.
+- **Updating a Stack**: When you make changes to a CloudFormation template (e.g., changing the instance type or adding a new resource), you can update the stack. CloudFormation will automatically figure out how to update the **physical resources** to reflect the changes in the template.
 
--   **Example**:
+- **Example**:
 
-    -   Suppose you initially created an EC2 instance with an instance type of `t2.micro`.
+  - Suppose you initially created an EC2 instance with an instance type of `t2.micro`.
 
-    -   Later, you update the template to change the instance type to `t2.small`.
+  - Later, you update the template to change the instance type to `t2.small`.
 
 **How the Update Works**:
 
--   CloudFormation will first compare the new template with the existing stack.
+- CloudFormation will first compare the new template with the existing stack.
 
--   CloudFormation will detect that the **instance type** of the EC2 instance has changed.
+- CloudFormation will detect that the **instance type** of the EC2 instance has changed.
 
--   CloudFormation will **replace the EC2 instance** by creating a new instance with the new instance type (`t2.small`) and terminating the old instance.
+- CloudFormation will **replace the EC2 instance** by creating a new instance with the new instance type (`t2.small`) and terminating the old instance.
 
 #### **Important Aspects of Stack Updates**:
 
--   **Replacement of Resources**: Some changes may require CloudFormation to replace the resource (e.g., changing the instance type of an EC2 instance).
+- **Replacement of Resources**: Some changes may require CloudFormation to replace the resource (e.g., changing the instance type of an EC2 instance).
 
--   **Rolling Updates**: CloudFormation can apply changes **gradually** across resources (especially in larger systems) to avoid downtime.
+- **Rolling Updates**: CloudFormation can apply changes **gradually** across resources (especially in larger systems) to avoid downtime.
 
--   **Stack Policy**: CloudFormation supports a **stack policy** that can prevent certain resources from being updated during a stack update.
+- **Stack Policy**: CloudFormation supports a **stack policy** that can prevent certain resources from being updated during a stack update.
 
-* * * * *
+---
 
 ### **Example of Stack Update and Physical Resource Changes**
 
@@ -8473,7 +8473,7 @@ Outputs:
 
     ```
 
-    -   After running this template, CloudFormation provisions an EC2 instance (`MyEC2Instance`) of type `t2.micro`.
+    - After running this template, CloudFormation provisions an EC2 instance (`MyEC2Instance`) of type `t2.micro`.
 
 2.  **Updated Stack** (New CloudFormation template):
 
@@ -8488,56 +8488,56 @@ Outputs:
 
     ```
 
-    -   When you update the stack with this new template, CloudFormation will **replace the EC2 instance** with a new `t2.small` instance and terminate the old `t2.micro` instance.
+    - When you update the stack with this new template, CloudFormation will **replace the EC2 instance** with a new `t2.small` instance and terminate the old `t2.micro` instance.
 
-* * * * *
+---
 
 ### **Tips to Memorize Key Concepts**:
 
--   **Logical vs Physical**:
+- **Logical vs Physical**:
 
-    -   **Logical Resources**: Think of them as the **blueprint** or the **desired state** of your infrastructure.
+  - **Logical Resources**: Think of them as the **blueprint** or the **desired state** of your infrastructure.
 
-    -   **Physical Resources**: These are the **real-world objects** that are created from the logical resources (actual EC2 instance, S3 bucket).
+  - **Physical Resources**: These are the **real-world objects** that are created from the logical resources (actual EC2 instance, S3 bucket).
 
--   **Templates**: Templates are like **recipes** for provisioning resources. They define what resources should look like and how they should behave.
+- **Templates**: Templates are like **recipes** for provisioning resources. They define what resources should look like and how they should behave.
 
--   **Stacks**: Stacks are like **projects** that hold everything together. When you create a stack, it provisions the resources. When you update it, it updates the resources.
+- **Stacks**: Stacks are like **projects** that hold everything together. When you create a stack, it provisions the resources. When you update it, it updates the resources.
 
--   **Updates**: If you change something in your template, CloudFormation tries to **update the physical resources** to match the changes. For instance, changing an instance type causes CloudFormation to **replace** the EC2 instance.
+- **Updates**: If you change something in your template, CloudFormation tries to **update the physical resources** to match the changes. For instance, changing an instance type causes CloudFormation to **replace** the EC2 instance.
 
-* * * * *
+---
 
 ### **Summary**
 
--   **CloudFormation** enables you to provision AWS resources using **templates** that define logical resources. When the template is executed, it provisions physical resources.
+- **CloudFormation** enables you to provision AWS resources using **templates** that define logical resources. When the template is executed, it provisions physical resources.
 
--   **Logical Resources** are abstractions of infrastructure (e.g., EC2 instance, S3 bucket), while **Physical Resources** represent the actual infrastructure in AWS.
+- **Logical Resources** are abstractions of infrastructure (e.g., EC2 instance, S3 bucket), while **Physical Resources** represent the actual infrastructure in AWS.
 
--   **Templates** define the resources, and **Stacks** are collections of resources managed by CloudFormation.
+- **Templates** define the resources, and **Stacks** are collections of resources managed by CloudFormation.
 
--   **Updating a Stack** updates the associated physical resources to reflect the changes in the CloudFormation template, sometimes replacing resources like EC2 instances to match new configurations.
+- **Updating a Stack** updates the associated physical resources to reflect the changes in the CloudFormation template, sometimes replacing resources like EC2 instances to match new configurations.
 
-* * * * *
+---
 
 ### **Exam Power-Up**:
 
--   **Logical Resources**: Represent the **desired state** defined in templates.
+- **Logical Resources**: Represent the **desired state** defined in templates.
 
--   **Physical Resources**: The **real AWS infrastructure** created by CloudFormation.
+- **Physical Resources**: The **real AWS infrastructure** created by CloudFormation.
 
--   **Templates**: Define infrastructure as **code**, using JSON or YAML.
+- **Templates**: Define infrastructure as **code**, using JSON or YAML.
 
--   **Stacks**: Group of resources created, updated, and deleted together.
+- **Stacks**: Group of resources created, updated, and deleted together.
 
--   **Stack Updates**: CloudFormation automatically manages resource changes, sometimes replacing resources.
+- **Stack Updates**: CloudFormation automatically manages resource changes, sometimes replacing resources.
 
 ### Example Non portable YAML template
 
 > You can use below as reference
 > https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html
 
-``` YAML
+```YAML
 Resources:
   Bucket:
     Type: 'AWS::S3::Bucket'
@@ -8550,9 +8550,8 @@ Resources:
       ImageId: 'ami-090fa75af13c156b4'
 
 ```
+
 The above isa non portable template as the AMI id and the bucket name are hardcoded meaning that it would fail if you run it twice because the bucket name has to be unique or it would also fail If we run it from a different region because AMIs are specific to a specific region hence the parameters are used to let the user select the options to make templates reusable and portable
-
-
 
 ### **AWS CloudFormation Concepts: Parameters, Pseudo Parameters, Intrinsic Functions, Mappings, Outputs, Wait Conditions, and cfn-signal**
 
@@ -8564,12 +8563,14 @@ Let’s go over each concept in detail, with examples in **YAML** templates wher
 
 ### **1. CloudFormation Parameters**
 
-**Parameters** allow you to pass dynamic values into a CloudFormation template at runtime. These values are defined in the **Parameters** section of the template and can be used in various parts of the template to configure resources or set configurations. 
+**Parameters** allow you to pass dynamic values into a CloudFormation template at runtime. These values are defined in the **Parameters** section of the template and can be used in various parts of the template to configure resources or set configurations.
 
 #### **Use Case**:
+
 - **Dynamic Resource Configuration**: Allow users to specify values like instance types, image IDs, or any other configurable resource parameter during stack creation.
 
 #### **Example**:
+
 ```yaml
 AWSTemplateFormatVersion: '2010-09-09'
 Parameters:
@@ -8590,6 +8591,7 @@ Resources:
       InstanceType: !Ref InstanceType
       ImageId: ami-12345678
 ```
+
 - **Explanation**:
   - The `InstanceType` parameter allows the user to specify the EC2 instance type when launching the stack.
   - The `!Ref InstanceType` retrieves the value specified by the user at stack creation.
@@ -8598,15 +8600,17 @@ Resources:
 
 ### **2. Pseudo Parameters**
 
-**Pseudo parameters** are special parameters that are automatically provided by CloudFormation. These parameters do not require you to define them in the template, but CloudFormation will make them available for use. 
+**Pseudo parameters** are special parameters that are automatically provided by CloudFormation. These parameters do not require you to define them in the template, but CloudFormation will make them available for use.
 
 #### **Common Pseudo Parameters**:
+
 - **AWS::AccountId**: The AWS account ID of the user.
 - **AWS::Region**: The region where the stack is being created.
 - **AWS::StackName**: The name of the CloudFormation stack.
 - **AWS::NoValue**: Represents a value that will cause CloudFormation to remove a resource property.
 
 #### **Example**:
+
 ```yaml
 AWSTemplateFormatVersion: '2010-09-09'
 
@@ -8616,6 +8620,7 @@ Resources:
     Properties:
       BucketName: !Sub 'my-bucket-${AWS::AccountId}-${AWS::Region}-${AWS::StackName}'
 ```
+
 - **Explanation**:
   - The `BucketName` combines the `AWS::AccountId`, `AWS::Region`, and `AWS::StackName` pseudo parameters to create a unique bucket name.
 
@@ -8626,12 +8631,14 @@ Resources:
 **Intrinsic functions** in CloudFormation allow you to manipulate values, reference other resources, and perform operations like conditions and substitutions within a template. These functions help make the templates more dynamic.
 
 #### **Common Intrinsic Functions**:
+
 - **!Ref**: Returns the value of a specified parameter or resource.
 - **!GetAtt**: Returns the value of an attribute of a resource (e.g., public IP address of an EC2 instance).
 - **!Sub**: Performs string substitution to create dynamic strings.
 - **!Join**: Joins a list of values into a single string.
 
 #### **Example** using **!Ref**, **!GetAtt**, and **!Sub**:
+
 ```yaml
 AWSTemplateFormatVersion: '2010-09-09'
 
@@ -8651,8 +8658,9 @@ Resources:
     Properties:
       InstanceType: t2.micro
       ImageId: ami-12345678
-      AvailabilityZone: !Select [ 0, !GetAZs '' ]  # Get first AZ in region
+      AvailabilityZone: !Select [0, !GetAZs ''] # Get first AZ in region
 ```
+
 - **Explanation**:
   - The **!Sub** function dynamically substitutes `${Environment}` and `${AWS::Region}` into the bucket name.
   - The **!GetAZs** function retrieves a list of availability zones in the region, and **!Select** gets the first AZ to place the EC2 instance.
@@ -8661,12 +8669,14 @@ Resources:
 
 ### **4. Mappings**
 
-**Mappings** allow you to define key-value pairs to map one value to another, often used for regional mappings or other environment-specific configurations. 
+**Mappings** allow you to define key-value pairs to map one value to another, often used for regional mappings or other environment-specific configurations.
 
 #### **Use Case**:
+
 - **Region-Specific Configuration**: If you have resources that require different configurations in different regions (e.g., AMI IDs, instance types), you can use mappings to map those configurations.
 
 #### **Example**:
+
 ```yaml
 AWSTemplateFormatVersion: '2010-09-09'
 
@@ -8684,6 +8694,7 @@ Resources:
       InstanceType: t2.micro
       ImageId: !FindInMap [RegionMap, !Ref AWS::Region, AMI]
 ```
+
 - **Explanation**:
   - The `RegionMap` mapping provides different **AMI IDs** based on the region. **!FindInMap** retrieves the appropriate AMI ID based on the current region.
 
@@ -8694,9 +8705,11 @@ Resources:
 **Outputs** are values that are returned after the stack is created or updated. They allow you to display important information such as resource IDs, URLs, or other properties that you may want to access after stack creation.
 
 #### **Use Case**:
+
 - **Access Resource Information**: After creating an EC2 instance, you might want to return its **public IP address** or **instance ID**.
 
 #### **Example**:
+
 ```yaml
 AWSTemplateFormatVersion: '2010-09-09'
 
@@ -8709,12 +8722,13 @@ Resources:
 
 Outputs:
   InstanceID:
-    Description: "The Instance ID"
+    Description: 'The Instance ID'
     Value: !Ref MyEC2Instance
   InstancePublicIP:
-    Description: "Public IP address of the instance"
+    Description: 'Public IP address of the instance'
     Value: !GetAtt MyEC2Instance.PublicIp
 ```
+
 - **Explanation**:
   - The `Outputs` section returns the **Instance ID** and **Public IP** of the EC2 instance after the stack is created.
 
@@ -8725,9 +8739,11 @@ Outputs:
 **Wait Conditions** in CloudFormation are used to delay the completion of the stack creation process until a specific signal is received. This is useful when you need to ensure that a resource (like an EC2 instance or application) is fully initialized before the stack creation is considered complete.
 
 #### **Use Case**:
+
 - **Waiting for EC2 Instance Initialization**: If your stack includes an EC2 instance that requires initialization or configuration (e.g., running a script to configure the system), you can use a wait condition to pause stack creation until that initialization is complete.
 
 #### **Example**:
+
 ```yaml
 AWSTemplateFormatVersion: '2010-09-09'
 
@@ -8736,7 +8752,7 @@ Resources:
     Type: AWS::CloudFormation::WaitCondition
     Properties:
       Handle: !Ref MyWaitConditionHandle
-      Timeout: '600'  # Wait for up to 10 minutes
+      Timeout: '600' # Wait for up to 10 minutes
       Count: 1
 
   MyWaitConditionHandle:
@@ -8755,12 +8771,12 @@ Resources:
         InstallSoftware:
           commands:
             01_install_software:
-              command: !Sub "yum install -y httpd"
+              command: !Sub 'yum install -y httpd'
     DependsOn: MyWaitCondition
 
 Outputs:
   InstancePublicIP:
-    Description: "Public IP address"
+    Description: 'Public IP address'
     Value: !GetAtt MyEC2Instance.PublicIp
 ```
 
@@ -8776,6 +8792,7 @@ Outputs:
 **cfn-signal** is a helper script that sends a signal from an EC2 instance to a **WaitCondition** in CloudFormation. It allows the instance to inform CloudFormation when it has completed a particular task (e.g., installation, configuration).
 
 #### **Example Usage**:
+
 ```bash
 /opt/aws/bin/cfn-signal --exit-code 0 --stack my-stack --resource MyWaitCondition --region us-west-2
 ```
@@ -8786,34 +8803,33 @@ Outputs:
 
 ---
 
-
 ### **8\. CloudFormation Conditions**
 
 **Conditions** in CloudFormation allow you to control whether certain resources are created, updated, or deleted based on a **Boolean expression** (i.e., true or false). Conditions are useful when you want to conditionally create resources based on the value of a parameter, a specific AWS region, or some other factors in the template.
 
 #### **Use Case for Conditions**:
 
--   You can create resources only if a certain parameter is passed during stack creation, or only if the stack is being created in a specific region.
+- You can create resources only if a certain parameter is passed during stack creation, or only if the stack is being created in a specific region.
 
 #### **How Conditions Work**:
 
--   Conditions are defined in the **`Conditions`** section of a CloudFormation template.
+- Conditions are defined in the **`Conditions`** section of a CloudFormation template.
 
--   You can use conditions in resource, output, and metadata sections.
+- You can use conditions in resource, output, and metadata sections.
 
--   If the condition evaluates to **true**, the associated resource or property is created or modified. If it evaluates to **false**, the resource is not created or modified.
+- If the condition evaluates to **true**, the associated resource or property is created or modified. If it evaluates to **false**, the resource is not created or modified.
 
 #### **Common Intrinsic Functions Used with Conditions**:
 
--   **`Fn::Equals`**: Compares two values and returns true if they are equal.
+- **`Fn::Equals`**: Compares two values and returns true if they are equal.
 
--   **`Fn::If`**: Performs a conditional evaluation. If a condition evaluates to true, a specified value is returned; otherwise, another value is returned.
+- **`Fn::If`**: Performs a conditional evaluation. If a condition evaluates to true, a specified value is returned; otherwise, another value is returned.
 
--   **`Fn::Not`**: Reverses the result of a condition.
+- **`Fn::Not`**: Reverses the result of a condition.
 
--   **`Fn::Or`**: Returns true if at least one condition evaluates to true.
+- **`Fn::Or`**: Returns true if at least one condition evaluates to true.
 
--   **`Fn::And`**: Returns true if all conditions are true.
+- **`Fn::And`**: Returns true if all conditions are true.
 
 #### **Example of Using Conditions**:
 
@@ -8852,13 +8868,13 @@ Outputs:
 
 #### **Explanation**:
 
--   **Condition Definition**: The `CreateEC2Instance` condition checks if the `CreateEC2` parameter is set to **'true'**.
+- **Condition Definition**: The `CreateEC2Instance` condition checks if the `CreateEC2` parameter is set to **'true'**.
 
--   **Conditional Resource Creation**: The EC2 instance will only be created if the condition evaluates to **true**.
+- **Conditional Resource Creation**: The EC2 instance will only be created if the condition evaluates to **true**.
 
--   **Conditional Output**: The output for the EC2 instance ID will only be displayed if the EC2 instance is created.
+- **Conditional Output**: The output for the EC2 instance ID will only be displayed if the EC2 instance is created.
 
-* * * * *
+---
 
 ### **9\. The `DependsOn` Attribute**
 
@@ -8866,13 +8882,13 @@ The **`DependsOn`** attribute in CloudFormation allows you to control the order 
 
 #### **Use Case for `DependsOn`**:
 
--   When you need a specific resource to be created or deleted before another resource, regardless of any implicit dependencies between them.
+- When you need a specific resource to be created or deleted before another resource, regardless of any implicit dependencies between them.
 
 #### **How `DependsOn` Works**:
 
--   The **`DependsOn`** attribute is used in the **resource** section to specify which other resources must be created first before the resource is created or modified.
+- The **`DependsOn`** attribute is used in the **resource** section to specify which other resources must be created first before the resource is created or modified.
 
--   You can use **`DependsOn`** to ensure that resources are created in a specific order, which is especially useful in scenarios where resources don't have implicit dependencies (e.g., when a bucket should be created before an object is uploaded).
+- You can use **`DependsOn`** to ensure that resources are created in a specific order, which is especially useful in scenarios where resources don't have implicit dependencies (e.g., when a bucket should be created before an object is uploaded).
 
 #### **Example of Using `DependsOn`**:
 
@@ -8908,31 +8924,29 @@ Outputs:
 
 #### **Explanation**:
 
--   **`DependsOn`**: The `MyLambdaFunction` depends on `MyBucket`. This means CloudFormation will create the S3 bucket **first** before creating the Lambda function, even though the Lambda function doesn't have an explicit reference to the bucket in the `Resources` section (but references it through the `Code` property).
+- **`DependsOn`**: The `MyLambdaFunction` depends on `MyBucket`. This means CloudFormation will create the S3 bucket **first** before creating the Lambda function, even though the Lambda function doesn't have an explicit reference to the bucket in the `Resources` section (but references it through the `Code` property).
 
-* * * * *
+---
 
 ### **Tips for Memorizing**:
 
 1.  **Conditions**:
 
-    -   Conditions allow you to **dynamically control** whether resources are created based on parameters, regions, or other inputs.
+    - Conditions allow you to **dynamically control** whether resources are created based on parameters, regions, or other inputs.
 
-    -   Remember **Fn::Equals** to check values and **Fn::If** for conditional expressions.
+    - Remember **Fn::Equals** to check values and **Fn::If** for conditional expressions.
 
 2.  **DependsOn**:
 
-    -   Use **`DependsOn`** when the order of resource creation is critical and must be explicitly controlled.
+    - Use **`DependsOn`** when the order of resource creation is critical and must be explicitly controlled.
 
-    -   It ensures that one resource is **created before another** (e.g., creating a bucket before uploading objects).
+    - It ensures that one resource is **created before another** (e.g., creating a bucket before uploading objects).
 
 3.  **Common Use Cases**:
 
-    -   **Conditions**: Enabling or disabling resources like EC2 instances, security groups, or S3 buckets based on parameters.
+    - **Conditions**: Enabling or disabling resources like EC2 instances, security groups, or S3 buckets based on parameters.
 
-    -   **DependsOn**: Ensuring the correct order of creation when no implicit dependencies exist, like uploading files after creating an S3 bucket.
-
-
+    - **DependsOn**: Ensuring the correct order of creation when no implicit dependencies exist, like uploading files after creating an S3 bucket.
 
 ### **Summary**
 
@@ -8943,6 +8957,7 @@ Outputs:
 - **Outputs**: Display important information about created resources,
 
 ---
+
 ### **AWS CloudFormation Concepts: Nested Stacks, Cross-Stack References, StackSets, and Deletion Policies**
 
 In **AWS CloudFormation**, managing large or complex stacks becomes easier through various features like **nested stacks**, **cross-stack references**, **stack sets**, and **deletion policies**. These features allow you to modularize your infrastructure, reuse templates across different stacks, ensure resources are managed consistently, and control the deletion behavior of your resources.
@@ -8956,14 +8971,16 @@ Let’s go through each of these concepts in detail.
 A **nested stack** is a CloudFormation stack that is created as part of another CloudFormation stack. Essentially, you can include a stack inside another stack, allowing for better organization, modularization, and reusability of your CloudFormation templates.
 
 #### **Why Use Nested Stacks**:
+
 - **Modularization**: You can break a large infrastructure template into smaller, reusable templates. This makes it easier to manage and maintain.
 - **Reusability**: Common infrastructure components (e.g., VPC, security groups, EC2 instances) can be reused across multiple stacks.
 - **Simplify Templates**: Complex templates can be split into multiple smaller templates, improving readability.
 
 #### **How Nested Stacks Work**:
+
 - You create a **parent stack** and reference **child stacks** within it using the `AWS::CloudFormation::Stack` resource type.
 - The child stacks can reference other resources in the parent stack or other child stacks.
-  
+
 #### **Example**:
 
 Suppose you have a **parent stack** that provisions a VPC, and a **child stack** that provisions EC2 instances in that VPC. The child stack is included within the parent stack using the `AWS::CloudFormation::Stack` resource.
@@ -8977,7 +8994,7 @@ Resources:
   VPCStack:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: https://s3.amazonaws.com/mybucket/vpc-template.yaml  # URL to the child stack template
+      TemplateURL: https://s3.amazonaws.com/mybucket/vpc-template.yaml # URL to the child stack template
 ```
 
 **Child Stack (vpc-template.yaml)**:
@@ -8992,7 +9009,7 @@ Resources:
       CidrBlock: 10.0.0.0/16
 ```
 
-- **Explanation**: 
+- **Explanation**:
   - The **parent stack** (`main-template.yaml`) contains a resource (`VPCStack`) that references the **child stack** (`vpc-template.yaml`).
   - When you launch the parent stack, it automatically creates the resources in the child stack, such as the **VPC**.
 
@@ -9003,10 +9020,12 @@ Resources:
 **Cross-stack references** allow you to reference resources from one stack in another stack. This is useful when you have multiple stacks and need to share resources between them.
 
 #### **Why Use Cross-Stack References**:
+
 - **Decouple stacks**: Keep different parts of your infrastructure in separate stacks (e.g., VPC, EC2, RDS), but still reference them across stacks.
 - **Modular and scalable**: Avoid creating tightly coupled stacks and make the infrastructure more manageable and scalable.
 
 #### **How Cross-Stack References Work**:
+
 - **Exporting resources**: One stack exports a value (such as the **VPC ID**, **Security Group ID**, or **Subnet ID**), and another stack **imports** that value.
 - You use **`Export`** in the source stack and **`ImportValue`** in the target stack.
 
@@ -9042,7 +9061,7 @@ Resources:
       InstanceType: t2.micro
       ImageId: ami-12345678
       NetworkInterfaces:
-        - NetworkInterfaceId: !ImportValue MyVPCId  # Import VPC from Stack A
+        - NetworkInterfaceId: !ImportValue MyVPCId # Import VPC from Stack A
           DeviceIndex: 0
 ```
 
@@ -9057,10 +9076,12 @@ Resources:
 **StackSets** allow you to deploy CloudFormation stacks across multiple AWS accounts and regions in one operation. This is useful for managing a consistent infrastructure across different regions or accounts, especially in large, multi-account environments.
 
 #### **Why Use StackSets**:
+
 - **Multi-Region Deployment**: Deploy resources consistently across multiple AWS regions.
 - **Multi-Account Deployment**: Deploy resources across multiple accounts using a single template.
 
 #### **How StackSets Work**:
+
 - StackSets manage the creation, update, and deletion of stacks in multiple regions or accounts simultaneously.
 - You define a **CloudFormation StackSet** and specify the target accounts and regions.
 
@@ -9077,6 +9098,7 @@ Resources:
 ```
 
 - **Create a StackSet**:
+
   - You create a StackSet in CloudFormation, specify the template, and select the regions and accounts where you want to deploy it.
 
 - **Explanation**:
@@ -9089,10 +9111,12 @@ Resources:
 **Deletion policies** allow you to control the behavior of AWS resources when a stack is deleted. By default, CloudFormation will delete resources when a stack is deleted. However, you can specify a **deletion policy** to protect important resources (like **S3 buckets**, **RDS databases**, or **EBS volumes**) from being deleted when the stack is deleted.
 
 #### **Why Use Deletion Policies**:
+
 - **Protect Critical Resources**: Prevent important resources from being accidentally deleted.
 - **Retention of Data**: Ensure that data (like in an S3 bucket or RDS instance) is preserved even when the stack is deleted.
 
 #### **Common Deletion Policy Options**:
+
 - **Retain**: Resources are retained when the stack is deleted. The resource will not be deleted, and its data is preserved.
 - **Snapshot**: For certain resources like RDS or EBS volumes, CloudFormation will take a snapshot before deleting the resource.
 - **Delete** (default): The resource is deleted when the stack is deleted.
@@ -9108,14 +9132,14 @@ Resources:
     Properties:
       InstanceType: t2.micro
       ImageId: ami-12345678
-    DeletionPolicy: Retain  # EC2 instance will not be deleted when the stack is deleted
+    DeletionPolicy: Retain # EC2 instance will not be deleted when the stack is deleted
 
   MyRDSInstance:
     Type: AWS::RDS::DBInstance
     Properties:
       DBInstanceClass: db.t2.micro
       Engine: mysql
-    DeletionPolicy: Snapshot  # RDS instance will take a snapshot before deletion
+    DeletionPolicy: Snapshot # RDS instance will take a snapshot before deletion
 ```
 
 - **Explanation**:
@@ -9134,12 +9158,14 @@ Resources:
 ---
 
 ### **Exam Power-Up**:
+
 - **Nested Stacks**: **Modularize** your infrastructure by splitting templates into smaller, reusable components.
 - **Cross-Stack References**: Use **`Export`** and **`ImportValue`** to share resources across stacks.
 - **StackSets**: Use to deploy resources **across multiple regions** and **accounts** at once.
 - **Deletion Policies**: Control the fate of resources on stack deletion, e.g., **Retain** or **Snapshot**.
 
 ---
+
 ### **CloudFormation Stack Roles**
 
 In AWS CloudFormation, **stack roles** refer to the **AWS Identity and Access Management (IAM) roles** that are associated with the execution of CloudFormation stacks. These roles define the permissions CloudFormation uses to create, update, and delete resources as part of the stack operation. Understanding how these roles work is essential for ensuring that CloudFormation has the necessary permissions to perform actions on your behalf while maintaining security and access control.
@@ -9156,18 +9182,22 @@ There are two primary types of roles in CloudFormation:
 A **service-linked role** is an IAM role that allows CloudFormation to perform actions on AWS resources on your behalf. This role is created and managed by AWS, and it is tied specifically to the CloudFormation service.
 
 #### **Key Features**:
+
 - CloudFormation uses this role to interact with other AWS services and resources as needed.
 - The service-linked role for CloudFormation is typically used when the CloudFormation stack creates or updates AWS resources that require permissions (e.g., EC2 instances, S3 buckets, IAM roles).
 - This role has predefined permissions associated with it, and AWS automatically manages it.
 
 #### **Role Name**:
+
 - The default name for this role is: `AWSServiceRoleForCloudFormation`
 
 #### **Permissions**:
+
 - The permissions are managed by AWS and allow CloudFormation to perform actions like creating, deleting, or modifying resources.
 - Example actions include: `ec2:CreateInstance`, `s3:CreateBucket`, `iam:CreateRole`.
 
 #### **Creation**:
+
 - AWS automatically creates this role when you use CloudFormation for the first time. If needed, you can also create or modify it manually, but it should be done with care because it is service-specific.
 
 ---
@@ -9179,10 +9209,12 @@ An **Execution Role** is an IAM role that CloudFormation uses to perform actions
 This is also called the **CloudFormation stack role**, and it's used when you want CloudFormation to have specific permissions that are different from the service-linked role, such as when CloudFormation needs to assume an IAM role to access other AWS resources.
 
 #### **When to Use an Execution Role**:
+
 - When you are creating or updating AWS resources that require specific permissions (e.g., EC2 instances, Lambda functions, IAM roles).
 - When you want CloudFormation to access specific resources in other AWS services using permissions that you define in the role.
 
 #### **Example**:
+
 Let's say you have a CloudFormation stack that needs to create an S3 bucket and an EC2 instance, but it also needs permission to assume a role for a Lambda function that will be used by the EC2 instance. You would assign an **execution role** that allows CloudFormation to perform these actions.
 
 #### **How to Specify an Execution Role in CloudFormation**:
@@ -9221,7 +9253,7 @@ Resources:
     Type: AWS::S3::Bucket
     Properties:
       BucketName: !Sub 'my-bucket-${AWS::StackName}'
-      
+
   MyEC2Instance:
     Type: AWS::EC2::Instance
     Properties:
@@ -9232,7 +9264,7 @@ Resources:
 - **Explanation**:
   - In the example above, the **execution role** (`MyExecutionRole`) is granted permissions to create **EC2 instances** and **S3 buckets**. The policy attached to the role includes the permissions needed by CloudFormation to create those resources.
   - The `AssumeRolePolicyDocument` allows CloudFormation to **assume** this role during stack creation.
-  
+
 ---
 
 ### **CloudFormation Stack Role Permissions**
@@ -9240,6 +9272,7 @@ Resources:
 For a CloudFormation stack, the permissions needed will depend on what resources are being created and the actions CloudFormation needs to perform. Common permissions for CloudFormation stack roles include:
 
 - **Resource Creation Permissions**:
+
   - `ec2:CreateInstance` – for creating EC2 instances
   - `s3:CreateBucket` – for creating S3 buckets
   - `iam:CreateRole` – for creating IAM roles
@@ -9249,16 +9282,16 @@ For a CloudFormation stack, the permissions needed will depend on what resources
   - `ec2:DescribeInstances` – to retrieve details of EC2 instances
   - `s3:ListBucket` – to list contents in S3 buckets
   - `iam:GetRole` – to retrieve IAM role details
-  
 - **Resource Deletion Permissions**:
   - `ec2:TerminateInstances` – to terminate EC2 instances
   - `s3:DeleteBucket` – to delete S3 buckets
   - `iam:DeleteRole` – to delete IAM roles
 
 ### **Important Best Practices**:
+
 - **Principle of Least Privilege**: The execution role should only have the permissions it absolutely needs to carry out the tasks within the CloudFormation stack. This minimizes the potential attack surface.
 - **Create a Separate Role**: For better security, create a separate IAM role with the necessary permissions for CloudFormation and associate it with the stack.
-  
+
 ---
 
 ### **How CloudFormation Uses the Role for Resource Creation**
@@ -9299,7 +9332,7 @@ Resources:
                 Action:
                   - ec2:RunInstances
                   - ec2:DescribeInstances
-                Resource: "*"
+                Resource: '*'
 
   MyInstance:
     Type: AWS::EC2::Instance
@@ -9320,26 +9353,27 @@ Resources:
 - **Service-Linked Role for CloudFormation**: This is a managed IAM role created by AWS that gives CloudFormation permissions to create resources on your behalf.
 - **Execution Role**: This is an IAM role that you define to give CloudFormation the permissions it needs to manage resources. You can specify this role in your CloudFormation stack.
 - **Permissions**: The execution role should follow the **Principle of Least Privilege**, granting only the permissions needed for CloudFormation to create, update, and delete resources.
-  
+
 ### **Exam Power-Up**:
+
 - **Service-Linked Role**: AWS automatically creates a role named `AWSServiceRoleForCloudFormation`.
 - **Execution Role**: You define the execution role with **necessary permissions** for the stack.
 - **Principle of Least Privilege**: Always limit permissions to the **minimum** needed for CloudFormation to perform stack operations.
 
-* * * * *
+---
 
 ### **Key Differences Between Service-Linked Role and Execution Role**
 
-| **Aspect** | **Service-Linked Role** | **Execution Role** |
-| --- | --- | --- |
-| **Purpose** | Allows **AWS services** to perform actions on your behalf. | Allows **resources (EC2, Lambda)** to interact with AWS services. |
-| **Creation** | **Automatically created** by AWS when you use a service. | **Manually created** by you for specific resources. |
-| **Permissions** | Permissions are **predefined** by AWS and specific to the service. | Permissions are **customizable** based on your requirements. |
-| **Role Assumed By** | **AWS service** (e.g., CloudFormation, EC2). | **IAM resources** (e.g., EC2 instances, Lambda functions). |
-| **Trust Relationship** | Trust policy allows specific AWS service to assume the role. | Trust policy allows specific AWS resources (like EC2) to assume the role. |
-| **Example** | `AWSServiceRoleForCloudFormation` for CloudFormation service. | Role assigned to an EC2 instance to access S3 or DynamoDB. |
+| **Aspect**             | **Service-Linked Role**                                            | **Execution Role**                                                        |
+| ---------------------- | ------------------------------------------------------------------ | ------------------------------------------------------------------------- |
+| **Purpose**            | Allows **AWS services** to perform actions on your behalf.         | Allows **resources (EC2, Lambda)** to interact with AWS services.         |
+| **Creation**           | **Automatically created** by AWS when you use a service.           | **Manually created** by you for specific resources.                       |
+| **Permissions**        | Permissions are **predefined** by AWS and specific to the service. | Permissions are **customizable** based on your requirements.              |
+| **Role Assumed By**    | **AWS service** (e.g., CloudFormation, EC2).                       | **IAM resources** (e.g., EC2 instances, Lambda functions).                |
+| **Trust Relationship** | Trust policy allows specific AWS service to assume the role.       | Trust policy allows specific AWS resources (like EC2) to assume the role. |
+| **Example**            | `AWSServiceRoleForCloudFormation` for CloudFormation service.      | Role assigned to an EC2 instance to access S3 or DynamoDB.                |
 
-* * * * *
+---
 
 ### **Example Scenario**
 
@@ -9347,19 +9381,19 @@ Imagine you're using **AWS CloudFormation** to create a stack that provisions an
 
 1.  **Service-Linked Role**:
 
-    -   CloudFormation needs to interact with EC2, S3, and other services to create the resources in the stack.
+    - CloudFormation needs to interact with EC2, S3, and other services to create the resources in the stack.
 
-    -   AWS creates a **service-linked role** like `AWSServiceRoleForCloudFormation` that gives CloudFormation the required permissions to create these resources. You don't need to manually create or manage this role.
+    - AWS creates a **service-linked role** like `AWSServiceRoleForCloudFormation` that gives CloudFormation the required permissions to create these resources. You don't need to manually create or manage this role.
 
 2.  **Execution Role**:
 
-    -   The **EC2 instance** might need access to an S3 bucket or DynamoDB table for some application functionality.
+    - The **EC2 instance** might need access to an S3 bucket or DynamoDB table for some application functionality.
 
-    -   You create an **execution role** for the EC2 instance, granting it permissions to access these services (e.g., `s3:ListBucket`, `dynamodb:Query`).
+    - You create an **execution role** for the EC2 instance, granting it permissions to access these services (e.g., `s3:ListBucket`, `dynamodb:Query`).
 
-    -   The EC2 instance assumes this role to access S3 and DynamoDB resources.
+    - The EC2 instance assumes this role to access S3 and DynamoDB resources.
 
-* * * * *
+---
 
 ---
 
@@ -9374,11 +9408,13 @@ AWS CloudFormation provides several helper scripts to assist in configuring EC2 
 **`cfn-init`** is a helper script used to configure EC2 instances during stack creation or updates. It is designed to handle the initialization of the instance, such as installing software, configuring services, or modifying system settings.
 
 #### **How `cfn-init` Works**:
+
 - **Runs as part of EC2 instance startup**: `cfn-init` is often executed as part of **user data** or **metadata** when an EC2 instance is launched.
 - **Uses CloudFormation Metadata**: The script reads the instance’s **metadata** to determine what actions to take. These actions are typically specified using **`AWS::CloudFormation::Init`**.
 - **Applies configuration and installs packages**: You can define package installations, software configurations, and service starts within CloudFormation metadata.
 
 #### **Common Use Case**:
+
 - **Installing Packages**: For example, you can use `cfn-init` to install Apache HTTP server and start the service on an EC2 instance.
 
 #### **Example**:
@@ -9407,6 +9443,7 @@ Resources:
 ```
 
 In this example:
+
 - The **`AWS::CloudFormation::Init`** metadata configures `cfn-init` to install the **Apache HTTPD** package on the EC2 instance and start the service.
 - `cfn-init` would be run automatically during the instance initialization process to apply these configurations.
 
@@ -9417,13 +9454,16 @@ In this example:
 **`cfn-hup`** is a daemon that runs on EC2 instances and monitors changes to CloudFormation metadata. It listens for updates to the instance’s metadata (including changes made by `cfn-init`) and applies changes to the instance configuration when necessary.
 
 #### **How `cfn-hup` Works**:
+
 - **Runs as a background process**: `cfn-hup` runs in the background on EC2 instances and periodically checks for changes in CloudFormation stack metadata.
 - **Automatically applies changes**: If there are changes in the metadata (e.g., updated `AWS::CloudFormation::Init` configuration), `cfn-hup` will apply those changes without needing to restart the instance.
 
 #### **Common Use Case**:
+
 - **Dynamic Configuration Updates**: If you want to update configurations dynamically without re-booting the instance, you can use `cfn-hup` to automatically apply changes made to CloudFormation metadata.
 
 #### **Example**:
+
 - You might configure `cfn-hup` to monitor and apply changes to an EC2 instance’s configuration, such as updating configuration files when the stack is updated.
 
 To use `cfn-hup` on an EC2 instance, you would add a command to the EC2 instance’s **metadata** to install the `cfn-hup` service and configure it to monitor for updates.
@@ -9456,11 +9496,13 @@ This configuration will install `cfn-hup` on the EC2 instance and start it.
 **`cfn-signal`** is a helper script used to send a signal to CloudFormation to indicate that a resource (typically an EC2 instance) has been successfully created or initialized. It’s commonly used in conjunction with **wait conditions** in CloudFormation to pause stack creation until certain actions are completed.
 
 #### **How `cfn-signal` Works**:
+
 - **Signals CloudFormation**: `cfn-signal` sends a signal to CloudFormation to indicate that a task has been completed successfully.
 - **Works with WaitConditions**: It is often used in combination with **WaitConditions** to delay stack creation until specific tasks (like software installation) are completed.
 - **Exit Codes**: It uses exit codes to determine success or failure. An exit code of `0` typically indicates success, while `1` indicates failure.
 
 #### **Common Use Case**:
+
 - **Waiting for EC2 Initialization**: You can use `cfn-signal` to signal CloudFormation when an EC2 instance has finished configuring or when a custom script has completed successfully.
 
 #### **Example**:
@@ -9510,7 +9552,7 @@ Resources:
 
 Outputs:
   InstancePublicIP:
-    Description: "Public IP address of the EC2 instance"
+    Description: 'Public IP address of the EC2 instance'
     Value: !GetAtt MyInstance.PublicIp
 ```
 
@@ -9524,21 +9566,22 @@ Outputs:
 
 ### **Summary of `cfn-init`, `cfn-hup`, and `cfn-signal`**
 
-| **Tool**       | **Purpose**                                                          | **Typical Use**                                                |
-|----------------|----------------------------------------------------------------------|----------------------------------------------------------------|
-| **`cfn-init`**  | Initializes EC2 instances by installing packages, configuring services, and applying metadata. | Install software, configure services on EC2 instances.        |
-| **`cfn-hup`**   | Daemon that runs on EC2 instances to monitor and apply updates to CloudFormation metadata. | Automatically apply configuration changes to running instances. |
-| **`cfn-signal`**| Sends signals to CloudFormation indicating the success or failure of a resource creation or initialization. | Signal completion of instance setup, typically used with WaitConditions. |
+| **Tool**         | **Purpose**                                                                                                 | **Typical Use**                                                          |
+| ---------------- | ----------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| **`cfn-init`**   | Initializes EC2 instances by installing packages, configuring services, and applying metadata.              | Install software, configure services on EC2 instances.                   |
+| **`cfn-hup`**    | Daemon that runs on EC2 instances to monitor and apply updates to CloudFormation metadata.                  | Automatically apply configuration changes to running instances.          |
+| **`cfn-signal`** | Sends signals to CloudFormation indicating the success or failure of a resource creation or initialization. | Signal completion of instance setup, typically used with WaitConditions. |
 
 ---
 
 ### **Exam Power-Up**:
+
 - **`cfn-init`**: Used to configure EC2 instances during **stack creation** (e.g., installing software).
 - **`cfn-hup`**: A background **daemon** that automatically applies updates to EC2 instances when **metadata changes**.
 - **`cfn-signal`**: **Signals CloudFormation** that an EC2 instance or task is **successfully completed**, commonly used with **WaitConditions** to pause stack creation until tasks are done.
 
-
 ---
+
 ### **AWS CloudFormation Change Set**
 
 A **CloudFormation Change Set** is a summary of the changes that CloudFormation will make to your stack when you update it. It shows the **difference** between the current stack configuration and the new configuration you are applying, so you can **review** the changes before actually updating the stack.
@@ -9548,6 +9591,7 @@ The Change Set helps you understand how your update will affect the stack and th
 ---
 
 ### **Why Use a Change Set?**
+
 - **Preview Changes**: Before making changes to a running stack, you can see what will happen (e.g., which resources will be created, modified, or deleted).
 - **Avoid Mistakes**: It gives you the ability to **verify** changes and ensure no critical resources are accidentally deleted or misconfigured.
 - **Audit Updates**: You can use it as a **safety check** to ensure that the resources are updated in a controlled manner.
@@ -9558,9 +9602,9 @@ The Change Set helps you understand how your update will affect the stack and th
 
 1. **Create or Update Stack**:
    When you want to update a CloudFormation stack, you first **create a Change Set** instead of updating the stack directly.
-   
 2. **Preview Changes**:
    The Change Set is generated by CloudFormation and it lists the differences between the **current stack** and the **new stack** (based on the template you're submitting). It will show:
+
    - **Resources to be created**.
    - **Resources to be updated**.
    - **Resources to be deleted**.
@@ -9593,6 +9637,7 @@ Let’s walk through an example of how to use a **Change Set** in CloudFormation
    First, create a CloudFormation stack using a template (e.g., to create an EC2 instance).
 
    Example Template (`initial-template.yaml`):
+
    ```yaml
    AWSTemplateFormatVersion: '2010-09-09'
 
@@ -9608,6 +9653,7 @@ Let’s walk through an example of how to use a **Change Set** in CloudFormation
    Now, you want to **update** this stack, so instead of directly updating it, you’ll create a Change Set. Let’s say you want to update the EC2 instance type.
 
    New Template (`updated-template.yaml`):
+
    ```yaml
    AWSTemplateFormatVersion: '2010-09-09'
 
@@ -9615,17 +9661,19 @@ Let’s walk through an example of how to use a **Change Set** in CloudFormation
      MyEC2Instance:
        Type: AWS::EC2::Instance
        Properties:
-         InstanceType: t2.small  # Updated instance type
+         InstanceType: t2.small # Updated instance type
          ImageId: ami-12345678
    ```
 
    **Steps to Create a Change Set**:
+
    - In the **AWS Management Console**, navigate to the **CloudFormation** section.
    - Select your stack and click on **Create Change Set**.
    - Upload the new template (`updated-template.yaml`) and **preview** the changes.
 
 3. **Review the Change Set**:
    CloudFormation will show you a summary of the changes:
+
    - **Modified**: EC2 instance type has changed from `t2.micro` to `t2.small`.
 
    The Change Set will indicate that **no resources** will be deleted or added, only the existing EC2 instance will be updated.
@@ -9640,6 +9688,7 @@ Let’s walk through an example of how to use a **Change Set** in CloudFormation
 Here is how you can create and execute a Change Set using the **AWS CLI**:
 
 1. **Create Change Set**:
+
    ```bash
    aws cloudformation create-change-set \
      --stack-name my-stack \
@@ -9649,6 +9698,7 @@ Here is how you can create and execute a Change Set using the **AWS CLI**:
 
 2. **Describe Change Set**:
    After creating the Change Set, you can view the details of the changes:
+
    ```bash
    aws cloudformation describe-change-set \
      --stack-name my-stack \
@@ -9690,6 +9740,7 @@ Here is how you can create and execute a Change Set using the **AWS CLI**:
 ---
 
 ### **Exam Power-Up**:
+
 - **Change Sets**: Use **Change Sets** to **preview** resource changes before updating the stack.
 - **Safety**: Always **review** the changes before execution to avoid unwanted resource modifications.
 - **Manual Execution**: You need to **execute** the Change Set to apply the changes, ensuring you're in control of the update process.
@@ -9707,12 +9758,14 @@ Custom resources provide a way to **create, update, and delete resources** that 
 A **custom resource** allows you to specify a custom action (such as invoking a Lambda function or calling an API) to be performed during stack operations (create, update, delete).
 
 When you define a custom resource, you provide:
+
 1. **Service Token**: A Lambda function ARN or an **Amazon SNS topic ARN**. This is the entity that CloudFormation will invoke when performing actions on the custom resource.
 2. **Properties**: These are input parameters you define for the custom resource to pass to the Lambda function, API, or service.
 
 CloudFormation interacts with the custom resource by calling the associated **Lambda function** (or SNS topic) with events to create, update, or delete the resource.
 
 #### **The Process**:
+
 - **Create**: CloudFormation triggers the Lambda function to create the resource.
 - **Update**: CloudFormation triggers the Lambda function to update the resource.
 - **Delete**: CloudFormation triggers the Lambda function to delete the resource.
@@ -9721,6 +9774,7 @@ CloudFormation interacts with the custom resource by calling the associated **La
 ---
 
 ### **When to Use Custom Resources**
+
 - **Non-AWS Services**: If you need to integrate with a third-party service or API that isn’t directly supported by CloudFormation.
 - **Advanced Logic**: If you need to run complex logic (e.g., custom validation or dynamic resource creation) during stack operations.
 - **Automated Resource Creation**: For scenarios where you want to automate the creation of non-AWS resources, like adding entries to a database or provisioning resources via external APIs.
@@ -9732,6 +9786,7 @@ CloudFormation interacts with the custom resource by calling the associated **La
 Let’s look at an example where we use a **Lambda function** as a custom resource to create a custom action during CloudFormation stack operations.
 
 #### **1. Create Lambda Function**
+
 First, you would write a Lambda function that handles the logic for your custom resource. For example, the Lambda function could create a resource in a third-party service or send an email notification.
 
 Here’s a simple Lambda function written in Python that logs the creation of a resource and returns the result to CloudFormation:
@@ -9742,11 +9797,11 @@ import json
 def lambda_handler(event, context):
     request_type = event['RequestType']
     resource_properties = event['ResourceProperties']
-    
+
     # Log the resource properties
     print(f"Request Type: {request_type}")
     print(f"Resource Properties: {resource_properties}")
-    
+
     # Respond back to CloudFormation
     if request_type == "Create":
         response_data = {"Message": "Custom resource created successfully!"}
@@ -9754,7 +9809,7 @@ def lambda_handler(event, context):
         response_data = {"Message": "Custom resource updated successfully!"}
     elif request_type == "Delete":
         response_data = {"Message": "Custom resource deleted successfully!"}
-    
+
     send_response(event, context, "SUCCESS", response_data)
 
 def send_response(event, context, status, response_data):
@@ -9767,7 +9822,7 @@ def send_response(event, context, status, response_data):
         'LogicalResourceId': event['LogicalResourceId'],
         'Data': response_data
     }
-    
+
     requests.put(event['ResponseURL'], data=json.dumps(response_body))
 ```
 
@@ -9795,30 +9850,32 @@ Resources:
             Version: '2012-10-17'
             Statement:
               - Effect: Allow
-                Action: 
+                Action:
                   - logs:*
                   - cloudformation:DescribeStackResources
-                Resource: "*"
+                Resource: '*'
 
   MyCustomResource:
     Type: Custom::MyCustomResource
     Properties:
       ServiceToken: arn:aws:lambda:us-west-2:123456789012:function:MyCustomLambdaFunction
       ResourceName: MyResource
-      Message: "Creating My Custom Resource"
+      Message: 'Creating My Custom Resource'
 
 Outputs:
   CustomResourceMessage:
-    Description: "Message from Custom Resource"
+    Description: 'Message from Custom Resource'
     Value: !GetAtt MyCustomResource.Message
 ```
 
 #### **Explanation**:
+
 - **`MyCustomResource`**: Defines the **Custom Resource** in CloudFormation with the type `Custom::MyCustomResource`.
 - **`ServiceToken`**: This is the **ARN** of the Lambda function that CloudFormation will invoke to handle actions for the custom resource.
 - **`Properties`**: These are the input parameters that will be passed to the Lambda function (in this case, `ResourceName` and `Message`).
-  
+
 #### **Output**:
+
 - The **output** returns a message generated by the Lambda function, which in this case could be the result of creating the custom resource.
 
 ---
@@ -9837,6 +9894,7 @@ Outputs:
 - You can send a **failure response** by setting the **status** to `"FAILED"` in the response.
 
 Example:
+
 ```python
 def send_failure_response(event, context, error_message):
     response_body = {
@@ -9848,7 +9906,7 @@ def send_failure_response(event, context, error_message):
         'LogicalResourceId': event['LogicalResourceId'],
         'Data': {}
     }
-    
+
     requests.put(event['ResponseURL'], data=json.dumps(response_body))
 ```
 
@@ -9874,10 +9932,11 @@ def send_failure_response(event, context, error_message):
 ---
 
 ### **Exam Power-Up**:
+
 - **Custom Resources**: Use **Lambda** to implement custom actions or integrate with non-AWS services during CloudFormation stack operations.
 - **Service Token**: Always specify a **Lambda ARN** (or SNS ARN) in the **`ServiceToken`** to handle requests.
 - **Lifecycle**: A custom resource goes through the **Create**, **Update**, and **Delete** lifecycle phases.
-  
+
 ---
 
 ## DNS (Optional for DVA-CO2) (It is a refresher of basics for you knowledge)
@@ -9888,35 +9947,35 @@ def send_failure_response(event, context, error_message):
 
 In simpler terms, DNS makes it possible for people to use friendly domain names (like `google.com`) to access websites and online services instead of having to remember complex numeric IP addresses.
 
-* * * * *
+---
 
 ### **What Does DNS Do?**
 
 1.  **Domain Name Resolution**:
 
-    -   DNS translates domain names (like `example.com`) into **IP addresses** that computers use to identify each other on the network.
+    - DNS translates domain names (like `example.com`) into **IP addresses** that computers use to identify each other on the network.
 
-    -   This process is known as **domain name resolution**.
+    - This process is known as **domain name resolution**.
 
 2.  **Hierarchical System**:
 
-    -   The DNS system is **hierarchical**, meaning there are multiple levels of DNS servers, each responsible for different parts of the domain name.
+    - The DNS system is **hierarchical**, meaning there are multiple levels of DNS servers, each responsible for different parts of the domain name.
 
-    -   At the top of the hierarchy is the **root DNS servers**, followed by **top-level domain (TLD) servers** like `.com`, `.org`, `.net`, etc., and then the **authoritative name servers** responsible for a particular domain.
+    - At the top of the hierarchy is the **root DNS servers**, followed by **top-level domain (TLD) servers** like `.com`, `.org`, `.net`, etc., and then the **authoritative name servers** responsible for a particular domain.
 
 3.  **Caching**:
 
-    -   To speed up the resolution process, DNS responses are often **cached** for a certain period of time. This means once a DNS query has been made for a particular domain, the result (i.e., IP address) is stored locally for future use, reducing the time and load required for repeated lookups.
+    - To speed up the resolution process, DNS responses are often **cached** for a certain period of time. This means once a DNS query has been made for a particular domain, the result (i.e., IP address) is stored locally for future use, reducing the time and load required for repeated lookups.
 
 4.  **Reduces Complexity for Users**:
 
-    -   Users don't need to remember the numeric IP addresses of websites. They can use easily memorable domain names, and DNS takes care of converting those names into IP addresses behind the scenes.
+    - Users don't need to remember the numeric IP addresses of websites. They can use easily memorable domain names, and DNS takes care of converting those names into IP addresses behind the scenes.
 
 5.  **Routing Traffic**:
 
-    -   DNS helps direct internet traffic by determining the correct **IP address** for a service. For example, when you type `www.example.com` into your browser, DNS resolves this name to an IP address (e.g., `93.184.216.34`), and your browser uses that IP to connect to the website's server.
+    - DNS helps direct internet traffic by determining the correct **IP address** for a service. For example, when you type `www.example.com` into your browser, DNS resolves this name to an IP address (e.g., `93.184.216.34`), and your browser uses that IP to connect to the website's server.
 
-* * * * *
+---
 
 ### **Why Not Just One DNS Server?**
 
@@ -9926,37 +9985,37 @@ Here are some of the reasons why a distributed DNS system is preferred:
 
 1.  **Scalability**:
 
-    -   The **internet is vast**, with billions of domain names and millions of queries per second. Using just one DNS server would make it extremely difficult to handle this massive load.
+    - The **internet is vast**, with billions of domain names and millions of queries per second. Using just one DNS server would make it extremely difficult to handle this massive load.
 
-    -   The **distributed DNS architecture** allows the internet to scale by splitting the responsibility of handling requests across many DNS servers.
+    - The **distributed DNS architecture** allows the internet to scale by splitting the responsibility of handling requests across many DNS servers.
 
 2.  **Redundancy and Reliability**:
 
-    -   If there was only one DNS server, a failure in that server would bring down the entire DNS resolution system.
+    - If there was only one DNS server, a failure in that server would bring down the entire DNS resolution system.
 
-    -   In a **distributed DNS system**, there are multiple **redundant DNS servers** spread across the world. If one server fails, others can take over, ensuring continuous service.
+    - In a **distributed DNS system**, there are multiple **redundant DNS servers** spread across the world. If one server fails, others can take over, ensuring continuous service.
 
 3.  **Performance and Load Balancing**:
 
-    -   **Local DNS servers** reduce the amount of time it takes to resolve a domain name. Users are typically directed to the nearest DNS server (e.g., a local resolver provided by their ISP), which **reduces latency** and speeds up query resolution.
+    - **Local DNS servers** reduce the amount of time it takes to resolve a domain name. Users are typically directed to the nearest DNS server (e.g., a local resolver provided by their ISP), which **reduces latency** and speeds up query resolution.
 
-    -   Using multiple DNS servers in different geographic locations also helps **distribute traffic** and prevents any one server from becoming overwhelmed.
+    - Using multiple DNS servers in different geographic locations also helps **distribute traffic** and prevents any one server from becoming overwhelmed.
 
 4.  **Fault Tolerance**:
 
-    -   A **single DNS server** would be prone to **bottlenecks** and failures. If one DNS server goes down, users would not be able to access websites. The distributed nature of DNS ensures that if a server fails, others can handle the queries.
+    - A **single DNS server** would be prone to **bottlenecks** and failures. If one DNS server goes down, users would not be able to access websites. The distributed nature of DNS ensures that if a server fails, others can handle the queries.
 
 5.  **Specialized Roles**:
 
-    -   In a distributed DNS system, different servers are assigned different roles (like root servers, authoritative servers, and resolver servers), making it easier to **specialize** and optimize the system for various tasks.
+    - In a distributed DNS system, different servers are assigned different roles (like root servers, authoritative servers, and resolver servers), making it easier to **specialize** and optimize the system for various tasks.
 
-* * * * *
+---
 
 ### **DNS Server Architecture**
 
 The **DNS architecture** is **hierarchical** and distributed, consisting of different types of DNS servers, each with a specific role in the resolution process. Here's a breakdown of the architecture:
 
-* * * * *
+---
 
 ### **1\. Root DNS Servers**
 
@@ -9964,19 +10023,19 @@ At the **top** of the DNS hierarchy are the **root DNS servers**. There are only
 
 #### **Role**:
 
--   The root servers are responsible for directing DNS queries to the appropriate **Top-Level Domain (TLD) servers**.
+- The root servers are responsible for directing DNS queries to the appropriate **Top-Level Domain (TLD) servers**.
 
--   They don't store complete domain records but point to the servers that do.
+- They don't store complete domain records but point to the servers that do.
 
 #### **Example**:
 
--   If you query for `www.example.com`, the root DNS server will direct you to the `.com` TLD servers because **example.com** is a **.com domain**.
+- If you query for `www.example.com`, the root DNS server will direct you to the `.com` TLD servers because **example.com** is a **.com domain**.
 
 #### **Redundancy**:
 
--   The root servers are replicated across many locations, so even if one server is down, others will still be able to provide service.
+- The root servers are replicated across many locations, so even if one server is down, others will still be able to provide service.
 
-* * * * *
+---
 
 ### **2\. TLD (Top-Level Domain) DNS Servers**
 
@@ -9984,15 +10043,15 @@ The **TLD servers** manage the next level of the DNS hierarchy, where domain nam
 
 #### **Role**:
 
--   The TLD servers are responsible for directing DNS queries to the **authoritative name servers** of individual domain names.
+- The TLD servers are responsible for directing DNS queries to the **authoritative name servers** of individual domain names.
 
--   They don't store the exact domain record but point to the name servers for domains like `example.com`.
+- They don't store the exact domain record but point to the name servers for domains like `example.com`.
 
 #### **Example**:
 
--   When a query is made for `www.example.com`, after the root server directs the query to the `.com` TLD server, the TLD server will then point to the authoritative DNS server for `example.com`.
+- When a query is made for `www.example.com`, after the root server directs the query to the `.com` TLD server, the TLD server will then point to the authoritative DNS server for `example.com`.
 
-* * * * *
+---
 
 ### **3\. Authoritative DNS Servers**
 
@@ -10000,15 +10059,15 @@ The **TLD servers** manage the next level of the DNS hierarchy, where domain nam
 
 #### **Role**:
 
--   These servers provide the final response to DNS queries.
+- These servers provide the final response to DNS queries.
 
--   They hold the **complete and definitive records** for domain names, including IP addresses and other information.
+- They hold the **complete and definitive records** for domain names, including IP addresses and other information.
 
 #### **Example**:
 
--   When querying for `www.example.com`, the TLD server points to the **authoritative DNS server** for `example.com`, which then provides the **IP address** for `www.example.com`.
+- When querying for `www.example.com`, the TLD server points to the **authoritative DNS server** for `example.com`, which then provides the **IP address** for `www.example.com`.
 
-* * * * *
+---
 
 ### **4\. Recursive Resolver DNS Servers**
 
@@ -10016,15 +10075,15 @@ The **recursive resolver** is responsible for initiating the DNS query on behalf
 
 #### **Role**:
 
--   When you make a request for a website, your **recursive resolver** is the first DNS server that will handle the query.
+- When you make a request for a website, your **recursive resolver** is the first DNS server that will handle the query.
 
--   If the resolver doesn't have the answer cached, it will follow the hierarchy (starting from the root, to the TLD, and then to the authoritative server) to get the final answer.
+- If the resolver doesn't have the answer cached, it will follow the hierarchy (starting from the root, to the TLD, and then to the authoritative server) to get the final answer.
 
 #### **Caching**:
 
--   **Caching** is a major feature of recursive resolvers. They store the results of DNS queries for a period (based on **Time-to-Live (TTL)**) to speed up future queries for the same domain.
+- **Caching** is a major feature of recursive resolvers. They store the results of DNS queries for a period (based on **Time-to-Live (TTL)**) to speed up future queries for the same domain.
 
-* * * * *
+---
 
 ### **DNS Resolution Process (Step-by-Step)**
 
@@ -10032,100 +10091,99 @@ Here's how DNS resolution happens when you request `www.example.com`:
 
 1.  **User Request**:
 
-    -   You type `www.example.com` into your browser.
+    - You type `www.example.com` into your browser.
 
 2.  **Local DNS Cache**:
 
-    -   The operating system checks its local cache to see if it already knows the IP address for `www.example.com`. If it's found, the address is returned immediately.
+    - The operating system checks its local cache to see if it already knows the IP address for `www.example.com`. If it's found, the address is returned immediately.
 
 3.  **Recursive DNS Query**:
 
-    -   If the address isn't cached, the query is sent to the **recursive resolver**, often provided by your Internet Service Provider (ISP).
+    - If the address isn't cached, the query is sent to the **recursive resolver**, often provided by your Internet Service Provider (ISP).
 
-    -   The resolver checks its cache, and if it doesn't have the result, it continues the query process.
+    - The resolver checks its cache, and if it doesn't have the result, it continues the query process.
 
 4.  **Root DNS Server**:
 
-    -   The recursive resolver asks a **root DNS server** for `www.example.com`. The root server responds by pointing to the **TLD server** for `.com`.
+    - The recursive resolver asks a **root DNS server** for `www.example.com`. The root server responds by pointing to the **TLD server** for `.com`.
 
 5.  **TLD Server**:
 
-    -   The resolver then asks the `.com` **TLD DNS server** where the authoritative DNS server for `example.com` is located.
+    - The resolver then asks the `.com` **TLD DNS server** where the authoritative DNS server for `example.com` is located.
 
 6.  **Authoritative DNS Server**:
 
-    -   The resolver then queries the **authoritative DNS server** for `example.com`, which has the actual IP address for `www.example.com`.
+    - The resolver then queries the **authoritative DNS server** for `example.com`, which has the actual IP address for `www.example.com`.
 
 7.  **Final Response**:
 
-    -   The authoritative server sends the IP address for `www.example.com` to the recursive resolver, which in turn sends the response to your computer.
+    - The authoritative server sends the IP address for `www.example.com` to the recursive resolver, which in turn sends the response to your computer.
 
-    -   The browser can now use that IP address to connect to the web server and load the page.
+    - The browser can now use that IP address to connect to the web server and load the page.
 
 8.  **Caching**:
 
-    -   The recursive resolver caches the IP address for a period (based on TTL), speeding up future requests for `www.example.com`.
+    - The recursive resolver caches the IP address for a period (based on TTL), speeding up future requests for `www.example.com`.
 
 ![alt text](<11-Route53/Screenshot 2025-03-29 at 6.17.14 pm.png>)
 
-* * * * *
+---
 
 ### **Benefits of Using Multiple DNS Servers**
 
 1.  **Distributed Load**:
 
-    -   Multiple DNS servers spread across different locations reduce the load on any single server and help **balance traffic**.
+    - Multiple DNS servers spread across different locations reduce the load on any single server and help **balance traffic**.
 
 2.  **Fault Tolerance**:
 
-    -   If one server goes down, other DNS servers can step in to ensure the resolution process continues. This **reduces the risk** of downtime.
+    - If one server goes down, other DNS servers can step in to ensure the resolution process continues. This **reduces the risk** of downtime.
 
 3.  **Redundancy**:
 
-    -   Having multiple DNS servers ensures that DNS resolution remains **highly available** and resilient to failures.
+    - Having multiple DNS servers ensures that DNS resolution remains **highly available** and resilient to failures.
 
 4.  **Optimized Query Response**:
 
-    -   Local DNS resolvers (like the ones provided by ISPs) can handle queries faster because they are closer to the end user, improving **performance** and reducing latency.
+    - Local DNS resolvers (like the ones provided by ISPs) can handle queries faster because they are closer to the end user, improving **performance** and reducing latency.
 
-* * * * *
+---
 
 ### **DNS Server Architecture (In Summary)**
 
 1.  **Root DNS Servers**:
 
-    -   The top-level DNS servers that direct queries to appropriate TLD servers.
+    - The top-level DNS servers that direct queries to appropriate TLD servers.
 
 2.  **TLD DNS Servers**:
 
-    -   Manage domain extensions like `.com`, `.org`, `.net`, and direct queries to the authoritative DNS servers.
+    - Manage domain extensions like `.com`, `.org`, `.net`, and direct queries to the authoritative DNS servers.
 
 3.  **Authoritative DNS Servers**:
 
-    -   The final servers that provide the **actual IP addresses** for domain names.
+    - The final servers that provide the **actual IP addresses** for domain names.
 
 4.  **Recursive DNS Servers**:
 
-    -   Initiate and manage the DNS resolution process, caching results to speed up future queries.
+    - Initiate and manage the DNS resolution process, caching results to speed up future queries.
 
-* * * * *
+---
 
 ### **Summary**
 
--   **DNS** allows you to **translate domain names** (like `www.example.com`) into **IP addresses** that computers use to communicate.
+- **DNS** allows you to **translate domain names** (like `www.example.com`) into **IP addresses** that computers use to communicate.
 
--   A **single DNS server** is not used because it would be **scalable**, **reliable**, and **efficient**. A distributed DNS system with multiple servers (root, TLD, authoritative, and recursive) ensures **redundancy**, **fault tolerance**, and **performance**.
+- A **single DNS server** is not used because it would be **scalable**, **reliable**, and **efficient**. A distributed DNS system with multiple servers (root, TLD, authoritative, and recursive) ensures **redundancy**, **fault tolerance**, and **performance**.
 
-* * * * *
+---
 
 ### **Exam Power-Up**:
 
--   **DNS Hierarchy**: Understand the **root**, **TLD**, and **authoritative DNS servers**.
+- **DNS Hierarchy**: Understand the **root**, **TLD**, and **authoritative DNS servers**.
 
--   **Caching**: DNS resolvers cache responses to speed up subsequent requests.
+- **Caching**: DNS resolvers cache responses to speed up subsequent requests.
 
--   **Fault Tolerance**: Multiple DNS servers across different locations improve **redundancy** and **availability**.
-
+- **Fault Tolerance**: Multiple DNS servers across different locations improve **redundancy** and **availability**.
 
 ---
 
@@ -10143,13 +10201,12 @@ A **DNS zone** contains various types of DNS records (like **A records**, **MX r
 
 1. **Forward Lookup Zone**:
    - This is the most common type of zone, and it contains records that map domain names to IP addresses (typically **A records** for IPv4 and **AAAA records** for IPv6).
-   
 2. **Reverse Lookup Zone**:
+
    - In a reverse lookup zone, the IP addresses are mapped back to domain names. For instance, you might map an IP address like `192.168.1.1` to the domain name `server.example.com`.
 
 3. **Primary Zone**:
    - This is the authoritative zone for the domain, where DNS records are created and stored. It’s typically maintained by the organization that owns the domain.
-   
 4. **Secondary Zone**:
    - A secondary zone is a read-only copy of a primary zone that is used for redundancy. It’s updated by a process called **zone transfer** from the primary DNS server.
 
@@ -10168,26 +10225,31 @@ A zone file includes various **resource records (RRs)**, such as **A records**, 
 A **zone file** consists of **DNS records**, each of which provides information about a specific aspect of the domain’s configuration. Below are common types of DNS records found in a zone file:
 
 1. **A Record (Address Record)**:
+
    - Maps a domain name to an **IPv4 address**.
    - **Example**: `www.example.com. IN A 192.168.1.1`
      - This means `www.example.com` points to the IP address `192.168.1.1`.
 
 2. **AAAA Record (IPv6 Address Record)**:
+
    - Maps a domain name to an **IPv6 address**.
    - **Example**: `www.example.com. IN AAAA 2001:0db8:85a3:0000:0000:8a2e:0370:7334`
      - This means `www.example.com` points to the IPv6 address `2001:0db8:85a3:0000:0000:8a2e:0370:7334`.
 
 3. **CNAME Record (Canonical Name Record)**:
+
    - Creates an alias for an existing domain name.
    - **Example**: `blog.example.com. IN CNAME www.example.com.`
      - This means `blog.example.com` is an alias for `www.example.com`.
 
 4. **MX Record (Mail Exchange Record)**:
+
    - Specifies the mail server for receiving emails for a domain.
    - **Example**: `example.com. IN MX 10 mail.example.com.`
      - This means email for `example.com` will be handled by `mail.example.com`, and the `10` is the priority of the mail server.
 
 5. **NS Record (Name Server Record)**:
+
    - Specifies the DNS servers that are authoritative for a domain.
    - **Example**: `example.com. IN NS ns1.example.com.`
      - This means that the authoritative DNS server for `example.com` is `ns1.example.com`.
@@ -10237,6 +10299,7 @@ ftp IN CNAME www.example.com.
 ```
 
 ### **Explanation**:
+
 - **`$TTL 86400`**: This sets the default **Time-to-Live (TTL)** for records in this zone file. TTL is how long a DNS record should be cached by DNS resolvers before it’s refreshed.
 - **SOA Record**: The **Start of Authority (SOA)** record defines the **primary authoritative DNS server** for the zone and various settings, such as the email address of the administrator and the refresh rates.
 - **NS Records**: These specify the DNS servers responsible for the domain (e.g., `ns1.example.com` and `ns2.example.com`).
@@ -10251,9 +10314,11 @@ ftp IN CNAME www.example.com.
 ### **Why Use DNS Zones and Zone Files?**
 
 1. **Organization and Delegation**:
+
    - **DNS zones** allow organizations to delegate responsibility for parts of the DNS namespace. For example, a company could manage the `example.com` domain, while a different department manages a subdomain like `sales.example.com`.
 
 2. **Granular Control**:
+
    - By splitting the DNS database into different zones, it allows for more **granular control** over how different domains and subdomains are handled, making it easier to manage large organizations with multiple domains.
 
 3. **Simplified Management**:
@@ -10270,6 +10335,7 @@ ftp IN CNAME www.example.com.
 ---
 
 ### **Exam Power-Up**:
+
 - **DNS Zone**: A DNS zone is a portion of the DNS namespace managed by a specific organization, containing the DNS records for that domain.
 - **Zone File**: A zone file is a **text file** containing DNS records like **A**, **CNAME**, **MX**, and **TXT** records.
 - **Purpose**: DNS zones allow for **delegation** and **granular control** over domain and subdomain management.
@@ -10283,6 +10349,7 @@ But, instead of just one giant book, there are **many smaller books** for differ
 Now, when you want to visit a website, like **google.com**, you just open the **.com book** and look up **google.com**. The book tells you **where to go** to find Google’s **house** (its **IP address**).
 
 So, in simple terms:
+
 - **DNS Zone** is like a **small book** that helps you find the **addresses** of websites in a specific part of the internet.
 - Each website has an **address** in the book, just like a house has an address on a street.
 
@@ -10317,15 +10384,18 @@ DNSSEC introduces cryptographic signing of DNS records inside a DNS zone.
 Here’s how it works step by step:
 
 1. **Key Pair Generation**
+
    - **Zone Signing Key (ZSK)**: Used to sign the actual DNS records (like A, CNAME).
    - **Key Signing Key (KSK)**: Used to sign the ZSK itself.
 
 2. **DNS Record Signing**
+
    - Each DNS record is signed with the ZSK.
    - The signatures are stored in `RRSIG` records.
    - A `DNSKEY` record is added to publish the public part of the ZSK and KSK.
 
 3. **Authenticating Records**
+
    - When a resolver requests a record, it also fetches the `RRSIG` and `DNSKEY`.
    - The resolver uses the public key from `DNSKEY` to verify the `RRSIG`.
    - If verification fails, the response is discarded.
@@ -10508,6 +10578,7 @@ A **health check** in Route 53 monitors the health of a resource (like a web ser
 3. **Other health checks**: Route 53 can monitor the status of other checks (calculated health check)
 
 ### Health Check Configuration Options:
+
 - **Protocol**: HTTP, HTTPS, or TCP
 - **Port**: Default or custom
 - **Request path**: `/health`, `/ping`, etc.
@@ -10516,6 +10587,7 @@ A **health check** in Route 53 monitors the health of a resource (like a web ser
 - **Optional**: Enable alarm integration (CloudWatch), latency graphs, or “string matching” in responses
 
 ### Use Cases:
+
 - Failover routing
 - Remove unhealthy records from Simple or Multi-value routing
 - Improve reliability and auto-recovery
@@ -10544,6 +10616,7 @@ A **health check** in Route 53 monitors the health of a resource (like a web ser
   2. Secondary (backup)
 
 **Example:**
+
 - Primary: `app.rahmanstore.com → EC2 instance` (health check enabled)
 - Secondary: `app.rahmanstore.com → S3 static site` (no health check)
 - When EC2 is unhealthy, traffic automatically goes to the S3 site
@@ -10558,6 +10631,7 @@ A **health check** in Route 53 monitors the health of a resource (like a web ser
 - Can use health checks optionally
 
 **Example:**
+
 - Version A of site → 80%
 - Version B of site → 20%
 - Records: `api.rahmanstore.com → 80 to ELB-A, 20 to ELB-B`
@@ -10572,6 +10646,7 @@ A **health check** in Route 53 monitors the health of a resource (like a web ser
 - Route 53 uses latency measurements from AWS edge locations
 
 **Example:**
+
 - US users → us-east-1
 - Asia users → ap-southeast-1
 
@@ -10588,6 +10663,7 @@ If a user in Singapore accesses `rahmanstore.com`, they’ll be directed to ap-s
   - Serving localized content
 
 **Example:**
+
 - US traffic → `us.rahmanstore.com`
 - Europe → `eu.rahmanstore.com`
 
@@ -10603,6 +10679,7 @@ You can create a **default record** for users who don’t match any specific loc
 - Bias allows you to shift more or less traffic to a region
 
 **Example:**
+
 - You have two endpoints:
   - One in Tokyo, one in Sydney
   - You bias Tokyo +20%, so more traffic goes there even if both are equidistant
@@ -10617,6 +10694,7 @@ You can create a **default record** for users who don’t match any specific loc
 - Ideal for apps with multiple identical resources
 
 **Example:**
+
 - `rahmanstore.com` returns:
   - IP1 (healthy)
   - IP2 (healthy)
@@ -10626,15 +10704,15 @@ You can create a **default record** for users who don’t match any specific loc
 
 ## Summary Table
 
-| Routing Policy        | Health Checks | Use Case                               |
-|-----------------------|---------------|----------------------------------------|
-| Simple                | Optional      | One resource, basic DNS                |
-| Failover              | Required      | Primary-backup failover                |
-| Weighted              | Optional      | A/B testing, traffic split             |
-| Latency-based         | Optional      | Route to lowest-latency region         |
-| Geolocation           | Optional      | Route by user location                 |
-| GeoProximity          | Optional      | Precision geo-routing with bias        |
-| Multi-value Answer    | Yes           | Return multiple healthy endpoints      |
+| Routing Policy     | Health Checks | Use Case                          |
+| ------------------ | ------------- | --------------------------------- |
+| Simple             | Optional      | One resource, basic DNS           |
+| Failover           | Required      | Primary-backup failover           |
+| Weighted           | Optional      | A/B testing, traffic split        |
+| Latency-based      | Optional      | Route to lowest-latency region    |
+| Geolocation        | Optional      | Route by user location            |
+| GeoProximity       | Optional      | Precision geo-routing with bias   |
+| Multi-value Answer | Yes           | Return multiple healthy endpoints |
 
 ---
 
@@ -10648,110 +10726,107 @@ You can create a **default record** for users who don’t match any specific loc
 
 ---
 
-
-Route 53 Interoperability
--------------------------
+## Route 53 Interoperability
 
 ### 1\. **With EC2**
 
--   You can create A or Alias records in Route 53 pointing to an **EC2 instance's Elastic IP**.
+- You can create A or Alias records in Route 53 pointing to an **EC2 instance's Elastic IP**.
 
--   If the EC2 is part of an **Auto Scaling Group**, it's better to point to a **Load Balancer** instead.
+- If the EC2 is part of an **Auto Scaling Group**, it's better to point to a **Load Balancer** instead.
 
 **Example:**
 
--   `app.rahmanstore.com → Alias → ELB → EC2 instances`
+- `app.rahmanstore.com → Alias → ELB → EC2 instances`
 
-* * * * *
+---
 
 ### 2\. **With Elastic Load Balancers (ELB)**
 
--   ELBs **don't have static IPs**, so Route 53 uses **Alias records** to point to ELBs.
+- ELBs **don't have static IPs**, so Route 53 uses **Alias records** to point to ELBs.
 
--   Alias records allow mapping your domain to ELB DNS names **at the root level** (like `rahmanstore.com`).
+- Alias records allow mapping your domain to ELB DNS names **at the root level** (like `rahmanstore.com`).
 
-* * * * *
+---
 
 ### 3\. **With S3 Static Website Hosting**
 
--   For static sites hosted on S3, Route 53 can create an **Alias record** pointing to the S3 website endpoint.
+- For static sites hosted on S3, Route 53 can create an **Alias record** pointing to the S3 website endpoint.
 
 **Caution**:
 
--   Use the **website endpoint**, not the S3 bucket URL.
+- Use the **website endpoint**, not the S3 bucket URL.
 
 **Example:**
 
--   `www.rahmanstore.com → Alias → S3 Static Website Endpoint`
+- `www.rahmanstore.com → Alias → S3 Static Website Endpoint`
 
-* * * * *
+---
 
 ### 4\. **With CloudFront**
 
--   CloudFront distributions (CDNs) have DNS names (like `d1ab2xyz.cloudfront.net`)
+- CloudFront distributions (CDNs) have DNS names (like `d1ab2xyz.cloudfront.net`)
 
--   Route 53 can create an **Alias** or **CNAME** record pointing to CloudFront.
+- Route 53 can create an **Alias** or **CNAME** record pointing to CloudFront.
 
 **Example:**
 
--   `cdn.rahmanstore.com → Alias → CloudFront`
+- `cdn.rahmanstore.com → Alias → CloudFront`
 
-* * * * *
+---
 
 ### 5\. **With VPC and Private Hosted Zones**
 
--   When you associate a **Private Hosted Zone** with a **VPC**, DNS queries are resolved **only within that VPC**.
+- When you associate a **Private Hosted Zone** with a **VPC**, DNS queries are resolved **only within that VPC**.
 
--   Used for internal services (e.g., microservices, private APIs)
+- Used for internal services (e.g., microservices, private APIs)
 
 **Example:**
 
--   `api.internal.rahmanstore.com → Private IP of a service inside VPC`
+- `api.internal.rahmanstore.com → Private IP of a service inside VPC`
 
-* * * * *
+---
 
 ### 6\. **With API Gateway**
 
--   For custom domain names in API Gateway, Route 53 uses an **Alias** record to map a domain/subdomain to the API's CloudFront distribution.
+- For custom domain names in API Gateway, Route 53 uses an **Alias** record to map a domain/subdomain to the API's CloudFront distribution.
 
 **Example:**
 
--   `api.rahmanstore.com → Alias → API Gateway Domain`
+- `api.rahmanstore.com → Alias → API Gateway Domain`
 
-* * * * *
+---
 
 ### 7\. **With AWS Global Accelerator**
 
--   Route 53 Alias records can point to Global Accelerator endpoints for low-latency global traffic.
+- Route 53 Alias records can point to Global Accelerator endpoints for low-latency global traffic.
 
-* * * * *
+---
 
 ### 8\. **With Route 53 Resolver**
 
--   For hybrid cloud or on-premises integration, **Route 53 Resolver** allows:
+- For hybrid cloud or on-premises integration, **Route 53 Resolver** allows:
 
-    -   **Inbound endpoints**: On-prem systems can resolve Route 53 DNS.
+  - **Inbound endpoints**: On-prem systems can resolve Route 53 DNS.
 
-    -   **Outbound endpoints**: Route 53 can forward requests to your on-prem DNS servers.
+  - **Outbound endpoints**: Route 53 can forward requests to your on-prem DNS servers.
 
 **Use case**: You have internal servers with `.corp` domain on-prem, and AWS resources that need to resolve them.
 
-* * * * *
+---
 
 ### 9\. **With CloudWatch and Health Checks**
 
--   Health checks can trigger **CloudWatch alarms**, which can trigger:
+- Health checks can trigger **CloudWatch alarms**, which can trigger:
 
-    -   Auto-recovery
+  - Auto-recovery
 
-    -   Notifications (SNS)
+  - Notifications (SNS)
 
-    -   Failover actions
+  - Failover actions
 
-* * * * *
+---
 
-Common Interop Mistakes to Avoid
---------------------------------
+## Common Interop Mistakes to Avoid
 
 1.  Using a CNAME at the **root domain** (e.g., `rahmanstore.com`) → **Use Alias instead**.
 
@@ -10761,10 +10836,9 @@ Common Interop Mistakes to Avoid
 
 4.  Not enabling health checks on **primary failover records**.
 
-* * * * *
+---
 
-Exam Powerups
--------------
+## Exam Powerups
 
 1.  **Alias records** are AWS-native and preferred for resources like ELB, CloudFront, and S3 static sites.
 
@@ -10776,8 +10850,7 @@ Exam Powerups
 
 5.  Use **Route 53 Resolver** to connect AWS DNS with **on-prem environments** securely.
 
-* * * * *
-
+---
 
 ### What is a Private Hosted Zone?
 
@@ -10793,39 +10866,39 @@ To associate a private hosted zone with a VPC, the following steps should be fol
 
 1.  **Create the Private Hosted Zone**
 
-    -   In the Route 53 console, go to **Hosted Zones**.
+    - In the Route 53 console, go to **Hosted Zones**.
 
-    -   Click on **Create Hosted Zone**.
+    - Click on **Create Hosted Zone**.
 
-    -   Specify the domain name (e.g., `internal.example.com`).
+    - Specify the domain name (e.g., `internal.example.com`).
 
-    -   Under **Type**, choose **Private Hosted Zone**.
+    - Under **Type**, choose **Private Hosted Zone**.
 
-    -   For the **VPC**, select the VPC that should have access to this private hosted zone.
+    - For the **VPC**, select the VPC that should have access to this private hosted zone.
 
 2.  **Choose VPCs for Association**
 
-    -   After the hosted zone is created, navigate to the **VPCs** tab.
+    - After the hosted zone is created, navigate to the **VPCs** tab.
 
-    -   You can associate the zone with **multiple VPCs**. If a VPC needs to resolve DNS records in this zone, it must be associated.
+    - You can associate the zone with **multiple VPCs**. If a VPC needs to resolve DNS records in this zone, it must be associated.
 
 3.  **Creating DNS Records**
 
-    -   Once associated, create DNS records like A, CNAME, or other types that map internal resources (e.g., `api.internal.example.com` → IP of a backend server).
+    - Once associated, create DNS records like A, CNAME, or other types that map internal resources (e.g., `api.internal.example.com` → IP of a backend server).
 
 4.  **Verify DNS Resolution**
 
-    -   To ensure that the DNS records are being resolved correctly, test within the VPC by attempting to resolve the domain using `nslookup` or similar DNS tools on an EC2 instance.
+    - To ensure that the DNS records are being resolved correctly, test within the VPC by attempting to resolve the domain using `nslookup` or similar DNS tools on an EC2 instance.
 
 ### Key Considerations
 
--   Private hosted zones can be associated with multiple VPCs within the same AWS account or across different accounts (using VPC sharing).
+- Private hosted zones can be associated with multiple VPCs within the same AWS account or across different accounts (using VPC sharing).
 
--   If you want to expose certain DNS records to the public (for example, an external-facing `www.example.com`), you can combine a **public hosted zone** and a **private hosted zone**.
+- If you want to expose certain DNS records to the public (for example, an external-facing `www.example.com`), you can combine a **public hosted zone** and a **private hosted zone**.
 
--   Private hosted zones can only be used with VPCs within the same AWS region, although it's possible to create cross-region DNS resolution if VPCs are peered.
+- Private hosted zones can only be used with VPCs within the same AWS region, although it's possible to create cross-region DNS resolution if VPCs are peered.
 
-* * * * *
+---
 
 ### Exam Powerups
 
@@ -10839,7 +10912,7 @@ To associate a private hosted zone with a VPC, the following steps should be fol
 
 ---
 
-### Split View 
+### Split View
 
 **Split View** in the context of DNS refers to the practice of managing both **public** and **private DNS records** for the same domain name, where:
 
@@ -10851,6 +10924,7 @@ To associate a private hosted zone with a VPC, the following steps should be fol
 With a **split-view DNS setup**, you have different DNS configurations for users based on whether they are inside or outside the VPC. Here’s how it works:
 
 1. **Public DNS Records**:
+
    - These records are stored in a **public hosted zone** in Route 53.
    - They are accessible from the public internet and are used for resources that need to be accessed by anyone globally, such as a website or public API.
 
@@ -10891,12 +10965,14 @@ Both **Geolocation Routing** and **GeoProximity Routing** in Route 53 allow you 
 **Geolocation Routing** directs traffic based on the geographic location of the **requesting user** (the client). It’s used when you want to route users to different endpoints depending on their region or country.
 
 #### Key Features:
+
 - Routes traffic based on the **user's geographic location** (such as **country**, **continent**, or even **state-level** for US users).
 - You create different records for specific **locations** (e.g., one for US, one for Europe).
 - The user’s location is determined using **IP geolocation**.
 - **Default routing record** can be used for users who don't match any location.
 
 #### Example:
+
 - **US Traffic**: Routes to `us.rahmanstore.com` (ELB in the US)
 - **EU Traffic**: Routes to `eu.rahmanstore.com` (ELB in Europe)
 - **Default Traffic**: Routes to a general server if the user is not from the US or EU.
@@ -10910,12 +10986,14 @@ In this case, **geolocation routing** would send users from the US to one server
 **GeoProximity Routing** is a more **fine-grained approach** compared to Geolocation Routing. It routes traffic based not only on the user's location but also on the **location of AWS resources**, and it allows you to **bias** the traffic toward specific resources (regions or endpoints).
 
 #### Key Features:
+
 - Routes traffic based on **both the user's location and the location of resources** (e.g., AWS regions or servers).
 - Allows **biasing**, which lets you direct more traffic to a particular resource or region, even if they are geographically close.
 - You can define a **bias factor** (positive or negative), which influences the amount of traffic routed to a given resource.
 - More useful for **global traffic distribution** or **specific regional routing preferences**.
 
 #### Example:
+
 - A user in **New York** might be routed to a server in **North Virginia (us-east-1)**, but you want to route more traffic to a new server in **Ohio (us-east-2)** for **testing**.
 - With **GeoProximity routing**, you can specify a **positive bias** for the Ohio region, meaning more users will be directed to Ohio even if they are geographically closer to Virginia.
 
@@ -10925,13 +11003,13 @@ In this case, **GeoProximity** allows for routing adjustments based on both **ge
 
 ### **Key Differences Between Geolocation Routing and GeoProximity Routing**
 
-| Feature                        | Geolocation Routing                                   | GeoProximity Routing                                  |
-|---------------------------------|------------------------------------------------------|-------------------------------------------------------|
-| **Routing Based On**            | User's **geographic location** (country, region, state) | User's location **and** AWS resource location (region, endpoint) |
-| **Biasing**                     | No biasing mechanism                                 | **Biasing** allows traffic to be shifted toward specific resources |
-| **Use Case**                    | For serving content based on user location           | For directing traffic to specific resources while considering geographic proximity and resource location |
-| **Traffic Distribution**        | Straightforward routing by region/country            | Allows traffic adjustment via bias (more traffic to certain resources) |
-| **Granularity**                 | Country, continent, or state-level (for US)           | More granular, allowing control over traffic distribution by distance and resource location |
+| Feature                  | Geolocation Routing                                     | GeoProximity Routing                                                                                     |
+| ------------------------ | ------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| **Routing Based On**     | User's **geographic location** (country, region, state) | User's location **and** AWS resource location (region, endpoint)                                         |
+| **Biasing**              | No biasing mechanism                                    | **Biasing** allows traffic to be shifted toward specific resources                                       |
+| **Use Case**             | For serving content based on user location              | For directing traffic to specific resources while considering geographic proximity and resource location |
+| **Traffic Distribution** | Straightforward routing by region/country               | Allows traffic adjustment via bias (more traffic to certain resources)                                   |
+| **Granularity**          | Country, continent, or state-level (for US)             | More granular, allowing control over traffic distribution by distance and resource location              |
 
 ---
 
@@ -10945,11 +11023,12 @@ In this case, **GeoProximity** allows for routing adjustments based on both **ge
 #### Example Scenario:
 
 - If you have a server in **US East (North Virginia)** and another in **US West (Oregon)**, and you want to direct **more traffic** to Oregon despite being farther from some users, you can set a **positive bias** for the Oregon region.
-  
+
   - Bias for US East: `0`
   - Bias for US West: `+30` (this will route more traffic to Oregon)
 
 #### Why Bias Is Useful:
+
 - Allows you to gradually test new resources.
 - Optimizes for regions with lower latency.
 - Allows control over traffic based on strategic business goals (e.g., load testing or redundancy).
@@ -10980,7 +11059,6 @@ CloudFront integrates well with other AWS services, making it easier to serve st
 CloudFront operates by delivering content through **edge locations**, which are geographically distributed around the world. Here's how it functions:
 
 1. **Origin**: The **origin** is the source of the content you want to deliver. The origin can be an S3 bucket, an EC2 instance, an Elastic Load Balancer (ELB), or even a custom origin.
-   
 2. **Edge Locations**: CloudFront caches content at **edge locations** around the globe. These edge locations are data centers that sit closer to users to reduce latency. When a user requests content, CloudFront checks if the content is available in the nearest edge location. If the content is not cached, it fetches it from the origin and caches it for future requests.
 
 3. **Distribution**: CloudFront uses **distributions** to manage the content delivery process. A distribution is a collection of edge locations and settings that define how CloudFront should deliver the content.
@@ -10994,6 +11072,7 @@ CloudFront operates by delivering content through **edge locations**, which are 
 Here’s a breakdown of CloudFront’s architecture:
 
 1. **Origins**:
+
    - The **origin** can be:
      - **Amazon S3**: Typically used for static content such as images, videos, or static website files.
      - **EC2 Instances**: For dynamic content like APIs or custom application logic.
@@ -11001,10 +11080,12 @@ Here’s a breakdown of CloudFront’s architecture:
      - **Custom Origins**: Any HTTP server, whether on AWS or outside AWS.
 
 2. **Edge Locations**:
+
    - CloudFront has **over 225** edge locations worldwide. When users access your content, CloudFront routes their requests to the nearest edge location, based on latency.
    - Edge locations act as a cache for content, storing copies of static and dynamic content.
 
 3. **Distributions**:
+
    - A **CloudFront distribution** is a configuration that tells CloudFront how to deliver your content. There are two types of distributions:
      - **Web Distribution**: For serving static content (HTML, CSS, JavaScript, images, videos) and dynamic content over HTTP/HTTPS.
      - **RTMP Distribution**: For streaming media using the **RTMP (Real-Time Messaging Protocol)**.
@@ -11021,26 +11102,30 @@ Here’s a breakdown of CloudFront’s architecture:
 
 1. **Global Distribution**:
    - CloudFront has over **225 edge locations** worldwide, ensuring that content is delivered quickly regardless of where the user is located.
-   
 2. **Content Caching**:
    - Content is cached at the edge locations for a configurable time (TTL). CloudFront can cache static files like images, videos, and HTML pages.
-   
 3. **Low Latency and High Transfer Speed**:
+
    - By serving content from the nearest edge location, CloudFront reduces **latency** and improves **transfer speed**, making it ideal for delivering media and static files.
 
 4. **HTTPS and SSL/TLS**:
+
    - CloudFront supports **SSL/TLS encryption** for secure delivery of content. You can use your own SSL certificates or use Amazon's default CloudFront certificate.
 
 5. **Access Control**:
+
    - CloudFront allows you to restrict access to your content based on geographic locations (**Geo-blocking**), IP addresses, or use **signed URLs** to grant time-limited access to certain users.
 
 6. **Real-Time Metrics and Logging**:
+
    - CloudFront provides detailed metrics and logs for all requests made to your distribution. It can be integrated with **Amazon CloudWatch** for real-time monitoring.
 
 7. **Custom Error Pages**:
+
    - You can configure CloudFront to serve **custom error pages** when errors like 404 or 500 occur, improving user experience.
 
 8. **Origin Failover**:
+
    - CloudFront supports **origin failover**, meaning if one origin fails (e.g., S3 bucket or EC2 instance), CloudFront can be configured to route requests to a backup origin.
 
 9. **Lambda@Edge**:
@@ -11051,10 +11136,10 @@ Here’s a breakdown of CloudFront’s architecture:
 ### CloudFront Workflow (Detailed Request Flow)
 
 1. **User Request**: A user sends an HTTP or HTTPS request to a CloudFront distribution (e.g., `https://www.example.com/image.jpg`).
-   
 2. **Edge Location**: CloudFront routes the request to the **nearest edge location** to the user.
 
 3. **Cache Check**:
+
    - If the content is **cached at the edge location** (cache hit), CloudFront returns the content immediately.
    - If the content is **not cached** (cache miss), CloudFront forwards the request to the **origin** (e.g., S3, EC2, or ELB).
 
@@ -11070,11 +11155,8 @@ Here’s a breakdown of CloudFront’s architecture:
 
 1. **S3 and CloudFront**: CloudFront can serve static content directly from an **S3 bucket** with low latency.
    - Use CloudFront for caching images, videos, and other assets stored in S3.
-   
 2. **Elastic Load Balancer and CloudFront**: For dynamic content or APIs, CloudFront can integrate with an **Elastic Load Balancer** to direct traffic to a set of EC2 instances.
-   
 3. **Lambda@Edge**: You can run Lambda functions directly at CloudFront edge locations to modify requests or responses.
-   
 4. **WAF (Web Application Firewall)**: CloudFront can be used with **AWS WAF** to protect against malicious attacks (e.g., SQL injection, DDoS).
 
 ---
@@ -11088,33 +11170,34 @@ Here’s a breakdown of CloudFront’s architecture:
 5. **Origin failover** ensures traffic is routed to a backup origin if the primary fails.
 
 ---
+
 ### Architectural Flow of Hosting a Website with S3 and CloudFront
 
 Let's walk through the architecture where **Amazon S3** is used to host a static website with images, **Amazon CloudFront** acts as the Content Delivery Network (CDN), and we configure CloudFront with a custom domain while setting up proper cache behavior at the edge and regional levels.
 
-* * * * *
+---
 
 ### Step 1: **Host Static Website on S3**
 
 1.  **Create an S3 Bucket**:
 
-    -   The first step is to create an **S3 bucket** to store your static website files (HTML, CSS, JavaScript, images, etc.).
+    - The first step is to create an **S3 bucket** to store your static website files (HTML, CSS, JavaScript, images, etc.).
 
-    -   Enable **static website hosting** on the S3 bucket by setting the bucket properties. For example:
+    - Enable **static website hosting** on the S3 bucket by setting the bucket properties. For example:
 
-        -   **Index Document**: `index.html`
+      - **Index Document**: `index.html`
 
-        -   **Error Document**: `error.html`
+      - **Error Document**: `error.html`
 
 2.  **Upload Website Files**:
 
-    -   Upload the files for your website to the S3 bucket, such as HTML files, images, and other assets.
+    - Upload the files for your website to the S3 bucket, such as HTML files, images, and other assets.
 
-    -   Ensure the files are publicly accessible if you want the website to be publicly available. You can use an **S3 bucket policy** or set the individual object permissions for this.
+    - Ensure the files are publicly accessible if you want the website to be publicly available. You can use an **S3 bucket policy** or set the individual object permissions for this.
 
 3.  **Access Permissions**:
 
-    -   Set appropriate **permissions** for the bucket and objects to ensure that they are publicly readable.
+    - Set appropriate **permissions** for the bucket and objects to ensure that they are publicly readable.
 
     Example policy:
 
@@ -11133,59 +11216,59 @@ Let's walk through the architecture where **Amazon S3** is used to host a static
 
     ```
 
-* * * * *
+---
 
 ### Step 2: **Set Up CloudFront Distribution**
 
 1.  **Create CloudFront Distribution**:
 
-    -   Go to **Amazon CloudFront** and create a **new distribution**.
+    - Go to **Amazon CloudFront** and create a **new distribution**.
 
-    -   Set the **origin** to the **S3 bucket** (select the S3 bucket URL or use the bucket's static website endpoint URL).
+    - Set the **origin** to the **S3 bucket** (select the S3 bucket URL or use the bucket's static website endpoint URL).
 
-    -   Select **Web** distribution, as you're serving web content.
+    - Select **Web** distribution, as you're serving web content.
 
 2.  **Configure CloudFront Settings**:
 
-    -   **Default Cache Behavior**:
+    - **Default Cache Behavior**:
 
-        -   Set to cache all static files (HTML, CSS, JavaScript, and images).
+      - Set to cache all static files (HTML, CSS, JavaScript, and images).
 
-        -   Set **Viewer Protocol Policy** to **Redirect HTTP to HTTPS** for secure content delivery.
+      - Set **Viewer Protocol Policy** to **Redirect HTTP to HTTPS** for secure content delivery.
 
-    -   **Default TTL (Time to Live)**: This determines how long the content will be cached at edge locations.
+    - **Default TTL (Time to Live)**: This determines how long the content will be cached at edge locations.
 
-        -   For images, set a higher TTL to ensure they are cached longer.
+      - For images, set a higher TTL to ensure they are cached longer.
 
-    -   **Cache Based on Query String Parameters**: You may or may not enable this based on whether your website uses query parameters for caching.
+    - **Cache Based on Query String Parameters**: You may or may not enable this based on whether your website uses query parameters for caching.
 
 3.  **CloudFront Domain**:
 
-    -   After creating the distribution, CloudFront provides a **CloudFront domain name** such as `d1ab2xyz.cloudfront.net`.
+    - After creating the distribution, CloudFront provides a **CloudFront domain name** such as `d1ab2xyz.cloudfront.net`.
 
-    -   This domain can be used immediately to access the website content.
+    - This domain can be used immediately to access the website content.
 
-* * * * *
+---
 
 ### Step 3: **Custom Domain Configuration for CloudFront**
 
 1.  **Set Up a Custom Domain in Route 53**:
 
-    -   In **AWS Route 53**, you can create a **CNAME** or **Alias record** to point your custom domain to the CloudFront distribution.
+    - In **AWS Route 53**, you can create a **CNAME** or **Alias record** to point your custom domain to the CloudFront distribution.
 
-    -   For example, if your custom domain is `www.rahmanstore.com`, create an **Alias** record in Route 53:
+    - For example, if your custom domain is `www.rahmanstore.com`, create an **Alias** record in Route 53:
 
-        -   **Name**: `www.rahmanstore.com`
+      - **Name**: `www.rahmanstore.com`
 
-        -   **Alias Target**: `d1ab2xyz.cloudfront.net` (provided by CloudFront)
+      - **Alias Target**: `d1ab2xyz.cloudfront.net` (provided by CloudFront)
 
 2.  **SSL Configuration**:
 
-    -   CloudFront supports SSL/TLS encryption, so you can associate your own **SSL certificate** (using **AWS Certificate Manager** or ACM) to enable HTTPS on your custom domain.
+    - CloudFront supports SSL/TLS encryption, so you can associate your own **SSL certificate** (using **AWS Certificate Manager** or ACM) to enable HTTPS on your custom domain.
 
-    -   After configuring SSL, users will be able to access the website securely through `https://www.rahmanstore.com`.
+    - After configuring SSL, users will be able to access the website securely through `https://www.rahmanstore.com`.
 
-* * * * *
+---
 
 ### Step 4: **CloudFront Caching Behavior**
 
@@ -11195,21 +11278,21 @@ CloudFront caches the content at its **edge locations**, which are globally dist
 
 1.  **Cache Behavior at Edge Locations**:
 
-    -   **Cache Content**: When a user requests content, CloudFront checks if the content is cached at the nearest edge location.
+    - **Cache Content**: When a user requests content, CloudFront checks if the content is cached at the nearest edge location.
 
-    -   **Cache Hit**: If the content is cached, it is served immediately from the edge location, minimizing latency.
+    - **Cache Hit**: If the content is cached, it is served immediately from the edge location, minimizing latency.
 
-    -   **Cache Miss**: If the content is not cached at the edge, CloudFront forwards the request to the **origin (S3 bucket)**, fetches the content, caches it, and serves it.
+    - **Cache Miss**: If the content is not cached at the edge, CloudFront forwards the request to the **origin (S3 bucket)**, fetches the content, caches it, and serves it.
 
 #### **Regional Caching**
 
 CloudFront also works by delivering cached content regionally, and the caching behavior at edge locations is **closely tied to regional caching**:
 
--   **Edge Locations**: CloudFront caches content in geographically distributed edge locations around the world. These locations serve requests based on proximity, reducing latency.
+- **Edge Locations**: CloudFront caches content in geographically distributed edge locations around the world. These locations serve requests based on proximity, reducing latency.
 
--   **Regional Caching**: Content can be cached in regions with a high number of requests. For example, if most users are in North America, CloudFront will serve content from edge locations closest to North America, improving speed.
+- **Regional Caching**: Content can be cached in regions with a high number of requests. For example, if most users are in North America, CloudFront will serve content from edge locations closest to North America, improving speed.
 
-* * * * *
+---
 
 ### Step 5: **Cache Behavior Between CloudFront and S3**
 
@@ -11217,31 +11300,31 @@ CloudFront also works by delivering cached content regionally, and the caching b
 
 1.  **Caching Based on Path**:
 
-    -   CloudFront caches objects based on the **URL path**. For example:
+    - CloudFront caches objects based on the **URL path**. For example:
 
-        -   `/images/*` can be cached for a longer period (set a higher TTL).
+      - `/images/*` can be cached for a longer period (set a higher TTL).
 
-        -   `/index.html` might have a shorter TTL because it's likely to change more frequently.
+      - `/index.html` might have a shorter TTL because it's likely to change more frequently.
 
 2.  **Cache Based on Query String Parameters**:
 
-    -   If your website uses query strings to modify content (e.g., `image.jpg?size=large`), you can set CloudFront to cache content based on those query string parameters.
+    - If your website uses query strings to modify content (e.g., `image.jpg?size=large`), you can set CloudFront to cache content based on those query string parameters.
 
-    -   **Cache Query String**: If set to **All**, CloudFront caches different versions of content based on query string parameters. If set to **None**, CloudFront treats URLs without query strings as identical.
+    - **Cache Query String**: If set to **All**, CloudFront caches different versions of content based on query string parameters. If set to **None**, CloudFront treats URLs without query strings as identical.
 
 3.  **Cache Control Headers**:
 
-    -   You can set **Cache-Control headers** in your S3 objects to influence caching behavior in CloudFront:
+    - You can set **Cache-Control headers** in your S3 objects to influence caching behavior in CloudFront:
 
-        -   For example, `Cache-Control: max-age=86400` tells CloudFront to cache the object for **24 hours**.
+      - For example, `Cache-Control: max-age=86400` tells CloudFront to cache the object for **24 hours**.
 
-    -   This helps fine-tune the caching behavior and ensure content is updated appropriately.
+    - This helps fine-tune the caching behavior and ensure content is updated appropriately.
 
 4.  **Lambda@Edge** (Optional):
 
-    -   For more advanced cache manipulation, you can use **Lambda@Edge** to run functions at CloudFront edge locations. For example, you could rewrite URLs, inspect headers, or even modify cache behavior based on dynamic conditions.
+    - For more advanced cache manipulation, you can use **Lambda@Edge** to run functions at CloudFront edge locations. For example, you could rewrite URLs, inspect headers, or even modify cache behavior based on dynamic conditions.
 
-* * * * *
+---
 
 ### Architecture Flow Summary:
 
@@ -11249,11 +11332,11 @@ CloudFront also works by delivering cached content regionally, and the caching b
 
 2.  **CloudFront Distribution**:
 
-    -   Caches content at edge locations to speed up delivery.
+    - Caches content at edge locations to speed up delivery.
 
-    -   Delivers content based on proximity to the user.
+    - Delivers content based on proximity to the user.
 
-    -   Configured with caching rules, TTLs, and query string handling.
+    - Configured with caching rules, TTLs, and query string handling.
 
 3.  **Route 53**: Maps the custom domain to the CloudFront distribution via **Alias records**.
 
@@ -11261,7 +11344,7 @@ CloudFront also works by delivering cached content regionally, and the caching b
 
 5.  **Cache Behavior Configuration**: Determines how CloudFront caches content and interacts with the S3 bucket, including cache settings and TTL values.
 
-* * * * *
+---
 
 ### Exam Powerups:
 
@@ -11275,8 +11358,7 @@ CloudFront also works by delivering cached content regionally, and the caching b
 
 5.  **Regional caching** improves performance by serving content from locations close to the user.
 
-* * * * *
-
+---
 
 ### **TTL (Time to Live) and Cache Invalidation in CloudFront**
 
@@ -11287,6 +11369,7 @@ TTL (Time to Live) determines how long CloudFront caches content before it check
 **TTL** defines the period for which cached content is considered **fresh**. After this time expires, CloudFront will attempt to fetch the content from the origin server again.
 
 #### How TTL Works in CloudFront:
+
 1. **Cache Hit**: If the content is still fresh (within its TTL), it’s served directly from the cache at the edge location.
 2. **Cache Miss**: Once the TTL expires or if the content was never cached, CloudFront sends a request to the origin for fresh content, caches it at the edge, and serves it to the user.
 
@@ -11296,23 +11379,26 @@ The TTL value can vary depending on several factors, such as the type of content
 
 ![alt text](<Cloudfront/Screenshot 2025-03-30 at 6.17.53 pm.png>)
 
-
 ### **Setting TTL for CloudFront Caching**
 
 You can set the TTL for content in **CloudFront** in several ways, including the following methods:
 
 1. **CloudFront Distribution Settings**:
+
    - When creating or editing a CloudFront distribution, you can set default cache behavior settings, including **Minimum TTL**, **Maximum TTL**, and **Default TTL**.
    - These are the fallback TTL values for all cached content unless overridden by headers or specific cache behaviors.
 
 2. **Cache-Control Headers**:
-   - CloudFront respects the **Cache-Control** headers from your origin (S3 bucket, EC2, or other custom origins). 
+
+   - CloudFront respects the **Cache-Control** headers from your origin (S3 bucket, EC2, or other custom origins).
    - You can set the **Cache-Control** header on the objects in your origin to dictate how long CloudFront should cache them.
-   
+
    Example header from your origin:
+
    ```
    Cache-Control: public, max-age=86400
    ```
+
    - This means that the object will be cached for **86400 seconds** (24 hours) at the edge location.
 
 3. **TTL in Cache Behavior Settings**:
@@ -11330,27 +11416,31 @@ If you're using **Amazon S3** as the origin, you can set cache control headers a
 #### Steps to Set Cache-Control Header on S3 Objects:
 
 1. **Setting Cache-Control Metadata for Individual Objects**:
+
    - While uploading or after uploading an object, you can add **Cache-Control** metadata to control the caching behavior.
    - For example, when uploading an image file (`image.jpg`), you can specify the **Cache-Control** header like this:
      - **Cache-Control**: `max-age=86400` (24 hours).
 
 2. **AWS S3 Console**:
+
    - Go to the **S3 Console**, select the file, then click on **Properties**.
    - Under **Metadata**, you can add a **Cache-Control** header with a specified TTL value.
 
 3. **S3 API**:
+
    - When uploading a file programmatically to S3, you can set the Cache-Control header in the request.
-   
+
    Example using AWS SDK:
+
    ```javascript
    const s3 = new AWS.S3();
    const params = {
      Bucket: 'your-bucket-name',
      Key: 'path/to/image.jpg',
      Body: fileData,
-     CacheControl: 'max-age=86400'
+     CacheControl: 'max-age=86400',
    };
-   s3.putObject(params, function(err, data) {
+   s3.putObject(params, function (err, data) {
      if (err) console.log(err, err.stack);
      else console.log(data);
    });
@@ -11371,12 +11461,11 @@ If you're using **Amazon S3** as the origin, you can set cache control headers a
 
 1. **Invalidation Requests**:
    - You can issue an **invalidating request** to CloudFront to explicitly delete certain objects from the cache, forcing CloudFront to fetch fresh content from the origin the next time it’s requested.
-   
 2. **Types of Invalidation**:
    - **File Invalidation**: You can invalidate specific files (e.g., `/images/image.jpg`). Once the content is invalidated, CloudFront will fetch it from the origin and cache the updated version.
    - **Wildcard Invalidation**: You can invalidate a group of files with a wildcard, like `/images/*` to invalidate all image files under the `/images/` directory.
-   
 3. **Invalidation Process**:
+
    - When you send an invalidation request, CloudFront removes the specified objects from its cache in all edge locations.
    - The next request for those objects will be fetched from the origin and cached again.
 
@@ -11391,12 +11480,14 @@ If you're using **Amazon S3** as the origin, you can set cache control headers a
 Let’s say you’ve uploaded a new version of your homepage (`index.html`), but CloudFront is still serving the older version. You can send an **invalidation request** to force CloudFront to remove the old version from the cache.
 
 **Steps to invalidate the cache**:
+
 1. Go to the **CloudFront Console**.
 2. Select **Invalidations** under your distribution.
 3. Create a new invalidation request.
 4. Enter the path(s) you want to invalidate, for example, `/index.html` or `/images/*` to invalidate all images.
 
 **Invalidation request example**:
+
 ```json
 {
   "Paths": ["/index.html", "/images/*"],
@@ -11414,14 +11505,16 @@ Here are some common **Cache-Control** header directives and their effects:
 
 - **max-age=<seconds>**: Specifies how long CloudFront will cache an object.
   - Example: `Cache-Control: max-age=3600` (Cache for 1 hour).
-  
 - **public**: Indicates the response can be cached by any cache (CloudFront, browser, or proxy).
+
   - Example: `Cache-Control: public, max-age=86400` (Cache for 24 hours).
 
 - **private**: Indicates the response is intended for a single user and should not be cached by shared caches.
+
   - Example: `Cache-Control: private, max-age=3600` (Cache for 1 hour).
 
 - **no-cache**: The object must be revalidated before being served from the cache.
+
   - Example: `Cache-Control: no-cache, max-age=0`.
 
 - **no-store**: The object should not be cached at all.
@@ -11449,17 +11542,17 @@ Here are some common **Cache-Control** header directives and their effects:
 
 3.  **Authentication**: Verifies the identity of the parties involved in the communication to prevent man-in-the-middle attacks.
 
-* * * * *
+---
 
 ### **SSL/TLS in CloudFront and ACM (AWS Certificate Manager)**
 
 **AWS Certificate Manager (ACM)** is a service that allows you to provision, manage, and deploy **SSL/TLS certificates** for your AWS services like **CloudFront**, **Elastic Load Balancer (ELB)**, **API Gateway**, and more.
 
--   **ACM** is used to secure the communication between the **viewer** (end-user browser) and **CloudFront**, and between **CloudFront** and your **origin** (e.g., S3, ELB, EC2).
+- **ACM** is used to secure the communication between the **viewer** (end-user browser) and **CloudFront**, and between **CloudFront** and your **origin** (e.g., S3, ELB, EC2).
 
--   **SSL/TLS certificates** issued by ACM are **free** and can be used for **HTTPS** communication.
+- **SSL/TLS certificates** issued by ACM are **free** and can be used for **HTTPS** communication.
 
-* * * * *
+---
 
 ### **ACM and Regional Service**
 
@@ -11471,93 +11564,93 @@ To enable **SSL/TLS encryption** with CloudFront, the certificate must be availa
 
 When you're using **CloudFront** with **ACM** certificates, the certificate must be created in **us-east-1** (North Virginia), even though **CloudFront** is a global service. This is a critical detail for the AWS Developer Associate certification.
 
-* * * * *
+---
 
 ### **CNAME and HTTPS Redirecting**
 
 #### **CNAME (Canonical Name)**
 
--   **CNAME** records are DNS records used to map one domain name to another. This is helpful when you want to use custom domains for services like CloudFront.
+- **CNAME** records are DNS records used to map one domain name to another. This is helpful when you want to use custom domains for services like CloudFront.
 
--   For example, you might use `www.rahmanstore.com` as your custom domain and point it to a CloudFront distribution.
+- For example, you might use `www.rahmanstore.com` as your custom domain and point it to a CloudFront distribution.
 
--   CNAME is often used when you want to map `www` or subdomains to CloudFront distributions, which use a **CloudFront.net** domain name like `d1ab2xyz.cloudfront.net`.
+- CNAME is often used when you want to map `www` or subdomains to CloudFront distributions, which use a **CloudFront.net** domain name like `d1ab2xyz.cloudfront.net`.
 
 #### **Options for HTTPS Redirecting**:
 
 1.  **Redirect HTTP to HTTPS**:
 
-    -   This option ensures that any user who accesses your site via **HTTP** will automatically be redirected to **HTTPS**.
+    - This option ensures that any user who accesses your site via **HTTP** will automatically be redirected to **HTTPS**.
 
-    -   You can configure this in **CloudFront**:
+    - You can configure this in **CloudFront**:
 
-        -   Under **CloudFront's Viewer Protocol Policy**, you can choose **Redirect HTTP to HTTPS**.
+      - Under **CloudFront's Viewer Protocol Policy**, you can choose **Redirect HTTP to HTTPS**.
 
 2.  **Only Allow HTTPS**:
 
-    -   If you choose this option, CloudFront will reject any HTTP requests and serve only over HTTPS. This is more secure because only encrypted traffic will be allowed.
+    - If you choose this option, CloudFront will reject any HTTP requests and serve only over HTTPS. This is more secure because only encrypted traffic will be allowed.
 
-    -   You can configure this in **CloudFront** as well, under the **Viewer Protocol Policy**, by selecting **HTTPS Only**.
+    - You can configure this in **CloudFront** as well, under the **Viewer Protocol Policy**, by selecting **HTTPS Only**.
 
 **Why This Is Important for Exam**:
 
--   **SSL/TLS** ensures encrypted traffic, and knowing how to configure **HTTP-to-HTTPS redirection** and **only allow HTTPS** is critical for securing your web applications.
+- **SSL/TLS** ensures encrypted traffic, and knowing how to configure **HTTP-to-HTTPS redirection** and **only allow HTTPS** is critical for securing your web applications.
 
--   On **CloudFront**, use **ACM certificates** to ensure HTTPS communication.
+- On **CloudFront**, use **ACM certificates** to ensure HTTPS communication.
 
-* * * * *
+---
 
 ### **Two SSL/TLS Connections: Viewer to CloudFront and CloudFront to Origin**
 
 1.  **Viewer to CloudFront (Viewer SSL/TLS Connection)**:
 
-    -   When a user (browser) accesses your website via HTTPS (e.g., `https://www.rahmanstore.com`), the connection between the **viewer** and **CloudFront** is secured with SSL/TLS.
+    - When a user (browser) accesses your website via HTTPS (e.g., `https://www.rahmanstore.com`), the connection between the **viewer** and **CloudFront** is secured with SSL/TLS.
 
-    -   CloudFront uses the **ACM certificate** for this connection to ensure **data encryption** and **authentication**.
+    - CloudFront uses the **ACM certificate** for this connection to ensure **data encryption** and **authentication**.
 
-    -   This is the first layer of the SSL/TLS handshake and ensures **secure communication** between the user's browser and the CloudFront edge location.
+    - This is the first layer of the SSL/TLS handshake and ensures **secure communication** between the user's browser and the CloudFront edge location.
 
 2.  **CloudFront to Origin (CloudFront SSL/TLS Connection)**:
 
-    -   When CloudFront retrieves content from your **origin** (e.g., an **S3 bucket**, **EC2 instance**, or **ELB**), the connection between **CloudFront** and the **origin** can also be secured with SSL/TLS.
+    - When CloudFront retrieves content from your **origin** (e.g., an **S3 bucket**, **EC2 instance**, or **ELB**), the connection between **CloudFront** and the **origin** can also be secured with SSL/TLS.
 
-    -   This ensures that the data remains encrypted from CloudFront to the origin server.
+    - This ensures that the data remains encrypted from CloudFront to the origin server.
 
-    -   You can configure SSL/TLS between CloudFront and the origin in **CloudFront's Cache Behavior Settings**, choosing whether or not to use HTTPS for this connection.
+    - You can configure SSL/TLS between CloudFront and the origin in **CloudFront's Cache Behavior Settings**, choosing whether or not to use HTTPS for this connection.
 
     Example for S3:
 
-    -   When you configure **CloudFront** with an **S3 origin** and use **HTTPS between CloudFront and S3**, ensure that the S3 bucket allows HTTPS traffic and that the connection between CloudFront and the S3 bucket uses SSL/TLS.
+    - When you configure **CloudFront** with an **S3 origin** and use **HTTPS between CloudFront and S3**, ensure that the S3 bucket allows HTTPS traffic and that the connection between CloudFront and the S3 bucket uses SSL/TLS.
 
-* * * * *
+---
 
 ### **Other Key Considerations for the AWS Developer Associate Exam**
 
 1.  **CloudFront SSL/TLS Connections**:
 
-    -   Always ensure **SSL certificates** are stored in **us-east-1** for CloudFront.
+    - Always ensure **SSL certificates** are stored in **us-east-1** for CloudFront.
 
-    -   Understand how to configure CloudFront with **ACM certificates** and apply the correct **Viewer Protocol Policies** for **HTTPS** redirection.
+    - Understand how to configure CloudFront with **ACM certificates** and apply the correct **Viewer Protocol Policies** for **HTTPS** redirection.
 
 2.  **CloudFront Cache Behavior**:
 
-    -   Know how to configure CloudFront's **Cache Behaviors** to control whether CloudFront caches based on query strings, cookies, or headers.
+    - Know how to configure CloudFront's **Cache Behaviors** to control whether CloudFront caches based on query strings, cookies, or headers.
 
-    -   Cache Control settings are critical for controlling **TTL** and cache invalidation.
+    - Cache Control settings are critical for controlling **TTL** and cache invalidation.
 
 3.  **CNAMEs and Custom Domains**:
 
-    -   Know how to set up **CNAME** records to point to CloudFront distributions and understand how **CloudFront** interacts with **Route 53** for DNS resolution.
+    - Know how to set up **CNAME** records to point to CloudFront distributions and understand how **CloudFront** interacts with **Route 53** for DNS resolution.
 
 4.  **Origin Access Identity (OAI)** for S3:
 
-    -   If you're using **S3** as your origin for CloudFront, make sure to configure **OAI** to restrict direct access to the S3 bucket while allowing access through CloudFront only. This is an important security measure.
+    - If you're using **S3** as your origin for CloudFront, make sure to configure **OAI** to restrict direct access to the S3 bucket while allowing access through CloudFront only. This is an important security measure.
 
 5.  **HTTP Headers and Security**:
 
-    -   Be familiar with **HTTP headers** like **Cache-Control**, **Strict-Transport-Security (HSTS)**, and **Content-Security-Policy (CSP)** to enhance the security and caching behavior of your web application.
+    - Be familiar with **HTTP headers** like **Cache-Control**, **Strict-Transport-Security (HSTS)**, and **Content-Security-Policy (CSP)** to enhance the security and caching behavior of your web application.
 
-* * * * *
+---
 
 ### **Exam Powerups**
 
@@ -11569,14 +11662,13 @@ When you're using **CloudFront** with **ACM** certificates, the certificate must
 
 4.  There are **two SSL/TLS connections**:
 
-    -   **Viewer to CloudFront**: Secures user communication via **HTTPS**.
+    - **Viewer to CloudFront**: Secures user communication via **HTTPS**.
 
-    -   **CloudFront to Origin**: Secures the communication between CloudFront and the origin server.
+    - **CloudFront to Origin**: Secures the communication between CloudFront and the origin server.
 
 5.  Understanding **Cache Behavior** settings, **TTL**, and **invalidating content** is key to controlling how CloudFront caches and serves content.
 
-
-* * * * *
+---
 
 ### **Origin Types in CloudFront**
 
@@ -11584,33 +11676,33 @@ An **origin** is the source of content for CloudFront to deliver to users. There
 
 #### **1\. S3 Bucket as an Origin**
 
--   **Static Content**: An **Amazon S3 bucket** is a popular origin for serving static content like HTML, images, CSS, and JavaScript files.
+- **Static Content**: An **Amazon S3 bucket** is a popular origin for serving static content like HTML, images, CSS, and JavaScript files.
 
--   **Static Website Hosting**: CloudFront can serve **S3 buckets** that are configured for **static website hosting**. This allows you to serve HTML files directly from the bucket, but S3 requires the content to be publicly accessible.
+- **Static Website Hosting**: CloudFront can serve **S3 buckets** that are configured for **static website hosting**. This allows you to serve HTML files directly from the bucket, but S3 requires the content to be publicly accessible.
 
--   **Origin Restriction**: If you want to restrict access to your S3 content (i.e., preventing direct access to the bucket), you can use **Origin Access Identity (OAI)**.
+- **Origin Restriction**: If you want to restrict access to your S3 content (i.e., preventing direct access to the bucket), you can use **Origin Access Identity (OAI)**.
 
 #### **2\. Elastic Load Balancer (ELB) as an Origin**
 
--   **Dynamic Content**: You can use an **Elastic Load Balancer (ELB)** as the origin if your content is dynamic and served by EC2 instances or applications running behind the load balancer.
+- **Dynamic Content**: You can use an **Elastic Load Balancer (ELB)** as the origin if your content is dynamic and served by EC2 instances or applications running behind the load balancer.
 
--   **Scalable**: ELB automatically scales to handle variable traffic, which makes it a good choice for dynamic, highly scalable applications.
+- **Scalable**: ELB automatically scales to handle variable traffic, which makes it a good choice for dynamic, highly scalable applications.
 
--   **HTTPS/SSL Support**: You can configure ELB to support **SSL/TLS** for secure communications.
+- **HTTPS/SSL Support**: You can configure ELB to support **SSL/TLS** for secure communications.
 
 #### **3\. EC2 Instance as an Origin**
 
--   **Custom Applications**: If you have a custom application running on an **EC2 instance**, you can use it as the origin for CloudFront.
+- **Custom Applications**: If you have a custom application running on an **EC2 instance**, you can use it as the origin for CloudFront.
 
--   **Dynamic Content**: Ideal for serving dynamic content from web applications that may include APIs, user data, or database-driven content.
+- **Dynamic Content**: Ideal for serving dynamic content from web applications that may include APIs, user data, or database-driven content.
 
 #### **4\. Custom Origins (Non-AWS Servers)**
 
--   **External Origin**: CloudFront can also pull content from an **external server** (non-AWS origin) using a **custom origin** configuration.
+- **External Origin**: CloudFront can also pull content from an **external server** (non-AWS origin) using a **custom origin** configuration.
 
--   **Flexibility**: This option is useful if you're hosting your content on your own infrastructure or on another cloud provider, and you want to use CloudFront for caching and CDN features.
+- **Flexibility**: This option is useful if you're hosting your content on your own infrastructure or on another cloud provider, and you want to use CloudFront for caching and CDN features.
 
-* * * * *
+---
 
 ### **CloudFront Origin Architecture**
 
@@ -11618,21 +11710,21 @@ CloudFront's architecture revolves around the relationship between **edge locati
 
 1.  **Edge Locations**:
 
-    -   CloudFront has a **global network of edge locations** distributed around the world. These locations cache the content closest to users to reduce latency and improve speed.
+    - CloudFront has a **global network of edge locations** distributed around the world. These locations cache the content closest to users to reduce latency and improve speed.
 
 2.  **Distributions**:
 
-    -   A **distribution** in CloudFront is a set of configurations that define how content is cached and delivered. Each distribution is associated with one or more origins.
+    - A **distribution** in CloudFront is a set of configurations that define how content is cached and delivered. Each distribution is associated with one or more origins.
 
-    -   A distribution can have multiple **cache behaviors**, allowing you to set specific caching rules for different content (e.g., cache images for longer periods, and APIs for shorter periods).
+    - A distribution can have multiple **cache behaviors**, allowing you to set specific caching rules for different content (e.g., cache images for longer periods, and APIs for shorter periods).
 
 3.  **Origins**:
 
-    -   The **origin** is where CloudFront pulls content from when the requested content is not cached at the edge.
+    - The **origin** is where CloudFront pulls content from when the requested content is not cached at the edge.
 
-    -   Each origin can be associated with a specific **cache behavior** to control how CloudFront interacts with that origin (e.g., TTL settings, whether to forward cookies, headers, etc.).
+    - Each origin can be associated with a specific **cache behavior** to control how CloudFront interacts with that origin (e.g., TTL settings, whether to forward cookies, headers, etc.).
 
-* * * * *
+---
 
 ### **S3 Origin Options for Restriction**
 
@@ -11642,21 +11734,21 @@ Here are the **options for restricting access** to an S3 bucket:
 
 #### **1\. Origin Access Identity (OAI)**
 
--   **What is OAI?**: An **Origin Access Identity (OAI)** is an AWS feature that helps you restrict access to your **S3 bucket** by allowing CloudFront to access it while preventing direct access from the public.
+- **What is OAI?**: An **Origin Access Identity (OAI)** is an AWS feature that helps you restrict access to your **S3 bucket** by allowing CloudFront to access it while preventing direct access from the public.
 
--   **How it Works**: When you use OAI, CloudFront fetches the content from your S3 bucket via an OAI, and users can only access the content through the CloudFront distribution, not directly via the S3 URL.
+- **How it Works**: When you use OAI, CloudFront fetches the content from your S3 bucket via an OAI, and users can only access the content through the CloudFront distribution, not directly via the S3 URL.
 
--   **Why it's important**: By using OAI, you ensure that only CloudFront can serve content from your S3 bucket, which adds a layer of security.
+- **Why it's important**: By using OAI, you ensure that only CloudFront can serve content from your S3 bucket, which adds a layer of security.
 
 #### **Steps to Use OAI with CloudFront and S3**:
 
 1.  **Create OAI in CloudFront**:
 
-    -   In the CloudFront console, go to **Origin Settings** and create a new **Origin Access Identity**.
+    - In the CloudFront console, go to **Origin Settings** and create a new **Origin Access Identity**.
 
 2.  **Update S3 Bucket Policy**:
 
-    -   After creating the OAI, update the S3 bucket policy to allow access only from CloudFront's OAI, and deny all other requests.
+    - After creating the OAI, update the S3 bucket policy to allow access only from CloudFront's OAI, and deny all other requests.
 
     Example S3 bucket policy to restrict access:
 
@@ -11682,7 +11774,7 @@ Here are the **options for restricting access** to an S3 bucket:
 
 3.  **Update CloudFront Distribution Settings**:
 
-    -   Ensure the S3 origin in the CloudFront distribution uses the **OAI** that you've created.
+    - Ensure the S3 origin in the CloudFront distribution uses the **OAI** that you've created.
 
 #### **2\. Bucket Policy for Restricting Access**
 
@@ -11713,21 +11805,21 @@ Example S3 Bucket Policy to restrict access:
 
 #### **3\. Signed URLs or Signed Cookies**
 
--   **Signed URLs**: You can use **signed URLs** to provide temporary access to private content stored in S3 and served through CloudFront. Signed URLs are typically used for controlling access to specific files for a limited time (e.g., a downloadable file, private media).
+- **Signed URLs**: You can use **signed URLs** to provide temporary access to private content stored in S3 and served through CloudFront. Signed URLs are typically used for controlling access to specific files for a limited time (e.g., a downloadable file, private media).
 
--   **Signed Cookies**: Similar to signed URLs, **signed cookies** allow granting temporary access to a set of files without exposing the URLs themselves.
+- **Signed Cookies**: Similar to signed URLs, **signed cookies** allow granting temporary access to a set of files without exposing the URLs themselves.
 
-* * * * *
+---
 
 ### **Summary of S3 Origin Restriction and OAI Importance**
 
--   **Origin Access Identity (OAI)** is the most secure and recommended method for restricting access to S3 content, ensuring that only CloudFront can access the bucket and serve the content.
+- **Origin Access Identity (OAI)** is the most secure and recommended method for restricting access to S3 content, ensuring that only CloudFront can access the bucket and serve the content.
 
--   **Bucket Policies** and **Signed URLs/Cookies** provide additional options for controlling access.
+- **Bucket Policies** and **Signed URLs/Cookies** provide additional options for controlling access.
 
--   **OAI** ensures that CloudFront is the only allowed entity to serve content from S3, making your setup more secure.
+- **OAI** ensures that CloudFront is the only allowed entity to serve content from S3, making your setup more secure.
 
-* * * * *
+---
 
 ### **Exam Powerups**
 
@@ -11739,11 +11831,11 @@ Example S3 Bucket Policy to restrict access:
 
 4.  **CloudFront** and **S3 integration** requires careful configuration of **permissions**, **cache behaviors**, and **OAI** for secure, performant content delivery.
 
-* * * * *
+---
 
 > You can als supply custom headers from the cloudfront for the origin
 
-* * * * *
+---
 
 ### **What is ACM?**
 
@@ -11751,149 +11843,149 @@ Example S3 Bucket Policy to restrict access:
 
 ACM makes it easier to manage these certificates across your AWS services, and it can automatically handle the lifecycle of certificates for you, including **renewals** and **deployment**.
 
-* * * * *
+---
 
 ### **Where is ACM Used?**
 
 1.  **CloudFront**:
 
-    -   **CloudFront** uses ACM certificates to enable **HTTPS** for your **CloudFront distributions**. This is important for serving content securely over the web (e.g., `https://www.example.com`).
+    - **CloudFront** uses ACM certificates to enable **HTTPS** for your **CloudFront distributions**. This is important for serving content securely over the web (e.g., `https://www.example.com`).
 
-    -   CloudFront requires certificates to be in **us-east-1** (North Virginia) for **global distributions**, even though CloudFront is a global service.
+    - CloudFront requires certificates to be in **us-east-1** (North Virginia) for **global distributions**, even though CloudFront is a global service.
 
 2.  **Elastic Load Balancer (ELB)**:
 
-    -   ELBs can use ACM certificates for **SSL/TLS termination**. This means SSL encryption can be offloaded to the ELB, and traffic between the client and ELB is encrypted.
+    - ELBs can use ACM certificates for **SSL/TLS termination**. This means SSL encryption can be offloaded to the ELB, and traffic between the client and ELB is encrypted.
 
-    -   After traffic hits the ELB, it can be forwarded to backend services (e.g., EC2, ECS) in plain HTTP.
+    - After traffic hits the ELB, it can be forwarded to backend services (e.g., EC2, ECS) in plain HTTP.
 
 3.  **API Gateway**:
 
-    -   **API Gateway** can use ACM certificates to secure your **custom domain names** for your APIs, enabling secure HTTPS communication.
+    - **API Gateway** can use ACM certificates to secure your **custom domain names** for your APIs, enabling secure HTTPS communication.
 
 4.  **Amazon CloudWatch (with ALB/ELB)**:
 
-    -   ACM can also be used for securing data in transit when using **CloudWatch** with ELBs or ALBs, ensuring encrypted communication between services.
+    - ACM can also be used for securing data in transit when using **CloudWatch** with ELBs or ALBs, ensuring encrypted communication between services.
 
 5.  **AWS Elastic Beanstalk**:
 
-    -   If you're deploying web applications with **Elastic Beanstalk**, you can associate ACM certificates with your application environment to secure web traffic over HTTPS.
+    - If you're deploying web applications with **Elastic Beanstalk**, you can associate ACM certificates with your application environment to secure web traffic over HTTPS.
 
 6.  **Route 53**:
 
-    -   ACM certificates are used with **Route 53** to secure custom domains and configure HTTPS with your resources (e.g., S3, CloudFront, ELB).
+    - ACM certificates are used with **Route 53** to secure custom domains and configure HTTPS with your resources (e.g., S3, CloudFront, ELB).
 
 7.  **Other AWS Services**:
 
-    -   Many other AWS services such as **Amazon WorkDocs**, **Amazon WorkSpaces**, **AWS IoT**, etc., also support ACM certificates to secure communications.
+    - Many other AWS services such as **Amazon WorkDocs**, **Amazon WorkSpaces**, **AWS IoT**, etc., also support ACM certificates to secure communications.
 
-* * * * *
+---
 
 ### **Why Use ACM?**
 
 1.  **Free SSL/TLS Certificates**:
 
-    -   ACM provides **free SSL/TLS certificates** for AWS resources, eliminating the need for purchasing and manually managing certificates from third-party certificate authorities.
+    - ACM provides **free SSL/TLS certificates** for AWS resources, eliminating the need for purchasing and manually managing certificates from third-party certificate authorities.
 
 2.  **Automatic Renewal**:
 
-    -   **Automatic certificate renewal** is handled by ACM, so there's no need to manually renew certificates before they expire.
+    - **Automatic certificate renewal** is handled by ACM, so there's no need to manually renew certificates before they expire.
 
-    -   ACM automatically renews certificates as long as the certificate is in use with a supported AWS service.
+    - ACM automatically renews certificates as long as the certificate is in use with a supported AWS service.
 
 3.  **Simplified Management**:
 
-    -   With ACM, managing the lifecycle of certificates (including issuance, renewal, and revocation) is simplified within the AWS ecosystem.
+    - With ACM, managing the lifecycle of certificates (including issuance, renewal, and revocation) is simplified within the AWS ecosystem.
 
-    -   You can easily **import** third-party certificates into ACM if you need to use certificates that were issued outside of AWS.
+    - You can easily **import** third-party certificates into ACM if you need to use certificates that were issued outside of AWS.
 
     - Manually imported certificates from the third party vendors has to be manually renewed by the user. AWS does not do the auto renewal of these certifications.
 
 4.  **Secure Communication**:
 
-    -   By integrating ACM with AWS services, you ensure **encrypted communication** using **SSL/TLS**, which helps protect sensitive data and secures web applications.
+    - By integrating ACM with AWS services, you ensure **encrypted communication** using **SSL/TLS**, which helps protect sensitive data and secures web applications.
 
 5.  **Integrates Seamlessly with AWS Services**:
 
-    -   ACM integrates natively with services like **CloudFront**, **ALB**, **API Gateway**, **Elastic Beanstalk**, and others, making it easier to deploy certificates and configure secure communications.
+    - ACM integrates natively with services like **CloudFront**, **ALB**, **API Gateway**, **Elastic Beanstalk**, and others, making it easier to deploy certificates and configure secure communications.
 
-* * * * *
+---
 
 ### **Key Characteristics of ACM**
 
 1.  **Regional vs Global Availability**:
 
-    -   **ACM is a regional service**. This means that certificates are created in specific AWS regions (e.g., `us-east-1`, `us-west-2`).
+    - **ACM is a regional service**. This means that certificates are created in specific AWS regions (e.g., `us-east-1`, `us-west-2`).
 
-    -   However, **CloudFront** requires that the ACM certificate be in **us-east-1** (North Virginia) for global distributions, even if your CloudFront distribution is deployed in other regions.
+    - However, **CloudFront** requires that the ACM certificate be in **us-east-1** (North Virginia) for global distributions, even if your CloudFront distribution is deployed in other regions.
 
 2.  **Types of Certificates**:
 
-    -   **Public Certificates**: These certificates are used for securing websites or public-facing resources. They are issued by **ACM** and trusted by browsers and operating systems.
+    - **Public Certificates**: These certificates are used for securing websites or public-facing resources. They are issued by **ACM** and trusted by browsers and operating systems.
 
-    -   **Private Certificates**: ACM also provides a feature called **ACM Private Certificate Authority (CA)**, which allows you to create and manage private certificates for internal use within your organization.
+    - **Private Certificates**: ACM also provides a feature called **ACM Private Certificate Authority (CA)**, which allows you to create and manage private certificates for internal use within your organization.
 
 3.  **SSL/TLS Protocol Support**:
 
-    -   ACM certificates support **SSL/TLS** and can be used for enabling **HTTPS** connections for web applications.
+    - ACM certificates support **SSL/TLS** and can be used for enabling **HTTPS** connections for web applications.
 
-    -   ACM supports protocols such as **TLS 1.2**, **TLS 1.1**, and **SSL** versions for secure communication.
+    - ACM supports protocols such as **TLS 1.2**, **TLS 1.1**, and **SSL** versions for secure communication.
 
 4.  **Automated Certificate Renewal**:
 
-    -   ACM automatically manages the renewal process for certificates issued by ACM, ensuring that you don't need to worry about expiration or manually renewing certificates.
+    - ACM automatically manages the renewal process for certificates issued by ACM, ensuring that you don't need to worry about expiration or manually renewing certificates.
 
 5.  **Third-Party Certificate Import**:
 
-    -   If you already have SSL/TLS certificates from another provider, ACM allows you to import those third-party certificates into the service.
+    - If you already have SSL/TLS certificates from another provider, ACM allows you to import those third-party certificates into the service.
 
 6.  **Access Control**:
 
-    -   You can control who has access to manage and use your certificates via **AWS IAM** (Identity and Access Management) roles and policies.
+    - You can control who has access to manage and use your certificates via **AWS IAM** (Identity and Access Management) roles and policies.
 
 7.  **Support for Custom Domain Names**:
 
-    -   ACM supports **custom domain names** for securing web traffic. You can configure ACM certificates for your custom domains and integrate them with services like **CloudFront** or **API Gateway**.
+    - ACM supports **custom domain names** for securing web traffic. You can configure ACM certificates for your custom domains and integrate them with services like **CloudFront** or **API Gateway**.
 
-* * * * *
+---
 
 ### **How ACM Works with CloudFront**
 
 1.  **Request an SSL/TLS Certificate**:
 
-    -   When setting up **CloudFront**, you can request a certificate from ACM for your custom domain (e.g., `www.example.com`).
+    - When setting up **CloudFront**, you can request a certificate from ACM for your custom domain (e.g., `www.example.com`).
 
-    -   This certificate will be used for SSL/TLS termination at CloudFront's edge locations.
+    - This certificate will be used for SSL/TLS termination at CloudFront's edge locations.
 
 2.  **Configure CloudFront to Use the ACM Certificate**:
 
-    -   Once the certificate is issued by ACM, you configure your **CloudFront distribution** to use that certificate for HTTPS communication.
+    - Once the certificate is issued by ACM, you configure your **CloudFront distribution** to use that certificate for HTTPS communication.
 
-    -   This means when a user accesses your site via `https://www.example.com`, CloudFront will use the ACM certificate to encrypt the traffic.
+    - This means when a user accesses your site via `https://www.example.com`, CloudFront will use the ACM certificate to encrypt the traffic.
 
 3.  **CloudFront and Regional Requirements**:
 
-    -   Remember, CloudFront is a **global service**, but **ACM certificates must be in us-east-1** for global CloudFront distributions.
+    - Remember, CloudFront is a **global service**, but **ACM certificates must be in us-east-1** for global CloudFront distributions.
 
-    -   **CloudFront** pulls the certificate from **us-east-1** and serves the content securely over HTTPS.
+    - **CloudFront** pulls the certificate from **us-east-1** and serves the content securely over HTTPS.
 
-* * * * *
+---
 
 ### **SSL/TLS Connection Overview**
 
 1.  **Viewer to CloudFront**:
 
-    -   This connection is secured using **SSL/TLS** with the **ACM certificate** to ensure data is encrypted between the user's browser and CloudFront.
+    - This connection is secured using **SSL/TLS** with the **ACM certificate** to ensure data is encrypted between the user's browser and CloudFront.
 
-    -   CloudFront uses the certificate to establish a secure connection via HTTPS.
+    - CloudFront uses the certificate to establish a secure connection via HTTPS.
 
 2.  **CloudFront to Origin (S3, ELB, EC2)**:
 
-    -   If the communication between CloudFront and your origin (e.g., **S3**, **EC2**, or **ALB**) also needs to be secured, you can configure SSL/TLS between CloudFront and the origin.
+    - If the communication between CloudFront and your origin (e.g., **S3**, **EC2**, or **ALB**) also needs to be secured, you can configure SSL/TLS between CloudFront and the origin.
 
-    -   This means CloudFront retrieves content from the origin over an encrypted channel, ensuring secure communication end-to-end.
+    - This means CloudFront retrieves content from the origin over an encrypted channel, ensuring secure communication end-to-end.
 
-* * * * *
+---
 
 ### **Key ACM Exam Points**
 
@@ -11907,7 +11999,7 @@ ACM makes it easier to manage these certificates across your AWS services, and i
 
 5.  You can also use **ACM Private CA** for managing internal certificates.
 
-* * * * *
+---
 
 ### **Exam Powerups**
 
@@ -11919,43 +12011,46 @@ ACM makes it easier to manage these certificates across your AWS services, and i
 
 4.  **Viewer to CloudFront** and **CloudFront to origin** connections can be secured with **SSL/TLS certificates** managed by ACM.
 
-* * * * *
-
+---
 
 There are certain AWS services that **do not support ACM certificates** directly, or require workarounds or alternative methods for managing SSL/TLS certificates. Below is a detailed explanation of **services that are not supported for ACM** and the reasons behind these limitations.
 
 ---
 
-
-
-
 ### **Services Not Directly Supported for ACM Certificates**
 
 1. **AWS Elastic Beanstalk (EB)**:
+
    - **Reason**: **Elastic Beanstalk** does not natively integrate with ACM for managing SSL certificates. While you can configure SSL/TLS certificates manually for your environment using Elastic Load Balancer (ELB), it doesn’t fully support direct integration with ACM. Elastic Beanstalk environments often require manual updates to SSL/TLS certificates (using ELB) or importing them into **AWS IAM**.
    - **Workaround**: You can integrate **ACM** certificates with Elastic Beanstalk by configuring your environment’s **Load Balancer** or **EC2 instances** with ACM certificates. You need to manually associate the ACM certificate with the ELB in the environment.
 
 2. **Amazon CloudWatch Logs**:
+
    - **Reason**: **CloudWatch Logs** do not require SSL/TLS certificates because they are designed for monitoring, logging, and metrics. CloudWatch uses AWS internal secure communication channels for its operations.
    - **Workaround**: SSL/TLS certificates are not required for CloudWatch Logs as they are not directly involved in end-user communication. You would use HTTPS endpoints to send data, but CloudWatch itself does not need certificates managed by ACM.
 
 3. **AWS IoT Core (Direct Device Communication)**:
+
    - **Reason**: While **AWS IoT Core** supports TLS for device-to-cloud communication, it does not support using ACM certificates directly for device-side communication (e.g., devices communicating with AWS IoT). Instead, it uses **X.509 certificates** for authentication.
    - **Workaround**: ACM can be used indirectly through the integration of **AWS IoT** with **Amazon API Gateway** or other services, but IoT devices themselves cannot directly use ACM certificates. AWS IoT uses its own **IoT certificate management** for devices.
 
 4. **AWS Lambda (Direct Integration with HTTPS)**:
+
    - **Reason**: **AWS Lambda** does not support direct integration with ACM for **HTTPS certificates**. While Lambda functions can be triggered by **API Gateway** or **ALB**, which can use ACM certificates, Lambda itself does not handle SSL/TLS directly for communication.
    - **Workaround**: You can set up **API Gateway** or an **Application Load Balancer (ALB)** to handle HTTPS termination, using ACM certificates for secure communication with Lambda, but Lambda itself doesn't directly manage certificates.
 
 5. **Amazon RDS (For SQL Clients)**:
+
    - **Reason**: While **Amazon RDS** supports SSL/TLS encryption for database connections, it does not integrate directly with ACM for managing SSL certificates. Instead, RDS uses certificates issued by **Amazon RDS Certificate Authority**.
    - **Workaround**: You can download the RDS public certificate and configure your RDS instance to accept secure connections using SSL/TLS. However, ACM cannot be used directly to manage certificates for RDS database connections.
 
 6. **Amazon S3 Static Website Hosting**:
+
    - **Reason**: **Amazon S3 static website hosting** doesn’t support ACM certificates directly because S3 static website hosting does not support HTTPS. S3 only supports HTTP for static websites.
    - **Workaround**: To serve static content over HTTPS, you would typically use **CloudFront** in front of your S3 bucket. CloudFront can use ACM certificates to deliver content over HTTPS, but S3 itself does not directly support ACM.
 
 7. **Amazon SNS (Simple Notification Service)**:
+
    - **Reason**: **SNS** uses **AWS internal endpoints** and doesn’t provide direct support for SSL/TLS certificates through ACM for **SNS topic subscriptions**. SNS operates with **AWS IAM** policies for access control.
    - **Workaround**: If you need to send notifications securely (e.g., via HTTPS), you would configure your **HTTPS endpoint** or subscribe your service to SNS with **IAM authentication**.
 
@@ -11984,7 +12079,6 @@ There are certain AWS services that **do not support ACM certificates** directly
 ### **How to Work Around ACM Limitations**
 
 - For services like **Elastic Beanstalk**, **RDS**, and **Lambda**, you can typically use other methods (like configuring **Load Balancers** with ACM) to achieve SSL/TLS encryption, even though ACM may not be used directly.
-  
 - **CloudFront** is often used as a front-end service to **serve secure content** via HTTPS, even for services that do not directly integrate with ACM (e.g., for **S3**, **API Gateway**, etc.).
 
 ---
@@ -11996,10 +12090,10 @@ There are certain AWS services that **do not support ACM certificates** directly
 3. For **AWS IoT**, you will need to use **X.509 certificates** for devices, as ACM does not directly manage them.
 4. **Amazon S3 static website hosting** does not support **ACM certificates** directly, but you can use **CloudFront** to serve HTTPS content from S3.
 5. **EC2** also does not use ACM directly but can achieve through an ALB
+
 ---
 
-
-* * * * *
+---
 
 ### **CloudFront Security: Origin Access Identity (OAI)**
 
@@ -12007,9 +12101,9 @@ There are certain AWS services that **do not support ACM certificates** directly
 
 #### **Why Use OAI?**
 
--   **Prevent Public Access to S3**: Without OAI, S3 buckets are publicly accessible, meaning anyone who knows the URL can access the content. With OAI, only CloudFront can access the S3 bucket directly, and end-users must go through CloudFront.
+- **Prevent Public Access to S3**: Without OAI, S3 buckets are publicly accessible, meaning anyone who knows the URL can access the content. With OAI, only CloudFront can access the S3 bucket directly, and end-users must go through CloudFront.
 
--   **Security**: By using OAI, you add an additional layer of security by ensuring that your S3 content is not directly exposed to the internet. It makes your bucket contents accessible only via CloudFront.
+- **Security**: By using OAI, you add an additional layer of security by ensuring that your S3 content is not directly exposed to the internet. It makes your bucket contents accessible only via CloudFront.
 
 #### **How OAI Works**
 
@@ -12025,11 +12119,11 @@ There are certain AWS services that **do not support ACM certificates** directly
 
 1.  **Create OAI in CloudFront**:
 
-    -   In CloudFront, go to **Origins** and select **Create Origin Access Identity**. This generates an identity CloudFront will use to access the S3 bucket.
+    - In CloudFront, go to **Origins** and select **Create Origin Access Identity**. This generates an identity CloudFront will use to access the S3 bucket.
 
 2.  **Update S3 Bucket Policy**:
 
-    -   In the **S3 bucket permissions**, update the bucket policy to allow only CloudFront's OAI to access the content.
+    - In the **S3 bucket permissions**, update the bucket policy to allow only CloudFront's OAI to access the content.
 
     Example policy:
 
@@ -12055,9 +12149,9 @@ There are certain AWS services that **do not support ACM certificates** directly
 
 3.  **CloudFront Access**:
 
-    -   CloudFront now serves the S3 content, and users cannot access the content directly from S3. Only CloudFront can fetch the content from S3 using the OAI.
+    - CloudFront now serves the S3 content, and users cannot access the content directly from S3. Only CloudFront can fetch the content from S3 using the OAI.
 
-* * * * *
+---
 
 ### **1\. Custom Headers for Security**
 
@@ -12065,23 +12159,23 @@ When you set up **CloudFront with a custom origin**, you can configure **custom 
 
 #### **How Custom Headers Work**:
 
--   **CloudFront Custom Headers** are useful when you want to implement additional checks on your custom origin, like verifying that requests come from CloudFront and not directly from other sources.
+- **CloudFront Custom Headers** are useful when you want to implement additional checks on your custom origin, like verifying that requests come from CloudFront and not directly from other sources.
 
--   You can set up these headers in CloudFront's **Cache Behavior** configuration, so every request that CloudFront forwards to the origin includes specific headers.
+- You can set up these headers in CloudFront's **Cache Behavior** configuration, so every request that CloudFront forwards to the origin includes specific headers.
 
 #### **Use Cases for Custom Headers**:
 
 1.  **Validating Requests**:
 
-    -   You can send a **custom header** (e.g., `X-CloudFront-Request-ID`) to your origin, and your origin can validate this header to ensure the request is coming from CloudFront.
+    - You can send a **custom header** (e.g., `X-CloudFront-Request-ID`) to your origin, and your origin can validate this header to ensure the request is coming from CloudFront.
 
 2.  **Authorization**:
 
-    -   If you need to control access to certain resources on your origin, you can add custom authorization tokens or API keys as headers that the origin will check before serving the request.
+    - If you need to control access to certain resources on your origin, you can add custom authorization tokens or API keys as headers that the origin will check before serving the request.
 
 3.  **Secure Access**:
 
-    -   You can add a **secret key** as a custom header to verify that requests are legitimate and come from CloudFront.
+    - You can add a **secret key** as a custom header to verify that requests are legitimate and come from CloudFront.
 
 #### **Example: Setting Custom Headers in CloudFront**:
 
@@ -12091,17 +12185,17 @@ When you set up **CloudFront with a custom origin**, you can configure **custom 
 
     Example configuration:
 
-    -   **Custom Header**: `X-CloudFront-Request-ID`
+    - **Custom Header**: `X-CloudFront-Request-ID`
 
-    -   **Value**: A unique string generated by CloudFront or your application.
+    - **Value**: A unique string generated by CloudFront or your application.
 
 3.  The custom headers will then be passed along with requests to your origin server, where you can check for them in your application code or web server configuration.
 
 #### **Security Example**:
 
--   **X-CloudFront-Request-ID**: A custom header might be added to all requests from CloudFront to your EC2 instance. You could then implement a security policy on your origin server that only allows requests that contain this header with a valid ID.
+- **X-CloudFront-Request-ID**: A custom header might be added to all requests from CloudFront to your EC2 instance. You could then implement a security policy on your origin server that only allows requests that contain this header with a valid ID.
 
-* * * * *
+---
 
 ### **2\. CIDR Restriction for IP Access Control**
 
@@ -12109,73 +12203,73 @@ CloudFront's **edge locations** are distributed globally, and you may want to re
 
 #### **What are CIDR Restrictions?**
 
--   **CIDR (Classless Inter-Domain Routing)** blocks represent a range of IP addresses. When you configure CIDR restrictions on your custom origin, you allow only requests from CloudFront's edge locations or other specific IP addresses to reach your origin.
+- **CIDR (Classless Inter-Domain Routing)** blocks represent a range of IP addresses. When you configure CIDR restrictions on your custom origin, you allow only requests from CloudFront's edge locations or other specific IP addresses to reach your origin.
 
 #### **Why Use CIDR Restrictions?**
 
--   **Enhancing Security**: By restricting access to only CloudFront's edge locations, you prevent direct access to your origin from anywhere other than CloudFront. This ensures that only CloudFront can retrieve content from your origin.
+- **Enhancing Security**: By restricting access to only CloudFront's edge locations, you prevent direct access to your origin from anywhere other than CloudFront. This ensures that only CloudFront can retrieve content from your origin.
 
--   **Prevent Unauthorized Access**: If you want to prevent unauthorized access to your origin from outside the CloudFront network, you can configure CIDR restrictions to only accept requests from CloudFront's edge IP addresses.
+- **Prevent Unauthorized Access**: If you want to prevent unauthorized access to your origin from outside the CloudFront network, you can configure CIDR restrictions to only accept requests from CloudFront's edge IP addresses.
 
 #### **How to Use CIDR Restrictions**:
 
 1.  **Obtain CloudFront's IP Range**:
 
-    -   CloudFront's edge locations have a specific **range of IP addresses** that you can restrict access to. AWS publishes the list of CloudFront's IP address ranges, which you can use for CIDR restrictions.
+    - CloudFront's edge locations have a specific **range of IP addresses** that you can restrict access to. AWS publishes the list of CloudFront's IP address ranges, which you can use for CIDR restrictions.
 
-    -   AWS provides the IP address ranges for all AWS services, including CloudFront, in a **JSON file** that can be downloaded from AWS:
+    - AWS provides the IP address ranges for all AWS services, including CloudFront, in a **JSON file** that can be downloaded from AWS:
 
-        -   [AWS IP Ranges](https://ip-ranges.amazonaws.com/ip-ranges.json)
+      - [AWS IP Ranges](https://ip-ranges.amazonaws.com/ip-ranges.json)
 
 2.  **Restrict Origin Access**:
 
-    -   If you're using an **EC2 instance** or a **custom server** as the origin, you can configure **Security Groups** or **Network ACLs** to accept traffic only from the IP ranges associated with CloudFront's edge locations.
+    - If you're using an **EC2 instance** or a **custom server** as the origin, you can configure **Security Groups** or **Network ACLs** to accept traffic only from the IP ranges associated with CloudFront's edge locations.
 
-    -   For example, configure the security group on an EC2 instance to only accept inbound HTTP/HTTPS requests from CloudFront's IP ranges.
+    - For example, configure the security group on an EC2 instance to only accept inbound HTTP/HTTPS requests from CloudFront's IP ranges.
 
     Example Security Group configuration:
 
-    -   **Inbound Rule**:
+    - **Inbound Rule**:
 
-        -   Type: HTTP (Port 80) or HTTPS (Port 443)
+      - Type: HTTP (Port 80) or HTTPS (Port 443)
 
-        -   Source: CloudFront's **CIDR block**
+      - Source: CloudFront's **CIDR block**
 
 3.  **CloudFront's IP Ranges**:
 
-    -   CloudFront uses IP ranges from multiple AWS regions. You need to configure your firewall, security group, or network ACL to accept traffic only from these ranges.
+    - CloudFront uses IP ranges from multiple AWS regions. You need to configure your firewall, security group, or network ACL to accept traffic only from these ranges.
 
 #### **Example CIDR Block Restriction**:
 
--   Assume CloudFront's IP range for edge locations is `205.251.192.0/22`. You would configure your **Security Group** or **Firewall** to allow access to the origin only from this range.
+- Assume CloudFront's IP range for edge locations is `205.251.192.0/22`. You would configure your **Security Group** or **Firewall** to allow access to the origin only from this range.
 
 Example for an EC2 instance security group:
 
--   **Inbound Rule**: Allow HTTP/HTTPS from `205.251.192.0/22`.
+- **Inbound Rule**: Allow HTTP/HTTPS from `205.251.192.0/22`.
 
-* * * * *
+---
 
 ### **Summary of Security Methods for Custom Origins in CloudFront**
 
 1.  **Origin Access Identity (OAI)**:
 
-    -   Ensures that content in an **S3 bucket** can only be accessed through CloudFront and not directly via S3 URLs.
+    - Ensures that content in an **S3 bucket** can only be accessed through CloudFront and not directly via S3 URLs.
 
-    -   Increases security by restricting direct access to the origin and controlling how users interact with the content.
+    - Increases security by restricting direct access to the origin and controlling how users interact with the content.
 
 2.  **Custom Headers**:
 
-    -   Custom headers can be used to secure communication between **CloudFront** and your **custom origin**. This can help with **authorization**, **access control**, and **secure communication**.
+    - Custom headers can be used to secure communication between **CloudFront** and your **custom origin**. This can help with **authorization**, **access control**, and **secure communication**.
 
-    -   You can pass headers like `Authorization` or custom tokens that the origin can validate before serving content.
+    - You can pass headers like `Authorization` or custom tokens that the origin can validate before serving content.
 
 3.  **CIDR Restrictions**:
 
-    -   Limit access to your **custom origin** (e.g., EC2) by only allowing requests from **CloudFront edge locations**.
+    - Limit access to your **custom origin** (e.g., EC2) by only allowing requests from **CloudFront edge locations**.
 
-    -   Configure **Security Groups** or **Network ACLs** to allow access only from CloudFront's **IP address ranges**.
+    - Configure **Security Groups** or **Network ACLs** to allow access only from CloudFront's **IP address ranges**.
 
-* * * * *
+---
 
 ### **Exam Powerups**
 
@@ -12187,15 +12281,15 @@ Example for an EC2 instance security group:
 
 4.  **CloudFront's IP ranges** can be obtained from AWS's published list, and these ranges can be used in **Security Groups** or **Network ACLs** to secure your origin.
 
-* * * * *
+---
 
 A **Private CloudFront Distribution** is used to restrict access to content that is delivered via **CloudFront**. With a private distribution, you can make sure that only specific users or applications have access to the content being served, while others are denied access.
 
 The most common use cases for a **private CloudFront distribution** are:
 
--   **Restricting access to content** that is meant for a select group of users.
+- **Restricting access to content** that is meant for a select group of users.
 
--   **Securing content** from being exposed to the public internet (e.g., for **paid** media content, **private downloads**, or **user-specific files**).
+- **Securing content** from being exposed to the public internet (e.g., for **paid** media content, **private downloads**, or **user-specific files**).
 
 ### Key Methods for Creating a Private CloudFront Distribution
 
@@ -12203,46 +12297,45 @@ There are a few important ways to create a private distribution:
 
 1.  **Using Signed URLs or Signed Cookies**:
 
-    -   To grant access to specific users or devices, you can use **signed URLs** or **signed cookies** to allow them access to the content in CloudFront.
+    - To grant access to specific users or devices, you can use **signed URLs** or **signed cookies** to allow them access to the content in CloudFront.
 
 2.  **Restricting Access with AWS IAM**:
 
-    -   You can restrict who can access your CloudFront content by using **IAM** (Identity and Access Management) policies to control which users or services can interact with your CloudFront distribution.
+    - You can restrict who can access your CloudFront content by using **IAM** (Identity and Access Management) policies to control which users or services can interact with your CloudFront distribution.
 
 3.  **Using Origin Access Identity (OAI)**:
 
-    -   **OAI** ensures that CloudFront can access content stored in your **S3 bucket** without exposing the S3 bucket URL to the public. With OAI, only CloudFront can retrieve content from the S3 bucket, ensuring that direct access to S3 is denied.
+    - **OAI** ensures that CloudFront can access content stored in your **S3 bucket** without exposing the S3 bucket URL to the public. With OAI, only CloudFront can retrieve content from the S3 bucket, ensuring that direct access to S3 is denied.
 
 4.  **Restricting Access with Geo-blocking**:
 
-    -   You can configure your CloudFront distribution to only allow access from specific **geographic locations** (regions or countries), using **geolocation routing** to prevent access from users outside your selected locations.
+    - You can configure your CloudFront distribution to only allow access from specific **geographic locations** (regions or countries), using **geolocation routing** to prevent access from users outside your selected locations.
 
-* * * * *
+---
 
 ### **Detailed Explanation of Private CloudFront Distributions**
 
 1.  **Signed URLs and Signed Cookies**:\
     Signed URLs and cookies provide a method to control access to your content in CloudFront.
 
-    -   **Signed URLs**:
+    - **Signed URLs**:
 
-        -   Signed URLs are typically used when you want to give access to a specific resource for a limited time.
+      - Signed URLs are typically used when you want to give access to a specific resource for a limited time.
 
-        -   For example, when you want to give a user a temporary link to a video or document, you generate a signed URL that includes an expiration time and any other conditions (such as IP address restrictions).
+      - For example, when you want to give a user a temporary link to a video or document, you generate a signed URL that includes an expiration time and any other conditions (such as IP address restrictions).
 
-    -   **Signed Cookies**:
+    - **Signed Cookies**:
 
-        -   Signed cookies are used when you want to provide access to multiple files (like an entire video or protected section of a website) for a specific period of time.
+      - Signed cookies are used when you want to provide access to multiple files (like an entire video or protected section of a website) for a specific period of time.
 
-        -   They are stored in the user's browser and sent with each request, and they work across multiple URLs (e.g., if you have several video files that are all restricted).
+      - They are stored in the user's browser and sent with each request, and they work across multiple URLs (e.g., if you have several video files that are all restricted).
 
     **How to use Signed URLs and Cookies**:
 
-    -   To use signed URLs and cookies, you need to configure **CloudFront** to only accept signed URLs or cookies.
+    - To use signed URLs and cookies, you need to configure **CloudFront** to only accept signed URLs or cookies.
 
-    -   You'll need to create a **CloudFront key pair** (public and private keys). The private key is used to generate the signed URL or cookie, and the public key is used by CloudFront to validate the URL or cookie.
+    - You'll need to create a **CloudFront key pair** (public and private keys). The private key is used to generate the signed URL or cookie, and the public key is used by CloudFront to validate the URL or cookie.
 
-  
 The difference between **Signed URLs** and **Signed Cookies** in **CloudFront** is primarily about how they are used to grant access to secure content and what type of content they apply to. Both signed URLs and signed cookies help control access to restricted content, but they work in different ways and are suited for different use cases.
 
 ### **Signed URL**
@@ -12251,25 +12344,25 @@ A **Signed URL** is used to grant access to a **single file or resource** for a 
 
 #### **Characteristics of Signed URL**:
 
--   **One-Time Use**: Signed URLs are typically used for granting access to a **single file** or resource.
+- **One-Time Use**: Signed URLs are typically used for granting access to a **single file** or resource.
 
--   **Expiration Time**: Signed URLs can have an **expiration time**, after which they no longer work. The URL can also be restricted to specific **IP addresses**.
+- **Expiration Time**: Signed URLs can have an **expiration time**, after which they no longer work. The URL can also be restricted to specific **IP addresses**.
 
--   **Security**: The URL includes a **signature** created using a **private key**. This signature proves that the URL was generated by someone with access to the private key, which is typically kept in a secure location (e.g., AWS IAM).
+- **Security**: The URL includes a **signature** created using a **private key**. This signature proves that the URL was generated by someone with access to the private key, which is typically kept in a secure location (e.g., AWS IAM).
 
 #### **When to Use Signed URL**:
 
--   **For Single Files or Resources**: Use signed URLs when you want to grant access to a **specific file** or resource (e.g., a single video, image, or document).
+- **For Single Files or Resources**: Use signed URLs when you want to grant access to a **specific file** or resource (e.g., a single video, image, or document).
 
--   **Time-Limited Access**: When you need to restrict access for a **short period** (e.g., access to a document or video for one hour).
+- **Time-Limited Access**: When you need to restrict access for a **short period** (e.g., access to a document or video for one hour).
 
--   **Direct Access to Content**: If the user needs to access only one resource, such as a specific video file, and you don't want them to access other content, a signed URL is the best choice.
+- **Direct Access to Content**: If the user needs to access only one resource, such as a specific video file, and you don't want them to access other content, a signed URL is the best choice.
 
 #### **Example Use Case for Signed URL**:
 
--   You are serving a **private video** that should only be accessible for a limited time. You generate a **signed URL** with an expiration time of 1 hour. The user clicks the link and is granted access to the video for that period.
+- You are serving a **private video** that should only be accessible for a limited time. You generate a **signed URL** with an expiration time of 1 hour. The user clicks the link and is granted access to the video for that period.
 
-* * * * *
+---
 
 ### **Signed Cookies**
 
@@ -12277,58 +12370,58 @@ A **Signed URL** is used to grant access to a **single file or resource** for a 
 
 #### **Characteristics of Signed Cookies**:
 
--   **Multiple Files**: Signed cookies are ideal when you need to control access to **multiple files** (e.g., an entire **video playlist**, **set of documents**, or **secure website content**).
+- **Multiple Files**: Signed cookies are ideal when you need to control access to **multiple files** (e.g., an entire **video playlist**, **set of documents**, or **secure website content**).
 
--   **Shared Access**: Signed cookies are sent as part of the HTTP request headers and allow the user to access multiple resources in the same session.
+- **Shared Access**: Signed cookies are sent as part of the HTTP request headers and allow the user to access multiple resources in the same session.
 
--   **Expiration**: Like signed URLs, signed cookies also have an **expiration time** but can cover multiple resources in a single request.
+- **Expiration**: Like signed URLs, signed cookies also have an **expiration time** but can cover multiple resources in a single request.
 
 #### **When to Use Signed Cookies**:
 
--   **For Multiple Files or Resources**: If you want users to have access to multiple resources under the same **CloudFront distribution** (e.g., several files in a media gallery, API endpoints, or a series of videos), use signed cookies.
+- **For Multiple Files or Resources**: If you want users to have access to multiple resources under the same **CloudFront distribution** (e.g., several files in a media gallery, API endpoints, or a series of videos), use signed cookies.
 
--   **Session-Based Access**: Signed cookies are ideal when access needs to last for a session or a period, where the user is accessing different resources (e.g., video streaming platforms, paid content) during that session.
+- **Session-Based Access**: Signed cookies are ideal when access needs to last for a session or a period, where the user is accessing different resources (e.g., video streaming platforms, paid content) during that session.
 
--   **Convenient for Users**: Users don't have to click different links for each resource; they can access all files for as long as the cookie remains valid.
+- **Convenient for Users**: Users don't have to click different links for each resource; they can access all files for as long as the cookie remains valid.
 
 #### **Example Use Case for Signed Cookies**:
 
--   A **video streaming service** wants to let a user watch an entire **playlist** of videos for an hour. Rather than generating individual signed URLs for each video, you generate **signed cookies** that give access to all the videos in the playlist for the duration of the session.
+- A **video streaming service** wants to let a user watch an entire **playlist** of videos for an hour. Rather than generating individual signed URLs for each video, you generate **signed cookies** that give access to all the videos in the playlist for the duration of the session.
 
-* * * * *
+---
 
 ### **Key Differences Between Signed URLs and Signed Cookies**
 
-| **Feature** | **Signed URL** | **Signed Cookies** |
-| --- | --- | --- |
-| **Access Type** | Grants access to **one specific resource** (file). | Grants access to **multiple resources** (e.g., a set of files or an entire website). |
-| **Use Case** | Ideal for **one-time access** to a file or resource. | Ideal for **session-based access** to multiple resources. |
-| **Expiration** | Has an **expiration time** for each URL. | Has an **expiration time** for the session (affects all resources accessed via cookies). |
-| **Cookie Storage** | Not required, only a URL. | Requires **cookies** to be stored in the user's browser. |
-| **Security** | URL contains a **signature** that ensures access is valid. | Cookies contain a **signature** that validates the session's access to the resources. |
-| **Example Use Case** | One video file that should be available for 1 hour. | A collection of videos or an entire website that should be accessible during the session. |
+| **Feature**          | **Signed URL**                                             | **Signed Cookies**                                                                        |
+| -------------------- | ---------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| **Access Type**      | Grants access to **one specific resource** (file).         | Grants access to **multiple resources** (e.g., a set of files or an entire website).      |
+| **Use Case**         | Ideal for **one-time access** to a file or resource.       | Ideal for **session-based access** to multiple resources.                                 |
+| **Expiration**       | Has an **expiration time** for each URL.                   | Has an **expiration time** for the session (affects all resources accessed via cookies).  |
+| **Cookie Storage**   | Not required, only a URL.                                  | Requires **cookies** to be stored in the user's browser.                                  |
+| **Security**         | URL contains a **signature** that ensures access is valid. | Cookies contain a **signature** that validates the session's access to the resources.     |
+| **Example Use Case** | One video file that should be available for 1 hour.        | A collection of videos or an entire website that should be accessible during the session. |
 
-* * * * *
+---
 
 ### **When to Use Each (Summary)**
 
--   **Signed URL**:
+- **Signed URL**:
 
-    -   When you need to **secure access** to a **single resource** or **file** (e.g., a document, video, or image).
+  - When you need to **secure access** to a **single resource** or **file** (e.g., a document, video, or image).
 
-    -   When the access period is **limited** and specific to that file (e.g., allowing access to a file for 1 hour).
+  - When the access period is **limited** and specific to that file (e.g., allowing access to a file for 1 hour).
 
-    -   Good for **temporary access** to a specific piece of content without needing the user to authenticate or access multiple items.
+  - Good for **temporary access** to a specific piece of content without needing the user to authenticate or access multiple items.
 
--   **Signed Cookies**:
+- **Signed Cookies**:
 
-    -   When you need to provide **access to multiple resources** (e.g., several videos, API endpoints, or a section of a website).
+  - When you need to provide **access to multiple resources** (e.g., several videos, API endpoints, or a section of a website).
 
-    -   When you want to grant **session-based access** for a period (e.g., an hour-long session where a user watches a series of videos).
+  - When you want to grant **session-based access** for a period (e.g., an hour-long session where a user watches a series of videos).
 
-    -   Suitable for **streaming content** or protecting a **group of resources** under the same CloudFront distribution.
+  - Suitable for **streaming content** or protecting a **group of resources** under the same CloudFront distribution.
 
-* * * * *
+---
 
 ### **Exam Powerups**
 
@@ -12340,23 +12433,19 @@ A **Signed URL** is used to grant access to a **single file or resource** for a 
 
 4.  You can combine **signed URLs** and **signed cookies** for different use cases, depending on whether you need to secure individual files or a series of files under the same session.
 
-* * * * *
-
-
-
-
+---
 
 2.  **Origin Access Identity (OAI) for S3 Bucket Security**:
 
-    -   To ensure that CloudFront serves content from an S3 bucket and not directly from the public S3 endpoint, you can use **Origin Access Identity (OAI)**.
+    - To ensure that CloudFront serves content from an S3 bucket and not directly from the public S3 endpoint, you can use **Origin Access Identity (OAI)**.
 
-    -   With OAI, CloudFront acts as the **only authorized entity** to access your **S3 bucket**.
+    - With OAI, CloudFront acts as the **only authorized entity** to access your **S3 bucket**.
 
-    -   The steps are:
+    - The steps are:
 
-        1.  **Create an OAI** in CloudFront.
+      1.  **Create an OAI** in CloudFront.
 
-        2.  **Update your S3 bucket policy** to grant access to CloudFront's OAI and deny public access to the S3 bucket.
+      2.  **Update your S3 bucket policy** to grant access to CloudFront's OAI and deny public access to the S3 bucket.
 
     Example S3 Bucket Policy with OAI:
 
@@ -12382,23 +12471,23 @@ A **Signed URL** is used to grant access to a **single file or resource** for a 
 
 3.  **Restricting Access with Geo-blocking**:
 
-    -   You can use **geolocation-based access control** to restrict users based on their geographic location (country, region, etc.). For example, you might want to restrict access to your content to certain countries or regions.
+    - You can use **geolocation-based access control** to restrict users based on their geographic location (country, region, etc.). For example, you might want to restrict access to your content to certain countries or regions.
 
-    -   You can configure this in CloudFront by selecting **Geo-restriction** under the distribution settings.
+    - You can configure this in CloudFront by selecting **Geo-restriction** under the distribution settings.
 
     **Steps**:
 
-    -   Go to the **CloudFront console**, and under your distribution's **Restrictions** tab, enable **Geo-Restriction**.
+    - Go to the **CloudFront console**, and under your distribution's **Restrictions** tab, enable **Geo-Restriction**.
 
-    -   You can either **whitelist** countries to allow access or **blacklist** countries to block access.
+    - You can either **whitelist** countries to allow access or **blacklist** countries to block access.
 
 4.  **IAM Permissions for Private Distributions**:
 
-    -   You can control who has access to CloudFront distributions through **IAM** policies. However, this is more applicable when using **AWS services** such as **CloudFront to S3** or **CloudFront to EC2**.
+    - You can control who has access to CloudFront distributions through **IAM** policies. However, this is more applicable when using **AWS services** such as **CloudFront to S3** or **CloudFront to EC2**.
 
-    -   For example, you can create an **IAM policy** that restricts CloudFront's access to an S3 bucket based on certain conditions (like the user's AWS role or specific actions).
+    - For example, you can create an **IAM policy** that restricts CloudFront's access to an S3 bucket based on certain conditions (like the user's AWS role or specific actions).
 
-* * * * *
+---
 
 ### **Private CloudFront Distribution Example**
 
@@ -12406,43 +12495,43 @@ Let's say you want to serve private video content stored in an **S3 bucket** via
 
 1.  **Create a CloudFront Distribution** with a custom **S3 origin**.
 
-    -   Set **Cache Behavior** to use **Signed URLs** or **Signed Cookies**.
+    - Set **Cache Behavior** to use **Signed URLs** or **Signed Cookies**.
 
 2.  **Create an Origin Access Identity (OAI)** in CloudFront.
 
-    -   Link this OAI to your S3 origin.
+    - Link this OAI to your S3 origin.
 
-    -   Update your **S3 bucket policy** to allow only CloudFront (via OAI) to access the content.
+    - Update your **S3 bucket policy** to allow only CloudFront (via OAI) to access the content.
 
 3.  **Configure CloudFront for Signed URLs or Signed Cookies**:
 
-    -   Create a **CloudFront key pair**.
+    - Create a **CloudFront key pair**.
 
-    -   Set the expiration time and conditions for the signed URL or cookies (e.g., limit access to 1 hour).
+    - Set the expiration time and conditions for the signed URL or cookies (e.g., limit access to 1 hour).
 
-    -   When you generate the signed URL or cookies, distribute it to the authorized user.
+    - When you generate the signed URL or cookies, distribute it to the authorized user.
 
 4.  **Distribute Signed URL**:
 
-    -   The user can use the **signed URL** or **cookies** to access the video. The signed URL will allow them to access the content for a limited time, and CloudFront will ensure that only the authorized user can retrieve it.
+    - The user can use the **signed URL** or **cookies** to access the video. The signed URL will allow them to access the content for a limited time, and CloudFront will ensure that only the authorized user can retrieve it.
 
 5.  **Geo-restriction (Optional)**:
 
-    -   If you only want users in the US to access the video, enable **geo-restrictions** and whitelist only the US in CloudFront.
+    - If you only want users in the US to access the video, enable **geo-restrictions** and whitelist only the US in CloudFront.
 
-* * * * *
+---
 
 ### **Summary of Private CloudFront Distribution Setup**
 
--   **Signed URLs and Signed Cookies** are the primary methods for securing access to your CloudFront distribution, allowing you to restrict access to specific users or devices.
+- **Signed URLs and Signed Cookies** are the primary methods for securing access to your CloudFront distribution, allowing you to restrict access to specific users or devices.
 
--   **Origin Access Identity (OAI)** allows you to prevent direct access to your S3 content by ensuring that only CloudFront can access the S3 bucket.
+- **Origin Access Identity (OAI)** allows you to prevent direct access to your S3 content by ensuring that only CloudFront can access the S3 bucket.
 
--   **Geo-restriction** helps you control access based on geographic location, allowing you to block or allow access from specific countries or regions.
+- **Geo-restriction** helps you control access based on geographic location, allowing you to block or allow access from specific countries or regions.
 
--   **IAM** policies can be used to manage access for AWS services, ensuring that CloudFront interacts securely with other AWS resources.
+- **IAM** policies can be used to manage access for AWS services, ensuring that CloudFront interacts securely with other AWS resources.
 
-* * * * *
+---
 
 ### **Exam Powerups**
 
@@ -12454,19 +12543,19 @@ Let's say you want to serve private video content stored in an **S3 bucket** via
 
 4.  **Private CloudFront distributions** secure content by ensuring it is only accessible via **CloudFront** and through proper authentication mechanisms like **signed URLs**.
 
-* * * * *
+---
 
 ### **Geolocation Security in CloudFront**
 
 **Geolocation security** in CloudFront refers to the ability to **restrict access to your content based on the geographic location** of the user making the request. This is particularly useful for situations where:
 
--   You need to **control access** to content for specific countries or regions (e.g., restricting access to specific video content, or offering region-specific services).
+- You need to **control access** to content for specific countries or regions (e.g., restricting access to specific video content, or offering region-specific services).
 
--   You want to ensure that only users from certain **countries** can access your resources, while blocking or allowing others.
+- You want to ensure that only users from certain **countries** can access your resources, while blocking or allowing others.
 
 CloudFront provides **Geo-Restriction** (also known as **Geo-blocking**) as a feature to allow or deny access to your CloudFront content based on the **user's geographic location**.
 
-* * * * *
+---
 
 ### **Geolocation Security in CloudFront: How It Works**
 
@@ -12476,15 +12565,15 @@ CloudFront provides **Geo-Restriction** (also known as **Geo-blocking**) as a fe
 
 1.  **Whitelist**:
 
-    -   Allow access to users from **specific countries**.
+    - Allow access to users from **specific countries**.
 
-    -   Use this when you want to permit access only from certain regions or countries.
+    - Use this when you want to permit access only from certain regions or countries.
 
 2.  **Blacklist**:
 
-    -   Block access from **specific countries**.
+    - Block access from **specific countries**.
 
-    -   Use this when you want to block users from accessing your content from particular locations.
+    - Use this when you want to block users from accessing your content from particular locations.
 
 #### **How to Configure Geolocation in CloudFront**:
 
@@ -12492,52 +12581,51 @@ CloudFront provides **Geo-Restriction** (also known as **Geo-blocking**) as a fe
 
 2.  **Configure Geo-Restriction**:
 
-    -   Under the **Restrictions** tab, enable **Geo-restriction**.
+    - Under the **Restrictions** tab, enable **Geo-restriction**.
 
-    -   Choose **Whitelist** or **Blacklist** based on your needs.
+    - Choose **Whitelist** or **Blacklist** based on your needs.
 
-    -   Add the countries that you want to either allow or block.
+    - Add the countries that you want to either allow or block.
 
 **Example**:
 
--   If you want to only allow users from the **United States** and **Canada** to access your content, you would whitelist those countries and block access from all other locations.
+- If you want to only allow users from the **United States** and **Canada** to access your content, you would whitelist those countries and block access from all other locations.
 
-* * * * *
+---
 
 ### **Use Cases for Geolocation Security**
 
 1.  **Content Licensing**:
 
-    -   If you're delivering **licensed media content**, you can restrict access based on **country-specific** licensing agreements.
+    - If you're delivering **licensed media content**, you can restrict access based on **country-specific** licensing agreements.
 
-    -   For example, some movies or shows might only be available in **certain regions**. You can use geolocation restrictions to ensure users outside those regions cannot access them.
+    - For example, some movies or shows might only be available in **certain regions**. You can use geolocation restrictions to ensure users outside those regions cannot access them.
 
 2.  **Regional Services**:
 
-    -   If you offer **services** that are only available in certain countries (e.g., a local service or payment gateway), geolocation security can ensure users from other countries cannot access them.
+    - If you offer **services** that are only available in certain countries (e.g., a local service or payment gateway), geolocation security can ensure users from other countries cannot access them.
 
 3.  **Regional Pricing or Offers**:
 
-    -   Geolocation can be used to apply **regional pricing** or special offers to users based on their location.
+    - Geolocation can be used to apply **regional pricing** or special offers to users based on their location.
 
 4.  **Compliance**:
 
-    -   You may need to comply with local regulations or **data sovereignty laws**, which require that certain types of content be **served only within specific regions**.
+    - You may need to comply with local regulations or **data sovereignty laws**, which require that certain types of content be **served only within specific regions**.
 
-* * * * *
-
+---
 
 ### **Geolocation Security in CloudFront**
 
 **Geolocation security** in CloudFront refers to the ability to **restrict access to your content based on the geographic location** of the user making the request. This is particularly useful for situations where:
 
--   You need to **control access** to content for specific countries or regions (e.g., restricting access to specific video content, or offering region-specific services).
+- You need to **control access** to content for specific countries or regions (e.g., restricting access to specific video content, or offering region-specific services).
 
--   You want to ensure that only users from certain **countries** can access your resources, while blocking or allowing others.
+- You want to ensure that only users from certain **countries** can access your resources, while blocking or allowing others.
 
 CloudFront provides **Geo-Restriction** (also known as **Geo-blocking**) as a feature to allow or deny access to your CloudFront content based on the **user's geographic location**.
 
-* * * * *
+---
 
 ### **Geolocation Security in CloudFront: How It Works**
 
@@ -12547,15 +12635,15 @@ CloudFront provides **Geo-Restriction** (also known as **Geo-blocking**) as a fe
 
 1.  **Whitelist**:
 
-    -   Allow access to users from **specific countries**.
+    - Allow access to users from **specific countries**.
 
-    -   Use this when you want to permit access only from certain regions or countries.
+    - Use this when you want to permit access only from certain regions or countries.
 
 2.  **Blacklist**:
 
-    -   Block access from **specific countries**.
+    - Block access from **specific countries**.
 
-    -   Use this when you want to block users from accessing your content from particular locations.
+    - Use this when you want to block users from accessing your content from particular locations.
 
 #### **How to Configure Geolocation in CloudFront**:
 
@@ -12563,39 +12651,39 @@ CloudFront provides **Geo-Restriction** (also known as **Geo-blocking**) as a fe
 
 2.  **Configure Geo-Restriction**:
 
-    -   Under the **Restrictions** tab, enable **Geo-restriction**.
+    - Under the **Restrictions** tab, enable **Geo-restriction**.
 
-    -   Choose **Whitelist** or **Blacklist** based on your needs.
+    - Choose **Whitelist** or **Blacklist** based on your needs.
 
-    -   Add the countries that you want to either allow or block.
+    - Add the countries that you want to either allow or block.
 
 **Example**:
 
--   If you want to only allow users from the **United States** and **Canada** to access your content, you would whitelist those countries and block access from all other locations.
+- If you want to only allow users from the **United States** and **Canada** to access your content, you would whitelist those countries and block access from all other locations.
 
-* * * * *
+---
 
 ### **Use Cases for Geolocation Security**
 
 1.  **Content Licensing**:
 
-    -   If you're delivering **licensed media content**, you can restrict access based on **country-specific** licensing agreements.
+    - If you're delivering **licensed media content**, you can restrict access based on **country-specific** licensing agreements.
 
-    -   For example, some movies or shows might only be available in **certain regions**. You can use geolocation restrictions to ensure users outside those regions cannot access them.
+    - For example, some movies or shows might only be available in **certain regions**. You can use geolocation restrictions to ensure users outside those regions cannot access them.
 
 2.  **Regional Services**:
 
-    -   If you offer **services** that are only available in certain countries (e.g., a local service or payment gateway), geolocation security can ensure users from other countries cannot access them.
+    - If you offer **services** that are only available in certain countries (e.g., a local service or payment gateway), geolocation security can ensure users from other countries cannot access them.
 
 3.  **Regional Pricing or Offers**:
 
-    -   Geolocation can be used to apply **regional pricing** or special offers to users based on their location.
+    - Geolocation can be used to apply **regional pricing** or special offers to users based on their location.
 
 4.  **Compliance**:
 
-    -   You may need to comply with local regulations or **data sovereignty laws**, which require that certain types of content be **served only within specific regions**.
+    - You may need to comply with local regulations or **data sovereignty laws**, which require that certain types of content be **served only within specific regions**.
 
-* * * * *
+---
 
 ### **3rd-Party Geolocation for Security**
 
@@ -12609,43 +12697,43 @@ Third-party geolocation services often use **IP address-based location tracking*
 
 1.  **MaxMind** (GeoIP2):
 
-    -   MaxMind offers a widely-used service that provides **IP geolocation** with detailed information about a user's location.
+    - MaxMind offers a widely-used service that provides **IP geolocation** with detailed information about a user's location.
 
-    -   MaxMind's **GeoIP2** service can provide country, region, city, and even **ISP data**, offering more granular location data than native CloudFront geolocation.
+    - MaxMind's **GeoIP2** service can provide country, region, city, and even **ISP data**, offering more granular location data than native CloudFront geolocation.
 
 2.  **ipstack**:
 
-    -   ipstack provides an **API** for determining the location of an IP address, offering features like detailed location data (country, region, city), timezone information, and more.
+    - ipstack provides an **API** for determining the location of an IP address, offering features like detailed location data (country, region, city), timezone information, and more.
 
 3.  **DB-IP**:
 
-    -   DB-IP offers a geolocation service that provides accurate **country, city, and region-level data** based on IP addresses. It also provides APIs for integration into applications and web services.
+    - DB-IP offers a geolocation service that provides accurate **country, city, and region-level data** based on IP addresses. It also provides APIs for integration into applications and web services.
 
 4.  **IP2Location**:
 
-    -   Similar to MaxMind, **IP2Location** provides geolocation services that enable IP address-based location tracking. It can offer **country**, **region**, **city**, and other detailed geolocation information.
+    - Similar to MaxMind, **IP2Location** provides geolocation services that enable IP address-based location tracking. It can offer **country**, **region**, **city**, and other detailed geolocation information.
 
-* * * * *
+---
 
 ### **When to Use Third-Party Geolocation Services**:
 
 1.  **Granular Control**:
 
-    -   When you need **more detailed location data** (e.g., city-level geolocation, or when you need more accurate regional identification) than what CloudFront's built-in geolocation provides.
+    - When you need **more detailed location data** (e.g., city-level geolocation, or when you need more accurate regional identification) than what CloudFront's built-in geolocation provides.
 
 2.  **Dynamic Geolocation Rules**:
 
-    -   Third-party services often allow you to create **custom geolocation rules** that CloudFront might not support natively. For example, restricting content based on **specific cities** or **ISPs**.
+    - Third-party services often allow you to create **custom geolocation rules** that CloudFront might not support natively. For example, restricting content based on **specific cities** or **ISPs**.
 
 3.  **High Accuracy Needs**:
 
-    -   If you need **high-accuracy geolocation** for security purposes (e.g., fraud detection, or ensuring access to certain sensitive resources based on **user's precise location**).
+    - If you need **high-accuracy geolocation** for security purposes (e.g., fraud detection, or ensuring access to certain sensitive resources based on **user's precise location**).
 
 4.  **More Control Over Data**:
 
-    -   With third-party geolocation services, you can **manage your geolocation rules** and implement more complex logic (e.g., allowing users from **certain IP ranges** but blocking specific regions within countries).
+    - With third-party geolocation services, you can **manage your geolocation rules** and implement more complex logic (e.g., allowing users from **certain IP ranges** but blocking specific regions within countries).
 
-* * * * *
+---
 
 ### **How to Integrate Third-Party Geolocation**
 
@@ -12653,35 +12741,35 @@ To use **third-party geolocation services** for security purposes in combination
 
 1.  **Custom Lambda Functions (Lambda@Edge)**:
 
-    -   You can use **Lambda@Edge** to execute code at CloudFront edge locations to dynamically **check geolocation data** of users against third-party geolocation services.
+    - You can use **Lambda@Edge** to execute code at CloudFront edge locations to dynamically **check geolocation data** of users against third-party geolocation services.
 
-    -   For example, when a request comes in, you can use **Lambda@Edge** to forward the IP address to a third-party API (like MaxMind or ipstack) to get detailed geolocation data. Based on this information, you can then allow or block the request.
+    - For example, when a request comes in, you can use **Lambda@Edge** to forward the IP address to a third-party API (like MaxMind or ipstack) to get detailed geolocation data. Based on this information, you can then allow or block the request.
 
 2.  **API Gateway + Lambda**:
 
-    -   Use **API Gateway** to interact with third-party geolocation services and pass the geolocation information to CloudFront or other AWS services for further processing.
+    - Use **API Gateway** to interact with third-party geolocation services and pass the geolocation information to CloudFront or other AWS services for further processing.
 
 3.  **Third-Party Service APIs**:
 
-    -   Many third-party geolocation services offer **APIs** that you can use to verify the location of incoming requests, and then apply your custom access control logic based on this data.
+    - Many third-party geolocation services offer **APIs** that you can use to verify the location of incoming requests, and then apply your custom access control logic based on this data.
 
-* * * * *
+---
 
 ### **Summary of Geolocation Security and Third-Party Geolocation**
 
 1.  **CloudFront Geolocation**:
 
-    -   Use **CloudFront's built-in geo-restriction** to **whitelist** or **blacklist** access based on a user's geographic location (country or region).
+    - Use **CloudFront's built-in geo-restriction** to **whitelist** or **blacklist** access based on a user's geographic location (country or region).
 
-    -   Simple and effective for **blocking or allowing countries** from accessing content.
+    - Simple and effective for **blocking or allowing countries** from accessing content.
 
 2.  **Third-Party Geolocation**:
 
-    -   When you need **granular control** (e.g., city or ISP level) or more **accurate location data**, third-party geolocation services like **MaxMind** or **ipstack** provide advanced features.
+    - When you need **granular control** (e.g., city or ISP level) or more **accurate location data**, third-party geolocation services like **MaxMind** or **ipstack** provide advanced features.
 
-    -   **Lambda@Edge** allows integrating third-party geolocation APIs with CloudFront for dynamic access control based on **precise location data**.
+    - **Lambda@Edge** allows integrating third-party geolocation APIs with CloudFront for dynamic access control based on **precise location data**.
 
-* * * * *
+---
 
 ### **Exam Powerups**
 
@@ -12693,11 +12781,10 @@ To use **third-party geolocation services** for security purposes in combination
 
 4.  **Lambda@Edge** allows you to execute custom code at CloudFront edge locations for advanced security and access control.
 
-* * * * *
+---
 
 ![alt image](<Cloudfront/Screenshot 2025-03-31 at 5.42.50 pm.png>)
 ![alt image](<Cloudfront/Screenshot 2025-03-31 at 5.44.51 pm.png>)
-
 
 ### **Field-Level Encryption in CloudFront**
 
@@ -12705,89 +12792,89 @@ To use **third-party geolocation services** for security purposes in combination
 
 Field-Level Encryption provides an additional layer of security for sensitive data, allowing you to protect information like **credit card numbers**, **personal data**, and **authentication tokens**.
 
-* * * * *
+---
 
 ### **How Field-Level Encryption Works**
 
 1.  **CloudFront Distribution Setup**:
 
-    -   Field-level encryption works alongside **CloudFront** distributions and requires you to configure the **CloudFront field-level encryption** settings.
+    - Field-level encryption works alongside **CloudFront** distributions and requires you to configure the **CloudFront field-level encryption** settings.
 
 2.  **Encrypting Data**:
 
-    -   When a client (such as a user's browser or mobile device) sends a request to CloudFront (containing sensitive data in headers, cookies, or query parameters), CloudFront encrypts the specific fields you have defined using **public key encryption** before the request reaches your origin server.
+    - When a client (such as a user's browser or mobile device) sends a request to CloudFront (containing sensitive data in headers, cookies, or query parameters), CloudFront encrypts the specific fields you have defined using **public key encryption** before the request reaches your origin server.
 
 3.  **Decryption at Origin**:
 
-    -   At the origin (e.g., your web server, API, or S3 bucket), the data is decrypted using a **private key**. This ensures that sensitive data is only decrypted when it reaches a trusted server and not exposed during transit.
+    - At the origin (e.g., your web server, API, or S3 bucket), the data is decrypted using a **private key**. This ensures that sensitive data is only decrypted when it reaches a trusted server and not exposed during transit.
 
 4.  **Public and Private Keys**:
 
-    -   **Public key**: Used by CloudFront to encrypt the field(s) in the request.
+    - **Public key**: Used by CloudFront to encrypt the field(s) in the request.
 
-    -   **Private key**: Used by your origin server to decrypt the encrypted data. You must store the private key securely at the origin.
+    - **Private key**: Used by your origin server to decrypt the encrypted data. You must store the private key securely at the origin.
 
-* * * * *
+---
 
 ### **Key Features of Field-Level Encryption**
 
 1.  **Granular Control**:
 
-    -   With field-level encryption, you can **select specific fields** within the request (headers, query parameters, or cookies) that need to be encrypted. This gives you **fine-grained control** over the data that needs extra protection.
+    - With field-level encryption, you can **select specific fields** within the request (headers, query parameters, or cookies) that need to be encrypted. This gives you **fine-grained control** over the data that needs extra protection.
 
 2.  **End-to-End Security**:
 
-    -   The encryption occurs on the edge (at CloudFront), and the data is only decrypted at the origin, ensuring that sensitive information is encrypted during its entire journey from the client to the server.
+    - The encryption occurs on the edge (at CloudFront), and the data is only decrypted at the origin, ensuring that sensitive information is encrypted during its entire journey from the client to the server.
 
 3.  **Encrypt HTTP Request Fields**:
 
-    -   You can encrypt specific HTTP request fields:
+    - You can encrypt specific HTTP request fields:
 
-        -   **Headers** (e.g., `Authorization` header)
+      - **Headers** (e.g., `Authorization` header)
 
-        -   **Query parameters** (e.g., `token=123456`)
+      - **Query parameters** (e.g., `token=123456`)
 
-        -   **Cookies** (e.g., `sessionID=abc123`)
+      - **Cookies** (e.g., `sessionID=abc123`)
 
 4.  **Customizable Encryption**:
 
-    -   You can define custom **encryption profiles** in CloudFront, specifying the **fields** to encrypt and the **public key** used for encryption. CloudFront supports **RSA public keys** for this purpose.
+    - You can define custom **encryption profiles** in CloudFront, specifying the **fields** to encrypt and the **public key** used for encryption. CloudFront supports **RSA public keys** for this purpose.
 
 5.  **Secure Delivery**:
 
-    -   The encryption ensures that even if the request is intercepted during transmission (e.g., in transit over the network), the sensitive data remains protected and unreadable without the decryption key.
+    - The encryption ensures that even if the request is intercepted during transmission (e.g., in transit over the network), the sensitive data remains protected and unreadable without the decryption key.
 
-* * * * *
+---
 
 ### **Steps to Configure Field-Level Encryption in CloudFront**
 
 1.  **Create or Use an Existing CloudFront Distribution**:
 
-    -   You need to have a **CloudFront distribution** in place to apply field-level encryption settings.
+    - You need to have a **CloudFront distribution** in place to apply field-level encryption settings.
 
 2.  **Create or Use an Existing Public Key**:
 
-    -   Create an **RSA public key** that CloudFront will use to encrypt the sensitive fields in the request.
+    - Create an **RSA public key** that CloudFront will use to encrypt the sensitive fields in the request.
 
-    -   Store the corresponding **private key** securely at your origin to decrypt the fields.
+    - Store the corresponding **private key** securely at your origin to decrypt the fields.
 
 3.  **Define an Encryption Profile**:
 
-    -   In the **CloudFront Console**, create an **encryption profile** that includes the public key you created.
+    - In the **CloudFront Console**, create an **encryption profile** that includes the public key you created.
 
-    -   This profile will define which fields should be encrypted in the request (such as cookies, headers, or query parameters).
+    - This profile will define which fields should be encrypted in the request (such as cookies, headers, or query parameters).
 
 4.  **Configure CloudFront to Use the Encryption Profile**:
 
-    -   Apply the encryption profile to your **CloudFront cache behavior** settings, specifying which specific **fields** (headers, query parameters, cookies) to encrypt.
+    - Apply the encryption profile to your **CloudFront cache behavior** settings, specifying which specific **fields** (headers, query parameters, cookies) to encrypt.
 
 5.  **Configure the Origin Server for Decryption**:
 
-    -   On your origin server, you must configure it to **decrypt** the incoming requests using the private key.
+    - On your origin server, you must configure it to **decrypt** the incoming requests using the private key.
 
-    -   The origin will decrypt only the fields that were encrypted by CloudFront.
+    - The origin will decrypt only the fields that were encrypted by CloudFront.
 
-* * * * *
+---
 
 ### **Example Use Case for Field-Level Encryption**
 
@@ -12795,55 +12882,55 @@ Let's say you're building a secure application that handles **payment processing
 
 1.  **Field-Level Encryption Configuration**:
 
-    -   You configure CloudFront to encrypt the **credit card number** and **CVV** fields in the HTTP request.
+    - You configure CloudFront to encrypt the **credit card number** and **CVV** fields in the HTTP request.
 
-    -   CloudFront encrypts these fields before they leave the client's browser and transmits them to the origin (which could be an EC2 instance or a backend server).
+    - CloudFront encrypts these fields before they leave the client's browser and transmits them to the origin (which could be an EC2 instance or a backend server).
 
 2.  **Decryption at the Origin**:
 
-    -   The backend server receives the encrypted fields and uses the **private key** to decrypt the data and process the payment.
+    - The backend server receives the encrypted fields and uses the **private key** to decrypt the data and process the payment.
 
-* * * * *
+---
 
 ### **Benefits of Field-Level Encryption**
 
 1.  **Enhanced Security**:
 
-    -   Protects sensitive data in transit, preventing exposure even if the request is intercepted.
+    - Protects sensitive data in transit, preventing exposure even if the request is intercepted.
 
-    -   Ensures that only the origin server (with the private key) can decrypt the sensitive data.
+    - Ensures that only the origin server (with the private key) can decrypt the sensitive data.
 
 2.  **Compliance**:
 
-    -   Helps with **compliance** with regulations like **PCI DSS**, which require sensitive information such as **credit card numbers** to be encrypted during transmission.
+    - Helps with **compliance** with regulations like **PCI DSS**, which require sensitive information such as **credit card numbers** to be encrypted during transmission.
 
-    -   Ensures that data is encrypted and only decrypted at a trusted endpoint, adhering to security standards.
+    - Ensures that data is encrypted and only decrypted at a trusted endpoint, adhering to security standards.
 
 3.  **Reduced Exposure**:
 
-    -   Field-level encryption reduces the exposure of sensitive data by ensuring that only the necessary parts of the request are encrypted, without affecting the entire request or response.
+    - Field-level encryption reduces the exposure of sensitive data by ensuring that only the necessary parts of the request are encrypted, without affecting the entire request or response.
 
 4.  **Granular Control**:
 
-    -   You can selectively encrypt only the fields that contain sensitive data, which allows you to protect specific parts of the request without affecting other data.
+    - You can selectively encrypt only the fields that contain sensitive data, which allows you to protect specific parts of the request without affecting other data.
 
-* * * * *
+---
 
 ### **Limitations and Considerations**
 
 1.  **Performance Overhead**:
 
-    -   Field-level encryption can add some **performance overhead** since CloudFront needs to encrypt and decrypt the data for each request. However, this is generally minimal compared to the added security benefits.
+    - Field-level encryption can add some **performance overhead** since CloudFront needs to encrypt and decrypt the data for each request. However, this is generally minimal compared to the added security benefits.
 
 2.  **Complexity**:
 
-    -   Setting up and managing field-level encryption requires proper handling of **public and private keys**, as well as configuring the origin server to decrypt the fields correctly.
+    - Setting up and managing field-level encryption requires proper handling of **public and private keys**, as well as configuring the origin server to decrypt the fields correctly.
 
 3.  **Limited Scope**:
 
-    -   Field-level encryption is only available for HTTP request fields (headers, query parameters, cookies). It doesn't apply to data in the **response** from CloudFront.
+    - Field-level encryption is only available for HTTP request fields (headers, query parameters, cookies). It doesn't apply to data in the **response** from CloudFront.
 
-* * * * *
+---
 
 ### **Key Points for the Exam**
 
@@ -12855,7 +12942,7 @@ Let's say you're building a secure application that handles **payment processing
 
 4.  Field-level encryption helps with **compliance** (e.g., **PCI DSS**) and **regulatory requirements** for data protection.
 
-* * * * *
+---
 
 ### **Exam Powerups**
 
@@ -12867,7 +12954,7 @@ Let's say you're building a secure application that handles **payment processing
 
 4.  CloudFront field-level encryption is helpful for **compliance** with security standards and **regulations** (e.g., **PCI DSS**).
 
-* * * * *
+---
 
 ### **Lambda@Edge: What It Is and How It Works**
 
@@ -12875,177 +12962,177 @@ Let's say you're building a secure application that handles **payment processing
 
 The primary advantage of Lambda@Edge is its ability to **process data** at **AWS edge locations**, which are geographically distributed. This helps improve performance by reducing latency and enabling **faster processing** of requests.
 
-* * * * *
+---
 
 ### **How Lambda@Edge Works**
 
 1.  **Create a Lambda Function**:
 
-    -   First, create a **Lambda function** in the **AWS Lambda** console.
+    - First, create a **Lambda function** in the **AWS Lambda** console.
 
-    -   Write the logic that you want to execute when a specific event occurs (e.g., modifying the request before it's sent to the origin or modifying the response before it's returned to the viewer).
+    - Write the logic that you want to execute when a specific event occurs (e.g., modifying the request before it's sent to the origin or modifying the response before it's returned to the viewer).
 
 2.  **Deploy the Lambda Function to CloudFront**:
 
-    -   Once the Lambda function is created, you can **associate** it with a **CloudFront distribution**.
+    - Once the Lambda function is created, you can **associate** it with a **CloudFront distribution**.
 
-    -   During this process, you define **which CloudFront event** will trigger the Lambda function. These events can occur at different points in the CloudFront request/response cycle.
+    - During this process, you define **which CloudFront event** will trigger the Lambda function. These events can occur at different points in the CloudFront request/response cycle.
 
 3.  **Lambda@Edge Triggers**:
 
-    -   Lambda@Edge can be triggered at several points in the CloudFront request/response lifecycle, including:
+    - Lambda@Edge can be triggered at several points in the CloudFront request/response lifecycle, including:
 
-        -   **Viewer Request**: Executes when a request is received from the viewer (browser).
+      - **Viewer Request**: Executes when a request is received from the viewer (browser).
 
-        -   **Viewer Response**: Executes when a response is ready to be sent back to the viewer.
+      - **Viewer Response**: Executes when a response is ready to be sent back to the viewer.
 
-        -   **Origin Request**: Executes just before CloudFront forwards a request to your origin (e.g., S3, EC2).
+      - **Origin Request**: Executes just before CloudFront forwards a request to your origin (e.g., S3, EC2).
 
-        -   **Origin Response**: Executes just after CloudFront receives a response from the origin but before it's sent to the viewer.
+      - **Origin Response**: Executes just after CloudFront receives a response from the origin but before it's sent to the viewer.
 
 4.  **Function Execution at Edge Locations**:
 
-    -   Lambda@Edge functions are automatically replicated across **CloudFront edge locations**, meaning the function runs **closer to the user**.
+    - Lambda@Edge functions are automatically replicated across **CloudFront edge locations**, meaning the function runs **closer to the user**.
 
-    -   This helps reduce latency and makes the function execute faster compared to running it in a central AWS region.
+    - This helps reduce latency and makes the function execute faster compared to running it in a central AWS region.
 
-* * * * *
+---
 
 ### **When to Use Lambda@Edge**
 
 Lambda@Edge is useful when you want to **customize the behavior of CloudFront** and perform actions on **requests and responses** without having to manage infrastructure. Here are some common use cases:
 
-* * * * *
+---
 
 ### **Use Cases for Lambda@Edge**
 
 1.  **Customizing Content**:
 
-    -   **A/B Testing**: You can modify the request and direct users to different versions of a website or application for **A/B testing** or **user experiments**.
+    - **A/B Testing**: You can modify the request and direct users to different versions of a website or application for **A/B testing** or **user experiments**.
 
-    -   **Personalization**: Lambda@Edge can be used to serve **personalized content** based on **cookies**, **headers**, or **geolocation** information in requests.
+    - **Personalization**: Lambda@Edge can be used to serve **personalized content** based on **cookies**, **headers**, or **geolocation** information in requests.
 
-    -   Example: Customize the homepage by checking if a user is logged in (based on cookies) and serve personalized content accordingly.
+    - Example: Customize the homepage by checking if a user is logged in (based on cookies) and serve personalized content accordingly.
 
 2.  **Request and Response Manipulation**:
 
-    -   **Modify HTTP headers**: You can add or modify HTTP headers in the request or response. This is useful for security headers (like **CORS**, **Content-Security-Policy**, or **X-Frame-Options**) or for **CORS configuration**.
+    - **Modify HTTP headers**: You can add or modify HTTP headers in the request or response. This is useful for security headers (like **CORS**, **Content-Security-Policy**, or **X-Frame-Options**) or for **CORS configuration**.
 
-    -   **Rewrite URLs**: You can rewrite URLs for your application, for example, if you need to forward users to different resources based on certain conditions.
+    - **Rewrite URLs**: You can rewrite URLs for your application, for example, if you need to forward users to different resources based on certain conditions.
 
-    -   Example: You can rewrite a URL path (e.g., `example.com/products/123` → `example.com/product?id=123`).
+    - Example: You can rewrite a URL path (e.g., `example.com/products/123` → `example.com/product?id=123`).
 
 3.  **Authentication and Authorization**:
 
-    -   **Request Authentication**: Lambda@Edge can authenticate requests based on **cookies**, **query parameters**, or **authorization headers**. If a user is not authenticated, you can redirect them to a login page.
+    - **Request Authentication**: Lambda@Edge can authenticate requests based on **cookies**, **query parameters**, or **authorization headers**. If a user is not authenticated, you can redirect them to a login page.
 
-    -   **Access Control**: You can enforce access control policies, such as restricting access to content based on user roles or other request parameters (like IP address or geolocation).
+    - **Access Control**: You can enforce access control policies, such as restricting access to content based on user roles or other request parameters (like IP address or geolocation).
 
-    -   Example: Authenticate users based on JWT tokens in cookies, and reject or allow requests based on token validation.
+    - Example: Authenticate users based on JWT tokens in cookies, and reject or allow requests based on token validation.
 
 4.  **Caching and Headers**:
 
-    -   **Modify Cache Behavior**: Lambda@Edge can modify **Cache-Control** headers and decide on custom cache behavior based on request content. For example, you can vary cache behavior based on **user agents** or **geographic location**.
+    - **Modify Cache Behavior**: Lambda@Edge can modify **Cache-Control** headers and decide on custom cache behavior based on request content. For example, you can vary cache behavior based on **user agents** or **geographic location**.
 
-    -   Example: Change cache settings for certain types of users, or cache static resources based on device type (mobile vs. desktop).
+    - Example: Change cache settings for certain types of users, or cache static resources based on device type (mobile vs. desktop).
 
 5.  **SEO Optimization**:
 
-    -   **Dynamic SEO Optimization**: You can modify the headers or the content of the response to improve SEO. For example, you might add `meta` tags dynamically for search engines based on the URL path.
+    - **Dynamic SEO Optimization**: You can modify the headers or the content of the response to improve SEO. For example, you might add `meta` tags dynamically for search engines based on the URL path.
 
-    -   Example: Add custom **Open Graph meta tags** for different URLs to improve how your content appears when shared on social media.
+    - Example: Add custom **Open Graph meta tags** for different URLs to improve how your content appears when shared on social media.
 
 6.  **Security Enhancements**:
 
-    -   **HTTP Security Headers**: You can inject or modify **security headers** in the response to improve the security posture of your application (e.g., enforcing **HSTS**, **CSP**, **XSS Protection**).
+    - **HTTP Security Headers**: You can inject or modify **security headers** in the response to improve the security posture of your application (e.g., enforcing **HSTS**, **CSP**, **XSS Protection**).
 
-    -   **Rate Limiting**: Lambda@Edge can implement **rate-limiting** by inspecting the incoming requests and blocking those from IP addresses that exceed a specific threshold.
+    - **Rate Limiting**: Lambda@Edge can implement **rate-limiting** by inspecting the incoming requests and blocking those from IP addresses that exceed a specific threshold.
 
-    -   Example: Add **X-Frame-Options** and **Strict-Transport-Security (HSTS)** headers to responses to prevent clickjacking and improve HTTPS security.
+    - Example: Add **X-Frame-Options** and **Strict-Transport-Security (HSTS)** headers to responses to prevent clickjacking and improve HTTPS security.
 
 7.  **Geolocation-based Customization**:
 
-    -   **Serve Different Content Based on Location**: Lambda@Edge can help customize content based on the user's geographic location. You can use the **geolocation information** (based on IP address) to serve content in the user's language or provide region-specific offers.
+    - **Serve Different Content Based on Location**: Lambda@Edge can help customize content based on the user's geographic location. You can use the **geolocation information** (based on IP address) to serve content in the user's language or provide region-specific offers.
 
-    -   Example: Serve content in different languages (e.g., English or Spanish) based on the **user's country**.
+    - Example: Serve content in different languages (e.g., English or Spanish) based on the **user's country**.
 
-* * * * *
+---
 
 ### **Lambda@Edge Execution Flow**
 
 1.  **Viewer Request**:
 
-    -   Lambda@Edge executes before the request is sent to CloudFront's edge cache or origin.
+    - Lambda@Edge executes before the request is sent to CloudFront's edge cache or origin.
 
-    -   You can modify the request, redirect the user, or check authentication before processing the request.
+    - You can modify the request, redirect the user, or check authentication before processing the request.
 
 2.  **Origin Request**:
 
-    -   Lambda@Edge executes before CloudFront forwards the request to the origin server (e.g., S3, EC2, etc.).
+    - Lambda@Edge executes before CloudFront forwards the request to the origin server (e.g., S3, EC2, etc.).
 
-    -   Modify the request before CloudFront sends it to your origin.
+    - Modify the request before CloudFront sends it to your origin.
 
 3.  **Origin Response**:
 
-    -   Lambda@Edge executes after CloudFront gets the response from your origin server.
+    - Lambda@Edge executes after CloudFront gets the response from your origin server.
 
-    -   Modify the response before CloudFront sends it to the viewer (e.g., headers, content, or status codes).
+    - Modify the response before CloudFront sends it to the viewer (e.g., headers, content, or status codes).
 
 4.  **Viewer Response**:
 
-    -   Lambda@Edge executes just before CloudFront sends the final response to the viewer.
+    - Lambda@Edge executes just before CloudFront sends the final response to the viewer.
 
-    -   Modify the response, add headers, or rewrite content before delivering it to the user.
+    - Modify the response, add headers, or rewrite content before delivering it to the user.
 
-* * * * *
+---
 
 ### **Advantages of Lambda@Edge**
 
 1.  **Lower Latency**:
 
-    -   By running functions at **edge locations**, Lambda@Edge reduces the latency of request and response handling, making it more suitable for real-time use cases.
+    - By running functions at **edge locations**, Lambda@Edge reduces the latency of request and response handling, making it more suitable for real-time use cases.
 
 2.  **Scalability**:
 
-    -   Lambda@Edge automatically scales to handle large traffic volumes without needing to manage servers or infrastructure. It leverages **CloudFront's edge locations** globally.
+    - Lambda@Edge automatically scales to handle large traffic volumes without needing to manage servers or infrastructure. It leverages **CloudFront's edge locations** globally.
 
 3.  **Cost Efficiency**:
 
-    -   You only pay for the **compute time** that your Lambda function runs at the edge, making it cost-effective compared to managing your own servers for similar tasks.
+    - You only pay for the **compute time** that your Lambda function runs at the edge, making it cost-effective compared to managing your own servers for similar tasks.
 
 4.  **Security**:
 
-    -   Lambda@Edge enhances security by enabling custom logic for request validation, data manipulation, and other protective measures like rate limiting, authentication, and access control.
+    - Lambda@Edge enhances security by enabling custom logic for request validation, data manipulation, and other protective measures like rate limiting, authentication, and access control.
 
 5.  **Global Availability**:
 
-    -   Lambda@Edge functions run in **over 200 CloudFront edge locations** around the world, ensuring that the functions are executed close to the user, improving both performance and availability.
+    - Lambda@Edge functions run in **over 200 CloudFront edge locations** around the world, ensuring that the functions are executed close to the user, improving both performance and availability.
 
-* * * * *
+---
 
 ### **When to Use Lambda@Edge**
 
 1.  **Real-time Content Modification**:
 
-    -   When you need to modify content dynamically (e.g., adding headers, rewriting URLs, or injecting metadata) without waiting for content to reach your origin server.
+    - When you need to modify content dynamically (e.g., adding headers, rewriting URLs, or injecting metadata) without waiting for content to reach your origin server.
 
 2.  **Authentication and Access Control**:
 
-    -   When you need to validate requests (e.g., checking authorization tokens or cookies) before sending them to the origin.
+    - When you need to validate requests (e.g., checking authorization tokens or cookies) before sending them to the origin.
 
 3.  **Security Enhancements**:
 
-    -   To add security headers, perform rate limiting, or restrict access based on custom rules.
+    - To add security headers, perform rate limiting, or restrict access based on custom rules.
 
 4.  **Global Personalization**:
 
-    -   For use cases where content or resources need to be personalized based on location (e.g., showing region-specific offers or content).
+    - For use cases where content or resources need to be personalized based on location (e.g., showing region-specific offers or content).
 
 5.  **SEO and Dynamic Metadata**:
 
-    -   When you need to modify content dynamically to improve search engine optimization or enhance how content is shared on social media (e.g., adding Open Graph tags).
+    - When you need to modify content dynamically to improve search engine optimization or enhance how content is shared on social media (e.g., adding Open Graph tags).
 
-* * * * *
+---
 
 ### **Key Points for the Exam**
 
@@ -13057,215 +13144,673 @@ Lambda@Edge is useful when you want to **customize the behavior of CloudFront** 
 
 4.  It provides benefits like **low latency**, **scalability**, **cost efficiency**, and **global availability**.
 
-* * * * *
+---
+
+Q. You have a TCP based application which is used globally. You want to improve the network performance for global users. Which service might support this requirement?
+
+- Global Accelerator
+- Global Elasticache
+- (incorrect) CloudFront
+- CloudFormation
+
+###### ChatGPT said:
+
+The correct service for improving the network performance for global users in this case is **Global Accelerator**.
+
+**Explanation**:
+
+- **Global Accelerator** optimizes the path to your application, improving the availability and performance for global users by routing traffic through the AWS global network.
+
+- It leverages edge locations to route traffic to the best-performing region, reducing latency and providing a more responsive experience.
+
+The other options are not specifically designed to improve global network performance for users:
+
+- **Global ElastiCache** is a service that provides managed caching, which can improve application performance but is not specifically focused on network routing or global user optimization.
+
+- **CloudFront** is a CDN (Content Delivery Network), and while it does help with delivering static content globally, it doesn't focus on improving TCP network performance directly for all types of applications.
+
+- **CloudFormation** is an infrastructure management service and does not directly affect network performance.
+
+**Exam Power-Up:** For the AWS Developer Associate exam, remember:
+
+- **Global Accelerator** improves performance by routing traffic through AWS's global network.
+
+- **CloudFront** is for content delivery, and **ElastiCache** helps with caching
 
 ## 1.10. Relational-Database-Service-RDS
 
-### 1.10.1. Database Refresher
+### **1.10.1. Database Refresher**
 
-Systems to store and manage data.
+#### **Systems to Store and Manage Data**
 
-#### 1.10.1.1. Relational (SQL)
+Databases are systems used to **store, manage, and retrieve data** in a structured or unstructured way. Databases can be **relational** (SQL) or **non-relational** (NoSQL), and they come with various design patterns and performance characteristics.
 
-- Structured Query Language (SQL) is a feature of most RDS.
-- Structure to the data known as a **schema**.
-  - Defined in advance.
-  - Defines names of things
-  - Valid values of things
-  - Types of data which is stored and where
-- Fixed relationship between tables.
-  - This is defined before data is entered into the database.
+---
 
-Every row in a table must have a value for the **primary key**.
-There must be a value stored for every attribute in the table.
+### **1.10.1.1. Relational Databases (SQL)**
 
-SQL systems are relational so we generally define relationships between
-tables as well. This is defined with a **join table**.
-A join table has a **composite key** which is a key formed of two parts.
-Composite keys together must be unique.
+- **Structured Query Language (SQL)** is used to interact with relational databases. SQL is used to **define**, **manipulate**, and **query** data within the database.
 
-Keys in different tables are how the relationships between the tables
-are defined.
+- **Schema**:
 
-The Table schema and relationships must be defined in advance which can be
-hard to do.
+  - Relational databases use a **schema**, which defines the structure of the data in advance. The schema dictates:
 
-#### 1.10.1.2. Non-Relational (NoSQL)
+    - **Tables**, their names, and the fields (columns).
 
-Not a single thing, and is a catch all for everything else.
-There is generally no schema or a weak one.
+    - **Data types** (e.g., integers, strings, dates).
 
-##### 1.10.1.2.1. Key-Value databases
+    - **Valid values** for certain fields (constraints).
 
-This is just a list of keys and value pairs.
-So long as every key is unique, there is no real schema or structure needed.
-These are really fast and highly scalable.
-This is also used for **in memory caching**.
+- **Relationships**:
 
-##### 1.10.1.2.2. Wide Column Store
+  - Tables in a relational database are **related** to each other using **foreign keys** and **join tables**. These relationships define how data in different tables are associated.
 
-DynamoDB is an example of wide column store database.
+- **Primary Key**:
 
-Each row or item has one or more keys.
-One key is called the partition key.
-You can have additional keys other than the partition key called the
-sort or range key.
+  - Each row in a table has a **primary key**---a unique identifier for that row (e.g., an ID). Every record must have a value for the primary key.
 
-It can be **single key** (only partition key) or **composite key**
-(partition key and sort key).
+- **Composite Key**:
 
-Every item in a table can also have attributes, but they don't have to be
-the same between values.
-The only requirements is that every item inside the table has to use the same
-key structure and it has to have a unique key.
+  - A **composite key** is made up of **two or more columns**. It's used to uniquely identify a row when a single column is not enough (e.g., a combination of `user_id` and `product_id`).
 
-##### 1.10.1.2.3. Document
+- **Normalization**:
 
-Documents are generally formatted using JSON or XML.
+  - Data is typically **normalized** in relational databases to reduce redundancy and improve efficiency. This involves organizing data into separate tables that minimize duplication.
 
-This is an extension of a key-value store where each document is interacted
-with via an ID that's unique to that document, but the value of the document
-contents are exposed to the database allowing you to interact with it.
+- **SQL Queries**:
 
-Good for order databases, or collections, or contact stale databases.
+  - SQL is used to query and manipulate data. You can perform operations such as **SELECT**, **INSERT**, **UPDATE**, and **DELETE**.
 
-Great for nested data items within a document structure such as user profiles.
+  **Example SQL Query**:
 
-##### 1.10.1.2.4. Row Database (MySQL)
+  ```
+  SELECT name, email FROM customers WHERE city = 'New York';
 
-Often called OLTP (Online Transactional Processing Databases).
+  ```
 
-If you needed to read the price of one item you need that
-row first. If you wanted to query all of the sizes of every order, you will
-need to check for each row.
+---
 
-Great for things which deal in rows and items where they are constantly
-accessed, modified, and removed.
+### **1.10.1.2. Non-Relational Databases (NoSQL)**
 
-##### 1.10.1.2.5. Column Database (Redshift)
+NoSQL is a broad category of databases that don't necessarily follow the relational model. They are often used for large-scale, distributed systems, and can handle unstructured data.
 
-Instead of storing data in rows on disk, they store it based on columns.
-The data is the same, but it's grouped together on disk, based on
-column so every order value is stored together, every product item, color,
-size, and price are all grouped together.
+---
 
-This is bad for transactional style processing, but great for reporting or when
-all values for a specific size are required.
+#### **1.10.1.2.1. Key-Value Databases**
 
-##### 1.10.1.2.6. Graph
+- **Key-Value Store**:
 
-Relationships between things are formally defined and stored along in the
-database itself with the data.
-They are not calculated each and every time you run a query.
-These are great for relationship driven data.
+  - The simplest form of NoSQL database. It stores data as **key-value pairs**.
 
-Nodes are objects inside a graph database. They can have properties.
+  - **Key**: A unique identifier (e.g., user ID).
 
-Edges are relationships between the nodes. They have a direction.
+  - **Value**: The data associated with the key (e.g., user details).
 
-Relationships themselves can also have attached data, so name value pairs.
-We might want to store the start date of any employment relationship.
+- **Characteristics**:
 
-Can store massive amounts of complex relationships between data or between
-nodes in a database.
+  - **No Schema**: The database doesn't need to define a schema beforehand.
 
-### 1.10.2. Databases on EC2
+  - **Highly Scalable**: This type of database is great for systems that need **high throughput** and **low latency**.
 
-It is always a bad idea to do this.
+  - **Common Usage**: Caching, session stores, and shopping cart systems.
 
-- Splitting an instance over different AZs
-  - Adds reliability consideration between the AZs
-  - Adds a cost to move the data between AZs
+- **Examples**:
 
-#### 1.10.2.1. Reasons EC2 Database might make sense
+  - **Redis**, **Amazon DynamoDB** (when used as a key-value store).
 
-- Need access to the OS of the Database.
-  - You should question if a client requests this, it rarely is needed.
-- Advanced DB Option tuning (DBROOT)
-  - AWS provides options to tune many of these parameters anyways.
-  - Can be a vendor that is asking for this.
-- DB or DB version that AWS doesn't provide.
-- You might need a specific version of an OS and DB that AWS doesn't provide.
+---
 
-#### 1.10.2.2. Reasons why you really shouldn't run a database on EC2
+#### **1.10.1.2.2. Wide Column Store**
 
-- **Admin overhead** is intense to manage the EC2 host.
-- Backup and Disaster Management adds complexity.
-- EC2 is running in one AZ. If the zone fails, access to the database fails.
-- Will miss out on features from AWS DB products.
-- EC2 is ON or OFF, there is no way to scale easily.
-- **Replication** can be tricky to manage on your own.
-- Performance will be slower than other AWS options.
+- **Wide Column Store**:
 
-### 1.10.3. Relational Database Service (RDS)
+  - Data is stored in **columns**, not rows, though it can still be queried in a way that resembles a relational model.
 
-- Database-as-a-service (DBaaS)
-  - Not entirely true more of DatabaseServer-as-a-service.
-  - Managed Database Instance for one or more databases.
-- No need to manage the HW or server itself.
-- Handles engines such as MySQL, MariaDB, PostgreSQL, Oracle, Microsoft SQL.
+  - Each row can have **different columns**, unlike relational databases, where each row must have the same set of columns.
 
-Amazon Aurora. This is so different from normal RDS, it is a separate product.
+- **Partition Key & Sort Key**:
 
-#### 1.10.3.1. RDS Database Instance
+  - Data is organized by **partition key** (used to distribute data across servers) and **sort key** (which determines the order of rows within the partition).
 
-Runs one of a few types of database engines and can contain multiple
-user created databases. Create one when you provision the instance, but
-multiple ones can be created after.
+- **Flexible Schema**:
 
-When you create a database instance, the way you access it is using a database
-host-name, a CNAME, and this resolves to the database instance itself.
+  - Each row can have a **different structure** of columns. The schema is more flexible than relational databases.
 
-RDS uses standard database engines so you can access an RDS instance using the
-same tooling as if you were accessing a self-managed database.
+- **Examples**:
 
-The database can be optimized for:
+  - **Apache Cassandra**, **Amazon DynamoDB** (when used as a wide-column store).
 
-db.m5 general
-db.r5 memory
-db.t3 burst
+---
 
-There is an associated size and AZ selected.
+#### **1.10.1.2.3. Document Databases**
 
-When you provision an instance, you provision dedicated storage to that instance.
-This is EBS storage located in the same AZ.
-RDS is vulnerable to failures in that AZ.
+- **Document Store**:
 
-The storage can be allocated with SSD or magnetic.
+  - Data is stored in **documents**, typically in **JSON** or **BSON** format, which can be **nested** and have varying structures.
 
-io1 - lots of IOPS and consistent low latency
-gp2 - same burst pool architecture as it does on EC2, used by default
-magnetic - compatibility mostly for long term historic uses
+  - Documents are stored as **key-value pairs** where the **value** is a document (a collection of key-value pairs).
 
-Billing is per instance and hourly rate for that compute. You are billed
-for storage allocated.
+- **Schema-less**:
+
+  - Document databases allow different documents in the same collection to have **different structures**, meaning the schema doesn't need to be defined beforehand.
+
+- **Examples**:
+
+  - **MongoDB**, **CouchDB**.
+
+---
+
+#### **1.10.1.2.4. Row Databases (OLTP)**
+
+- **Online Transactional Processing (OLTP)**:
+
+  - These are **traditional relational databases** optimized for processing **transactions**.
+
+  - They handle **real-time data**, where each transaction is recorded as a row.
+
+- **Use Case**:
+
+  - Great for systems that need to constantly **add, update, and delete** rows, such as **e-commerce systems** or **order management systems**.
+
+- **Examples**:
+
+  - **MySQL**, **PostgreSQL**.
+
+---
+
+#### **1.10.1.2.5. Column Databases (Data Warehousing)**
+
+- **Column Store**:
+
+  - Instead of storing data in rows, column stores store data in columns.
+
+  - Data is grouped and stored by column, meaning similar data is stored together.
+
+- **Use Case**:
+
+  - **Analytics** and **reporting** workloads where queries often access large amounts of data from specific columns.
+
+- **Not Ideal for Transactional Workloads**:
+
+  - These databases are not well-suited for high-frequency transactions.
+
+- **Examples**:
+
+  - **Amazon Redshift**, **Google BigQuery**.
+
+---
+
+#### **1.10.1.2.6. Graph Databases**
+
+- **Graph Database**:
+
+  - Focuses on relationships between entities.
+
+  - **Nodes** represent entities (e.g., people, places, things), and **edges** represent the relationships between them (e.g., "friend of", "purchased").
+
+- **Use Case**:
+
+  - Best for applications that involve complex relationships, such as **social networks**, **fraud detection**, and **recommendation engines**.
+
+- **Querying**:
+
+  - Graph databases use **graph traversal** techniques to explore relationships.
+
+- **Examples**:
+
+  - **Neo4j**, **Amazon Neptune**.
+
+---
+
+### **Key Differences Between SQL and NoSQL**
+
+| **Feature**       | **SQL**                                   | **NoSQL**                                                         |
+| ----------------- | ----------------------------------------- | ----------------------------------------------------------------- |
+| **Schema**        | Defined in advance (fixed)                | Schema-less or flexible                                           |
+| **Data Model**    | Structured (tables with rows and columns) | Can be key-value, document, column, or graph                      |
+| **Relationships** | Uses foreign keys and joins               | Often denormalized, but supports relationships in graph databases |
+| **Transactions**  | ACID compliant                            | Can vary; many NoSQL databases offer BASE instead of ACID         |
+| **Scalability**   | Vertical (scale up)                       | Horizontal (scale out)                                            |
+| **Examples**      | MySQL, PostgreSQL, Oracle                 | MongoDB, Cassandra, DynamoDB, Neo4j                               |
+
+---
+
+### **Use Case Selection**
+
+- **SQL Databases**: Best for **structured data**, applications requiring **complex queries**, **transactions**, and where data integrity is critical.
+
+- **NoSQL Databases**: Best for **unstructured data**, applications that require **high scalability** and **flexibility**, and those that store **large volumes of dynamic data**.
+
+---
+
+### **Exam Powerups**
+
+1.  **SQL** databases require a **predefined schema** and are ideal for applications that need **complex relationships** between tables.
+
+2.  **NoSQL** databases are more **flexible** and are used for handling **unstructured or semi-structured data**, offering faster performance for certain types of queries.
+
+3.  Common types of **NoSQL** databases include **Key-Value**, **Document**, **Wide Column Store**, **Graph**, and **Row** databases.
+
+4.  **Graph databases** are specifically optimized for handling **complex relationships** between entities, making them ideal for social networks and recommendation systems.
+
+---
+
+### **Databases on EC2: Running Databases on Amazon EC2 Instances**
+
+Running a database on **EC2** is generally **not recommended** for most use cases, as it involves **higher complexity**, **manual management**, and **higher risks** compared to using **AWS-managed database services** like **RDS**. However, there are some cases where running a database on EC2 might make sense, and it's essential to understand the pros and cons of doing so.
+
+---
+
+### **Why You Should Avoid Running a Database on EC2**
+
+1. **Admin Overhead**:
+   - When you run a database on an EC2 instance, you’re responsible for **managing the operating system** (OS) and all aspects of the database. This means you must handle tasks like:
+     - **Patching** the OS and database.
+     - **Monitoring** and **tuning** performance.
+     - **Managing backups** and **disaster recovery**.
+     - **Security hardening**.
+   
+2. **High Maintenance**:
+   - Since you're responsible for the **infrastructure**, maintaining and scaling databases on EC2 requires significant **administrative overhead**. You need to set up monitoring, manage updates, and handle failure scenarios manually.
+   - In comparison, managed services like **RDS** take care of most of this for you automatically.
+
+3. **Backup and Disaster Recovery Complexity**:
+   - You need to manually configure **backups** for your database running on EC2. While EC2 allows you to take **snapshots** of the instance or use third-party backup tools, **RDS** offers **automated backups** and **point-in-time recovery** without additional configuration.
+
+4. **Single-AZ Failure Risk**:
+   - If you're running a database on an EC2 instance in one **Availability Zone (AZ)**, and that AZ fails, your entire database will be unavailable, leading to **downtime**. 
+   - While you can mitigate this by setting up **manual replication** or **multi-AZ replication** yourself, it’s complex and error-prone.
+   - With **RDS**, you can use **Multi-AZ deployments** for automatic failover in case of an AZ failure.
+
+5. **Scaling Limitations**:
+   - EC2 instances are either **on** or **off**. Scaling a database running on EC2 can be difficult and costly, especially if you're trying to scale horizontally (adding more instances to handle additional traffic). This typically requires manual **replication** and **load balancing**, which introduces complexity and increases the risk of misconfiguration.
+   - In contrast, **RDS** offers **horizontal scaling** via **read replicas** for distributing read-heavy workloads, and **vertical scaling** by changing the instance type.
+
+6. **Replication**:
+   - **Replication** on EC2 is **manual**. For example, if you want to set up **master-slave replication** or **multi-master replication**, you need to configure it yourself.
+   - In **RDS**, **replication** is **automated** with features like **read replicas** for scaling read operations and **Multi-AZ** for high availability.
+
+7. **Performance**:
+   - Running a database on EC2 often leads to **slower performance** compared to AWS-managed services like RDS, especially if you don’t have the right expertise in database management and optimization.
+
+---
+
+### **When Might Running a Database on EC2 Make Sense?**
+
+While it's generally not recommended to run databases on EC2, there are certain scenarios where it may be justified:
+
+1. **Access to the Operating System**:
+   - If you need **full access to the OS** for deep system-level customizations or database tuning that is not possible with managed services like **RDS**, EC2 might be a better option.
+   - For example, if you're running a database version or **custom configuration** that is not supported by **RDS** (e.g., a specific database version or a custom storage engine), you might choose EC2.
+
+2. **Advanced Database Tuning**:
+   - If your database requires **advanced tuning** that is specific to your workload, such as tuning **DBROOT parameters** (e.g., in MySQL), then EC2 provides full flexibility to configure the OS and the database engine.
+   - AWS offers many tuning options for **RDS**, but for very advanced tuning, running a custom database on EC2 might be necessary.
+
+3. **Database or Version Not Available in RDS**:
+   - **AWS RDS** doesn’t support all database engines. If you're using a **less common database** or a version of a database that is not supported by **RDS**, then running it on EC2 might be the only option. 
+   - For example, if you need a very specific **Oracle** version or **SQL Server** configuration that is not supported by **RDS**, EC2 could be used.
+
+4. **Custom OS or Database Version**:
+   - If your application requires a very specific **operating system** or **database version** that AWS doesn’t offer in RDS (or if RDS doesn’t meet the specific version or configuration needs), then EC2 might be your only option.
+
+---
+
+### **Disadvantages of Running Databases on EC2**
+
+1. **Single Point of Failure (SPOF)**:
+   - A database running on a single EC2 instance in one **Availability Zone (AZ)** can cause a **single point of failure** (SPOF). In the event of an **AZ failure**, you lose access to your database.
+   - You can manually configure replication or Multi-AZ architecture, but it's complex and requires manual intervention for failover.
+
+2. **Cost**:
+   - EC2 is generally more expensive for running databases because you’re paying for the **EC2 instance**, **EBS storage**, and **bandwidth** between your EC2 instance and other services (e.g., S3).
+   - **RDS**, on the other hand, includes optimized pricing for managed databases and offers **reserved instances** for cost savings over time.
+
+---
+
+### **RDS vs EC2 for Databases: Key Differences**
+
+| **Feature**                       | **EC2**                                         | **RDS**                                               |
+|------------------------------------|-------------------------------------------------|-------------------------------------------------------|
+| **Management**                     | Full control of the OS and database engine.     | Managed service; AWS takes care of OS and DB updates.  |
+| **Scalability**                    | Manual scaling (vertical or horizontal).        | Auto-scaling with **read replicas** and **Multi-AZ**.   |
+| **Availability**                   | Single AZ unless manually configured.           | **Multi-AZ** deployments for automatic failover.       |
+| **Backup**                         | Manual backups.                                 | Automatic backups and **point-in-time recovery**.      |
+| **Replication**                    | Manual replication setup.                       | **Automated replication** with read replicas.          |
+| **Performance**                    | Can be tuned fully but requires expertise.      | Optimized performance with AWS-managed databases.      |
+| **Cost**                           | Potentially more expensive due to manual setup.  | Optimized pricing for managed database services.       |
+| **Security**                       | Must manage security and patches.               | Managed security patches and updates by AWS.           |
+| **Use Case**                       | Custom databases, specialized versions, or OS.  | Standard use cases, high availability, and scaling.    |
+
+---
+
+### **Storage Options for EC2 Databases**
+
+1. **EBS Storage**:
+   - **Elastic Block Store (EBS)** provides persistent storage for EC2 instances.
+   - You can choose between different types of EBS volumes:
+     - **io1**: High-performance storage with high **IOPS** (input/output operations per second).
+     - **gp2**: General-purpose SSD storage with burstable performance (default for RDS).
+     - **magnetic**: Legacy option used for cheaper, lower-performance storage.
+   - **EBS storage** is tied to the instance and located in the same AZ as the EC2 instance.
+
+2. **RAID Configuration**:
+   - You can configure **RAID** on EC2 for additional redundancy or performance benefits (RAID 0 for speed, RAID 1 for mirroring, RAID 5 for striping with parity, etc.).
+
+---
+
+### **Amazon Aurora: A Special Case**
+
+- **Aurora** is **Amazon’s relational database service** that combines the performance and availability of **high-end commercial databases** with the simplicity and cost-effectiveness of open-source databases.
+- Unlike traditional RDS databases, **Aurora** is a completely **distributed database** designed for high availability and fast performance.
+- **Aurora** can handle **millions of queries per second** and automatically **scales** with your workload, making it an excellent choice for high-performance applications.
+
+---
+
+### **Summary of Databases on EC2**
+
+Running a database on **EC2** gives you full control over the environment but introduces **high management overhead** and **risk of failure** due to lack of inherent high availability and scaling features. For most use cases, **AWS RDS** is the better choice for managed database services, providing scalability, security, backups, and easier management.
+
+However, in certain scenarios (e.g., custom database configurations, need for OS access), running a database on EC2 may still make sense, though it's typically not the most efficient or cost-effective solution.
+
+---
+
+### **Exam Powerups**
+
+1. Running a **database on EC2** involves **manual management**, including backups, scaling, and replication, which adds complexity.
+2. **RDS** provides a **fully managed database solution** with **automatic backups**, **scalability**, and **high availability** via **Multi-AZ deployments**.
+3. **EC2** databases are vulnerable to **single AZ failure**, unlike **RDS**, which provides **automatic failover** with Multi-AZ.
+4. **Aurora** is a high-performance, fully managed relational database that combines the best of **MySQL and PostgreSQL** with Amazon’s infrastructure for scalability and reliability.
+
+---
+
+### **Amazon RDS Architecture**
+
+**Amazon RDS (Relational Database Service)** is a managed service that simplifies database setup, operation, and scaling in the cloud. RDS offers various types of database engines (such as MySQL, PostgreSQL, Oracle, SQL Server, and MariaDB) and provides a fully managed environment for relational databases. The architecture of RDS ensures **high availability**, **scalability**, **security**, and **easy management** without the need to manually handle infrastructure, backups, or patching. A single RDS can have multiple databases.
+
+
+---
+
+### **Core Components of RDS Architecture**
+
+1. **DB Instance**:
+   - An **RDS DB instance** is a **virtual server** running a relational database engine.
+   - A **DB instance** runs within a **VPC** (Virtual Private Cloud), which is isolated from other networks and offers more control over security.
+   - The DB instance can be **single AZ** or **Multi-AZ**, depending on the availability and redundancy needs.
+
+2. **Storage**:
+   - **Storage types** in RDS depend on performance and use case:
+     - **General Purpose (SSD)**: Balanced price/performance storage (default for most use cases).
+     - **Provisioned IOPS (SSD)**: High-performance storage for applications that require low-latency access and high throughput.
+     - **Magnetic**: Legacy option for long-term archival data but not suitable for high-performance workloads.
+   - **Storage Auto-scaling**: Storage for RDS instances can automatically scale based on needs without downtime.
+
+3. **Database Engines**:
+   - RDS supports multiple relational database engines, each of which has its own architecture and configuration settings:
+     - **MySQL**
+     - **PostgreSQL**
+     - **MariaDB**
+     - **Oracle**
+     - **Microsoft SQL Server**
+
+4. **DB Parameter Groups**:
+   - **Parameter groups** are used to configure the database engine settings. These settings control aspects like memory allocation, query caching, etc.
+   - You can apply custom parameters to tune the DB instance for specific use cases.
+
+5. **Backup and Recovery**:
+   - **Automated backups**: RDS provides automated backups, where data is backed up daily to Amazon S3. You can retain backups for up to **35 days**.
+   - **Manual snapshots**: You can also take manual snapshots of the database, which are stored independently and are persistent even if the DB instance is deleted.
+
+6. **Multi-AZ Deployment**:
+   - **Multi-AZ** (Availability Zone) deployments offer **high availability** and **failover support**. 
+   - In a **Multi-AZ** deployment, RDS automatically provisions a **standby replica** in another AZ. The primary DB instance synchronously replicates data to the standby replica. In case of failure, RDS automatically fails over to the standby instance, minimizing downtime.
+   
+7. **Read Replicas**:
+   - RDS allows you to create **read replicas** to offload read traffic from the primary DB instance, helping scale read-heavy applications.
+   - **Read replicas** can be deployed within the same AWS region or in a different region (cross-region replication).
+
+8. **VPC (Virtual Private Cloud)**:
+   - RDS instances are typically deployed within a **VPC**, providing **network isolation**.
+   - RDS instances can be configured to allow inbound traffic only from specific subnets, providing greater control over the network architecture.
+
+9. **Security**:
+   - **Encryption**: RDS supports **encryption at rest** (via AWS KMS) and **in-transit encryption** (via SSL).
+   - **IAM Integration**: You can manage access to your RDS resources using **AWS Identity and Access Management (IAM)** roles and policies.
+   - **Security Groups**: Control network traffic to and from your RDS instance using **security groups**.
+   - **VPC Peering**: You can set up **VPC peering** to allow communication between RDS and other VPCs securely.
+
+---
+
+### **Cost Dependencies in RDS**
+
+The cost of running RDS instances depends on several factors, including instance size, storage, data transfer, and additional services like **Multi-AZ deployments** and **Read Replicas**. Here’s a detailed breakdown of the key cost dependencies:
+
+---
+
+### **1. Instance Type and Size**
+
+- **Instance Class**: The compute resources (CPU, memory, and networking performance) for your RDS database are determined by the **instance class** you choose.
+  - **General Purpose** (e.g., db.t3, db.m5): Used for most applications.
+  - **Memory Optimized** (e.g., db.r5, db.x1e): For memory-intensive workloads.
+  - **Compute Optimized** (e.g., db.c5): For CPU-bound applications.
+  
+  The larger the instance, the higher the cost. Instance costs are typically billed **hourly** based on the type and size of the instance.
+
+- **On-Demand vs. Reserved Instances**:
+  - **On-Demand Instances**: You pay for compute and storage based on hourly usage.
+  - **Reserved Instances**: You can save up to 70% by committing to a **1-year or 3-year** term for a specified DB instance size and type.
+
+---
+
+### **2. Storage**
+
+- **Storage Type**: RDS offers different storage types with different performance characteristics:
+  - **General Purpose (SSD)**: Standard storage used for most database applications.
+  - **Provisioned IOPS (SSD)**: High-performance storage for low-latency, high-throughput applications. Costs more due to high IOPS performance.
+  - **Magnetic**: Older, lower-performance storage, now mostly used for archival purposes.
+
+- **Provisioned Storage**: You are charged based on the amount of storage you provision, regardless of whether it’s used.
+  
+- **Storage Auto-Scaling**: For **General Purpose (SSD)** and **Provisioned IOPS (SSD)**, RDS offers **auto-scaling** storage, meaning the storage size can increase automatically as needed. You are billed for the **allocated storage**, not actual usage.
+
+---
+
+### **3. Backup Storage**
+
+- **Automated Backups**: 
+  - The first **100 GB** of backup storage is free.
+  - After the 100 GB, you are charged for the backup storage used beyond the free tier.
+  
+- **Manual Snapshots**:
+  - Manual snapshots incur **additional storage costs**. Snapshots are stored in **S3** and are billed for the amount of data stored.
+
+---
+
+### **4. Data Transfer**
+
+- **Inbound Data Transfer**: Data transferred into RDS from the internet or other AWS regions is typically **free**.
+  
+- **Outbound Data Transfer**: You are charged for data transferred **out** of the RDS instance to the internet or to other AWS regions. AWS charges for data transfer in **GB**.
+
+---
+
+### **5. Multi-AZ Deployments**
+
+- **Multi-AZ** deployments provide high availability by replicating your database in a standby AZ. 
+  - There is an additional cost for running the standby instance.
+  - The backup storage and instance storage are billed for both the primary and secondary instances.
+
+---
+
+### **6. Read Replicas**
+
+- **Read Replicas**: 
+  - Read replicas allow you to scale read-heavy workloads.
+  - You are charged separately for each **read replica** based on the instance type and storage.
+  - Replicas can be in the same region (regional) or across AWS regions (cross-region), with additional costs for cross-region data transfer.
+
+---
+
+### **7. Licensing Costs**
+
+- **License Included**: If you’re using commercial databases like **Oracle** or **SQL Server**, you need to pay for the database **license** in addition to the instance cost. AWS offers **license-included pricing** for these engines.
+  
+- **Bring Your Own License (BYOL)**: For Oracle or SQL Server, you can bring your own licenses, which can reduce the cost of running those databases.
+
+---
+
+### **8. Additional Features and Costs**
+
+- **Performance Insights**: Amazon RDS provides **Performance Insights** to monitor the performance of your database. There’s a **charge** for enabling this feature, based on the instance type and duration of use.
+  
+- **Enhanced Monitoring**: RDS offers **Enhanced Monitoring** to track metrics in real-time for your DB instance. This feature comes with a **cost** depending on the level of monitoring.
+
+- **CloudWatch Metrics**: RDS integrates with **Amazon CloudWatch** for detailed monitoring and can incur additional costs based on metrics collected.
+
+---
+
+### **Billing Model Summary**
+
+| **Cost Component**       | **Cost Drivers**                                          | **Billing Model**          |
+|--------------------------|-----------------------------------------------------------|----------------------------|
+| **Instance Type**         | Instance class, size, and type                            | **Hourly**                 |
+| **Storage**               | Storage type (SSD, magnetic, IOPS), and allocated size    | **Per GB/month**           |
+| **Backup Storage**        | Automated and manual backups beyond the free tier        | **Per GB/month**           |
+| **Data Transfer**         | Data transferred in and out of RDS                       | **Per GB/month**           |
+| **Multi-AZ**              | Additional cost for standby instance and replication      | **Additional hourly charge** |
+| **Read Replicas**         | Instance size and storage for each read replica          | **Hourly charge**          |
+| **Licensing**             | Licensing for commercial databases (Oracle, SQL Server)  | **License fee**            |
+| **Other Features**        | Performance Insights, Enhanced Monitoring, CloudWatch metrics | **Additional charge**      |
+
+---
+
+### **Conclusion**
+
+**Amazon RDS** provides a **managed** environment for relational databases, which reduces administrative overhead but can still incur costs based on instance type, storage, data transfer, and additional services like Multi-AZ or read replicas.
+
+For most use cases, **RDS** is the preferred option, offering high availability, scalability, and easy maintenance compared to managing databases manually on **EC2**. However, it’s important to carefully understand **cost dependencies** to optimize your AWS RDS usage and minimize unnecessary costs.
+
+---
+
+### **Exam Powerups**
+
+1. **RDS Costs** depend on instance size, storage type, backup storage, and features like **Multi-AZ** and **Read Replicas**.
+2. The cost for **Multi-AZ** deployments includes charges for both the **primary instance** and **standby instance**.
+3. **Data transfer** out of RDS to other regions or the internet incurs additional charges.
+4. **License-included** pricing applies for commercial databases like **Oracle** and **SQL Server**, and you can use **BYOL (Bring Your Own License)** to reduce licensing costs.
+
+---
+
+
+
 
 ### 1.10.4. RDS Multi AZ (High-Availability)
 
-This is an option that you can enable on RDS instances.
-Secondary hardware is allocated inside another AZ. This is referred to as
-the standby replica or standby replica instance. The standby replica has
-its own storage in the same AZ as it's located.
+### **Amazon RDS Multi-AZ (High-Availability) Overview**
 
-RDS enables synchronous replication from the primary instance to the
-standby replica.
+Amazon RDS **Multi-AZ** (Multiple Availability Zone) deployment is a feature designed to provide **high availability** and **disaster recovery** for relational databases. In a Multi-AZ deployment, RDS automatically provisions a **synchronous standby replica** of your primary RDS instance in a different **Availability Zone (AZ)** within the same region. This setup improves database **availability** and ensures **automatic failover** in the event of a failure.
 
-RDS Access ONLY via database CNAME. The CNAME will point at the primary
-instance. You cannot access the standby replica for any reason via RDS.
+The primary goal of **Multi-AZ** deployments is to ensure that your database is highly available, resilient, and can quickly recover from failures without significant downtime.
 
-The standby replica cannot be used for extra capacity.
+---
 
-**Synchronous Replication** means:
+### **Key Concepts in Multi-AZ Deployments**
 
-1. Database writes happen.
-2. Primary database instance commits changes.
-3. Same time as the write is happening, standby replication is happening.
-4. Standby replica commits writes.
+1. **Primary Instance and Standby Replica**:
+   - The **Primary** instance is the active database instance that handles both **read** and **write** operations.
+   - The **Standby Replica** is the passive instance located in a different **Availability Zone** (AZ) from the Primary. The **Standby** is synchronized in real-time with the Primary instance, maintaining an exact copy of the database.
 
-If any error occurs with the primary database, AWS detects this and will
-failover within 60 to 120 seconds to change to the new database.
+2. **Synchronous Replication**:
+   - **Synchronous replication** ensures that when a write operation is committed to the **Primary instance**, it is immediately replicated to the **Standby replica**.
+   - This means the **Primary instance** and the **Standby replica** are always in sync, and the data is committed to both simultaneously.
+   - If a failure occurs on the **Primary**, the **Standby replica** can take over with no data loss, as it is always up-to-date with the Primary instance.
 
-This does not provide fault tolerance as there will be some impact during change.
+3. **Failover Process**:
+   - **Failover** occurs automatically when AWS detects a failure or issue with the **Primary instance**. This could be due to hardware failures, network issues, or maintenance events that impact the **Primary instance**.
+   - During a failover, the **Standby replica** is promoted to become the new **Primary** instance, and the **Primary instance** is made read-only.
+   - The failover process usually takes between **60 and 120 seconds**, minimizing downtime for your database.
+   - During this failover process, applications may experience a brief disruption, but once the failover is complete, the new **Primary instance** is fully operational.
+
+4. **Accessing the Database**:
+   - Both the **Primary** and **Standby** instances are accessible only via a **single endpoint** provided by RDS. This endpoint is a **CNAME** (Canonical Name) that points to the **Primary instance**.
+   - You **cannot** directly access the **Standby replica** for any reason. Access is handled by the CNAME, which always points to the **Primary instance** unless failover occurs.
+   - In case of failover, the CNAME will point to the **Standby replica** (which is promoted to the new Primary), and your application can seamlessly reconnect to the database without needing any configuration changes.
+
+5. **No Additional Capacity**:
+   - The **Standby replica** is used solely for **high availability**. It cannot be used to scale **read traffic** or for other purposes. All read and write operations happen on the **Primary instance**, and the **Standby** serves as a backup in case of failure.
+
+---
+
+### **How High Availability is Achieved in Multi-AZ Deployments**
+
+1. **Redundancy**:
+   - By deploying the **Primary** and **Standby** instances in separate **Availability Zones**, **RDS Multi-AZ** ensures **redundancy**. This means if one AZ experiences a failure, the database can continue to operate using the **Standby replica** in the other AZ.
+   - Multi-AZ deployments provide resilience against **hardware failures**, **network issues**, and **disaster events** that could affect a single AZ.
+
+2. **Synchronous Data Replication**:
+   - **Synchronous replication** ensures that data is always in sync between the **Primary** instance and the **Standby replica**. Every change made to the **Primary database** is simultaneously committed to the **Standby replica**, ensuring data consistency and availability.
+
+3. **Automatic Failover**:
+   - In the event of a **Primary instance failure**, **RDS** automatically performs **failover** within **60 to 120 seconds**, promoting the **Standby replica** to be the new **Primary** instance.
+   - After failover, the new **Primary instance** will take over and handle both **read and write operations**, and your application can continue without manual intervention.
+
+4. **Managed Database with No Downtime for Patching**:
+   - **RDS Multi-AZ** deployments allow for **seamless maintenance** and patching. AWS can patch the **Primary instance** while the **Standby replica** continues to handle database traffic, ensuring no downtime for your application.
+   - Once the patch is applied to the **Primary**, the failover process happens to the **Standby** instance, and the **Primary** instance is patched. This minimizes downtime during maintenance.
+
+---
+
+### **Limitations of Multi-AZ Deployments**
+
+1. **No Load Distribution**:
+   - Multi-AZ deployments are designed for **high availability** but do not provide **load balancing** or **read scaling**. Only the **Primary instance** handles both **read and write** traffic.
+   - If you need to offload read traffic, you would need to set up **Read Replicas** in addition to the Multi-AZ deployment. Read Replicas can distribute read traffic across multiple instances, but writes still go to the **Primary instance**.
+
+2. **Costs**:
+   - **Multi-AZ deployments** incur **additional costs** because you are paying for both the **Primary instance** and the **Standby replica**. You are charged for the compute resources, storage, and data transfer between the Primary and Standby instances.
+
+3. **Failover Delay**:
+   - While **failover** happens automatically, there is still a brief **disruption** of service during the transition. Your application might experience a short downtime (typically under two minutes) as the failover process completes.
+
+---
+
+### **Multi-AZ Deployment vs. Read Replicas**
+
+- **Multi-AZ** deployments are **focused on high availability**. The **Standby replica** is not for read scaling but for ensuring database **availability** in case of failure.
+- **Read Replicas**, on the other hand, are intended for **scaling read traffic** and offloading the **Primary instance**. They provide **asynchronous replication** and can be promoted to a Primary instance if needed, but they don’t provide **automatic failover**.
+
+Here’s a comparison:
+
+| **Feature**                | **Multi-AZ Deployment**                             | **Read Replica**                                |
+|----------------------------|-----------------------------------------------------|-------------------------------------------------|
+| **Primary Purpose**         | High Availability and Failover                      | Read Scaling and Offloading Read Traffic        |
+| **Replication Type**        | Synchronous                                        | Asynchronous                                    |
+| **Data Consistency**        | Always in sync between Primary and Standby         | Eventually consistent                          |
+| **Read/Write Operations**   | Only Primary instance handles reads and writes     | Reads are offloaded to Read Replicas, writes to Primary |
+| **Automatic Failover**      | Yes, automatic failover to Standby replica         | No automatic failover; needs manual promotion   |
+| **Cost**                    | Additional costs for both Primary and Standby       | Costs for Read Replicas based on instance size  |
+
+---
+
+### **Summary of RDS Multi-AZ and High Availability**
+
+- **RDS Multi-AZ** provides **high availability** by automatically creating a **standby replica** in a different AZ for **disaster recovery**.
+- **Synchronous replication** ensures that the **Primary** instance and **Standby replica** are always in sync, minimizing data loss during failover.
+- In case of failure, **automatic failover** within **60 to 120 seconds** promotes the **Standby replica** to become the new **Primary** instance.
+- Multi-AZ does not provide **read scaling** or **load balancing**—this can be achieved using **Read Replicas**.
+- **Cost** is higher for Multi-AZ deployments as you pay for both the **Primary** and **Standby** instances.
+
+---
+
+### **Exam Powerups**
+
+1. **RDS Multi-AZ** ensures **high availability** and **automatic failover** by using synchronous replication to a standby replica in a different AZ.
+2. The **Standby replica** is not used for **read scaling**; it’s only for **failover** in case the **Primary instance** fails.
+3. **Failover** occurs **automatically** within **60 to 120 seconds**, providing near-zero downtime.
+4. **Multi-AZ** deployments offer **synchronous replication**, while **Read Replicas** provide **asynchronous replication** for **read scaling**.
+
+---
+
 
 #### 1.10.4.1. RDS Exam PowerUp
 
@@ -13285,92 +13830,257 @@ This does not provide fault tolerance as there will be some impact during change
     changing that type.
 
 ### 1.10.5. RDS Backup and Restores
+### **RDS Backup, Snapshots, and Restore in Detail**
 
-RPO - Recovery Point Objective
+Amazon RDS provides **automatic backups**, **manual snapshots**, and **point-in-time restore** capabilities to ensure that your database is protected and can be restored in case of data loss, corruption, or failures. Let’s break down these components, the concepts of **RPO** and **RTO**, and the important points you need to know about RDS backup and restore operations.
 
-- Time between the last backup and when the failure occurred.
-- Amount of maximum data loss.
-- Influences technical solution and cost.
-- Business usually provides an RPO value.
+---
 
-RTO - Recovery Time Objective
+### **1.10.5. RDS Backup and Restores**
 
-- Time between the disaster recovery event and full recovery.
-- Influenced by process, staff, tech and documentation.
+#### **RPO (Recovery Point Objective)**
 
-RDS Backups
+- **RPO** refers to the maximum **acceptable amount of data loss** that can occur due to a failure. Essentially, it defines the **point in time** to which you can restore the data after a failure.
+  
+  **Example**: If your **RPO** is 5 minutes, it means that you can afford to lose no more than 5 minutes of data. Any failure or disaster would result in restoring your database to the state it was in up to the last 5-minute **snapshot** or **transaction log**.
 
-First snap is full copy of the data used on the RDS volume. From then on,
-the snapshots are incremental and only store the change in data.
+- RPO is influenced by:
+  - **Backup frequency**: More frequent backups result in a lower RPO.
+  - **Transaction log frequency**: More frequent logging reduces data loss.
+  - **Costs**: Achieving a lower RPO typically incurs higher costs because it requires more frequent backups and higher storage.
 
-When any snapshot occurs, there's a brief interruption to the flow of data
-between the compute resource and the storage. If you are using single AZ, this
-can impact your application. If you are using Multi-AZ, the snapshot occurs
-on the standby replica.
+#### **RTO (Recovery Time Objective)**
 
-**Manual snapshots don't expire**, you have to clean them yourself.
-Automatic Snapshots can be configured to make things easier.
+- **RTO** refers to the **maximum allowable downtime** for a system before it impacts the business. It is the **time between the failure event** and the **full recovery** of the system.
+  
+  **Example**: If your **RTO** is 1 hour, it means that after a failure or disaster, your application should be restored and fully operational within 1 hour.
 
-In addition to automated backup, every 5 minutes database transaction logs are
-saved to S3. Transaction logs store the actual data which changes inside a
-database so the actual operations that are executed. This allows a database
-to be restored to a point in time often with 5 minute granularity.
+- RTO is influenced by:
+  - **Processes and staff**: Efficient recovery procedures and trained staff can reduce RTO.
+  - **Backup systems and tools**: Technologies like **RDS automatic backups**, **snapshots**, and **point-in-time recovery** can influence how quickly the system can be restored.
+  - **Documentation**: Well-documented procedures help to reduce downtime.
 
-Automatic cleanups can be anywhere from _0 to 35_ days.
-This means you can restore to any point in that time frame.
-This will use both the snapshots and the translation logs.
+---
 
-When you delete the database, they can be retained but they will expire
-based on their retention period.
+### **RDS Backups: Snapshot and Transaction Logs**
 
-The only way to maintain backups is to create a final snapshot which will not
-expire automatically.
+#### **Automated Backups**
 
-#### 1.10.5.1. RDS Backup Exam PowerUp
+- **Automated backups** are enabled by default for Amazon RDS and consist of two key components:
+  1. **Daily Snapshots**: RDS automatically takes a snapshot of your database once per day.
+  2. **Transaction Logs**: Every **5 minutes**, Amazon RDS automatically stores the transaction logs to **Amazon S3**. These logs record the **changes** that happen inside the database.
 
-- When performing a restore, RDS creates a new RDS with a new endpoint address.
-- When restoring a manual snapshot, you are setting it to a single point
-  in time. This influences the RPO value.
-- Automated backups are different, they allow any 5 minute point in time.
-- Backups are restored and transaction logs are replayed to bring DB to
-  desired point in time.
-- Restores aren't fast, think about RTO.
+- **Snapshot Process**:
+  - The first snapshot is a **full backup** of the database.
+  - After the initial snapshot, all subsequent backups are **incremental**, meaning only the changes (new or modified data) since the last snapshot are stored.
+  - Each snapshot is stored in **Amazon S3**, ensuring data durability.
+
+- **Impact of Snapshot**:
+  - There may be a **brief interruption** in database activity while the snapshot is being taken. This **could impact performance** for a short time, especially in a **Single-AZ** deployment.
+  - If you use a **Multi-AZ deployment**, the snapshot process happens on the **Standby replica**, and there is **minimal impact** on the application since the Primary instance continues to serve requests.
+
+- **Snapshot Retention**:
+  - **Automated snapshots** can be retained from **0 to 35 days**, and you can configure the retention period based on your requirements.
+  - After the retention period, **automated snapshots** are automatically deleted.
+  - You can restore a database to any point in time within the **retention window** by using both **snapshots** and **transaction logs**.
+
+#### **Manual Snapshots**
+
+- **Manual Snapshots** are taken manually by the user and provide a way to capture a **point-in-time** backup of the database.
+- Unlike automated backups, **manual snapshots do not expire**. They remain in **Amazon S3** until you delete them. This gives you control over when to remove old backups.
+- **Manual snapshots** are **full backups** and do not rely on the transaction logs.
+
+#### **Transaction Logs**
+
+- Every **5 minutes**, Amazon RDS automatically stores **transaction logs** to **Amazon S3**. These logs capture the actual **database operations** that modify data.
+- **Transaction logs** are crucial for performing **point-in-time recovery** (PITR). If you need to restore the database to a specific point in time, the **transaction logs** help you apply the changes from the last snapshot, allowing you to **replay transactions**.
+  
+  - **Point-in-Time Recovery**: If the database is corrupted or a failure occurs, you can restore it to any point within the last **35 days** (depending on retention settings) by using **both the snapshots** and the transaction logs.
+  - RDS logs are stored in **Amazon S3** and can be retrieved to restore data back to the **desired point in time** (up to the **5-minute granularity**).
+
+#### **Backup Retention and Cleanup**
+
+- **Automatic Cleanup**: **Automated backups** are automatically cleaned up after the retention period. You can configure the retention period anywhere from **0 to 35 days**.
+- **Manual Cleanup**: **Manual snapshots** do not expire automatically and must be cleaned up manually when no longer needed.
+
+#### **Final Snapshot**
+
+- When you **delete an RDS instance**, you can choose to take a **final snapshot**. This snapshot will not expire, allowing you to retain a backup of your database before deletion.
+- **Final snapshots** are often used for **archiving** or when you no longer need the database but still want to keep a backup.
+
+---
+
+### **RDS Restore Process**
+
+#### **Restoring from a Snapshot**
+
+1. **Snapshot Restore**:
+   - When you restore from a **snapshot** (whether automated or manual), RDS creates a new **RDS instance** with a new **endpoint**.
+   - The new instance will be a **clone** of the database at the time of the snapshot.
+   - **Manual snapshot restores** are restored to the exact point-in-time that the snapshot was taken, which directly influences the **RPO value** (data loss is limited to the last snapshot).
+   - The **endpoint** for the restored instance will be different from the original instance, and you’ll need to update your application to point to the new endpoint.
+
+2. **Point-in-Time Recovery (PITR)**:
+   - When you perform a **point-in-time recovery**, you restore the database to a specific time, using both the **snapshot** and the **transaction logs**.
+   - The **transaction logs** are **replayed** to bring the database to the exact point in time you specify.
+   - This allows you to recover from a disaster by restoring the database to the **moment before** the failure occurred.
+   - **PITR** is important for meeting **RPO** (Recovery Point Objective) requirements, ensuring that no more than a set amount of data is lost during recovery.
+
+3. **Restore Process Duration (RTO)**:
+   - The restore process is not instantaneous. Depending on the size of the database, the restore process can take some time, and this influences your **RTO** (Recovery Time Objective). 
+   - **RTO** is the total time required to recover from a failure and bring the system back online. If **RTO** is critical for your business, it's important to plan and test restore procedures ahead of time.
+
+---
+
+### **RDS Backup Exam PowerUps**
+
+- **Restore from Snapshot**: When you restore from a **manual snapshot**, it will create a new RDS instance with a new **endpoint** address.
+- **Point-in-Time Restore**: RDS allows for **point-in-time restores** using both **snapshots** and **transaction logs**, offering fine-grained control over the RPO (data loss) and enabling recovery to any 5-minute interval within the retention period.
+- **Snapshot Granularity**: Automated backups allow recovery to any **point within the last 35 days** using **transaction logs**.
+- **RTO Considerations**: Restores aren’t fast. Consider your **RTO** and test recovery procedures to ensure the desired recovery speed.
+
+---
+
+### **Summary**
+
+1. **RDS Backup** includes **automatic backups**, **manual snapshots**, and **transaction logs**. Automated backups are stored for up to 35 days, while **manual snapshots** remain until manually deleted.
+2. **RPO (Recovery Point Objective)** defines the acceptable data loss, and **RTO (Recovery Time Objective)** determines the acceptable downtime during recovery.
+3. **Transaction logs** are saved every 5 minutes, allowing point-in-time recovery, while **snapshots** provide a full backup of the database at the time the snapshot is taken.
+4. **Restoring from snapshots** creates a new RDS instance with a new **endpoint**, and point-in-time recovery allows the database to be restored to any point in time within the retention period.
+
+---
+
+### **Exam Powerups**
+
+1. **Automated backups** are retained for **0 to 35 days**, allowing **point-in-time restores** using **transaction logs** and **snapshots**.
+2. **Manual snapshots** do not expire automatically and must be cleaned up manually. They represent a **single point in time**.
+3. **Point-in-time recovery** enables you to restore your RDS instance to any **5-minute interval** within the retention period, replaying **transaction logs** to the desired time.
+4. **Restoring from a snapshot** creates a **new RDS instance** with a new endpoint. Manual snapshots are restored to the exact time of the snapshot.
+
+---
 
 ### 1.10.6. RDS Read-Replicas
+### **Amazon RDS Read Replicas: Overview and Detailed Explanation**
 
-Kept in sync using **asynchronous replication**
+Amazon RDS **Read Replicas** are a way to scale read-heavy database applications and improve performance by offloading read operations from the primary database. They are created as **asynchronous replicas** of the primary database instance, meaning they provide a **read-only copy** of the database that can be used to handle read traffic, such as **SELECT queries**, while leaving the primary instance to handle **write operations** (INSERT, UPDATE, DELETE).
 
-It is written fully to the primary and standby instance first.
-Once its stored on disk, it is then pushed to the replica.
-This means there could be a small lag.
-These can be created in the same region or a different region.
-This is known as **cross region replication**. AWS handles all of the
-encryption, configuration, and networking without intervention.
+Read replicas also provide **global availability improvements** and **disaster recovery** capabilities, though they are **not a direct substitute for a high availability solution** like **Multi-AZ deployments**.
 
-#### 1.10.6.1. Why do these matter
+---
 
-(READ Replicas) Performance Improvements
+### **How Read Replicas Work**
 
-- 5 direct read-replicas per DB instance.
-- Each of these provides an additional instance of read performance.
-- This allows you to scale out read operations for an instance.
-- Read-replicas can chain, but lag will become a problem.
-- Can provide global performance improvements.
-- Provides global resilience by using cross region replication.
-- They don't improve RTO
+1. **Asynchronous Replication**:
+   - **Replication Process**: Data is first **written to the Primary instance**. Once the data is committed to the Primary, it is **asynchronously replicated** to the Read Replica.
+   - **Lag**: Since the replication is asynchronous, there may be **a slight lag** between the **Primary instance** and the **Read Replica**. This means that changes made to the Primary instance will appear on the Read Replica after a short delay.
+   - The **lag** can vary depending on the amount of write traffic on the Primary instance and network conditions.
 
-(Read Replicas) Availability Improvements
+2. **Replication Setup**:
+   - **Same Region or Cross-Region**: You can create Read Replicas in the **same region** as the Primary instance for **lower latency** or in **different regions** for **cross-region replication**, which can help with **global resilience** and improve **read performance** for users in different geographic locations.
+   - **Encryption**: AWS handles encryption and secure communication between the Primary and Read Replica, so you do not need to configure anything manually in terms of security.
 
-- Snapshots & backups improve recovery-point-objective (time difference between the last backup and the occurrence of a failure).
-- Provide near 0 RPO; RTOs still remain a problem.
-- If the primary instance fails, you can promote a read-replica (RR) quickly to take over thus resulting in a low RTO (the time between a failure and full recovery).
-- Once it is promoted, it allows for read and write.
-- Only works for failures.
-  - Read-replicas will replicate data corruption.
-  - In this case you must default back to snapshots and backups.
-- Promotion cannot be reversed.
-- RRs are for reads only until promoted.
-- Offers global availability improvements and global resilience.
+3. **Promotion of Read Replica**:
+   - If the **Primary instance** fails, a **Read Replica** can be **promoted** to become the new **Primary instance**.
+   - Once promoted, the **Read Replica** can handle both **read and write** operations, and it becomes **fully operational**.
+   - **Promotion cannot be reversed**: After a Read Replica is promoted to Primary, it cannot be turned back into a Read Replica. It becomes an independent, fully operational instance.
+   - **Data Corruption Consideration**: If the Primary instance faces data corruption, the Read Replica will **replicate that corruption** as well. In such cases, you should rely on **backups** or **snapshots** for recovery.
+
+---
+
+### **Why Read Replicas Matter**
+
+#### **Performance Improvements**
+
+1. **Scaling Read Traffic**:
+   - Read Replicas provide **additional capacity** for **read-heavy workloads**. By offloading **read traffic** from the Primary instance, you can significantly improve the overall performance of your database.
+   - You can have up to **5 direct read-replicas** per **Primary DB instance**. Each of these replicas increases your ability to handle more read traffic without burdening the Primary instance.
+   - This scaling can be beneficial for applications with large user bases, **analytics workloads**, or applications that generate a lot of **queries** but don't require frequent **write** operations.
+
+2. **Global Performance Improvements**:
+   - By placing **Read Replicas** in different regions, you can **reduce latency** for users who are geographically far from the Primary instance. This can **enhance performance** for applications with **global users**.
+
+3. **Chaining Read Replicas**:
+   - You can **chain Read Replicas**, meaning you can create a Read Replica of a Read Replica. This allows further scaling, but note that **lag will increase** with each additional level of replication.
+
+4. **Global Resilience**:
+   - **Cross-region replication** enhances **global availability** by distributing replicas across different regions, which can be crucial for ensuring the availability of data in case of a regional failure.
+
+#### **Availability Improvements**
+
+1. **RPO (Recovery Point Objective)**:
+   - **Read Replicas** help improve the **RPO** by allowing you to replicate data asynchronously. They help reduce data loss in case of failure by ensuring that the data is always replicated to the replicas, even though they may lag behind slightly.
+   - **Snapshots and Backups** also help improve the RPO by allowing you to restore to a known point in time if needed.
+
+2. **RTO (Recovery Time Objective)**:
+   - **RTO** improves when you use **Read Replicas** for **failover**. If the Primary instance fails, you can **promote a Read Replica** to become the new Primary, reducing the **downtime** required to recover from the failure.
+   - However, **Read Replicas are not a direct replacement for Multi-AZ** deployments in terms of **high availability**. They are designed primarily for **read scaling**, and while they can help reduce the RTO in case of failure, they do not automatically handle failover in the same way that Multi-AZ instances do.
+
+3. **Promotion to Primary**:
+   - When you promote a Read Replica to become the new Primary, it can **immediately handle both reads and writes**, and the application can continue working with minimal downtime.
+   - It is important to note that this is a **manual process** unless automated by specific monitoring or custom scripts.
+
+---
+
+### **Costs of Read Replicas**
+
+1. **Cost of Primary Instance**:
+   - The cost of a **Read Replica** is similar to that of a **Primary instance** in terms of **compute costs**. You are billed for the **Read Replica's compute resources** (e.g., instance type) and **storage**.
+  
+2. **Cross-Region Replication Costs**:
+   - If you use **cross-region replication**, there are **additional costs** for data transfer between regions. This can add significant costs, especially if you're replicating large amounts of data across regions.
+  
+3. **Storage Costs**:
+   - **Storage costs** for Read Replicas are based on the **amount of data** stored in the replica. As the data grows in the replica, so does the storage cost.
+  
+4. **Backups**:
+   - **Automated backups** for the **Primary instance** are available at no extra charge, but **manual snapshots** of the Read Replica incur additional costs.
+  
+5. **Promotion Costs**:
+   - Once a Read Replica is promoted to a Primary instance, it is billed as a full **RDS instance**, and you no longer pay for it as a replica.
+
+---
+
+### **When to Use Read Replicas**
+
+- **Read-Heavy Applications**: If your application is **read-heavy** (e.g., social media platforms, reporting systems), Read Replicas allow you to scale **read traffic** without burdening the Primary instance.
+  
+- **Global Distribution**: For applications that serve a **global audience**, placing **Read Replicas** in different AWS regions can reduce latency for users in distant geographic locations and improve performance.
+
+- **Analytics and Reporting**: Offload **analytics queries** or **report generation** to Read Replicas, leaving the Primary instance to handle real-time transactional workloads.
+
+- **Disaster Recovery**: Read Replicas can be **promoted** to Primary instances in the event of a failure, reducing recovery time. However, for **full fault tolerance**, **Multi-AZ deployments** are recommended in addition to Read Replicas.
+
+---
+
+### **Limitations of Read Replicas**
+
+- **Asynchronous Replication**: Since Read Replicas use **asynchronous replication**, there is a **lag** between the Primary and the replicas. This means that **eventual consistency** is guaranteed, but there might be a slight delay in replicating recent writes to the replicas.
+
+- **No Automatic Failover**: While you can manually promote a Read Replica to a Primary instance, this is not an **automatic process** like in **Multi-AZ** deployments.
+
+- **No Write Capability Until Promoted**: Read Replicas are **read-only** until they are promoted to become a Primary instance. They cannot accept write operations under normal conditions.
+
+- **Replication Lag**: As you chain more Read Replicas or add more traffic to the system, **replication lag** may increase, which can affect data freshness on the replicas.
+
+---
+
+### **Summary of RDS Read Replicas**
+
+- **RDS Read Replicas** provide **scalable reads** by replicating data from the Primary instance to one or more replicas. They help offload read traffic from the Primary and improve performance for read-heavy applications.
+- **Cross-region replication** enhances global resilience by allowing replicas to be created in different regions.
+- **Promotion** of Read Replicas can help with **availability improvements** by reducing **RTO** during a failure, but **Read Replicas are not a full replacement for Multi-AZ** for high availability.
+- **Cost considerations** include additional charges for **compute resources**, **storage**, and **data transfer** for cross-region replication.
+
+---
+
+### **Exam PowerUps**
+
+1. **Read Replicas** provide **read scaling** by offloading read queries from the **Primary instance**.
+2. **Cross-region replication** improves **global resilience** and reduces latency for users in different regions.
+3. **Read Replicas** are **asynchronous** and have **replication lag**, meaning that they may not be **up-to-date** with the Primary instance in real time.
+4. **Promotion** of a Read Replica to Primary is **manual**, but it can help reduce **RTO** in case of a failure.
+
+---
 
 ### 1.10.7. Enhanced Monitoring
 
