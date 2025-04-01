@@ -1,7 +1,7 @@
 # 1. DVA-C02 Notes
 
 > These are my personal notes from Adrian Cantrill's (SAA-C02) course.Learning Aids from [aws-sa-associate-saac02](https://github.com/acantril/aws-sa-associate-saac02). There may be errors, so please purchase his course to get the original content and show support <https://learn.cantrill.io.>
-
+****
 **Table of Contents**
 
 - [1.1. Cloud Computing Fundamentals](#11-cloud-computing-fundamentals)
@@ -14088,6 +14088,186 @@ CloudWatch gathers metrics about CPU utilization from the hypervisor for a DB in
 
 > Enhanced Monitoring metrics are useful when you want to see how different processes or threads on a DB instance use the CPU.
 
+### **Amazon RDS Security and Encryption**
+
+Amazon RDS provides a variety of **security features** to protect your database instances, ensuring that your data is both secure and compliant with various industry standards. RDS security includes mechanisms to control access to your database instances, encrypt sensitive data at rest and in transit, and manage network security.
+
+Let's break down **RDS security** and **encryption** into the key components:
+
+---
+
+### **1. Access Control and Authentication**
+
+**Access control** ensures that only authorized users can connect to the **RDS instance** and perform actions on the database.
+
+#### **1.1. Identity and Access Management (IAM)**
+
+- **IAM Roles**: With **IAM roles**, you can control access to RDS resources by granting specific permissions to AWS services or IAM users.
+- **IAM Database Authentication**: Amazon RDS supports IAM-based database authentication for MySQL and PostgreSQL. This means you can authenticate to the database using IAM credentials, eliminating the need for traditional database passwords.
+  
+  - **IAM roles for RDS** provide centralized management of access to your RDS instances and allow you to control who can access the database and what actions they can perform.
+
+#### **1.2. Security Groups**
+
+- **VPC Security Groups** act as virtual firewalls for your RDS instances. You can control inbound and outbound traffic based on IP address, port, and protocol.
+  - **Inbound rules**: You can define which IP addresses or ranges can connect to the database and which ports are allowed.
+  - **Outbound rules**: Control which resources the RDS instance can communicate with.
+- RDS instances in **VPCs** can be isolated by **VPC security groups** to ensure that only authorized IP addresses or instances can access them.
+
+#### **1.3. Database User Authentication**
+
+- **Database Authentication**: Traditional authentication methods for RDS include creating users and managing their passwords directly in the database (MySQL, PostgreSQL, etc.).
+- You can define **database user roles and privileges**, ensuring that only authorized users can perform specific operations on the database.
+
+#### **1.4. Encryption Key Management**
+
+- **AWS Key Management Service (KMS)**: Amazon RDS integrates with **AWS KMS** to manage encryption keys for your databases. You can use the keys managed by KMS to encrypt data at rest and control access to those encryption keys.
+  
+  - You can either use the default **AWS-managed KMS key** or create and manage your own custom KMS key.
+  - RDS automatically handles the encryption process, ensuring that data is encrypted at rest.
+
+---
+
+### **2. Encryption at Rest**
+
+**Encryption at rest** protects your data when it is stored on disk.
+
+#### **2.1. Encryption with KMS**
+
+- **Data at Rest**: RDS supports **encryption at rest** using **AWS KMS**. This includes:
+  - **Database backups**.
+  - **Snapshots** (both automated and manual).
+  - **Transaction logs**.
+  - **Read replicas** (if encrypted).
+  - **Data stored on disk** in the underlying **EBS volumes**.
+
+- **Encryption enables**:
+  - Protection for sensitive data at rest.
+  - Compliance with various industry standards and regulations like **PCI DSS**, **HIPAA**, and **SOC 2**.
+  
+#### **2.2. Enabling Encryption for New RDS Instances**
+
+- You can enable **encryption at rest** when you create a new RDS instance by selecting the **enable encryption** option in the RDS console or using the AWS CLI.
+  
+- **Encryption cannot be changed after the instance is created**. If you need to enable encryption on an existing database, you would have to create a new encrypted instance and migrate the data over.
+
+---
+
+### **3. Encryption in Transit**
+
+**Encryption in transit** ensures that data is encrypted while it is being transferred between your application and the RDS instance, as well as between RDS instances and other AWS services.
+
+#### **3.1. SSL/TLS Encryption**
+
+- Amazon RDS supports **SSL/TLS encryption** for data transmitted between the database client (e.g., your application) and the RDS instance. This ensures that data is encrypted while it is **in transit**.
+  
+  - **MySQL, MariaDB, PostgreSQL, and Oracle**: Support for SSL/TLS connections to encrypt the communication channel between the application and the database.
+  - **SQL Server**: Supports encrypted connections using **TLS**.
+
+- **SSL Certificate**: RDS uses an **SSL certificate** to secure the connection. You need to download the **RDS public certificate** and configure your application to connect securely using SSL.
+
+#### **3.2. Enforcing SSL Connections**
+
+- You can enforce **SSL connections** by setting the **require_secure_transport** parameter (for MySQL, PostgreSQL, etc.) to **true**, forcing all connections to the database to use SSL/TLS.
+  
+- **Client Authentication**: To enforce strong authentication, you can configure your RDS instance to require clients to provide **certificates** for SSL connections, adding an additional layer of security.
+
+---
+
+### **4. Automated Backups and Snapshots**
+
+#### **4.1. Automated Backups**
+
+- **Automated backups** are **enabled by default** for all Amazon RDS instances, providing data protection and the ability to restore to any point in time (within the retention period).
+- RDS backs up your **database instance** daily, including **transaction logs**, and stores backups in **Amazon S3**.
+
+#### **4.2. Snapshots**
+
+- **Manual Snapshots**: You can take **manual snapshots** of your RDS instances at any time. These snapshots are **stored securely** and can be restored at any point.
+  
+- **Encrypted Snapshots**: Snapshots of encrypted RDS instances are encrypted, and you can use KMS to control access to them.
+  
+- **Retention**: Snapshots can be **retained indefinitely** until manually deleted.
+
+---
+
+### **5. VPC and Network Security**
+
+Amazon RDS instances are typically deployed within a **Virtual Private Cloud (VPC)** for **network isolation**.
+
+#### **5.1. VPC Configuration**
+
+- **Private Subnet**: RDS instances can be deployed within a **private subnet** to restrict access from the internet, ensuring they are only accessible from other resources in your VPC (e.g., application servers).
+  
+- **Security Groups**: **VPC Security Groups** act as firewalls, controlling both **inbound** and **outbound traffic**. You can specify which IP addresses and EC2 instances can access your RDS instances.
+
+#### **5.2. VPC Peering**
+
+- If you have multiple VPCs, you can use **VPC peering** to allow secure communication between different VPCs hosting RDS instances.
+
+---
+
+### **6. Compliance and Audit Logging**
+
+#### **6.1. AWS CloudTrail**
+
+- **AWS CloudTrail** can be used to **log API requests** made to the RDS service. This allows for auditing, security analysis, and compliance monitoring.
+
+#### **6.2. Database Audit Logs**
+
+- Many database engines in RDS (such as **MySQL**, **PostgreSQL**, **Oracle**, and **SQL Server**) support **audit logging**. These logs provide detailed records of database activities and can be exported to Amazon CloudWatch Logs or Amazon S3 for storage and analysis.
+  
+  - For example, you can enable **MySQL general logs** or **PostgreSQL logs** to capture all queries and activities in the database.
+
+---
+
+### **7. AWS RDS Encryption Key Management**
+
+#### **7.1. AWS Key Management Service (KMS)**
+
+- **KMS** is integrated with RDS for managing encryption keys.
+  
+- **Key Management**:
+  - **AWS-managed keys**: Default keys managed by AWS.
+  - **Customer-managed keys**: Custom KMS keys that you control. You can define who has access to the keys and manage their lifecycle.
+  
+- RDS automatically uses **KMS** to handle encryption at rest. You can also use **KMS keys** to control access to encrypted RDS instances, snapshots, and backups.
+
+---
+
+### **8. RDS Security Best Practices**
+
+1. **Enable Encryption at Rest**: Always enable encryption when creating RDS instances to ensure data is protected at rest.
+2. **Use SSL/TLS for All Connections**: Enforce SSL/TLS encryption for all connections to your RDS instances to protect data in transit.
+3. **Implement IAM Database Authentication**: Use IAM authentication to reduce reliance on passwords and secure database access.
+4. **Leverage VPC for Network Isolation**: Deploy RDS instances inside a VPC for network isolation and use security groups and network ACLs for fine-grained access control.
+5. **Implement Multi-AZ Deployments for High Availability**: Use Multi-AZ deployments to ensure high availability and automatic failover in case of primary instance failure.
+6. **Monitor and Audit Database Activity**: Use **CloudTrail** for API auditing, enable **audit logs** for your RDS database engines, and monitor metrics via **CloudWatch**.
+7. **Regularly Update and Patch**: Enable automatic patching for RDS instances to ensure that they are always up to date with the latest security patches.
+
+---
+
+### **Summary: RDS Security and Encryption**
+
+- **IAM Roles and Database Authentication**: Control access to RDS using **IAM roles** and **database authentication**.
+- **Encryption**: RDS supports **encryption at rest** using **KMS** and **encryption in transit** with **SSL/TLS**.
+- **VPC and Network Security**: RDS instances are deployed within a **VPC** for network isolation and can be secured using **Security Groups**.
+- **Audit Logs**: RDS integrates with **CloudTrail** and supports **audit logs** for monitoring database activity.
+- **Backup and Recovery**: Automated backups, snapshots, and point-in-time recovery options ensure data protection.
+
+---
+
+### **Exam PowerUps**
+
+1. **RDS Encryption** ensures that both **data at rest** and **data in transit** are protected. Use **KMS** for managing encryption keys.
+2. **IAM** can be used to control access to RDS resources and integrate with database authentication for MySQL and PostgreSQL.
+3. **VPC Security
+
+ Groups** act as a virtual firewall to restrict access to your RDS instances based on IP addresses and ports.
+4. **Audit logs** and **CloudTrail** can help track and monitor RDS activities for compliance and security.
+
+---
+
 ### 1.10.8. Amazon Aurora
 
 Aurora architecture is VERY different from RDS.
@@ -14261,82 +14441,435 @@ This also ensures storage is updated on in-memory cache's of other nodes.
 
 If a writer goes down in a multi-master cluster, the application will shift
 all future load over to a new writer with little if any disruption.
+### **Amazon Aurora Overview**
+
+Amazon Aurora is a fully managed relational database engine offered by AWS that is compatible with both **MySQL** and **PostgreSQL**. Aurora provides **high performance**, **availability**, **scalability**, and **security** for cloud-native applications. Unlike traditional RDS engines, Aurora uses a distributed architecture with **shared storage**, and its design is optimized for **high availability** and **low-latency access**.
+
+Aurora’s architecture and features set it apart from standard RDS instances and make it highly suited for cloud environments where **performance**, **availability**, and **scalability** are critical.
+
+### **1.10.8. Amazon Aurora Architecture**
+
+#### **Cluster-Based Architecture**
+- **Aurora Cluster** consists of a **primary instance** (writer) and zero or more **replicas** (readers).
+  - **Primary Instance (Writer)**: The **primary instance** handles **read and write operations**.
+  - **Replicas (Readers)**: **Aurora replicas** can be used for **read scaling**. These replicas can handle **SELECT queries**, offloading traffic from the Primary instance.
+
+#### **Storage Layer and Replication**
+- **Shared Storage**: Aurora does not use **local storage** for its compute instances (unlike traditional RDS instances). Instead, it uses a **shared storage volume** across the cluster.
+  - The storage is **distributed** and replicated across **multiple Availability Zones (AZs)** for high availability.
+  - **64 TiB** of shared storage is available per Aurora cluster, and this storage is **replicated** across **six copies** in **three different AZs** to ensure durability and high availability.
+
+- **Asynchronous Replication**: Aurora’s replication occurs at the **storage layer**. This means that data is immediately written to **all replicas** and storage nodes, ensuring that data is consistent across all nodes.
+  - There is no additional overhead during replication, unlike traditional database replication that consumes extra resources.
+  - Aurora ensures **no data corruption** by automatically detecting hardware failures on the shared storage and **repairing damaged data** without affecting performance.
+
+#### **Scaling and Performance**
+- **Automatic Storage Scaling**: Aurora automatically scales storage based on usage. It adjusts the storage allocation dynamically without manual intervention, ensuring that performance remains consistent as the database grows.
+- **High IOPS and Low Latency**: Aurora uses **SSD-backed storage** by default, which provides high **IOPS (Input/Output Operations Per Second)** and **low latency** for fast data access.
+
+#### **High Availability and Fault Tolerance**
+- Aurora ensures **high availability** and **fault tolerance** by replicating data across **multiple Availability Zones**.
+- It can tolerate **multiple failure scenarios** in different AZs, and data will still be available with minimal downtime.
+
+#### **Replica and Failover Capabilities**
+- **Up to 15 Read Replicas**: Aurora supports up to **15 replicas** within the same region, all of which can be used for **read scaling**.
+- **Automatic Failover**: If the **primary instance** fails, one of the **replicas** can be promoted to become the **new primary instance** with minimal disruption.
+
+#### **Endpoints in Aurora**
+- **Cluster Endpoint**: Points to the **primary instance**. It can handle **both read and write operations** and is typically used by applications that need to perform writes.
+- **Reader Endpoint**: Distributes **read traffic** across the available **read replicas**. It will load balance across all replicas that are in an **available state**. If there’s only one replica, it points to the primary instance.
+  
+---
+
+### **1.10.8.1. Aurora Endpoints**
+- Aurora clusters use **multiple endpoints** to provide application-specific connection points.
+  - **Cluster endpoint**: Directs to the **primary instance** and handles **both read and write** operations.
+  - **Reader endpoint**: Distributes read operations across **all replicas** in the cluster.
+  
+**Important Notes**:
+- **Failover**: When failover occurs, the **reader endpoint** will automatically point to the next available replica.
+- **Load Balancing**: The **reader endpoint** load balances read requests, ensuring that the application isn’t overwhelmed by traffic on a single replica.
+
+---
+
+### **1.10.8.2. Costs**
+- **No Free-Tier**: Aurora does not offer a **free tier**, and there are no micro-instance options.
+- **Compute Cost**: Aurora charges for **compute capacity** based on the instance size and is billed **per second**, with a **10-minute minimum**.
+- **Storage Cost**: Aurora storage is billed based on the **high watermark** of data used in the cluster. This is the **maximum storage used** during the lifetime of the database, and charges are applied to the full **GB-Month** of storage.
+- **IO Requests**: Aurora also charges for **I/O requests** made to the shared storage.
+- **Backup Storage**: Aurora provides **100% of the DB size for backups** at no additional cost. For example, if your database is 100 GB, 100 GB of backup storage is free.
+
+---
+
+### **1.10.8.3. Aurora Restore, Clone, and Backtrack**
+
+#### **Restore from Snapshot**
+- **Aurora Snapshot**: Like RDS, Aurora allows you to take **manual snapshots** of your database. Restoring from a snapshot will create a new **Aurora cluster**.
+  
+#### **Backtrack**
+- **Backtrack** is a feature that allows you to **roll back** your database to a previous point in time (within a configured window). This is useful for recovering from issues like **data corruption** or accidental data deletions.
+  - **Backtrack window**: You can set the time window within which you want to backtrack, making it easy to recover without needing to restore from a snapshot.
+  - **Instant Recovery**: Backtracking allows for **instant recovery** to a prior time, unlike full restores that take longer.
+
+#### **Fast Clones**
+- **Fast Clones** allow you to create a new database instance quickly without copying all the data. It uses **cluster shared storage** and only stores the differences between the cloned database and the original database.
+  - **Minimal storage**: Fast clones use a **small amount of storage** since they only store changes made to the clone or original database after the clone was created.
+  - **Quick provisioning**: This feature allows for faster provisioning of new databases compared to traditional methods of cloning or copying.
+
+---
+
+### **1.10.9. Aurora Serverless**
+
+#### **Overview of Aurora Serverless**
+- **Aurora Serverless** provides an on-demand, **automatically scaling database** that adjusts to application needs, scaling **compute capacity** up and down as required.
+- Unlike provisioned Aurora, you don’t have to manually manage the compute resources. Instead, Aurora Serverless uses **Aurora Capacity Units (ACUs)**.
+- Aurora Serverless is ideal for applications with **variable workloads** or unpredictable traffic patterns (e.g., development environments, test databases, and infrequent applications).
+
+#### **Key Features**
+- **ACU Scaling**: Aurora Serverless automatically adjusts its compute capacity based on the load. You set a **minimum** and **maximum** ACU, and it will scale within those limits.
+- **Pause and Resume**: When not in use, Aurora Serverless can **pause** and stop billing for **compute** (you are only billed for storage). Once there’s demand again, it will **resume**.
+  
+#### **Costing**
+- Aurora Serverless is billed on a **per-second basis**, making it more cost-efficient for workloads that do not run 24/7.
+- You only pay for **storage consumed** and the **compute resources** used when the database is active.
+
+---
+
+### **1.10.10. Aurora Global Database**
+
+- **Aurora Global Database** is designed for **cross-region disaster recovery** and **global read scaling**.
+- **Primary Region**: The **primary region** handles **read and write** operations.
+- **Secondary Regions**: Up to **5 secondary regions** can be used for **read-only replicas**. These replicas provide **low-latency read access** to global users and can be promoted to **Primary** in the event of a disaster in the primary region.
+- **Replication**: Data replication from the primary region to secondary regions occurs **within one second**.
+- **Use Cases**: Ideal for businesses with **global users** that need low-latency access and for **disaster recovery** across regions.
+
+---
+
+### **1.10.11. Aurora Multi-Master Writes**
+
+- **Aurora Multi-Master** enables multiple instances to handle **read and write** operations in the same cluster, providing high **availability** and **write scalability**.
+  - **No load balancing**: Unlike in single-master Aurora, there is **no endpoint** to handle load balancing. Applications can connect directly to any of the instances in the cluster, which can handle both **read** and **write** operations.
+  - **Data consistency**: Aurora ensures **data consistency** across all nodes by using **quorum-based consensus** for writes. All instances need to agree on changes before they are committed.
+  - **Failover**: If a **writer** node fails, the application can quickly shift to another node with minimal disruption.
+
+---
+
+### **Summary of Aurora Features**
+
+- **High Performance and Scalability**: Aurora is **up to 5 times faster** than MySQL and **2 times faster** than PostgreSQL, with seamless scaling of storage and compute resources.
+- **Global Availability**: With **Aurora Global Database**, you can replicate data across regions for **global read scaling** and **cross-region disaster recovery**.
+- **Resiliency and Fault-Tolerance**: Aurora uses **six copies of data across three AZs**, ensuring **high availability** and fault tolerance.
+- **Storage and Compute Separation**: Aurora's architecture separates **storage** and **compute**, allowing for faster provisioning and improved scalability.
+- **Aurora Serverless**: Scales automatically based on demand, ideal for applications with **variable workloads**.
+
+---
+
+### **Exam PowerUps**
+
+1. **Aurora** is **up to 5 times faster** than MySQL and **2 times faster** than PostgreSQL due to its distributed, shared storage architecture.
+2. **Aurora Global Database** allows for **low-latency reads** and **global disaster recovery** with **cross-region replication** that typically occurs in under **1 second**.
+3. **Aurora Multi-Master** provides **high availability** and **write scalability** by allowing **multiple writer nodes**.
+4. **Aurora Serverless** is **ideal for variable workloads**, and you pay **only for the resources** consumed on a **per-second** basis.
+
+---
+
 
 ### 1.10.12. Database Migration Service (DMS)
+### **Amazon Database Migration Service (DMS) Overview**
 
-A managed database migration service.
-Starts with a replication instance which runs on top of an EC2 instance.
-This replication instance runs one or more replication tasks.
-This is where the configuration is defined for the migration of databases.
-This runs using a replication instance.
+Amazon **Database Migration Service (DMS)** is a fully managed service designed to help you migrate databases to AWS quickly and securely. DMS allows you to migrate data from **on-premises databases** or databases from other cloud providers into **AWS-managed database services**, such as **Amazon RDS**, **Amazon Aurora**, **Amazon Redshift**, or even other **EC2 instances** hosting a database.
 
-Need to define the source and destination endpoints.
-These point at the physical source and target databases.
-One of these end points must be on AWS.
+DMS can handle **migrations**, **replication**, and **continuous data changes**, making it a flexible and powerful solution for moving data between various database environments.
 
-Full load migration is a one off process which transfers everything at once.
-This requires the database to be down during this process. This might
-take several days.
+---
 
-Instead Full Load + CDC allows for a full load transfer to occur and it
-monitors any changes that happens during this time. Any of the captured
-changes can be applied to the target.
+### **1.10.12.1. DMS Architecture**
 
-CDC only migration is good if you have a vendor solution that works quickly
-and only changes need to be captured.
+#### **Replication Instance**
+- **Replication Instance** is the core of the DMS migration process. It is an **EC2 instance** that performs the actual data migration.
+  - The **Replication Instance** is where all migration tasks are executed.
+  - The instance can be **scaled up or down** based on the complexity and volume of the migration task.
+  - It handles the **replication tasks** between the source and target databases.
 
-Schema Conversion Tool or SCT can perform conversions between database types.
+#### **Replication Tasks**
+- **Replication Tasks** define what data is to be moved between the **source** and **destination** endpoints.
+  - Tasks can be configured to handle **Full Load** migrations, **CDC (Change Data Capture)**, or a combination of both.
+  - Tasks are where you define the **mapping rules**, which tables, and which schemas to migrate.
+  
+#### **Endpoints**
+- DMS requires **source** and **destination** **endpoints** to connect to both the source and target databases.
+  - **Source Endpoint**: Points to the database from which the data will be extracted (e.g., an on-premises database, an EC2 database, or a database hosted on another cloud).
+  - **Destination Endpoint**: Points to the target database where data will be migrated to (e.g., Amazon RDS, Amazon Aurora, Amazon Redshift).
+- One of the endpoints must be on **AWS**, either in an Amazon VPC or through public access.
 
+#### **Migration Options: Full Load vs. Full Load + CDC**
+
+1. **Full Load Migration**:
+   - This method performs a **one-off migration** where all the data is copied from the source to the target in one go.
+   - **Down time required**: The source database needs to be **offline** for the duration of the migration, making it suitable for smaller databases or less critical workloads that can afford downtime.
+   - This process might take several days depending on the volume of data.
+
+2. **Full Load + Change Data Capture (CDC)**:
+   - This method combines **Full Load** with **CDC**, meaning the initial full migration is done first, followed by **continuous monitoring** of changes happening on the source database (inserts, updates, deletes).
+   - **CDC** captures changes as they happen and applies them to the target database in real-time.
+   - This is ideal for **minimizing downtime** during migration because the target database will continue to receive changes during the migration process. The source database can remain **online** during the migration.
+
+3. **Change Data Capture (CDC) Only Migration**:
+   - This option is used when you only need to capture and replicate the **changes** happening on the source database, without doing an initial full data load.
+   - It’s useful when you have a **vendor database solution** that needs to sync real-time data with minimal disruption.
+   - **CDC Only** is often used for **replication** where the data in the source database has already been moved, and only the changes (new data, updates, deletions) need to be captured and applied to the target.
+
+---
+
+### **1.10.12.2. Schema Conversion Tool (SCT)**
+
+The **Schema Conversion Tool (SCT)** helps in **converting** database schemas when migrating between different database engines (e.g., migrating from **Oracle to MySQL** or from **SQL Server to PostgreSQL**).
+
+- **Schema Conversion**: SCT can automatically **convert** the schema (tables, views, procedures, and functions) from one database engine to another. This simplifies the process of migrating between different database engines with varying database structures.
+- **Limitations**: Some features (like stored procedures, custom data types) may require manual adjustments post-conversion.
+
+---
+
+### **1.10.12.3. DMS Migration Phases**
+
+1. **Assessment and Planning**:
+   - Assess the current database environment, including the **size**, **complexity**, and **dependencies** of the data to be migrated.
+   - Define the migration strategy (Full Load, Full Load + CDC, or CDC Only).
+   - Identify any required schema conversion needs (using the SCT).
+
+2. **Configuration and Setup**:
+   - Set up **replication instances** with the appropriate size and resources based on the scale of the migration.
+   - Configure **source** and **destination endpoints** to connect to the databases.
+   - Define **replication tasks** with the appropriate migration methods.
+
+3. **Migration Execution**:
+   - **Full Load** or **Full Load + CDC** is executed to move the data to the target database.
+   - Monitor the migration process to ensure it is progressing as expected and handle any errors or issues.
+
+4. **Post-Migration Validation**:
+   - After the migration completes, ensure the data on the target database is consistent with the source.
+   - Perform integrity checks, and validate that data has been transferred correctly.
+   - Optionally, run post-migration jobs such as reindexing, optimizing, or tuning the target database.
+
+5. **Cutover and Go-Live**:
+   - Once the data migration is complete and validated, cut over to the target database for production use.
+   - The source database can be decommissioned or remain online as a backup.
+
+---
+
+### **1.10.12.4. DMS Best Practices**
+
+1. **Choose the Right Replication Instance**:
+   - The replication instance should have enough **compute power** and **memory** to handle the data volume and complexity of the migration task. For large databases, you might need a more powerful instance type.
+
+2. **Monitor Migration Progress**:
+   - Use DMS **CloudWatch metrics** to track the migration’s progress. Metrics such as **replication latency**, **migration speed**, and **error rates** can help ensure that the migration is on track and identify any potential issues early.
+
+3. **Use Multiple Replication Tasks**:
+   - In cases of large-scale migrations, you can divide the migration into **multiple tasks** to migrate different tables or data subsets in parallel, improving performance and reducing migration time.
+
+4. **Test Before Go-Live**:
+   - It’s important to thoroughly test the **target database** before going live with it. This includes functional tests, performance tests, and consistency checks to ensure that the target database behaves as expected.
+
+---
+
+### **1.10.12.5. DMS Cost Considerations**
+
+1. **Replication Instance Cost**:
+   - You are billed for the **replication instance** based on its type and size (e.g., small, medium, large).
+   
+2. **Data Transfer Costs**:
+   - Data transferred between the **source** and **destination** endpoints is billed based on the volume of data transferred.
+   - **Cross-region migrations** incur additional costs due to data transfer between regions.
+
+3. **Storage Costs**:
+   - **Storage** for DMS is charged based on the **amount of data** that is being transferred and stored in the replication instance, as well as the **storage required for migration logs**.
+
+4. **Change Data Capture (CDC) Costs**:
+   - Using CDC in combination with Full Load incurs additional costs due to the continuous tracking of changes and the ongoing **replication of those changes**.
+
+---
+
+### **Summary of DMS Key Features**
+
+1. **Managed Service**: DMS is fully managed, reducing the complexity and overhead of database migration.
+2. **Multiple Migration Options**: Supports **Full Load**, **Full Load + CDC**, and **CDC-only migrations** to accommodate different use cases.
+3. **Database Engine Support**: DMS supports a wide range of **source and target databases**, including **on-premises databases**, **AWS RDS**, and **EC2-hosted databases**.
+4. **Schema Conversion Tool**: Helps in **schema migration** for databases of different types.
+5. **Replicates Data Continuously**: DMS supports **continuous data replication** to ensure that changes during migration are captured and applied in real time.
+6. **Scalable and Cost-Effective**: The replication instance can be scaled based on the needs of the migration, and you are billed for the resources you use.
+
+---
+
+### **Exam PowerUps**
+
+1. **DMS** helps with migrating **databases** to AWS quickly and securely using **replication tasks** and **replication instances**.
+2. **Full Load + CDC** allows for **zero downtime** migration by replicating initial data and continuously applying changes.
+3. **Schema Conversion Tool (SCT)** can help automate the **schema migration** process between different database engines.
+4. **Replication instances** are charged based on their size, while data transfer and storage also contribute to the overall migration cost.
 ---
 
 ## 1.11. Network-Storage-EFS
 
 ### 1.11.1. EFS Architecture
 
-EFS moves the instances closer to being stateless.
+### **1.11. Network-Storage-EFS: Amazon Elastic File System Architecture**
 
-- EFS is an implementation of NFSv4
-- EFS file systems are created and mounted in Linux.
-- EFS storage exists separately from an EC2 instance like EBS does.
-  - EBS is block storage
-  - EFS is file storage
-- Media can be shared between many EC2 instances.
-- EFS is a private service.
-  - Isolated to the VPC its provisioned into.
-  - Access is via mount targets inside the VPC.
-- EFS access outside of the VPC with
-  - VPC peering
-  - VPN connections
-  - AWS direct connect
+Amazon **Elastic File System (EFS)** is a **fully managed, scalable, and elastic network file storage** solution for cloud applications. It is primarily designed for **Linux-based environments** and provides shared file storage that can be mounted concurrently by multiple EC2 instances.
 
-#### 1.11.1.1. Elastic File System Explained
-
-EFS runs inside a VPC. Inside EFS you create file systems and these use POSIX
-permissions. EFS is made available inside a VPC via mount targets.
-Mount targets have IP addresses taken from the IP address range of the
-subnet they're inside. For HA, you need to make sure that you put mount
-targets in each AZ the system runs in.
-
-You can use hybrid networking to connect to the same mount targets.
-
-#### 1.11.1.2. EFS Exam PowerUp
-
-- EFS is Linux Only
-- Two performance modes:
-  - **General purpose** is good for _latency sensitive_ use cases.
-    - General purpose should be default for 99.9% of uses.
-  - **Max I/O performance** mode can scale to higher levels of aggregate t-put
-    and IOPS but it does have increased latencies.
-- Two throughput modes:
-  - Bursting works like GP2 volumes inside EBS with a burst pool.
-    The more data you store in the FS, the better performance you get.
-  - Provisioned t-put modes can specify t-put requirements separately from size.
-- Two storage classes available:
-  - Standard
-  - Infrequent access
-  - Can use lifecycle policies to move data between classes.
+The architecture of **EFS** allows applications to access file data from instances running in a **Virtual Private Cloud (VPC)**, which makes it an ideal option for shared storage where multiple applications and instances need access to the same files simultaneously.
 
 ---
+
+### **1.11.1. EFS Architecture**
+
+#### **Stateless Architecture**
+- **EFS** helps move instances closer to being **stateless** since the storage is **separate** from the EC2 instances themselves. This means that instances can be **restarted** or **terminated** without losing data since it's stored in a central, shared file system.
+  
+#### **EFS vs EBS**:
+- **EFS** is a **network file system** and differs from **EBS (Elastic Block Store)**, which is **block-level storage** attached to EC2 instances.
+  - **EBS** is used for storing data directly associated with an individual EC2 instance (e.g., system drives or application data), while **EFS** is used for **shared file storage** across multiple instances.
+  
+#### **Shared Access to Media**:
+- **EFS** allows multiple EC2 instances to simultaneously access shared media files, such as **images**, **videos**, or **logs**, across different Availability Zones (AZs) within a **VPC**.
+
+#### **Private and Isolated**:
+- **EFS** is **isolated within the VPC** in which it is provisioned. It provides **private storage** and can only be accessed through **mount targets** inside the VPC, ensuring secure and isolated data storage.
+
+#### **Accessing EFS Outside the VPC**:
+- You can connect to **EFS** outside the VPC by using hybrid networking solutions, such as:
+  - **VPC peering**: Allows communication between VPCs.
+  - **VPN connections**: Secure connections between on-premises networks and AWS.
+  - **AWS Direct Connect**: Dedicated connection from an on-premises data center to AWS.
+
+---
+
+### **1.11.1.1. Elastic File System Explained**
+
+#### **Mount Targets and Availability**:
+- **Mount targets** are created to enable EC2 instances to **access** EFS. Mount targets have **IP addresses** assigned from the **subnet's IP address range**.
+  - For **high availability** (HA), it's crucial to place **mount targets in each Availability Zone (AZ)** where you intend to run your EC2 instances. This ensures that instances in multiple AZs can access the file system.
+
+#### **POSIX Permissions**:
+- EFS is fully **POSIX-compliant**, meaning it supports file system operations such as **file permissions**, **locking**, and **directories**. This is important for applications that require traditional file system features, including **read/write** access controls and **file locking mechanisms**.
+  
+#### **Hybrid Networking**:
+- **Hybrid networking** capabilities allow EFS to be accessible from both **AWS resources** (e.g., EC2) and **on-premises servers**. This allows for easy data sharing across hybrid environments (cloud + on-premises).
+
+---
+
+### **1.11.1.2. EFS Exam PowerUp**
+
+1. **Linux-Only Compatibility**:
+   - **EFS** is designed to work with **Linux-based systems**, including Amazon EC2 instances running **Amazon Linux**, **Ubuntu**, and other Linux distributions. It does not support Windows-based systems directly.
+
+2. **Performance Modes**:
+   - **General Purpose Mode**: 
+     - Best for **latency-sensitive** applications. 
+     - Default performance mode for 99.9% of use cases. Provides **low latency** and is ideal for applications requiring high responsiveness, such as web servers, CMS, or content management systems.
+   - **Max I/O Performance Mode**: 
+     - Provides the ability to scale to **higher levels of throughput** and **IOPS** (Input/Output Operations Per Second) but comes with **higher latency**.
+     - Best for applications with very **high throughput** and **aggregate IOPS** needs (e.g., big data processing, data warehousing).
+
+3. **Throughput Modes**:
+   - **Bursting Throughput**:
+     - Works like **GP2 volumes** in **EBS**, providing a **burstable throughput** model.
+     - Throughput scales as the storage capacity increases. The more data you store in the file system, the **better performance** you get.
+   - **Provisioned Throughput**:
+     - Allows you to **provision throughput** separate from the size of the file system. This can be beneficial for applications that require **specific throughput levels**, regardless of the storage size.
+
+4. **Storage Classes**:
+   - **Standard Storage Class**:
+     - This is the default storage class for frequently accessed data.
+   - **Infrequent Access (IA) Storage Class**:
+     - Suitable for data that is **accessed less frequently**. This class provides **lower-cost storage** for long-term storage of rarely accessed files.
+     - Data in IA can be automatically moved from **Standard Storage** to **Infrequent Access** using **lifecycle management policies**.
+
+---
+
+### **1.11.2. EFS Use Cases**
+
+EFS is well-suited for various use cases, especially those requiring shared access, high availability, and scalable storage.
+
+1. **Web and Application Hosting**:
+   - EFS can be used to store application files that need to be accessed across multiple EC2 instances in a **web hosting environment**.
+
+2. **Big Data and Analytics**:
+   - Use EFS to store large datasets for analytics applications. The ability to scale storage and provide high throughput makes EFS ideal for **big data** and **data warehousing** applications.
+
+3. **Media Workflows**:
+   - EFS is commonly used in **media production** environments for managing large media files (e.g., videos, images, audio files) that need to be shared across multiple EC2 instances or containers.
+
+4. **Content Management Systems (CMS)**:
+   - **CMS platforms** often require **shared storage** for managing content files across multiple application servers. EFS provides an ideal solution by allowing **concurrent access** to files from multiple instances.
+
+5. **Backup and Disaster Recovery**:
+   - EFS is also useful for **backup storage** and **disaster recovery** scenarios where data needs to be replicated across **multiple availability zones** for resiliency.
+
+6. **Microservices and Containers**:
+   - **Amazon EFS** integrates well with **Amazon ECS (Elastic Container Service)** and **Amazon EKS (Elastic Kubernetes Service)**, providing **persistent shared storage** for containers running in these services.
+
+7. **Home Directories**:
+   - In cloud environments, **home directories** for users can be stored on EFS, enabling **multi-instance access** to user files across different application instances.
+
+---
+
+### **1.11.3. EFS Pricing**
+
+EFS pricing is based on the amount of **data stored** and the **throughput used**. Key components of pricing include:
+
+1. **Storage Costs**:
+   - **Standard Storage** is billed per **GB** of storage used. This includes data stored in the file system and snapshots.
+   - **Infrequent Access (IA) Storage** is billed at a lower rate for **long-term storage** of rarely accessed files.
+
+2. **Throughput Costs**:
+   - **Provisioned Throughput**: For workloads that require higher throughput, you can provision a specific throughput level.
+   - **Bursting Throughput**: For workloads that require **bursts of throughput**, this model allows for dynamic scaling based on data stored.
+
+3. **Data Transfer**:
+   - Data transferred between EC2 instances within the **same region** (within VPC) is **free**. However, **cross-region data transfer** incurs additional costs.
+
+4. **Requests and Operations**:
+   - **File operations**, such as **create, delete**, and **read/write requests**, are billed based on the number of operations.
+
+---
+
+### **EFS Best Practices**
+
+1. **Use Mount Targets in Multiple AZs**:
+   - Ensure that you deploy **mount targets** in all the Availability Zones where your EC2 instances are running to ensure **high availability** and performance.
+
+2. **Lifecycle Management**:
+   - Use **lifecycle management** policies to automatically move data from **Standard Storage** to **Infrequent Access** storage to optimize costs for rarely accessed files.
+
+3. **Monitor with CloudWatch**:
+   - Use **CloudWatch metrics** to monitor your EFS usage, throughput, and IOPS to ensure optimal performance and cost-efficiency.
+
+4. **Security Considerations**:
+   - Implement **VPC security groups** and **IAM policies** to control access to your EFS file system. Encrypt data at rest and in transit for **security**.
+
+---
+
+### **Summary**
+
+- **Amazon EFS** is a fully managed, **scalable**, **elastic file storage** solution that provides **shared access** to files across multiple EC2 instances.
+- EFS is designed to work **only with Linux** systems and supports **NFSv4**.
+- **High Availability**: EFS is designed to provide **high availability** and **durability** by replicating data across multiple AZs within a region.
+- **Performance Modes**: EFS offers **General Purpose** mode for latency-sensitive applications and **Max I/O** mode for high throughput needs.
+- **Storage Classes**: EFS supports **standard storage** and **infrequent access (IA)** storage for cost-efficient long-term storage.
+- **Pricing**: EFS charges based on **storage** used, **throughput**, and **operations**.
+
+---
+
+### **Exam PowerUps**
+
+1. **EFS** supports **NFSv4** and is **Linux-only** for compatibility with EC2 instances.
+2. **Two performance modes**: **General Purpose** (low latency) and **Max I/O** (high throughput, higher latency).
+3. **Two throughput modes**: **Bursting** and **Provisioned throughput**.
+4. **Storage Classes**: EFS offers **Standard** and **Infrequent Access (IA)** storage, with lifecycle policies to move data between classes.
+
+---
+
 
 ## 1.12. HA-and-Scaling
 
