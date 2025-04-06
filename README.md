@@ -16,6 +16,7 @@
 - [1.10. Relational-Database-Service-RDS](#110-relational-database-service-rds)
 - [1.11. Network-Storage-EFS](#111-network-storage-efs)
 - [1.12. HA-and-Scaling](#112-ha-and-scaling)
+- [1.12. CI/CD](#112-ci/cd)
 - [1.13. Serverless-and-App-Services](#113-serverless-and-app-services)
 - [1.14. CDN-and-Optimization](#114-cdn-and-optimization)
 - [1.15. Advanced-VPC](#115-advanced-vpc)
@@ -10835,6 +10836,360 @@ to the same server no matter what the distributed load is. Applications
 should be designed to hold session stickiness somewhere other than EC2. You can hold session state in, for instance, DynamoDB. If store session state data externally, this means EC2 instances will be completely stateless.
 
 ---
+
+
+## 1.12 CI/CD
+
+### **CI/CD: Continuous Integration and Continuous Delivery/Deployment**
+
+**CI/CD** stands for **Continuous Integration** and **Continuous Delivery/Deployment**, which are practices in software development that help automate and streamline the process of delivering software to production. These practices aim to improve collaboration, efficiency, and software quality by automating the stages of software development, from code integration to deployment.
+
+Let’s break down each component:
+
+---
+
+### **1. Continuous Integration (CI)**
+
+**Continuous Integration (CI)** is the practice of frequently integrating code changes into a shared repository multiple times a day. Each integration is automatically tested through an automated build and test process to catch errors early.
+
+#### **Key Points of CI**:
+1. **Frequent Code Integration**:
+   - Developers integrate their code changes **multiple times a day** to ensure that all changes are consistent with the shared codebase.
+  
+2. **Automated Builds**:
+   - Whenever new code is integrated, an **automated build process** is triggered. This ensures that the application can be successfully built and run, and no integration conflicts exist.
+
+3. **Automated Testing**:
+   - After the build, **automated tests** (unit tests, integration tests, etc.) are run to verify that the new code didn’t break existing functionality.
+   - This helps ensure the stability of the application and identifies issues earlier in the development process.
+
+4. **Faster Detection of Issues**:
+   - By integrating code regularly and running tests automatically, developers can catch bugs or integration issues early, which makes them easier and cheaper to fix.
+
+5. **Reduced Integration Problems**:
+   - Regular integration of smaller changes avoids the common problem of **integration hell**, where large code changes cause conflicts that are hard to resolve.
+
+#### **Benefits of CI**:
+- **Early detection of issues**: Bugs are identified and fixed quickly.
+- **Better code quality**: Continuous testing helps maintain high-quality code.
+- **Improved team collaboration**: Developers work in sync and avoid major conflicts.
+- **Faster development cycle**: Frequent integration reduces bottlenecks, allowing teams to deliver software faster.
+
+---
+
+### **2. Continuous Delivery (CD)**
+
+**Continuous Delivery (CD)** is the practice of automatically **deploying code** to a **staging environment** after it passes the integration tests. This process ensures that the software is always in a deployable state, meaning that it can be released to production at any time.
+
+#### **Key Points of CD**:
+1. **Automated Deployment to Staging**:
+   - After passing CI tests, the code is automatically deployed to a **staging environment** for further testing (e.g., functional testing, user acceptance testing).
+  
+2. **Manual Trigger for Production Release**:
+   - While the code is **always ready** for production, the actual deployment to the live environment is usually triggered manually after approval, making sure that only well-tested software is deployed to production.
+
+3. **Frequent Releases**:
+   - CD enables **frequent releases** by maintaining a deployable codebase at all times. With CD, organizations can release software updates frequently and with minimal effort.
+
+4. **Testing in Staging Environment**:
+   - The staging environment mimics the **production environment**, so it can be used for final testing, ensuring that the code will perform in production as expected.
+
+#### **Benefits of CD**:
+- **Faster release cycles**: Continuous delivery allows for quicker release of features or fixes.
+- **Better reliability**: Since every update is tested in staging, the likelihood of errors in production is minimized.
+- **Predictable deployment process**: Automated deployment ensures that all changes go through the same process, making releases more predictable.
+- **Higher software quality**: Automated testing and deployment pipelines ensure that only well-tested code makes it to production.
+
+---
+
+### **3. Continuous Deployment (CD)**
+
+**Continuous Deployment (CD)** is a step further than **Continuous Delivery**. It automates the entire process of code integration, testing, and deployment, including automatically deploying to **production** as soon as changes pass the automated tests.
+
+#### **Key Points of Continuous Deployment**:
+1. **Automatic Deployment to Production**:
+   - Once code passes **automated tests** and integration processes, it is immediately deployed to the **production environment** without manual intervention.
+  
+2. **Requires Extensive Testing**:
+   - Since updates are deployed automatically to production, there must be a strong focus on **automated testing** and **monitoring** to ensure that issues in the live environment are minimized.
+  
+3. **Feedback Loops**:
+   - With continuous deployment, developers receive **immediate feedback** on how the code is performing in production, allowing them to react and fix problems quickly.
+
+#### **Benefits of Continuous Deployment**:
+- **Faster time to market**: Updates, fixes, and new features are deployed to customers much faster.
+- **No manual steps**: Everything from development to deployment is fully automated, reducing human error.
+- **Quick response to customer feedback**: Changes can be deployed rapidly, allowing businesses to adapt to user needs quickly.
+- **Increased automation**: Full automation helps reduce the manual effort required to deploy changes.
+
+---
+
+### **CI/CD Workflow**
+
+The CI/CD process typically involves several steps:
+1. **Develop**: Developers write code and commit changes to a version control system (e.g., Git).
+2. **Build**: The CI system automatically triggers a build process to compile the code and create a deployable version.
+3. **Test**: Automated unit tests, integration tests, and other quality checks are run to ensure that the new code doesn’t break existing functionality.
+4. **Deploy**: If the code passes the tests, it is automatically deployed to a staging or production environment, depending on whether you're using Continuous Delivery or Continuous Deployment.
+5. **Monitor**: After deployment, the system is monitored for any issues or failures, and feedback is sent to developers.
+
+---
+
+### **4. Tools for CI/CD**
+
+Several tools help implement CI/CD pipelines. These tools automate the process of building, testing, and deploying software.
+
+#### **Popular CI/CD Tools**:
+- **Jenkins**: An open-source automation server that supports building, deploying, and automating CI/CD pipelines.
+- **GitLab CI**: A part of GitLab that offers built-in CI/CD functionality.
+- **CircleCI**: A cloud-native CI/CD tool for automating the build, test, and deployment process.
+- **Travis CI**: A cloud-based CI tool that integrates with GitHub to automate the testing and deployment of code.
+- **AWS CodePipeline**: A fully managed CI/CD service in AWS for automating the software release process.
+- **GitHub Actions**: A feature within GitHub that allows automation of workflows, including CI/CD tasks.
+
+---
+
+### **5. Benefits of CI/CD**
+
+1. **Faster Development and Deployment**:
+   - CI/CD allows for **faster release cycles** and continuous delivery of new features and fixes to end-users.
+  
+2. **Improved Software Quality**:
+   - Automated testing ensures that only code that passes tests makes it into production, reducing the chances of bugs being introduced.
+
+3. **Reduced Human Error**:
+   - CI/CD automates repetitive tasks, such as testing, building, and deploying, reducing the potential for human errors.
+
+4. **Consistent Releases**:
+   - Automation ensures that each release follows the same process, leading to more predictable and consistent deployments.
+
+5. **Faster Feedback and Issue Resolution**:
+   - Developers receive quick feedback on their changes, allowing them to detect and fix issues early in the development cycle.
+
+---
+
+### **6. CI/CD Pipeline Example**
+
+Here’s an example of a simple CI/CD pipeline:
+
+1. **Code Commit**: A developer pushes code changes to a Git repository (e.g., GitHub).
+2. **Build Triggered**: The CI tool (e.g., Jenkins, GitLab CI) detects the commit and triggers the **build process**.
+3. **Automated Tests**: The code is built and then tested automatically with unit tests, integration tests, etc.
+4. **Deploy to Staging**: Once the tests pass, the code is deployed to a **staging environment** for further testing.
+5. **Approval or Auto-Deploy to Production**: If everything looks good, the code is either **manually approved** to be deployed to **production** or automatically deployed (in Continuous Deployment).
+6. **Monitor and Rollback if Needed**: After deployment, the system is monitored for issues, and any problems are resolved by rolling back to the previous stable version.
+
+---
+
+### **Summary**
+
+- **CI/CD** involves automating the process of **integrating code changes**, **testing**, and **deploying** applications, which leads to faster, more reliable software delivery.
+- **Continuous Integration (CI)** emphasizes frequent integration of code changes and automated testing, allowing developers to identify and fix bugs early.
+- **Continuous Delivery (CD)** automates the deployment process so that code is always ready to be released to production, whereas **Continuous Deployment** goes one step further and automatically deploys changes to production.
+- **CI/CD tools** like **Jenkins**, **GitLab CI**, **Travis CI**, and **AWS CodePipeline** provide the automation needed to streamline the development lifecycle.
+
+---
+
+### **Exam PowerUps**
+
+1. **CI/CD** improves the **speed** and **quality** of software delivery by automating testing and deployment.
+2. **Continuous Integration** focuses on merging code frequently and running automated tests, while **Continuous Delivery** automates the release process to ensure production readiness.
+3. **CI/CD Tools** like **Jenkins**, **GitLab CI**, and **AWS CodePipeline** help automate builds, testing, and deployment.
+4. **CI/CD Pipelines** enable **faster feedback** and allow you to detect issues early, improving software quality and reducing release cycle times.
+
+---
+### **CI/CD Using AWS: Detailed Explanation**
+
+AWS offers a set of powerful services to automate the Continuous Integration and Continuous Delivery (CI/CD) process. These services help developers automate the process of building, testing, and deploying their code, ensuring faster and more reliable releases.
+
+The key AWS services for CI/CD include:
+1. **AWS CodeCommit**: A fully managed source control service to host Git repositories.
+2. **AWS CodeBuild**: A fully managed build service to compile source code, run tests, and package the code.
+3. **AWS CodeDeploy**: A fully managed deployment service that automates application deployments to various compute services.
+4. **AWS CodePipeline**: A fully managed CI/CD service that automates the end-to-end process, integrating CodeCommit, CodeBuild, and CodeDeploy.
+
+### **1. AWS CodePipeline Overview**
+
+**AWS CodePipeline** is a service that helps you automate the build, test, and deployment phases of your software release process. It allows you to model and visualize your CI/CD pipeline, from source code check-ins to final deployment.
+
+#### **CodePipeline Stages**:
+1. **Source Stage**: The first step where the source code is stored, typically in **AWS CodeCommit**, **GitHub**, or **Bitbucket**.
+2. **Build Stage**: After the code is committed, CodePipeline triggers **AWS CodeBuild** to compile the code, run tests, and produce build artifacts.
+3. **Test Stage**: Automated tests can be run during this stage using CodeBuild or custom tools integrated with the pipeline.
+4. **Deploy Stage**: Code is deployed to various environments such as EC2, Lambda, or ECS using **AWS CodeDeploy** or other deployment methods.
+
+---
+
+### **2. AWS CodeBuild and BuildSpec.yml**
+
+**AWS CodeBuild** is a fully managed build service that compiles the source code, runs tests, and produces build artifacts.
+
+#### **buildspec.yml File**
+The **buildspec.yml** file is a YAML configuration file used by AWS CodeBuild to define the build process. It specifies the sequence of build commands and settings, including the runtime environment, commands to run, and output artifacts.
+
+#### **Key Sections in buildspec.yml**:
+1. **version**: Specifies the version of the buildspec file. This is typically set to `0.2` for most use cases.
+   ```yaml
+   version: 0.2
+   ```
+
+2. **phases**: Defines the stages of the build process. Common phases include:
+   - **install**: Commands to install dependencies or tools needed for the build.
+   - **pre_build**: Commands to prepare the environment before the actual build.
+   - **build**: The commands to compile and build the code.
+   - **post_build**: Commands to run after the build is finished, such as uploading artifacts or running tests.
+   
+   Example:
+   ```yaml
+   phases:
+     install:
+       runtime-versions:
+         python: 3.8
+       commands:
+         - echo "Installing dependencies"
+         - pip install -r requirements.txt
+     pre_build:
+       commands:
+         - echo "Preparing for build"
+     build:
+       commands:
+         - echo "Building the code"
+         - python setup.py install
+     post_build:
+       commands:
+         - echo "Build complete"
+   ```
+
+3. **artifacts**: Specifies the files or directories to be saved as the output of the build.
+   ```yaml
+   artifacts:
+     files:
+       - '**/*.py'
+       - '**/*.html'
+     discard-paths: yes
+   ```
+
+4. **cache**: Defines any directories to cache between builds to speed up future builds.
+   ```yaml
+   cache:
+     paths:
+       - '/root/.m2/**/*'
+       - '/root/.npm/**/*'
+   ```
+
+#### **Buildspec File Execution Flow**:
+- When **AWS CodePipeline** triggers **CodeBuild**, it uses the **buildspec.yml** file to know the sequence of build steps, such as installing dependencies, building the code, and saving artifacts. The result of the build can then be used for further stages like deployment.
+
+---
+
+### **3. AWS CodeDeploy and AppSpec.yaml**
+
+**AWS CodeDeploy** is a service that automates the process of deploying applications to various compute platforms such as **Amazon EC2**, **AWS Lambda**, and **Amazon ECS**.
+
+#### **AppSpec.yaml File**
+The **appspec.yaml** file is the configuration file that defines how to deploy the application, specifying **deployment hooks**, **file locations**, and **permissions**.
+
+#### **Key Sections in AppSpec.yaml**:
+
+1. **version**: Specifies the version of the AppSpec file (usually `0.0` for most use cases).
+   ```yaml
+   version: 0.0
+   ```
+
+2. **os**: Defines the operating system of the instances where the deployment is being performed (e.g., `linux`).
+   ```yaml
+   os: linux
+   ```
+
+3. **files**: Lists the files to be copied during the deployment process.
+   - **source**: The location of the files in the artifact.
+   - **destination**: The location on the instance where the files should be copied.
+   
+   Example:
+   ```yaml
+   files:
+     - source: /myapp/*       # source from artifact
+       destination: /var/www/myapp  # destination on the EC2 instance
+   ```
+
+4. **hooks**: Defines lifecycle event hooks that are triggered during the deployment process. CodeDeploy allows you to define actions that should be run at different stages of the deployment, such as **beforeInstall**, **afterInstall**, **beforeAllowTraffic**, and **afterAllowTraffic**.
+   
+   Example:
+   ```yaml
+   hooks:
+     BeforeInstall:
+       - location: scripts/install_dependencies.sh
+         timeout: 300
+         runas: root
+     AfterInstall:
+       - location: scripts/configure_server.sh
+         timeout: 300
+         runas: root
+   ```
+
+#### **AppSpec File Execution Flow**:
+- When **AWS CodeDeploy** performs a deployment, it refers to the **appspec.yaml** file to understand how the deployment should proceed, including which files to copy, where to copy them, and what scripts to run at various points in the deployment process (e.g., **before, after**, or **during** installation).
+
+---
+
+### **4. Deployment Destinations with CodeDeploy**
+
+**AWS CodeDeploy** supports deploying applications to several **destinations**. These include:
+
+1. **Amazon EC2 Instances**:
+   - CodeDeploy can deploy code to **EC2 instances**, whether they are part of an **auto-scaling group** or manually managed.
+   - The EC2 instances can be part of **Amazon Linux**, **Ubuntu**, or **Windows Server** environments.
+  
+2. **Amazon ECS (Elastic Container Service)**:
+   - CodeDeploy can be used for **blue-green** deployments with **Amazon ECS**, allowing for rolling updates and minimizing downtime when deploying new versions of containers in ECS clusters.
+  
+3. **AWS Lambda**:
+   - CodeDeploy can also be used to automate **deployment of AWS Lambda functions**.
+   - With Lambda, you can deploy new versions of your functions, manage traffic shifting for **blue-green deployments**, and control **versions** using aliases.
+
+4. **On-Premises Servers**:
+   - You can use **AWS CodeDeploy** to deploy applications to **on-premises servers** that are connected to AWS via **AWS Direct Connect** or **VPN**.
+   - This allows organizations to automate deployments in a hybrid environment (cloud and on-premises).
+
+---
+
+### **5. Example: Full CI/CD Pipeline with AWS**
+
+#### **Source Stage**:
+- Code is pushed to a **CodeCommit** repository, which triggers **CodePipeline**.
+
+#### **Build Stage**:
+- **CodeBuild** uses the **buildspec.yml** to:
+  - Install dependencies.
+  - Run unit tests.
+  - Build the artifacts.
+  - Create output files (e.g., a zipped application bundle).
+  
+#### **Deploy Stage**:
+- The built artifacts are passed to **CodeDeploy** using the **appspec.yaml** for deployment.
+  - CodeDeploy deploys the application to EC2, ECS, or Lambda, using the files and instructions from **appspec.yaml**.
+  - Deployment can include steps like installing dependencies, configuring the server, and running post-deployment scripts.
+
+---
+
+### **6. Summary: Key Takeaways**
+
+- **CI/CD Pipeline with AWS**: AWS provides a complete set of services (CodeCommit, CodeBuild, CodeDeploy, and CodePipeline) to automate the software release lifecycle, from code commit to production deployment.
+- **buildspec.yml**: A configuration file used by AWS CodeBuild to define build commands and specify the artifacts to be outputted.
+- **appspec.yaml**: A configuration file used by AWS CodeDeploy to define how the application should be deployed, including which files to copy and what scripts to run during the deployment process.
+- **CodeDeploy Destinations**: CodeDeploy can deploy to **EC2 instances**, **ECS clusters**, **Lambda functions**, and even **on-premises servers**.
+
+---
+
+### **Exam PowerUps**
+
+1. **CI/CD in AWS** involves automating the process of integrating code, building the application, testing, and deploying it to production using services like **CodePipeline**, **CodeBuild**, and **CodeDeploy**.
+2. **buildspec.yml** defines the **build process** for **CodeBuild**, specifying install, build, and test commands.
+3. **appspec.yaml** in **CodeDeploy** dictates how files are deployed, which files are copied, and what scripts to run during the deployment process.
+4. **CodeDeploy** can deploy to **EC2**, **ECS**, **Lambda**, and **on-premises servers**.
+
+---
+
 
 ## 1.13. Serverless-and-App-Services
 
